@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/mm_listitem"
+             >
+          
+            <TextView
+                android:id="@+id/txt_item_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/img_book"
+                android:padding="7dp"
+                android:textSize="18sp"
+                android:text="语言类"
+                android:textColor="#000" />
+             <TextView
+                  android:id="@+id/txt_item_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/img_book"
+                android:layout_below="@id/txt_item_title"
+                android:layout_alignParentBottom="true"
+                android:padding="7dp"
+                android:textSize="14sp"
+                android:text="共444444套试卷"
+                android:textColor="#666" />
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_alignParentBottom="true"
+                 android:layout_alignParentRight="true"
+                 android:padding="7dp"
+                 android:textSize="12sp"
+                 android:text="更新时间:2013-9-29"
+                 android:textColor="#666" />
+
+        </RelativeLayout>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.cqvip.mobilevers"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="11"
+        android:targetSdkVersion="18" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.cqvip.mobilevers.ui.MainActivity2"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.cqvip.mobilevers.ui.CardExamActivity"
+            android:label="@string/title_activity_card_exam" >
+        </activity>
+        <activity
+            android:name="com.cqvip.mobilevers.ui.FragmentMoreActivity"
+            android:label="@string/title_activity_main_more" >
+        </activity>
+        <activity android:name="com.cqvip.mobilevers.ui.FragmentMineActivity" >
+        </activity>
+        <activity android:name="com.cqvip.mobilevers.ui.FragmentSearchActivity" >
+        </activity>
+        <activity android:name="com.cqvip.mobilevers.ui.FragmentExamActivity" >
+        </activity>
+        <activity
+            android:name="com.cqvip.mobilevers.ui.ExamPaperActivity"
+            android:label="@string/title_activity_exam_paper" >
+        </activity>
+        <activity
+            android:name="com.cqvip.mobilevers.ui.ExamClassfyActivity"
+            android:label="@string/title_activity_exam_classfy"
+            android:parentActivityName="com.cqvip.mobilevers.ui.FragmentExamActivity"
+            android:theme="@android:style/Theme.Holo" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.cqvip.mobilevers.ui.FragmentExamActivity" />
+        </activity>
+        <activity
+            android:name="com.cqvip.mobilevers.ui.ExamDetailActivity"
+            android:label="@string/title_activity_exam_detail"
+            android:parentActivityName="com.cqvip.mobilevers.ui.ExamClassfyActivity"
+            android:theme="@android:style/Theme.Holo" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.cqvip.mobilevers.ui.ExamClassfyActivity" />
+        </activity>
+        <activity
+            android:name="com.cqvip.mobilevers.ui.TestExamActivity"
+            android:label="@string/title_activity_test_exam" >
+        </activity>
+    </application>
+
+</manifest>

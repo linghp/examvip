@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" 
+    android:padding="5.0dip" 
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent"
+    tools:context=".CardExamActivity" >
+
+    <GridView
+        android:id="@+id/gridView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       android:listSelector="#000000ff" 
+       android:cacheColorHint="#00ff0000"
+       android:horizontalSpacing="3.0dip" 
+       android:verticalSpacing="5.0dip" 
+       android:stretchMode="columnWidth" 
+       android:columnWidth="50.0dip" 
+       android:numColumns="auto_fit" >
+    </GridView>
+
+</LinearLayout>

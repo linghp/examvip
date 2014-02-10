@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="70.0dip"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/ptitle"
+                android:layout_width="wrap_content"
+                android:layout_height="40.0dip"
+                android:gravity="center_vertical"
+                android:text="初级会计师职称考试练习一"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="22.0sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/list_line" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="10.0dip" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="试题年份:"
+                    android:textColor="@color/black"
+                    android:textSize="16.0sp" />
+
+                <TextView
+                    android:id="@+id/pyear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2014"
+                    android:textColor="@color/black"
+                    android:textSize="16.0sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="年"
+                    android:textColor="@color/black"
+                    android:textSize="16.0sp"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="更新时间:"
+                    android:textColor="@color/black"
+                    android:textSize="16.0sp" />
+
+                <TextView
+                    android:id="@+id/pupdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2014-09-14"
+                    android:textColor="@color/black"
+                    android:textSize="16.0sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="KB"
+                    android:textColor="@color/black"
+                    android:textSize="16.0sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="试卷题数:"
+                    android:textColor="@color/black"
+                    android:textSize="16.0sp" />
+
+                <TextView
+                    android:id="@+id/puploader"
+                    android:layout_width="82.0dip"
+                    android:layout_height="wrap_content"
+                    android:text="135题"
+                    android:textColor="@color/black"
+                    android:textSize="16.0sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="73.0dip"
+                    android:layout_height="wrap_content"
+                    android:text="试卷总分:"
+                    android:textColor="@color/black"
+                    android:textSize="16.0sp" />
+
+                <TextView
+                    android:id="@+id/ptime"
+                    android:layout_width="92.0dip"
+                    android:layout_height="wrap_content"
+                    android:text="150分"
+                    android:textColor="@color/black"
+                    android:textSize="16.0sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="10.0dip" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="做卷时间:"
+                    android:textColor="@color/black"
+                    android:textSize="16.0sp" />
+
+                <TextView
+                    android:id="@+id/ptime"
+                    android:layout_width="66.0dip"
+                    android:layout_height="wrap_content"
+                    android:text="120分钟"
+                    android:textColor="@color/black"
+                    android:textSize="16.0sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="10.0dip" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="10.0dip" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="10.0dip"
+        android:layout_height="1.0dip" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/list_line" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/pdetail"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="试题说明试题说明试题说明试题说明试题说明试题说明试题说明试题说明试题说明试题说明试题说明试题说明试题说明试题说明试题说明试题说明试题说明试题说明试题说明试题说明试题说明试题说明试题说明试题说明试题说明试题说明试题说明试题说明试题说明试题说明"
+            android:textColor="@color/black"
+            android:visibility="gone" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="10.0dip" />
+
+        <Button
+            android:onClick="begintest"
+            android:id="@+id/btn_exam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="开始考试"
+            android:textColor="@color/red"
+            android:textSize="16.0sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/list_line" />
+
+    <RelativeLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="bottom"
+        android:orientation="horizontal" >
+
+        <TextView 
+ 			       android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="收    藏"
+        android:textSize="20sp"
+       android:padding="10dp"
+       android:drawableLeft="@drawable/ic_menu_download"
+       android:layout_centerVertical="true"
+                   
+            />
+    </RelativeLayout>
+
+</LinearLayout>
