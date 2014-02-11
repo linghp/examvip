@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/answerlistviewitempadding"
+    android:paddingTop="@dimen/answerlistviewitempadding"
+     >
+
+
+
+            <com.cqvip.mobilevers.view.AnswerscardGridView android:numColumns="@integer/answergridviewcolumnnumber"
+                android:stretchMode="spacingWidth"
+                android:columnWidth="30dp"
+                android:horizontalSpacing="@dimen/answergridviewspace"
+                android:verticalSpacing="@dimen/answergridviewspace"
+                android:gravity="center"                
+                android:id="@+id/gridview"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                >
+            </com.cqvip.mobilevers.view.AnswerscardGridView>
+
+</LinearLayout>
