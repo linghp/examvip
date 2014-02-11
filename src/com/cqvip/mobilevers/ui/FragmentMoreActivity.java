@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.cqvip.mobilevers.view.AboutFragment;
 import com.cqvip.mobilevers.view.MoreListFragment;
+import com.cqvip.mobilevers.view.UserSuggestFragment;
 
 public class FragmentMoreActivity extends FragmentActivity {
 
@@ -30,6 +31,11 @@ public class FragmentMoreActivity extends FragmentActivity {
 			 addFragmentToStack(newFragment);
 			
 		}
+	  public void suggest(View v){
+		  Fragment newFragment = new UserSuggestFragment();
+		  addFragmentToStack(newFragment);
+		  
+	  }
 		private void addFragmentToStack(Fragment newFragment) {
 			// mStackLevel++;
 			//	判断下是那个fragment
