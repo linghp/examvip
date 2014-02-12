@@ -53,6 +53,7 @@
             			android:layout_height="wrap_content"
             			android:gravity="center_vertical"
             			android:clickable="true"
+            			android:onClick="mypassedexam"
             			android:background="@drawable/preference_item" >
             			<TextView
         					android:layout_width="wrap_content" 
