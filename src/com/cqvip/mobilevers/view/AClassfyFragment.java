@@ -41,11 +41,18 @@ public class AClassfyFragment extends BaseListFragment implements OnItemClickLis
 		 * Callback for when an item has been selected.
 		 */
 		public void onItemSelected(String id);
+		
+		public void onExamListSelect(String id);
 	}
 
 	private static Callbacks sDummyCallbacks = new Callbacks() {
 		@Override
 		public void onItemSelected(String id) {
+		}
+
+		@Override
+		public void onExamListSelect(String id) {
+			
 		}
 	};
 	@Override	
@@ -97,6 +104,9 @@ public class AClassfyFragment extends BaseListFragment implements OnItemClickLis
 		   
 	   }		   	   
 	   
+	   
+	
+	   
 	   /**
 	 		 * 去服务器获取数据
 	 		 * @author Administrator
@@ -126,6 +136,10 @@ public class AClassfyFragment extends BaseListFragment implements OnItemClickLis
 	 				return HttpConnect.getNews(params[0],null);
 	 			}
 
+	 			
+	 			
+	 			
+	 			
 	 			@Override
 	 			protected void onPostExecute(String result) {
 	 				super.onPostExecute(result);
@@ -182,8 +196,6 @@ public class AClassfyFragment extends BaseListFragment implements OnItemClickLis
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				System.out.println("=======onItemClick======AdapterView====");
 				mCallbacks.onItemSelected(tempList.get(position).getId());
-				Toast.makeText(getActivity(), "11", 1).show();
 			}
 }

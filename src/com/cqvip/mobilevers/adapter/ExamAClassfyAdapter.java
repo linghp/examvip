@@ -29,7 +29,7 @@ public class ExamAClassfyAdapter extends AdapterBase<ExamInfo> {
 		if(convertView==null){
 			 v = LayoutInflater.from(context).inflate(R.layout.item_a_classfy, null);
 			title = (TextView) v.findViewById(R.id.txt_item_title);
-			count = (TextView) v.findViewById(R.id.txt_item_count);
+			count = (TextView) v.findViewById(R.id.tx_arrow);
 			title.setText(mList.get(position).getTitle());
 			count.setText(mList.get(position).getCount());
 		}else{
