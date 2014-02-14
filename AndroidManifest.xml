@@ -61,7 +61,7 @@
                 android:value="com.cqvip.mobilevers.ui.ExamClassfyActivity" />
         </activity>
         <activity
-            android:name="com.cqvip.mobilevers.ui.TestExamActivity"
+            android:name="com.cqvip.mobilevers.ui.ExamActivity"
             android:label="@string/title_activity_test_exam" >
         </activity>
     </application>

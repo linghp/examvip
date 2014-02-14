@@ -1,5 +1,6 @@
 package com.cqvip.mobilevers.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -8,6 +9,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.GetChars;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,51 +24,63 @@ import android.widget.TextView;
 
 import com.cqvip.mobilevers.R;
 
-public class TestExamActivity extends FragmentActivity implements OnClickListener{
+public class FragmentExam extends Fragment implements OnClickListener,OnPageChangeListener{
 	static final int NUM_ITEMS = 10;
 
 	MyAdapter mAdapter;
-
+private Context context;
 	ViewPager mPager;
-	int currentpage=1;
-	final static String TAG="TestExamActivity";
+	int currentpage=0;
+	final static String TAG="FragmentExam";
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_test_exam);
-
-		mAdapter = new MyAdapter(getSupportFragmentManager());
-
-		mPager = (ViewPager) findViewById(R.id.pager);
-		mPager.setAdapter(mAdapter);
-
-		initView();
-
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		context=getActivity();
+		View view=inflater.inflate(R.layout.fragment_exam, container, false);
+		mAdapter = new MyAdapter(getActivity().getSupportFragmentManager(),context);
+		initView(view);
+		return view;
+	}
+	
+	@Override
+	public void onResume() {
+		mAdapter.notifyDataSetChanged();
+		super.onResume();
 	}
 
-	private void initView(){
-		ViewGroup answercard=(ViewGroup) findViewById(R.id.answercard_ll);
-		answercard.setOnClickListener(this);
-		Button button = (Button) findViewById(R.id.goto_first);
+
+	private void initView(View view){
+		mPager = (ViewPager) view.findViewById(R.id.pager);
+		mPager.setOnPageChangeListener(this);
+		mPager.setAdapter(mAdapter);
+		//mPager.setOffscreenPageLimit(5);
+//		ViewGroup answercard=(ViewGroup) view. findViewById(R.id.answercard_ll);
+//		answercard.setOnClickListener(this);
+		Button button = (Button)  view.findViewById(R.id.goto_first);
 		button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				if(currentpage>1)
+				if(currentpage>0)
 				mPager.setCurrentItem(--currentpage);
 			}
 		});
-		button = (Button) findViewById(R.id.goto_last);
+		button = (Button)  view.findViewById(R.id.goto_last);
 		button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				if(currentpage<NUM_ITEMS)
+				if(currentpage<NUM_ITEMS-1)
 				mPager.setCurrentItem(++currentpage);
 			}
 		});
 	}
 	
 	public static class MyAdapter extends FragmentStatePagerAdapter {
-		public MyAdapter(FragmentManager fm) {
+		private Context context;
+//		public MyAdapter(FragmentManager fm) {
+//			super(fm);
+//		}
+		public MyAdapter(FragmentManager fm,Context context) {
 			super(fm);
+			this.context=context;
 		}
 
 		@Override
@@ -75,12 +90,24 @@ public class TestExamActivity extends FragmentActivity implements OnClickListene
 
 		@Override
 		public Fragment getItem(int position) {
-			return ExamFragment.newInstance(position);
+			Log.i(TAG, "MyAdapter_getItem:"+position);
+			return ExamFragment.newInstance(position,context);
+		}
+		
+		@Override
+		public int getItemPosition(Object object) {
+			// TODO Auto-generated method stub
+			return POSITION_NONE;
 		}
 	}
 	
 	public static class ExamFragment extends Fragment {
+		public ExamFragment() {
+		}
 		int mNum;
+		
+		
+		
 	    @Override
 	    public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	            Bundle savedInstanceState) {
@@ -88,12 +115,15 @@ public class TestExamActivity extends FragmentActivity implements OnClickListene
 	        View tv = v.findViewById(R.id.text);
 	        ((TextView)tv).setText("Fragment #" + mNum);
 	        tv.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.gallery_thumb));
+	        
 	        return v;
 	    }
 	    
-		static ExamFragment newInstance(int num) {
-			ExamFragment f = new ExamFragment();
-
+		static ExamFragment newInstance(int num,Context context) {
+			
+			ExamFragment f =(ExamFragment) ExamFragment.instantiate(context, ExamFragment.class.getName());
+			//ExamFragment f =new ExamFragment();
+			f.mNum=num;
 			// Supply num input as an argument.
 			Bundle args = new Bundle();
 			args.putInt("num", num);
@@ -101,14 +131,42 @@ public class TestExamActivity extends FragmentActivity implements OnClickListene
 
 			return f;
 		}
+		
+		@Override
+		public void onResume() {
+			Log.i(TAG, "ExamFragment_onResume"+mNum);
+			super.onResume();
+		}
+		
+		@Override
+		public void onPause() {
+			Log.i(TAG, "ExamFragment_onPause"+mNum);
+			super.onPause();
+		}
+		
+		@Override
+		public void onStop() {
+			Log.i(TAG, "ExamFragment_onStop"+mNum);
+			super.onStop();
+		}
+		@Override
+		public void onDestroyView() {
+			Log.i(TAG, "ExamFragment_onDestroyView");
+			super.onDestroyView();
+		}
+		@Override
+		public void onDetach() {
+			Log.i(TAG, "ExamFragment_onDetach");
+			super.onDetach();
+		}
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.answercard_ll:
-			addFragmentToStack();
-			Log.i(TAG, "answercard_ll");
+//			addFragmentToStack();
+//			Log.i(TAG, "answercard_ll");
 			break;
 
 		default:
@@ -116,23 +174,26 @@ public class TestExamActivity extends FragmentActivity implements OnClickListene
 		}
 	}
 
-	void addFragmentToStack() {
+	@Override
+	public void onPageScrolled(int position, float positionOffset,
+			int positionOffsetPixels) {
+		// TODO Auto-generated method stub
+		
+	}
 
-        // Instantiate a new fragment.
-        Fragment newFragment = new FragmentAnswerScard();
+	@Override
+	public void onPageSelected(int position) {
+		Log.i(TAG, "onPageSelected_position:"+position);
+		currentpage=position;
+	}
 
-        // Add the fragment to the activity, pushing this transaction
-        // on to the back stack.
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.setCustomAnimations(R.anim.slide_right_in,
-        		0,
-        		R.anim.slide_right_out,
-        		0);
-        ft.replace(R.id.exam_fl, newFragment);
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        ft.addToBackStack(null);
-        ft.commit();
-    }
+	@Override
+	public void onPageScrollStateChanged(int state) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 	
 //	public static class ArrayListFragment extends ListFragment {
 //		int mNum;

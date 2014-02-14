@@ -21,7 +21,7 @@ public class ExamDetailActivity extends Activity {
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 	public void begintest(View v){
-		startActivity(new Intent(this,TestExamActivity.class));
+		startActivity(new Intent(this,ExamActivity.class));
 	}
 }
 	
