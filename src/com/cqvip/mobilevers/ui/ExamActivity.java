@@ -24,7 +24,6 @@ public class ExamActivity extends FragmentActivity implements
 
 	final static String TAG = "ExamActivity";
 	static final int NUM_ITEMS = 10;
-
 	MyAdapter mAdapter;
 	private Context context;
 	ViewPager mPager;
