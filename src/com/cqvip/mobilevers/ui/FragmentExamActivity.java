@@ -12,7 +12,7 @@ import com.cqvip.mobilevers.view.BClassfyFragment;
 import com.cqvip.mobilevers.view.CClassfyFragment;
 import com.cqvip.mobilevers.view.DClassfyFragment;
 
-public class FragmentExamActivity extends FragmentActivity implements  AClassfyFragment.Callbacks,BClassfyFragment.NextCallbacks,
+public class FragmentExamActivity extends FragmentActivity implements BClassfyFragment.NextCallbacks,
 CClassfyFragment.NextCallbacks,DClassfyFragment.NextCallbacks{
 
 	private static final String TAG = "FragmentExamActivity";
@@ -27,13 +27,13 @@ CClassfyFragment.NextCallbacks,DClassfyFragment.NextCallbacks{
 	        }	
 		
 	    }
-	@Override
-	public void onItemSelected(String id) {
-		//传递参数
-		Fragment newFragment = BClassfyFragment.newInstance(id);
-		 addFragmentToStack(newFragment,id);
-		
-	}
+//	@Override
+//	public void onItemSelected(String id) {
+//		//传递参数
+//		Fragment newFragment = BClassfyFragment.newInstance(id);
+//		 addFragmentToStack(newFragment,id);
+//		
+//	}
 	private void addFragmentToStack(Fragment newFragment,String id) {
 		// mStackLevel++;
 		//	判断下是那个fragment

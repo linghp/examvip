@@ -11,6 +11,8 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,20 +36,20 @@ public class AClassfyFragment extends BaseListFragment implements OnItemClickLis
 	 * The fragment's current callback object, which is notified of list item
 	 * clicks.
 	 */
-	private Callbacks mCallbacks = sDummyCallbacks;
+	//private Callbacks mCallbacks = sDummyCallbacks;
 	
-	public interface Callbacks {
-		/**
-		 * Callback for when an item has been selected.
-		 */
-		public void onItemSelected(String id);
-	}
+//	public interface Callbacks {
+//		/**
+//		 * Callback for when an item has been selected.
+//		 */
+//		public void onItemSelected(String id);
+//	}
 
-	private static Callbacks sDummyCallbacks = new Callbacks() {
-		@Override
-		public void onItemSelected(String id) {
-		}
-	};
+//	private static Callbacks sDummyCallbacks = new Callbacks() {
+//		@Override
+//		public void onItemSelected(String id) {
+//		}
+//	};
 	@Override	
 	public void onCreate(Bundle savedInstanceState) {
 		   super.onCreate(savedInstanceState);
@@ -59,13 +61,13 @@ public class AClassfyFragment extends BaseListFragment implements OnItemClickLis
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		// Activities containing this fragment must implement its callbacks.
-		if (!(activity instanceof Callbacks)) {
-			throw new IllegalStateException(
-					"Activity must implement fragment's callbacks.");
-		}
-
-		mCallbacks = (Callbacks) activity;
+//		// Activities containing this fragment must implement its callbacks.
+//		if (!(activity instanceof Callbacks)) {
+//			throw new IllegalStateException(
+//					"Activity must implement fragment's callbacks.");
+//		}
+//
+//		mCallbacks = (Callbacks) activity;
 	}
 
 	@Override
@@ -73,7 +75,7 @@ public class AClassfyFragment extends BaseListFragment implements OnItemClickLis
 		super.onDetach();
 
 		// Reset the active callbacks interface to the dummy implementation.
-		mCallbacks = sDummyCallbacks;
+//		mCallbacks = sDummyCallbacks;
 	}
 
 	
@@ -182,8 +184,11 @@ public class AClassfyFragment extends BaseListFragment implements OnItemClickLis
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				System.out.println("=======onItemClick======AdapterView====");
-				mCallbacks.onItemSelected(tempList.get(position).getId());
+				//System.out.println("=======onItemClick======AdapterView====");
+				//mCallbacks.onItemSelected(tempList.get(position).getId());
+				Fragment newFragment = BClassfyFragment.newInstance(tempList.get(position).getId());
+				addFragmentToStack(newFragment,android.R.id.content);
 				Toast.makeText(getActivity(), "11", 1).show();
 			}
+			
 }

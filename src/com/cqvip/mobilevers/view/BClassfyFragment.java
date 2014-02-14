@@ -23,7 +23,6 @@ import com.cqvip.mobilevers.adapter.ExamBClassfyAdapter;
 import com.cqvip.mobilevers.config.ConstantValues;
 import com.cqvip.mobilevers.entity.ExamInfo;
 import com.cqvip.mobilevers.http.HttpConnect;
-import com.cqvip.mobilevers.view.AClassfyFragment.Callbacks;
 
 public class BClassfyFragment extends BaseListFragment implements OnItemClickListener{
 	
@@ -58,10 +57,10 @@ public class BClassfyFragment extends BaseListFragment implements OnItemClickLis
 		super.onAttach(activity);
 
 		// Activities containing this fragment must implement its callbacks.
-		if (!(activity instanceof Callbacks)) {
-			throw new IllegalStateException(
-					"Activity must implement fragment's callbacks.");
-		}
+//		if (!(activity instanceof Callbacks)) {
+//			throw new IllegalStateException(
+//					"Activity must implement fragment's callbacks.");
+//		}
 
 		mCallbacks = (NextCallbacks) activity;
 	}

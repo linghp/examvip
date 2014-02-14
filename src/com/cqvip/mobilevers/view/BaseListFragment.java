@@ -2,6 +2,7 @@ package com.cqvip.mobilevers.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,6 @@ public class BaseListFragment extends Fragment {
 	LayoutInflater mInflater;
 	protected BaseAdapter mAdapter;
 
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -30,4 +30,11 @@ public class BaseListFragment extends Fragment {
 		
 	}
 
+	protected void addFragmentToStack(Fragment newFragment,int layoutid) {
+		FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+		ft.replace(layoutid, newFragment);
+		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+		ft.addToBackStack(null);
+		ft.commit();
+	}
 }
