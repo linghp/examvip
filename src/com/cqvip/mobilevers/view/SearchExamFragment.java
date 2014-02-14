@@ -8,16 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class AboutFragment extends Fragment{
+public class SearchExamFragment  extends Fragment{
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View v = inflater.inflate(R.layout.more_about, null);
+		View v = inflater.inflate(R.layout.main_tab_search, null);
 		
 		
 		return v;
 	}
-		
 }

@@ -7,7 +7,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import com.cqvip.mobilevers.view.AboutFragment;
-import com.cqvip.mobilevers.view.MoreListFragment;
+import com.cqvip.mobilevers.view.MoreMenuFragment;
+import com.cqvip.mobilevers.view.UserSuggestFragment;
 
 public class FragmentMoreActivity extends FragmentActivity {
 
@@ -19,7 +20,7 @@ public class FragmentMoreActivity extends FragmentActivity {
 //		 
 		 if (getSupportFragmentManager().findFragmentByTag(TAG) == null) {
 	            final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-	            ft.add(android.R.id.content, new MoreListFragment(), TAG);
+	            ft.add(android.R.id.content, new MoreMenuFragment(), TAG);
 	            ft.commit();
 	        }	
 		 
@@ -30,6 +31,11 @@ public class FragmentMoreActivity extends FragmentActivity {
 			 addFragmentToStack(newFragment);
 			
 		}
+	  public void suggest(View v){
+		  Fragment newFragment = new UserSuggestFragment();
+		  addFragmentToStack(newFragment);
+		  
+	  }
 		private void addFragmentToStack(Fragment newFragment) {
 			// mStackLevel++;
 			//	判断下是那个fragment

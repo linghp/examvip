@@ -59,7 +59,7 @@ public class ExamClassfyActivity extends FragmentActivity implements
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		actionBar.setTitle("试题列表");
+		actionBar.setTitle("试卷列表");
 		// Show the Up button in the action bar.
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -82,10 +82,9 @@ public class ExamClassfyActivity extends FragmentActivity implements
 						actionBar.setSelectedNavigationItem(position);
 					}
 				});
-
 		// For each of the sections in the app, add a tab to the action bar.
 		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-			// Create a tab with text corresponding to the page title defined by
+			// Create a tab with t	ext corresponding to the page title defined by
 			// the adapter. Also specify this Activity object, which implements
 			// the TabListener interface, as the callback (listener) for when
 			// this tab is selected.
@@ -254,7 +253,7 @@ public class ExamClassfyActivity extends FragmentActivity implements
 
 			@Override
 			protected String doInBackground(String... params) {
-				//向服务器发送请求的数据
+				//鍚戞湇鍔″櫒鍙戦�璇锋眰鐨勬暟鎹�
 //				List<NameValuePair> values=new ArrayList<NameValuePair>();
 //				values.add(new BasicNameValuePair("startId", startId+""));
 //				values.add(new BasicNameValuePair("categoryId", categoryId+""));
@@ -269,8 +268,9 @@ public class ExamClassfyActivity extends FragmentActivity implements
 				if(result!=null){
 					System.out.println("=========result======");
 					Paper p =	Paper.parserJsonData(result);
-					//真题
+					//鐪熼
 					System.out.println("type:"+type);
+					if(p!=null){
 					switch (type) {
 					case 1:
 						List<ExamInfo> list_r = p.getReal();
@@ -279,7 +279,7 @@ public class ExamClassfyActivity extends FragmentActivity implements
 							ExamPaperAdapter adapter =	new  ExamPaperAdapter(inflater, list_r);
 							lv.setAdapter(adapter);
 							reallists = list_r;
-						//更新数据
+						//鏇存柊鏁版嵁
 					}		
 						break;
 					case 2:
@@ -289,12 +289,13 @@ public class ExamClassfyActivity extends FragmentActivity implements
 							ExamPaperAdapter adapter =	new  ExamPaperAdapter(inflater, list_s);
 							lv.setAdapter(adapter);
 							simulatelists = list_s;
-						//更新数据
+						//鏇存柊鏁版嵁
 					}	
 						break;
 
 					default:
 						break;
+					}
 					}
 				}else{
 				System.out.println("======no=============");
