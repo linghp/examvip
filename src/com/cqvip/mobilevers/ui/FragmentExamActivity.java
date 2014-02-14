@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 import android.widget.Toast;
 
 import com.cqvip.mobilevers.view.AClassfyFragment;
@@ -27,6 +28,7 @@ CClassfyFragment.NextCallbacks,DClassfyFragment.NextCallbacks{
 	        }	
 		
 	    }
+<<<<<<< HEAD
 //	@Override
 //	public void onItemSelected(String id) {
 //		//传递参数
@@ -34,6 +36,17 @@ CClassfyFragment.NextCallbacks,DClassfyFragment.NextCallbacks{
 //		 addFragmentToStack(newFragment,id);
 //		
 //	}
+=======
+
+	   
+	@Override
+	public void onItemSelected(String id) {
+		//传递参数
+		Fragment newFragment = BClassfyFragment.newInstance(id);
+		 addFragmentToStack(newFragment,id);
+		
+	}
+>>>>>>> branch 'master' of https://github.com/linghp/examvip.git
 	private void addFragmentToStack(Fragment newFragment,String id) {
 		// mStackLevel++;
 		//	判断下是那个fragment
@@ -66,6 +79,13 @@ CClassfyFragment.NextCallbacks,DClassfyFragment.NextCallbacks{
 	public void onItemDNextSelected(String id) {
 		//Toast.makeText(this, "试卷列表", 1).show();
 		startActivity(new Intent(this,ExamClassfyActivity.class));
+	}
+
+
+	@Override
+	public void onExamListSelect(String id) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

@@ -38,18 +38,42 @@ public class AClassfyFragment extends BaseListFragment implements OnItemClickLis
 	 */
 	//private Callbacks mCallbacks = sDummyCallbacks;
 	
+<<<<<<< HEAD
 //	public interface Callbacks {
 //		/**
 //		 * Callback for when an item has been selected.
 //		 */
 //		public void onItemSelected(String id);
 //	}
+=======
+	public interface Callbacks {
+		/**
+		 * Callback for when an item has been selected.
+		 */
+		public void onItemSelected(String id);
+		
+		public void onExamListSelect(String id);
+	}
+>>>>>>> branch 'master' of https://github.com/linghp/examvip.git
 
+<<<<<<< HEAD
 //	private static Callbacks sDummyCallbacks = new Callbacks() {
 //		@Override
 //		public void onItemSelected(String id) {
 //		}
 //	};
+=======
+	private static Callbacks sDummyCallbacks = new Callbacks() {
+		@Override
+		public void onItemSelected(String id) {
+		}
+
+		@Override
+		public void onExamListSelect(String id) {
+			
+		}
+	};
+>>>>>>> branch 'master' of https://github.com/linghp/examvip.git
 	@Override	
 	public void onCreate(Bundle savedInstanceState) {
 		   super.onCreate(savedInstanceState);
@@ -99,6 +123,9 @@ public class AClassfyFragment extends BaseListFragment implements OnItemClickLis
 		   
 	   }		   	   
 	   
+	   
+	
+	   
 	   /**
 	 		 * 去服务器获取数据
 	 		 * @author Administrator
@@ -128,6 +155,10 @@ public class AClassfyFragment extends BaseListFragment implements OnItemClickLis
 	 				return HttpConnect.getNews(params[0],null);
 	 			}
 
+	 			
+	 			
+	 			
+	 			
 	 			@Override
 	 			protected void onPostExecute(String result) {
 	 				super.onPostExecute(result);
@@ -184,11 +215,15 @@ public class AClassfyFragment extends BaseListFragment implements OnItemClickLis
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+<<<<<<< HEAD
 				//System.out.println("=======onItemClick======AdapterView====");
 				//mCallbacks.onItemSelected(tempList.get(position).getId());
 				Fragment newFragment = BClassfyFragment.newInstance(tempList.get(position).getId());
 				addFragmentToStack(newFragment,android.R.id.content);
 				Toast.makeText(getActivity(), "11", 1).show();
+=======
+				mCallbacks.onItemSelected(tempList.get(position).getId());
+>>>>>>> branch 'master' of https://github.com/linghp/examvip.git
 			}
 			
 }
