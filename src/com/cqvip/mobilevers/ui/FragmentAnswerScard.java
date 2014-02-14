@@ -25,12 +25,12 @@ public class FragmentAnswerScard extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view=inflater.inflate(R.layout.fragment_answerscard, container);
+		View view=inflater.inflate(R.layout.fragment_answerscard, container,false);
 		mListView = (ListView) view.findViewById(R.id.listview);
 		initData();
 		AnswerscardListViewAdapter adapter = new AnswerscardListViewAdapter(getActivity(), rowIndexList,mList_Gist);
 		mListView.setAdapter(adapter);
-		return super.onCreateView(inflater, container, savedInstanceState);
+		return view;
 	}
 	
 	int b = 0;
@@ -59,8 +59,8 @@ public class FragmentAnswerScard extends Fragment {
 		DisplayMetrics dm = new DisplayMetrics();
 		dm = getResources().getDisplayMetrics();
 
-		float density = dm.density; // ÆÁÄ»ÃÜ¶È£¨ÏñËØ±ÈÀı£º0.75/1.0/1.5/2.0£©
-		int densityDPI = dm.densityDpi; // ÆÁÄ»ÃÜ¶È£¨Ã¿´çÏñËØ£º120/160/240/320£©
+		float density = dm.density; // å±å¹•å¯†åº¦ï¼ˆåƒç´ æ¯”ä¾‹ï¼š0.75/1.0/1.5/2.0ï¼‰
+		int densityDPI = dm.densityDpi; // å±å¹•å¯†åº¦ï¼ˆæ¯å¯¸åƒç´ ï¼š120/160/240/320ï¼‰
 		float xdpi = dm.xdpi;
 		float ydpi = dm.ydpi;
 
@@ -68,8 +68,8 @@ public class FragmentAnswerScard extends Fragment {
 		Log.e(TAG + "  DisplayMetrics", "density=" + density + "; densityDPI="
 				+ densityDPI);
 
-		screenWidth = dm.widthPixels; // ÆÁÄ»¿í£¨ÏñËØ£¬Èç£º480px£©
-		screenHeight = dm.heightPixels; // ÆÁÄ»¸ß£¨ÏñËØ£¬Èç£º800px£©
+		screenWidth = dm.widthPixels; // å±å¹•å®½ï¼ˆåƒç´ ï¼Œå¦‚ï¼š480pxï¼‰
+		screenHeight = dm.heightPixels; // å±å¹•é«˜ï¼ˆåƒç´ ï¼Œå¦‚ï¼š800pxï¼‰
 
 		Log.e(TAG + "  DisplayMetrics(111)", "screenWidth=" + screenWidth
 				+ "; screenHeight=" + screenHeight);
