@@ -13,8 +13,7 @@ import com.cqvip.mobilevers.view.BClassfyFragment;
 import com.cqvip.mobilevers.view.CClassfyFragment;
 import com.cqvip.mobilevers.view.DClassfyFragment;
 
-public class FragmentExamActivity extends FragmentActivity implements BClassfyFragment.NextCallbacks,
-CClassfyFragment.NextCallbacks,DClassfyFragment.NextCallbacks{
+public class FragmentExamActivity extends FragmentActivity{
 
 	private static final String TAG = "FragmentExamActivity";
 	@Override
@@ -28,7 +27,7 @@ CClassfyFragment.NextCallbacks,DClassfyFragment.NextCallbacks{
 	        }	
 		
 	    }
-<<<<<<< HEAD
+
 //	@Override
 //	public void onItemSelected(String id) {
 //		//传递参数
@@ -36,17 +35,8 @@ CClassfyFragment.NextCallbacks,DClassfyFragment.NextCallbacks{
 //		 addFragmentToStack(newFragment,id);
 //		
 //	}
-=======
 
 	   
-	@Override
-	public void onItemSelected(String id) {
-		//传递参数
-		Fragment newFragment = BClassfyFragment.newInstance(id);
-		 addFragmentToStack(newFragment,id);
-		
-	}
->>>>>>> branch 'master' of https://github.com/linghp/examvip.git
 	private void addFragmentToStack(Fragment newFragment,String id) {
 		// mStackLevel++;
 		//	判断下是那个fragment
@@ -65,27 +55,22 @@ CClassfyFragment.NextCallbacks,DClassfyFragment.NextCallbacks{
 		ft.addToBackStack(null);
 		ft.commit();
 	}
-	@Override
-	public void onItemNextSelected(String id) {
-		Fragment newFragment = CClassfyFragment.newInstance(id);
-		 addFragmentToStack(newFragment,id);
-	}
-	@Override
-	public void onItemCNextSelected(String id) {
-		Fragment newFragment = DClassfyFragment.newInstance(id);
-		 addFragmentToStack(newFragment,id);
-	}
-	@Override
-	public void onItemDNextSelected(String id) {
-		//Toast.makeText(this, "试卷列表", 1).show();
-		startActivity(new Intent(this,ExamClassfyActivity.class));
-	}
+//	@Override
+//	public void onItemNextSelected(String id) {
+//		Fragment newFragment = CClassfyFragment.newInstance(id);
+//		 addFragmentToStack(newFragment,id);
+//	}
+//	@Override
+//	public void onItemCNextSelected(String id) {
+//		Fragment newFragment = DClassfyFragment.newInstance(id);
+//		 addFragmentToStack(newFragment,id);
+//	}
+//	@Override
+//	public void onItemDNextSelected(String id) {
+//		//Toast.makeText(this, "试卷列表", 1).show();
+//		startActivity(new Intent(this,ExamClassfyActivity.class));
+//	}
 
 
-	@Override
-	public void onExamListSelect(String id) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 }

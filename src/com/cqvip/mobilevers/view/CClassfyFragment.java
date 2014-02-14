@@ -11,10 +11,12 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
@@ -34,20 +36,20 @@ public class CClassfyFragment extends BaseListFragment implements OnItemClickLis
 	 * The fragment's current callback object, which is notified of list item
 	 * clicks.
 	 */
-	private NextCallbacks mCallbacks = sDummyCallbacks;
-	
-	public interface NextCallbacks {
-		/**
-		 * Callback for when an item has been selected.
-		 */
-		public void onItemCNextSelected(String id);
-	}
-
-	private static NextCallbacks sDummyCallbacks = new NextCallbacks() {
-		@Override
-		public void onItemCNextSelected(String id) {
-		}
-	};
+//	private NextCallbacks mCallbacks = sDummyCallbacks;
+//	
+//	public interface NextCallbacks {
+//		/**
+//		 * Callback for when an item has been selected.
+//		 */
+//		public void onItemCNextSelected(String id);
+//	}
+//
+//	private static NextCallbacks sDummyCallbacks = new NextCallbacks() {
+//		@Override
+//		public void onItemCNextSelected(String id) {
+//		}
+//	};
 	
     String mNum;
 
@@ -62,7 +64,7 @@ public class CClassfyFragment extends BaseListFragment implements OnItemClickLis
 //					"Activity must implement fragment's callbacks.");
 //		}
 
-		mCallbacks = (NextCallbacks) activity;
+		//mCallbacks = (NextCallbacks) activity;
 	}
 
 	@Override
@@ -70,7 +72,7 @@ public class CClassfyFragment extends BaseListFragment implements OnItemClickLis
 		super.onDetach();
 
 		// Reset the active callbacks interface to the dummy implementation.
-		mCallbacks = sDummyCallbacks;
+	//	mCallbacks = sDummyCallbacks;
 	}
 
     
@@ -205,7 +207,10 @@ public class CClassfyFragment extends BaseListFragment implements OnItemClickLis
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		mCallbacks.onItemCNextSelected(tempList.get(position).getId());
+		//mCallbacks.onItemCNextSelected(tempList.get(position).getId());
+		Fragment newFragment = DClassfyFragment.newInstance(tempList.get(position).getId());
+		addFragmentToStack(newFragment,android.R.id.content);
+		Toast.makeText(getActivity(), "11", 1).show();
 	}
 
 }

@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import com.cqvip.mobilevers.adapter.ExamBClassfyAdapter;
 import com.cqvip.mobilevers.config.ConstantValues;
 import com.cqvip.mobilevers.entity.ExamInfo;
 import com.cqvip.mobilevers.http.HttpConnect;
+import com.cqvip.mobilevers.ui.ExamClassfyActivity;
 
 public class DClassfyFragment extends BaseListFragment implements OnItemClickListener{
 	
@@ -34,20 +36,20 @@ public class DClassfyFragment extends BaseListFragment implements OnItemClickLis
 	 * The fragment's current callback object, which is notified of list item
 	 * clicks.
 	 */
-	private NextCallbacks mCallbacks = sDummyCallbacks;
-	
-	public interface NextCallbacks {
-		/**
-		 * Callback for when an item has been selected.
-		 */
-		public void onItemDNextSelected(String id);
-	}
-
-	private static NextCallbacks sDummyCallbacks = new NextCallbacks() {
-		@Override
-		public void onItemDNextSelected(String id) {
-		}
-	};
+//	private NextCallbacks mCallbacks = sDummyCallbacks;
+//	
+//	public interface NextCallbacks {
+//		/**
+//		 * Callback for when an item has been selected.
+//		 */
+//		public void onItemDNextSelected(String id);
+//	}
+//
+//	private static NextCallbacks sDummyCallbacks = new NextCallbacks() {
+//		@Override
+//		public void onItemDNextSelected(String id) {
+//		}
+//	};
 	
     String mNum;
 
@@ -62,7 +64,7 @@ public class DClassfyFragment extends BaseListFragment implements OnItemClickLis
 //					"Activity must implement fragment's callbacks.");
 //		}
 
-		mCallbacks = (NextCallbacks) activity;
+	//	mCallbacks = (NextCallbacks) activity;
 	}
 
 	@Override
@@ -70,7 +72,7 @@ public class DClassfyFragment extends BaseListFragment implements OnItemClickLis
 		super.onDetach();
 
 		// Reset the active callbacks interface to the dummy implementation.
-		mCallbacks = sDummyCallbacks;
+	//	mCallbacks = sDummyCallbacks;
 	}
 
     
@@ -205,7 +207,8 @@ public class DClassfyFragment extends BaseListFragment implements OnItemClickLis
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		mCallbacks.onItemDNextSelected(tempList.get(position).getId());
+		//mCallbacks.onItemDNextSelected(tempList.get(position).getId());
+		startActivity(new Intent(getActivity(),ExamClassfyActivity.class));
 	}
 
 }
