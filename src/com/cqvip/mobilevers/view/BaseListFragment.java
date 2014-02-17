@@ -9,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
-import com.cqvip.mobilevers.R;
-
 public class BaseListFragment extends Fragment {
 	protected ListView listview;
 	protected View view;

@@ -1,17 +1,11 @@
 package com.cqvip.mobilevers.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
-import android.widget.Toast;
 
 import com.cqvip.mobilevers.view.AClassfyFragment;
-import com.cqvip.mobilevers.view.BClassfyFragment;
-import com.cqvip.mobilevers.view.CClassfyFragment;
-import com.cqvip.mobilevers.view.DClassfyFragment;
 
 public class FragmentExamActivity extends FragmentActivity{
 
