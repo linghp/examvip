@@ -157,8 +157,7 @@ public class CClassfyFragment extends BaseListFragment implements OnItemClickLis
 	 				if(result!=null){
 	 					tempList =	parserJsonData(result,view);
 	 					if(tempList!=null&& !tempList.isEmpty()){
-	 						mAdapter=new  ExamBClassfyAdapter(getActivity(), tempList);
-	 						view.setAdapter(mAdapter);
+	 						view.setAdapter(new  ExamBClassfyAdapter(getActivity(), tempList));
 	 					}
 	 					//更新数据
 	 				}else{
