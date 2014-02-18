@@ -70,10 +70,4 @@ public class MainActivity2 extends TabActivity {
 		
 	}	
 	
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		android.os.Process.killProcess(android.os.Process.myPid());
-	}
-	
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.cqvip.mobilevers.R;
-import com.cqvip.mobilevers.view.FragmentAnswerScard;
+import com.cqvip.mobilevers.ui.FragmentAnswerScard;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -19,9 +19,9 @@ import android.widget.Toast;
 
 public class AnswerscardListViewAdapter extends BaseAdapter {
 
-	//О©╫п©О©╫
+	//ап©М
 	private int cWidth = 20;
-	//к╝ф╫О©╫О©╫О©╫
+	//к╝ф╫╪Д╬Ю
 	private int hSpacing = 10;
 	private Context mContext;
 	private ArrayList<Integer> mList;
