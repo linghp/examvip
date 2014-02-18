@@ -12,11 +12,13 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -31,7 +33,6 @@ public class BClassfyFragment extends BaseListFragment implements OnItemClickLis
 	
 	
 	private List<ExamInfo> tempList;
-
 	/**
 	 * The fragment's current callback object, which is notified of list item
 	 * clicks.
@@ -108,12 +109,26 @@ public class BClassfyFragment extends BaseListFragment implements OnItemClickLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.main_tab_exam, container, false);
+		if (view != null) {
+			ViewGroup parent = (ViewGroup) view.getParent();
+			if (parent != null) {
+				parent.removeView(view);
+			}
+			return view;
+		}
+		Log.i("BClassfyFragment", "onCreateView");
+        view = inflater.inflate(R.layout.main_tab_exam, container, false);
     	//view = inflater.inflate(R.layout.main_tab_exam, null);
-	   	   ListView listview = (ListView) v.findViewById(R.id.lst_next_classy);
+	   	   ListView listview = (ListView)view.findViewById(R.id.lst_next_classy);
 	   	   refreshData(ConstantValues.burl, listview);
 	   	listview.setOnItemClickListener(this);
-        return v;
+        return view;
+    }
+    
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+    	// TODO Auto-generated method stub
+    	super.onActivityCreated(savedInstanceState);
     }
 
 	private void refreshData(String url, ListView view) {
@@ -159,7 +174,8 @@ public class BClassfyFragment extends BaseListFragment implements OnItemClickLis
 	 					System.out.println("=========result======");
 	 					tempList =	parserJsonData(result,view);
 	 					if(tempList!=null&& !tempList.isEmpty()){
-	 						view.setAdapter(new  ExamBClassfyAdapter(getActivity(), tempList));
+	 						mAdapter=new  ExamBClassfyAdapter(getActivity(), tempList);
+	 						view.setAdapter(mAdapter);
 	 					}
 	 					//更新数据
 	 				}else{
@@ -209,7 +225,7 @@ public class BClassfyFragment extends BaseListFragment implements OnItemClickLis
 			long id) {
 		Fragment newFragment = CClassfyFragment.newInstance(tempList.get(position).getId());
 		//mCallbacks.onItemNextSelected(tempList.get(position).getId());
-		addFragmentToStack(newFragment,android.R.id.content);
+		addFragmentToStack(newFragment,R.id.simple_fragment);
 		Toast.makeText(getActivity(), "11", 1).show();
 	}
 

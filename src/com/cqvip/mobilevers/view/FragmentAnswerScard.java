@@ -1,4 +1,4 @@
-package com.cqvip.mobilevers.ui;
+package com.cqvip.mobilevers.view;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -87,4 +87,5 @@ public class FragmentAnswerScard extends Fragment {
         final float scale = getResources().getDisplayMetrics().density;  
         return (int) (dpValue * scale + 0.5f);  
     }  
+    
 }

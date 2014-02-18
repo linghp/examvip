@@ -84,11 +84,17 @@ public class AClassfyFragment extends BaseListFragment implements OnItemClickLis
 	   @Override
        public View onCreateView(LayoutInflater inflater, ViewGroup container,
                Bundle savedInstanceState) {
+			if (view != null) {
+				ViewGroup parent = (ViewGroup) view.getParent();
+				if (parent != null) {
+					parent.removeView(view);
+				}
+				return view;
+			}
 		   		view = inflater.inflate(R.layout.main_tab_exam, null);
 		   	   ListView listview = (ListView) view.findViewById(R.id.lst_next_classy);
 		   	   refreshData(ConstantValues.aurl, listview);
 		   	listview.setOnItemClickListener(this);
-		   
 		   //从网络上获取数据
            return view;
        }
@@ -144,7 +150,8 @@ public class AClassfyFragment extends BaseListFragment implements OnItemClickLis
 	 					System.out.println("=========result======");
 	 					tempList =	parserJsonData(result,view);
 	 					if(tempList!=null&& !tempList.isEmpty()){
-	 						view.setAdapter(new  ExamAClassfyAdapter(getActivity(), tempList));
+	 						mAdapter=new  ExamAClassfyAdapter(getActivity(), tempList);
+	 						view.setAdapter(mAdapter);
 	 					}
 	 					//更新数据
 	 				}else{
@@ -196,7 +203,7 @@ public class AClassfyFragment extends BaseListFragment implements OnItemClickLis
 				//System.out.println("=======onItemClick======AdapterView====");
 				//mCallbacks.onItemSelected(tempList.get(position).getId());
 				Fragment newFragment = BClassfyFragment.newInstance(tempList.get(position).getId());
-				addFragmentToStack(newFragment,android.R.id.content);
+				addFragmentToStack(newFragment,R.id.simple_fragment);
 				Toast.makeText(getActivity(), "11", 1).show();
 			}
 			

@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -18,8 +19,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.cqvip.mobilevers.R;
+import com.cqvip.mobilevers.ui.base.BaseFragmentActivity;
+import com.cqvip.mobilevers.view.FragmentAnswerScard;
 
-public class ExamActivity extends FragmentActivity implements
+public class ExamActivity extends BaseFragmentActivity implements
 		OnPageChangeListener {
 
 	final static String TAG = "ExamActivity";
@@ -185,6 +188,11 @@ public class ExamActivity extends FragmentActivity implements
 	public void onPageSelected(int position) {
 		Log.i(TAG, "onPageSelected_position:" + position);
 		currentpage = position;
+		if (position == 0) {
+			isLeftFragment = true;
+		} else {
+			isLeftFragment = false;
+		}
 	}
 
 	@Override
@@ -192,4 +200,5 @@ public class ExamActivity extends FragmentActivity implements
 		// TODO Auto-generated method stub
 
 	}
+	
 }
