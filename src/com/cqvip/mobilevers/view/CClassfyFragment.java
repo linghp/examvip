@@ -154,9 +154,7 @@ public class CClassfyFragment extends BaseListFragment implements OnItemClickLis
 	 			@Override
 	 			protected void onPostExecute(String result) {
 	 				super.onPostExecute(result);
-	 				System.out.println("==================");
 	 				if(result!=null){
-	 					System.out.println("=========result======");
 	 					tempList =	parserJsonData(result,view);
 	 					if(tempList!=null&& !tempList.isEmpty()){
 	 						view.setAdapter(new  ExamBClassfyAdapter(getActivity(), tempList));
@@ -210,7 +208,6 @@ public class CClassfyFragment extends BaseListFragment implements OnItemClickLis
 		//mCallbacks.onItemCNextSelected(tempList.get(position).getId());
 		Fragment newFragment = DClassfyFragment.newInstance(tempList.get(position).getId());
 		addFragmentToStack(newFragment,android.R.id.content);
-		Toast.makeText(getActivity(), "11", 1).show();
 	}
 
 }

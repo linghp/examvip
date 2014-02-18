@@ -1,45 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="48dp"
             android:gravity="center_vertical"
             android:background="@drawable/mm_listitem"
           	
              >
-            <ImageView
-                android:id="@+id/img_book"
-                android:layout_width="48dp"
-		        android:layout_height="64dp"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:paddingLeft="5dp"
-                android:visibility="gone"
-                android:src="@drawable/eg_book" />
-
-            <TextView
-                android:id="@+id/txt_item_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/img_book"
-                android:padding="7dp"
-                android:textSize="22sp"
-                android:text="语言类"
-                android:textColor="#000" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+          
+        <LinearLayout
+            android:id="@+id/ll_classifyexamlist"
+             android:layout_width="wrap_content"
+                android:layout_height="48dp"
                 android:layout_alignParentRight="true"
-                android:padding="7dp"
-                android:text="新增5份"
-                android:textColor="#666" />
-             <TextView
-                  android:id="@+id/txt_item_count"
+                android:background="@drawable/mm_listitem"
+                android:gravity="bottom"
+                android:padding="2dp"
+                android:clickable="true"
+             >
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/txt_item_count"
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:paddingRight="5dp"
+                android:paddingBottom="5dp"
+                android:text="共44444套"
+                android:textColor="#666"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/img_arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/img_book"
-                android:layout_below="@id/txt_item_title"
-                android:layout_alignParentBottom="true"
-                android:padding="7dp"
-                android:text="共444444套试卷"
-                android:textColor="#666" />
+                android:paddingBottom="2dp"
+                android:paddingRight="4dp"
+                android:layout_marginLeft="-2dp"
+                android:src="@drawable/action_arrow" />
+			</LinearLayout>
+
+        <TextView
+            android:id="@+id/txt_item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:padding="7dp"
+            android:text="语言类"
+            android:textColor="#000000"
+            android:textSize="22sp" />
+
         </RelativeLayout>

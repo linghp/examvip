@@ -9,11 +9,18 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.toolbox.Volley;
+import com.cqvip.mobilevers.exception.ErrorVolleyThrow;
+
 public class BaseListFragment extends Fragment {
 	protected ListView listview;
 	protected View view;
 	LayoutInflater mInflater;
 	protected BaseAdapter mAdapter;
+ 	RequestQueue    mQueue;
+ 	ErrorVolleyThrow  volleyErrorListener;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cqvip.mobilevers.R;
@@ -25,6 +26,7 @@ public class ExamBClassfyAdapter extends AdapterBase<ExamInfo> {
 	protected View getExView(int position, View convertView, ViewGroup parent) {
 		TextView title = null;
 		TextView count = null;
+		ImageView img = null;
 		View v;
 		if(convertView==null){
 			 v = LayoutInflater.from(context).inflate(R.layout.item_b_classfy, null);
