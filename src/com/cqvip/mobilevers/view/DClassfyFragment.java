@@ -159,7 +159,8 @@ public class DClassfyFragment extends BaseListFragment implements OnItemClickLis
 	 					System.out.println("=========result======");
 	 					tempList =	parserJsonData(result,view);
 	 					if(tempList!=null&& !tempList.isEmpty()){
-	 						view.setAdapter(new  ExamBClassfyAdapter(getActivity(), tempList));
+	 						mAdapter=new  ExamBClassfyAdapter(getActivity(), tempList);
+	 						view.setAdapter(mAdapter);
 	 					}
 	 					//更新数据
 	 				}else{

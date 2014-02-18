@@ -18,8 +18,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.cqvip.mobilevers.R;
+import com.cqvip.mobilevers.ui.base.BaseFragmentActivity;
 
-public class ExamActivity extends FragmentActivity implements
+public class ExamActivity extends BaseFragmentActivity implements
 		OnPageChangeListener {
 
 	final static String TAG = "ExamActivity";
@@ -185,6 +186,11 @@ public class ExamActivity extends FragmentActivity implements
 	public void onPageSelected(int position) {
 		Log.i(TAG, "onPageSelected_position:" + position);
 		currentpage = position;
+		if (position == 0) {
+			isLeftFragment = true;
+		} else {
+			isLeftFragment = false;
+		}
 	}
 
 	@Override

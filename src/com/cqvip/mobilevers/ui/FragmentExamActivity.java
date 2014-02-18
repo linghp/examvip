@@ -5,9 +5,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 
+import com.cqvip.mobilevers.R;
+import com.cqvip.mobilevers.ui.base.BaseFragmentActivity;
 import com.cqvip.mobilevers.view.AClassfyFragment;
 
-public class FragmentExamActivity extends FragmentActivity{
+public class FragmentExamActivity extends BaseFragmentActivity{
 
 	private static final String TAG = "FragmentExamActivity";
 	@Override
@@ -31,24 +33,24 @@ public class FragmentExamActivity extends FragmentActivity{
 //	}
 
 	   
-	private void addFragmentToStack(Fragment newFragment,String id) {
-		// mStackLevel++;
-		//	判断下是那个fragment
-
-	        // Instantiate a new fragment.
-
-	        // Add the fragment to the activity, pushing this transaction
-	        // on to the back stack.
-	        replaceContainer(newFragment);
-		
-	}
-	private void replaceContainer(Fragment newFragment) {
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		ft.replace(android.R.id.content, newFragment);
-		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-		ft.addToBackStack(null);
-		ft.commit();
-	}
+//	private void addFragmentToStack(Fragment newFragment,String id) {
+//		// mStackLevel++;
+//		//	判断下是那个fragment
+//
+//	        // Instantiate a new fragment.
+//
+//	        // Add the fragment to the activity, pushing this transaction
+//	        // on to the back stack.
+//	        replaceContainer(newFragment);
+//		
+//	}
+//	private void replaceContainer(Fragment newFragment) {
+//		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//		ft.replace(android.R.id.content, newFragment);
+//		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//		ft.addToBackStack(null);
+//		ft.commit();
+//	}
 //	@Override
 //	public void onItemNextSelected(String id) {
 //		Fragment newFragment = CClassfyFragment.newInstance(id);

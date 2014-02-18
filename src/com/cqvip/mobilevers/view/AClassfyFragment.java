@@ -66,8 +66,9 @@ public class AClassfyFragment extends BaseListFragment implements
 						if (result != null) {
 							tempList = ExamInfo.parserJsonData(result);
 							if (tempList != null && !tempList.isEmpty()) {
-								listview.setAdapter(new ExamAClassfyAdapter(
-										getActivity(), tempList));
+								mAdapter=new ExamAClassfyAdapter(
+										getActivity(), tempList);
+								listview.setAdapter(mAdapter);
 							}
 						} else {
 							Toast.makeText(getActivity(), "无数据",

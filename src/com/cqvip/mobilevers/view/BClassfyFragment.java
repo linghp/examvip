@@ -108,12 +108,19 @@ public class BClassfyFragment extends BaseListFragment implements OnItemClickLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.main_tab_exam, container, false);
+		if (view != null) {
+			ViewGroup parent = (ViewGroup) view.getParent();
+			if (parent != null) {
+				parent.removeView(view);
+			}
+			return view;
+		}
+		view = inflater.inflate(R.layout.main_tab_exam, container, false);
     	//view = inflater.inflate(R.layout.main_tab_exam, null);
-	   	   ListView listview = (ListView) v.findViewById(R.id.lst_next_classy);
+	   	   ListView listview = (ListView) view.findViewById(R.id.lst_next_classy);
 	   	   refreshData(ConstantValues.burl, listview);
 	   	listview.setOnItemClickListener(this);
-        return v;
+        return view;
     }
 
 	private void refreshData(String url, ListView view) {
@@ -159,7 +166,8 @@ public class BClassfyFragment extends BaseListFragment implements OnItemClickLis
 	 					System.out.println("=========result======");
 	 					tempList =	parserJsonData(result,view);
 	 					if(tempList!=null&& !tempList.isEmpty()){
-	 						view.setAdapter(new  ExamBClassfyAdapter(getActivity(), tempList));
+	 						mAdapter=new  ExamBClassfyAdapter(getActivity(), tempList);
+	 						view.setAdapter(mAdapter);
 	 					}
 	 					//更新数据
 	 				}else{
