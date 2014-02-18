@@ -50,9 +50,7 @@ public class CClassfyFragment extends BaseListFragment implements OnItemClickLis
 //		public void onItemCNextSelected(String id) {
 //		}
 //	};
-	
     String mNum;
-
     
 	@Override
 	public void onAttach(Activity activity) {
