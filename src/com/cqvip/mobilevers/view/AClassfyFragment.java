@@ -1,7 +1,5 @@
 package com.cqvip.mobilevers.view;
 
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,57 +18,63 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.Request.Method;
+import com.android.volley.toolbox.Volley;
+import com.android.volley.Response;
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.adapter.ExamAClassfyAdapter;
 import com.cqvip.mobilevers.config.ConstantValues;
 import com.cqvip.mobilevers.entity.ExamInfo;
-import com.cqvip.mobilevers.http.HttpConnect;
+import com.cqvip.mobilevers.exception.ErrorVolleyThrow;
+import com.cqvip.mobilevers.http.VersStringRequest;
 
-public class AClassfyFragment extends BaseListFragment implements OnItemClickListener{
-	
-	
+/**
+ * 获取总分类，fragment
+ * @author luojiang
+ *
+ */
+public class AClassfyFragment extends BaseListFragment implements
+		OnItemClickListener {
+
 	private List<ExamInfo> tempList;
 
-	/**
-	 * The fragment's current callback object, which is notified of list item
-	 * clicks.
-	 */
-	//private Callbacks mCallbacks = sDummyCallbacks;
-	
-
-//	public interface Callbacks {
-//		/**
-//		 * Callback for when an item has been selected.
-//		 */
-//		public void onItemSelected(String id);
-//	}
-
-//	private static Callbacks sDummyCallbacks = new Callbacks() {
-//		@Override
-//		public void onItemSelected(String id) {
-//		}
-//	};
-
-	@Override	
-	public void onCreate(Bundle savedInstanceState) {
-		   super.onCreate(savedInstanceState);
-		  
-		
-	};
-	
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-
-//		// Activities containing this fragment must implement its callbacks.
-//		if (!(activity instanceof Callbacks)) {
-//			throw new IllegalStateException(
-//					"Activity must implement fragment's callbacks.");
-//		}
-//
-//		mCallbacks = (Callbacks) activity;
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		view = inflater.inflate(R.layout.main_tab_exam, null);
+		final ListView listview = (ListView) view
+				.findViewById(R.id.lst_next_classy);
+		String url = ConstantValues.aurl;//获取分类路径
+		getStringDate(listview,url);
+		listview.setOnItemClickListener(this);
+		return view;
 	}
 
+	/**
+	 * 从网络获取书籍
+	 * @param listview
+	 */
+	private void getStringDate(final ListView listview,String url) {
+		mQueue = Volley.newRequestQueue(getActivity());
+		volleyErrorListener = new ErrorVolleyThrow(getActivity(), null);
+		VersStringRequest myReq = new VersStringRequest(Method.GET,
+				url, new Response.Listener<String>() {
+
+					@Override
+					public void onResponse(String result) {
+						System.out.println(result);
+						if (result != null) {
+							tempList = ExamInfo.parserJsonData(result);
+							if (tempList != null && !tempList.isEmpty()) {
+								listview.setAdapter(new ExamAClassfyAdapter(
+										getActivity(), tempList));
+							}
+						} else {
+							Toast.makeText(getActivity(), "无数据",
+									Toast.LENGTH_LONG).show();
+						}
+
+<<<<<<< HEAD
 	@Override
 	public void onDetach() {
 		super.onDetach();
@@ -186,16 +190,14 @@ public class AClassfyFragment extends BaseListFragment implements OnItemClickLis
 						detail.setCount(obj.getString("count"));
 						
 						mtempList.add(detail);
+=======
+>>>>>>> branch 'master' of https://github.com/linghp/examvip.git
 					}
-					System.out.println(mtempList.size());
-					System.out.println(mtempList.toString());
-					return mtempList;
-				}catch(Exception e){
-					e.printStackTrace();
-				}
-				return null;
-			}
+				}, volleyErrorListener);
+		mQueue.add(myReq);
+	}
 
+<<<<<<< HEAD
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
@@ -207,4 +209,15 @@ public class AClassfyFragment extends BaseListFragment implements OnItemClickLis
 				Toast.makeText(getActivity(), "11", 1).show();
 			}
 			
+=======
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+
+		Fragment newFragment = BClassfyFragment.newInstance(tempList.get(
+				position).getId());
+		addFragmentToStack(newFragment, android.R.id.content);
+	}
+
+>>>>>>> branch 'master' of https://github.com/linghp/examvip.git
 }

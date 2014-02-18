@@ -6,6 +6,8 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.view.View;
+
 public class ExamInfo {
 	
 	private String id;
@@ -35,12 +37,13 @@ public class ExamInfo {
 				+ "]";
 	}
 	
+	
 
 	public static List<ExamInfo> parserJsonData(String data){
 		List<ExamInfo> mtempList=new ArrayList<ExamInfo>();
 		try{
 			JSONObject js = new JSONObject(data);
-			JSONArray arrayList= js.getJSONArray("users1");
+			JSONArray arrayList= js.getJSONArray("users");
 			for(int i=0;i<arrayList.length();i++){
 				JSONObject obj=arrayList.getJSONObject(i);
 				ExamInfo detail=new ExamInfo();
@@ -50,8 +53,8 @@ public class ExamInfo {
 				
 				mtempList.add(detail);
 			}
-			System.out.println(mtempList.size());
-			System.out.println(mtempList.toString());
+			//System.out.println(mtempList.size());
+			//System.out.println(mtempList.toString());
 			return mtempList;
 		}catch(Exception e){
 			e.printStackTrace();

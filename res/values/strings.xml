@@ -13,5 +13,8 @@
     <string name="title_section2">模拟试题</string>
     <string name="title_activity_exam_detail">ExamDetailActivity</string>
     <string name="title_activity_test_exam">TestExamActivity</string>
+    <string name="generic_server_down">服务器无响应</string>
+    <string name="no_internet">无网络连接</string>
+    <string name="generic_error">连接错误</string>
 
 </resources>

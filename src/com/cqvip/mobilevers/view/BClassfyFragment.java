@@ -1,15 +1,9 @@
 package com.cqvip.mobilevers.view;
 
-
-
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import android.app.Activity;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -22,68 +16,80 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request.Method;
+import com.android.volley.Response.Listener;
+import com.android.volley.toolbox.Volley;
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.adapter.ExamBClassfyAdapter;
 import com.cqvip.mobilevers.config.ConstantValues;
 import com.cqvip.mobilevers.entity.ExamInfo;
-import com.cqvip.mobilevers.http.HttpConnect;
+import com.cqvip.mobilevers.exception.ErrorVolleyThrow;
+import com.cqvip.mobilevers.http.VersStringRequest;
 
-public class BClassfyFragment extends BaseListFragment implements OnItemClickListener{
-	
-	
-	
+/**
+ * 获取二级分类
+ * 
+ * @author luojiang
+ * 
+ */
+public class BClassfyFragment extends BaseListFragment implements
+		OnItemClickListener {
+
 	private List<ExamInfo> tempList;
+<<<<<<< HEAD
+=======
+
+	String mNum;
+
+	private Map<String, String> params;
+
+	public static BClassfyFragment newInstance(String num) {
+		BClassfyFragment f = new BClassfyFragment();
+
+		Bundle args = new Bundle();
+		args.putString("num", num);
+		f.setArguments(args);
+
+		return f;
+	}
+
+>>>>>>> branch 'master' of https://github.com/linghp/examvip.git
 	/**
-	 * The fragment's current callback object, which is notified of list item
-	 * clicks.
+	 * When creating, retrieve this instance's number from its arguments.
 	 */
-//	private NextCallbacks mCallbacks = sDummyCallbacks;
-//	
-//	public interface NextCallbacks {
-//		/**
-//		 * Callback for when an item has been selected.
-//		 */
-//		public void onItemNextSelected(String id);
-//	}
-//
-//	private static NextCallbacks sDummyCallbacks = new NextCallbacks() {
-//		@Override
-//		public void onItemNextSelected(String id) {
-//		}
-//	};
-	
-    String mNum;
-
-    
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-
-		// Activities containing this fragment must implement its callbacks.
-//		if (!(activity instanceof Callbacks)) {
-//			throw new IllegalStateException(
-//					"Activity must implement fragment's callbacks.");
-//		}
-
-		//mCallbacks = (NextCallbacks) activity;
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		mNum = getArguments() != null ? getArguments().getString("num")
+				: 0 + "";
+		// 获取数据
 	}
 
+	/**
+	 * The Fragment's UI is just a simple text view showing its instance number.
+	 */
 	@Override
-	public void onDetach() {
-		super.onDetach();
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View v = inflater.inflate(R.layout.main_tab_exam, container, false);
+	    listview = (ListView) v.findViewById(R.id.lst_next_classy);
 
-		// Reset the active callbacks interface to the dummy implementation.
-	//	mCallbacks = sDummyCallbacks;
+		params = new HashMap<String, String>();
+		params.put("id", mNum);
+		getStringDate(ConstantValues.burl, listview);
+
+		listview.setOnItemClickListener(this);
+		return v;
 	}
 
-    
-    /**
-     * Create a new instance of CountingFragment, providing "num"
-     * as an argument.
-     */
-    public static BClassfyFragment newInstance(String num) {
-    	BClassfyFragment f = new BClassfyFragment();
+	private void getStringDate(String url, final ListView listview) {
+		mQueue = Volley.newRequestQueue(getActivity());
+		volleyErrorListener = new ErrorVolleyThrow(getActivity(), null);
+		VersStringRequest myReq = new VersStringRequest(Method.GET, url,
+				backlistener, volleyErrorListener) {
 
+<<<<<<< HEAD
         // Supply num input as an argument.
         Bundle args = new Bundle();
         args.putString("num", num);
@@ -218,15 +224,63 @@ public class BClassfyFragment extends BaseListFragment implements OnItemClickLis
 					e.printStackTrace();
 				}
 				return null;
+=======
+			@Override
+			protected Map<String, String> getParams() throws AuthFailureError {
+				return params;
+>>>>>>> branch 'master' of https://github.com/linghp/examvip.git
 			}
+		};
+		mQueue.add(myReq);
+	}
+
+	private Listener<String> backlistener = new Listener<String>() {
+		@Override
+		public void onResponse(String response) {
+			System.out.println(response);
+			if (response != null) {
+				tempList = ExamInfo.parserJsonData(response);
+				if (tempList != null && !tempList.isEmpty()) {
+					listview.setAdapter(new ExamBClassfyAdapter(getActivity(),
+							tempList));
+				}
+			} else {
+				Toast.makeText(getActivity(), "无数据", Toast.LENGTH_LONG).show();
+			}
+
+		}
+	};
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
+<<<<<<< HEAD
 		Fragment newFragment = CClassfyFragment.newInstance(tempList.get(position).getId());
 		//mCallbacks.onItemNextSelected(tempList.get(position).getId());
 		addFragmentToStack(newFragment,R.id.simple_fragment);
 		Toast.makeText(getActivity(), "11", 1).show();
+=======
+		// mCallbacks.onItemNextSelected(tempList.get(position).getId());
+		
+		Fragment newFragment = CClassfyFragment.newInstance(tempList.get(
+				position).getId());
+		addFragmentToStack(newFragment, android.R.id.content);
+//		if(isNochildren()){
+//			
+//			Fragment newFragment = DClassfyFragment.newInstance(tempList.get(
+//					position).getId());
+//			addFragmentToStack(newFragment, android.R.id.content);
+//		}else{
+//			Fragment newFragment = BClassfyFragment.newInstance(tempList.get(
+//					position).getId());
+//			addFragmentToStack(newFragment, android.R.id.content);
+//		}
+	}
+
+	private boolean isNochildren() {
+		
+		return false;
+>>>>>>> branch 'master' of https://github.com/linghp/examvip.git
 	}
 
 }
