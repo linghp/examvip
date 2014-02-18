@@ -82,7 +82,6 @@ public class AClassfyFragment extends BaseListFragment implements
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-
 		Fragment newFragment = BClassfyFragment.newInstance(tempList.get(
 				position).getId());
 		addFragmentToStack(newFragment, android.R.id.content);
