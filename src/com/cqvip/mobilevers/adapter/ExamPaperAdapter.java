@@ -10,13 +10,13 @@ import android.widget.TextView;
 
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.adapter.base.AdapterBase;
-import com.cqvip.mobilevers.entity.ExamInfo;
+import com.cqvip.mobilevers.entity.PaperInfo;
 
-public class ExamPaperAdapter extends AdapterBase<ExamInfo>{
+public class ExamPaperAdapter extends AdapterBase<PaperInfo>{
 
 private LayoutInflater inflater;
 	
-	public ExamPaperAdapter (LayoutInflater inflater,List<ExamInfo> lists) {
+	public ExamPaperAdapter (LayoutInflater inflater,List<PaperInfo> lists) {
 		this.inflater = inflater;
 		this.mList = lists;
 	}
@@ -30,8 +30,8 @@ private LayoutInflater inflater;
 			 v = inflater.inflate(R.layout.item_paper, null);
 			title = (TextView) v.findViewById(R.id.txt_item_title);
 			count = (TextView) v.findViewById(R.id.txt_item_count);
-			title.setText(mList.get(position).getTitle());
-			count.setText(mList.get(position).getCount());
+			title.setText(mList.get(position).getTitile());
+			count.setText(mList.get(position).getItemcount());
 		}else{
 			v = convertView;
 		}

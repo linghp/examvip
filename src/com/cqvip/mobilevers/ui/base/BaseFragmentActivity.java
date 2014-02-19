@@ -2,8 +2,10 @@ package com.cqvip.mobilevers.ui.base;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.GestureDetector;
@@ -16,11 +18,10 @@ public class BaseFragmentActivity extends FragmentActivity {
 	protected GestureDetector mGestureDetector;
 	private FragmentManager fManager;
 	protected boolean isLeftFragment=true;//判断viewpager是否滑动到最左边的fragment
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//requestWindowFeature(Window.FEATURE_NO_TITLE);
 		mGestureDetector = new GestureDetector(this,
 				new MyGestrueListener(this));
 		fManager=getSupportFragmentManager();
@@ -77,4 +78,11 @@ public class BaseFragmentActivity extends FragmentActivity {
 		}
 	}
 	
+	public void addFragmentToStack(Fragment newFragment,int layoutid) {
+		FragmentTransaction ft = fManager.beginTransaction();
+		ft.replace(layoutid, newFragment);
+		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+		ft.addToBackStack(null);
+		ft.commit();
+	}
 }

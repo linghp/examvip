@@ -60,7 +60,6 @@
                     android:layout_marginLeft="@dimen/examtop_margininner"
                     android:clickable="true"
                     android:gravity="center_horizontal"
-                    android:onClick="addFragmentToStack"
                     android:orientation="vertical" >
 
                     <ImageView
