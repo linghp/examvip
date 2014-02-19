@@ -1,4 +1,4 @@
-package com.cqvip.mobilevers.ui;
+package com.cqvip.mobilevers.view;
 
 import android.content.Context;
 import android.os.Bundle;

@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,10 +38,17 @@ public class AClassfyFragment extends BaseListFragment implements
 		OnItemClickListener {
 
 	private List<ExamInfo> tempList;
+	final static String TAG="AClassfyFragment";
 
+	
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		if(reuseView()) {
+			return view;
+		}
+		Log.i(TAG, "onCreateView");
 		view = inflater.inflate(R.layout.main_tab_exam, null);
 		final ListView listview = (ListView) view
 				.findViewById(R.id.lst_next_classy);
@@ -50,6 +58,47 @@ public class AClassfyFragment extends BaseListFragment implements
 		return view;
 	}
 
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onActivityCreated(savedInstanceState);
+		Log.i(TAG, "onActivityCreated");
+	}
+	
+	@Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		Log.i(TAG, "onPause");
+	}
+	
+	@Override
+	public void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		Log.i(TAG, "onStop");
+	}
+	
+	@Override
+	public void onDestroyView() {
+		// TODO Auto-generated method stub
+		super.onDestroyView();
+		Log.i(TAG, "onDestroyView");
+	}
+	
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		Log.i(TAG, "onDestroy");
+	}
+	
+	@Override
+	public void onDetach() {
+		// TODO Auto-generated method stub
+		super.onDetach();
+		Log.i(TAG, "onDetach");
+	}
 	/**
 	 * 从网络获取书籍
 	 * @param listview

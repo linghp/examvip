@@ -45,7 +45,7 @@ public class BaseFragmentActivity extends FragmentActivity {
 					"velocityY" + velocityY + "--velocityX" + velocityX
 							+ "  y/x" + (e2.getY() - e1.getY())
 							/ (e2.getX() - e1.getX()));
-			if (Math.abs(velocityX) > minVelocitx
+			if (isLeftFragment&&Math.abs(velocityX) > minVelocitx
 					&& Math.abs(velocityX) > 1.5 * Math.abs(velocityY)
 					&& Math.abs(e2.getY() - e1.getY())
 							/ Math.abs(e2.getX() - e1.getX()) < 0.36// 角度<20度

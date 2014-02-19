@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.ui.base.BaseFragmentActivity;
+import com.cqvip.mobilevers.view.FragmentAnswerScard;
 
 public class ExamActivity extends BaseFragmentActivity implements
 		OnPageChangeListener {

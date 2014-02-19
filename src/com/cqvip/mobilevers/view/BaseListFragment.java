@@ -35,11 +35,31 @@ public class BaseListFragment extends Fragment {
 		
 	}
 
+	/**
+	 * 添加fragment到栈
+	 * @param newFragment fragment 
+	 * @return return void
+	 */
 	protected void addFragmentToStack(Fragment newFragment,int layoutid) {
 		FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
 		ft.replace(layoutid, newFragment);
 		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 		ft.addToBackStack(null);
 		ft.commit();
+	}
+	
+	/**
+	 * 当回退后，fragment会执行oncreateview方法，这时会重新加载视图和获取网络数据，没有必要
+	 * @return
+	 */
+	protected boolean reuseView(){
+		if (view != null) {
+			ViewGroup parent = (ViewGroup) view.getParent();
+			if (parent != null) {
+				parent.removeView(view);
+			}
+			return true;
+		}
+		return false;
 	}
 }

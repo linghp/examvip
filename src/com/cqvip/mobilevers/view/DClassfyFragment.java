@@ -108,12 +108,15 @@ public class DClassfyFragment extends BaseListFragment implements OnItemClickLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.main_tab_exam, container, false);
+		if(reuseView()) {
+			return view;
+		}
+		view = inflater.inflate(R.layout.main_tab_exam, container, false);
     	//view = inflater.inflate(R.layout.main_tab_exam, null);
-	   	   ListView listview = (ListView) v.findViewById(R.id.lst_next_classy);
+	   	   ListView listview = (ListView) view.findViewById(R.id.lst_next_classy);
 	   	   refreshData(ConstantValues.durl, listview);
 	   	listview.setOnItemClickListener(this);
-        return v;
+        return view;
     }
 
 	private void refreshData(String url, ListView view) {

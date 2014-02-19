@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,7 @@ public class BClassfyFragment extends BaseListFragment implements OnItemClickLis
 	
 	
 	private List<ExamInfo> tempList;
-
+	final static String TAG="BClassfyFragment";
 	/**
 	 * The fragment's current callback object, which is notified of list item
 	 * clicks.
@@ -68,11 +69,38 @@ public class BClassfyFragment extends BaseListFragment implements OnItemClickLis
 	}
 
 	@Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		Log.i(TAG, "onPause");
+	}
+	
+	@Override
+	public void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		Log.i(TAG, "onStop");
+	}
+	
+	@Override
+	public void onDestroyView() {
+		// TODO Auto-generated method stub
+		super.onDestroyView();
+		Log.i(TAG, "onDestroyView");
+	}
+	
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		Log.i(TAG, "onDestroy");
+	}
+	
+	@Override
 	public void onDetach() {
+		// TODO Auto-generated method stub
 		super.onDetach();
-
-		// Reset the active callbacks interface to the dummy implementation.
-	//	mCallbacks = sDummyCallbacks;
+		Log.i(TAG, "onDetach");
 	}
 
     
@@ -108,11 +136,7 @@ public class BClassfyFragment extends BaseListFragment implements OnItemClickLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-		if (view != null) {
-			ViewGroup parent = (ViewGroup) view.getParent();
-			if (parent != null) {
-				parent.removeView(view);
-			}
+		if(reuseView()) {
 			return view;
 		}
 		view = inflater.inflate(R.layout.main_tab_exam, container, false);
