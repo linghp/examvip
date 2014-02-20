@@ -22,7 +22,7 @@ import com.cqvip.mobilevers.ui.base.BaseFragmentActivity;
 import com.cqvip.mobilevers.view.FragmentAnswerScard;
 
 public class ExamActivity extends BaseFragmentActivity implements
-		OnPageChangeListener {
+		OnPageChangeListener, OnClickListener {
 
 	final static String TAG = "ExamActivity";
 	static final int NUM_ITEMS = 10;
@@ -49,9 +49,8 @@ public class ExamActivity extends BaseFragmentActivity implements
 		mPager.setOnPageChangeListener(this);
 		mPager.setAdapter(mAdapter);
 		// mPager.setOffscreenPageLimit(5);
-		// ViewGroup answercard=(ViewGroup) view.
-		// findViewById(R.id.answercard_ll);
-		// answercard.setOnClickListener(this);
+		ViewGroup answercard = (ViewGroup) findViewById(R.id.answercard_ll);
+		answercard.setOnClickListener(this);
 		Button button = (Button) findViewById(R.id.goto_first);
 		button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -79,24 +78,24 @@ public class ExamActivity extends BaseFragmentActivity implements
 	// }
 	// }
 
-	public void addFragmentToStack(View v) {
-
-		// Instantiate a new fragment.
-		Fragment newFragment = new FragmentAnswerScard();
-
-		// Add the fragment to the activity, pushing this transaction
-		// on to the back stack.
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		// ft.setCustomAnimations(R.anim.slide_right_in,
-		// 0,
-		// R.anim.slide_right_out,
-		// 0);
-		ft.replace(R.id.exam_fl, newFragment);
-		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-		ft.addToBackStack(null);
-		ft.commit();
-		// startActivity(new Intent(this, FragmentMineActivity.class));
-	}
+//	public void addFragmentToStack(View v) {
+//
+//		// Instantiate a new fragment.
+//		Fragment newFragment = new FragmentAnswerScard();
+//
+//		// Add the fragment to the activity, pushing this transaction
+//		// on to the back stack.
+//		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//		// ft.setCustomAnimations(R.anim.slide_right_in,
+//		// 0,
+//		// R.anim.slide_right_out,
+//		// 0);
+//		ft.replace(R.id.exam_fl, newFragment);
+//		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//		ft.addToBackStack(null);
+//		ft.commit();
+//		// startActivity(new Intent(this, FragmentMineActivity.class));
+//	}
 
 	public static class MyAdapter extends FragmentStatePagerAdapter {
 		private Context context;
@@ -198,5 +197,18 @@ public class ExamActivity extends BaseFragmentActivity implements
 	public void onPageScrollStateChanged(int state) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void onClick(View v) {
+	switch (v.getId()) {
+	case R.id.answercard_ll:
+		Fragment newFragment = new FragmentAnswerScard();
+		addFragmentToStack(newFragment,R.id.exam_fl );
+		break;
+
+	default:
+		break;
+	}
 	}
 }

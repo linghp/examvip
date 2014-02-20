@@ -2,20 +2,18 @@ package com.cqvip.mobilevers.ui;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.zip.Inflater;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,11 +27,13 @@ import android.widget.Toast;
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.adapter.ExamPaperAdapter;
 import com.cqvip.mobilevers.config.ConstantValues;
-import com.cqvip.mobilevers.entity.ExamInfo;
 import com.cqvip.mobilevers.entity.Paper;
+import com.cqvip.mobilevers.entity.PaperInfo;
 import com.cqvip.mobilevers.http.HttpConnect;
+import com.cqvip.mobilevers.ui.base.BaseFragmentActivity;
+import com.cqvip.mobilevers.view.ExamDetailFragment;
 
-public class ExamClassfyActivity extends FragmentActivity implements
+public class ExamClassfyActivity extends BaseFragmentActivity implements
 		ActionBar.TabListener {
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -49,8 +49,8 @@ public class ExamClassfyActivity extends FragmentActivity implements
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
-	private static List<ExamInfo>  reallists;
-	private static List<ExamInfo>  simulatelists;
+	private static List<PaperInfo>  reallists;
+	private static List<PaperInfo>  simulatelists;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +58,7 @@ public class ExamClassfyActivity extends FragmentActivity implements
 		setContentView(R.layout.activity_exam_classfy);
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
+		Log.i("ExamClassfyActivity", actionBar+"");
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionBar.setTitle("试卷列表");
 		// Show the Up button in the action bar.
@@ -79,7 +80,13 @@ public class ExamClassfyActivity extends FragmentActivity implements
 				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 					@Override
 					public void onPageSelected(int position) {
+						Log.i("ExamClassfyActivity", "onPageSelected");
 						actionBar.setSelectedNavigationItem(position);
+						if (position == 0) {
+							isLeftFragment = true;
+						} else {
+							isLeftFragment = false;
+						}
 					}
 				});
 		// For each of the sections in the app, add a tab to the action bar.
@@ -211,12 +218,13 @@ public class ExamClassfyActivity extends FragmentActivity implements
 			int select = getArguments().getInt(ARG_SECTION_NUMBER);
 			switch (select) {
 			case 1:
-				Toast.makeText(getActivity(), ""+reallists.get(position).getTitle(), 1).show();
-				startActivity(new Intent(getActivity(),ExamDetailActivity.class));
+				Toast.makeText(getActivity(), ""+reallists.get(position).getTitile(), 1).show();
+				//startActivity(new Intent(getActivity(),ExamDetailActivity.class));
+				((ExamClassfyActivity)getActivity()).addFragmentToStack(new ExamDetailFragment(), android.R.id.content);
 				break;
 			case 2:
-				Toast.makeText(getActivity(), ""+simulatelists.get(position).getTitle(), 1).show();
-				startActivity(new Intent(getActivity(),ExamDetailActivity.class));
+				Toast.makeText(getActivity(), ""+simulatelists.get(position).getTitile(), 1).show();
+				((ExamClassfyActivity)getActivity()).addFragmentToStack(new ExamDetailFragment(), android.R.id.content);
 				break;
 
 			default:
@@ -273,7 +281,7 @@ public class ExamClassfyActivity extends FragmentActivity implements
 					if(p!=null){
 					switch (type) {
 					case 1:
-						List<ExamInfo> list_r = p.getReal();
+						List<PaperInfo> list_r = p.getReal();
 						System.out.println(list_r);
 						if(list_r!=null&& !list_r.isEmpty()){
 							ExamPaperAdapter adapter =	new  ExamPaperAdapter(inflater, list_r);
@@ -283,7 +291,7 @@ public class ExamClassfyActivity extends FragmentActivity implements
 					}		
 						break;
 					case 2:
-						List<ExamInfo> list_s = p.getSimulate();
+						List<PaperInfo> list_s = p.getSimulate();
 						System.out.println(list_s);
 						if(list_s!=null&& !list_s.isEmpty()){
 							ExamPaperAdapter adapter =	new  ExamPaperAdapter(inflater, list_s);

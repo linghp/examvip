@@ -52,15 +52,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.cqvip.mobilevers.ui.FragmentExamActivity" />
         </activity>
-        <activity
-            android:name="com.cqvip.mobilevers.ui.ExamDetailActivity"
-            android:label="@string/title_activity_exam_detail"
-            android:parentActivityName="com.cqvip.mobilevers.ui.ExamClassfyActivity"
-            android:theme="@android:style/Theme.Holo" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.cqvip.mobilevers.ui.ExamClassfyActivity" />
-        </activity>
+
         <activity
             android:name="com.cqvip.mobilevers.ui.ExamActivity"
             android:label="@string/title_activity_test_exam" >

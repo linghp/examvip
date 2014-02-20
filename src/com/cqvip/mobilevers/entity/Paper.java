@@ -8,18 +8,18 @@ import org.json.JSONObject;
 
 public class Paper {
 	
-	private List<ExamInfo> real;
-	private List<ExamInfo> simulate;
-	public List<ExamInfo> getReal() {
+	private List<PaperInfo> real;
+	private List<PaperInfo> simulate;
+	public List<PaperInfo> getReal() {
 		return real;
 	}
-	public void setReal(List<ExamInfo> real) {
+	public void setReal(List<PaperInfo> real) {
 		this.real = real;
 	}
-	public List<ExamInfo> getSimulate() {
+	public List<PaperInfo> getSimulate() {
 		return simulate;
 	}
-	public void setSimulate(List<ExamInfo> simulate) {
+	public void setSimulate(List<PaperInfo> simulate) {
 		this.simulate = simulate;
 	}
 
@@ -30,11 +30,11 @@ public class Paper {
 			JSONArray array= js.getJSONArray("result");
 			//真题
 			JSONObject obj1=array.getJSONObject(0);
-			p.setReal(parserData(obj1, "users1"));
+			p.setReal(parserData(obj1, "real"));
 			
 			//模拟题
 			JSONObject obj2=array.getJSONObject(1);
-			p.setSimulate(parserData(obj2, "users2"));			
+			p.setSimulate(parserData(obj2, "simulate"));			
 		
 			return p;
 		}catch(Exception e){
@@ -43,17 +43,17 @@ public class Paper {
 		return null;
 	}
 	
-	public static List<ExamInfo> parserData(JSONObject data,String tag){
-		List<ExamInfo> mtempList=new ArrayList<ExamInfo>();
+	public static List<PaperInfo> parserData(JSONObject data,String tag){
+		List<PaperInfo> mtempList=new ArrayList<PaperInfo>();
 		try{
 			
 			JSONArray arrayList= data.getJSONArray(tag);
 			for(int i=0;i<arrayList.length();i++){
 				JSONObject obj=arrayList.getJSONObject(i);
-				ExamInfo detail=new ExamInfo();
-				detail.setId(obj.getString("id"));
-				detail.setTitle(obj.getString("title"));
-				detail.setCount(obj.getString("count"));
+				PaperInfo detail=new PaperInfo();
+				detail.setSubjectid(obj.getString("subjectid"));
+				detail.setTitile(obj.getString("titile"));
+				detail.setItemcount(obj.getString("itemcount"));
 				
 				mtempList.add(detail);
 			}
