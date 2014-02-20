@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.GestureDetector.SimpleOnGestureListener;
@@ -12,7 +13,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.Window;
 
-public class BaseFragmentActivity extends FragmentActivity {
+public class BaseFragmentActivity extends FragmentActivity implements OnBackStackChangedListener{
 
 	private static final String TAG = "BaseFragmentActivity";
 	protected GestureDetector mGestureDetector;
@@ -25,6 +26,7 @@ public class BaseFragmentActivity extends FragmentActivity {
 		mGestureDetector = new GestureDetector(this,
 				new MyGestrueListener(this));
 		fManager=getSupportFragmentManager();
+		fManager.addOnBackStackChangedListener(this);
 	}
 
 	class MyGestrueListener extends SimpleOnGestureListener {
@@ -84,5 +86,21 @@ public class BaseFragmentActivity extends FragmentActivity {
 		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 		ft.addToBackStack(null);
 		ft.commit();
+	}
+
+	boolean temp=true;
+	@Override
+	public void onBackStackChanged() {
+		
+	if(fManager.getBackStackEntryCount()>0){
+		if(isLeftFragment){
+			
+		}else{
+			temp=isLeftFragment;
+			isLeftFragment=true;
+		}
+	}else{
+		isLeftFragment=temp;
+	}
 	}
 }

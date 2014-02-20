@@ -9,8 +9,7 @@
     <string name="title_activity_main_search">MainSearchActivity</string>
     <string name="title_activity_exam_paper">ExamPaperActivity</string>
     <string name="title_activity_exam_classfy">ExamClassfyActivity</string>
-    <string name="title_section1">全真试题</string>
-    <string name="title_section2">模拟试题</string>
+
     <string name="title_activity_exam_detail">ExamDetailActivity</string>
     <string name="title_activity_test_exam">TestExamActivity</string>
     <string name="generic_server_down">服务器无响应</string>

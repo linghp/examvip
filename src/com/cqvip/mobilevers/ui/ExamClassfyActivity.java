@@ -13,15 +13,22 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.cqvip.mobilevers.R;
@@ -49,6 +56,14 @@ public class ExamClassfyActivity extends BaseFragmentActivity implements
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
+	
+	private RadioGroup rg_nav_content;
+	private ImageView iv_nav_indicator;
+	private String[] tabTitle; // 标题
+	private LayoutInflater mInflater;
+	private int indicatorWidth;
+	private int currentIndicatorLeft = 0;
+	
 	private static List<PaperInfo>  reallists;
 	private static List<PaperInfo>  simulatelists;
 
@@ -59,11 +74,26 @@ public class ExamClassfyActivity extends BaseFragmentActivity implements
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		Log.i("ExamClassfyActivity", actionBar+"");
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		//actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionBar.setTitle("试卷列表");
 		// Show the Up button in the action bar.
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
+		mInflater = (LayoutInflater) this
+				.getSystemService(LAYOUT_INFLATER_SERVICE);
+		rg_nav_content = (RadioGroup) findViewById(R.id.rg_nav_content);
+		iv_nav_indicator = (ImageView) findViewById(R.id.iv_nav_indicator);
+		tabTitle=getResources().getStringArray(R.array.tabtitle);
+		DisplayMetrics dm = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		indicatorWidth = dm.widthPixels / tabTitle.length;
+		// TODO step0 初始化滑动下标的宽 根据屏幕宽度和可见数量 来设置RadioButton的宽度)
+		LayoutParams cursor_Params = iv_nav_indicator.getLayoutParams();
+		cursor_Params.width = indicatorWidth;// 初始化滑动下标的宽
+		iv_nav_indicator.setLayoutParams(cursor_Params);
+		initNavigationHSV();
+		
+		
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
 		mSectionsPagerAdapter = new SectionsPagerAdapter(
@@ -81,7 +111,13 @@ public class ExamClassfyActivity extends BaseFragmentActivity implements
 					@Override
 					public void onPageSelected(int position) {
 						Log.i("ExamClassfyActivity", "onPageSelected");
-						actionBar.setSelectedNavigationItem(position);
+					//	actionBar.setSelectedNavigationItem(position);
+						// RadioButton点击 performClick()
+						if (rg_nav_content != null
+								&& rg_nav_content.getChildCount() > position) {
+							((RadioButton) rg_nav_content.getChildAt(position))
+									.performClick();
+						}
 						if (position == 0) {
 							isLeftFragment = true;
 						} else {
@@ -89,6 +125,32 @@ public class ExamClassfyActivity extends BaseFragmentActivity implements
 						}
 					}
 				});
+		
+		rg_nav_content
+		.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(RadioGroup group, int checkedId) {
+				if (rg_nav_content.getChildAt(checkedId) != null) {
+					// 滑动动画
+					TranslateAnimation animation = new TranslateAnimation(
+							currentIndicatorLeft,
+							((RadioButton) rg_nav_content
+									.getChildAt(checkedId)).getLeft(),
+							0f, 0f);
+					animation.setInterpolator(new LinearInterpolator());
+					animation.setDuration(100);
+					animation.setFillAfter(true);
+					// 滑块执行位移动画
+					iv_nav_indicator.startAnimation(animation);
+					mViewPager.setCurrentItem(checkedId); // ViewPager
+															// 跟随一起 切换
+					// 记录当前 下标的距最左侧的 距离
+					currentIndicatorLeft = ((RadioButton) rg_nav_content
+							.getChildAt(checkedId)).getLeft();
+				}
+			}
+		});
+		
 		// For each of the sections in the app, add a tab to the action bar.
 		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
 			// Create a tab with t	ext corresponding to the page title defined by
@@ -102,6 +164,22 @@ public class ExamClassfyActivity extends BaseFragmentActivity implements
 		
 	}
 
+	private void initNavigationHSV() {
+		rg_nav_content.removeAllViews();
+		for (int i = 0; i < tabTitle.length; i++) {
+			RadioButton rb = (RadioButton) mInflater.inflate(
+					R.layout.nav_radiogroup_item, null);
+			if (i == 0) {
+				rb.setChecked(true);
+			}
+			rb.setId(i);
+			rb.setText(tabTitle[i]);
+			rb.setLayoutParams(new LayoutParams(indicatorWidth,
+					LayoutParams.MATCH_PARENT));
+			rg_nav_content.addView(rb);
+		}
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -169,20 +247,20 @@ public class ExamClassfyActivity extends BaseFragmentActivity implements
 		@Override
 		public int getCount() {
 			// Show 3 total pages.
-			return 2;
+			return tabTitle.length;
 		}
 
-		@Override
-		public CharSequence getPageTitle(int position) {
-			Locale l = Locale.getDefault();
-			switch (position) {
-			case 0:
-				return getString(R.string.title_section1).toUpperCase(l);
-			case 1:
-				return getString(R.string.title_section2).toUpperCase(l);
-			}
-			return null;
-		}
+//		@Override
+//		public CharSequence getPageTitle(int position) {
+//			Locale l = Locale.getDefault();
+//			switch (position) {
+//			case 0:
+//				return getString(R.string.title_section1).toUpperCase(l);
+//			case 1:
+//				return getString(R.string.title_section2).toUpperCase(l);
+//			}
+//			return null;
+//		}
 	}
 
 	/**
@@ -220,11 +298,11 @@ public class ExamClassfyActivity extends BaseFragmentActivity implements
 			case 1:
 				Toast.makeText(getActivity(), ""+reallists.get(position).getTitile(), 1).show();
 				//startActivity(new Intent(getActivity(),ExamDetailActivity.class));
-				((ExamClassfyActivity)getActivity()).addFragmentToStack(new ExamDetailFragment(), android.R.id.content);
+				((ExamClassfyActivity)getActivity()).addFragmentToStack(new ExamDetailFragment(), R.id.itemlist_fl);
 				break;
 			case 2:
 				Toast.makeText(getActivity(), ""+simulatelists.get(position).getTitile(), 1).show();
-				((ExamClassfyActivity)getActivity()).addFragmentToStack(new ExamDetailFragment(), android.R.id.content);
+				((ExamClassfyActivity)getActivity()).addFragmentToStack(new ExamDetailFragment(), R.id.itemlist_fl);
 				break;
 
 			default:
