@@ -1,11 +1,9 @@
 package com.cqvip.mobilevers.ui;
 
 import java.util.List;
-import java.util.Locale;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -41,7 +39,7 @@ import com.cqvip.mobilevers.ui.base.BaseFragmentActivity;
 import com.cqvip.mobilevers.view.ExamDetailFragment;
 
 public class ExamClassfyActivity extends BaseFragmentActivity implements
-		ActionBar.TabListener {
+		ActionBar.TabListener{
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
 	 * fragments for each of the sections. We use a
@@ -50,12 +48,13 @@ public class ExamClassfyActivity extends BaseFragmentActivity implements
 	 * intensive, it may be best to switch to a
 	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
 	 */
-	SectionsPagerAdapter mSectionsPagerAdapter;
+	private SectionsPagerAdapter mSectionsPagerAdapter;
 
 	/**
 	 * The {@link ViewPager} that will host the section contents.
 	 */
-	ViewPager mViewPager;
+	private ViewPager mViewPager;
+	private int position;
 	
 	private RadioGroup rg_nav_content;
 	private ImageView iv_nav_indicator;
@@ -113,6 +112,7 @@ public class ExamClassfyActivity extends BaseFragmentActivity implements
 						Log.i("ExamClassfyActivity", "onPageSelected");
 					//	actionBar.setSelectedNavigationItem(position);
 						// RadioButton点击 performClick()
+						ExamClassfyActivity.this.position=position;
 						if (rg_nav_content != null
 								&& rg_nav_content.getChildCount() > position) {
 							((RadioButton) rg_nav_content.getChildAt(position))
