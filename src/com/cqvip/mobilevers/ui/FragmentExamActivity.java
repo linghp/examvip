@@ -1,5 +1,6 @@
 package com.cqvip.mobilevers.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -8,8 +9,9 @@ import android.support.v4.app.FragmentTransaction;
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.ui.base.BaseFragmentActivity;
 import com.cqvip.mobilevers.view.AClassfyFragment;
+import com.cqvip.mobilevers.view.DClassfyFragment.NextCallbacks;
 
-public class FragmentExamActivity extends BaseFragmentActivity{
+public class FragmentExamActivity extends BaseFragmentActivity implements NextCallbacks{
 
 	private static final String TAG = "FragmentExamActivity";
 	@Override
@@ -67,6 +69,10 @@ public class FragmentExamActivity extends BaseFragmentActivity{
 //		startActivity(new Intent(this,ExamClassfyActivity.class));
 //	}
 
-
+	@Override
+	public void onItemDNextSelected(String id) {
+		startActivity(new Intent(FragmentExamActivity.this,ExamClassfyActivity.class));
+		overridePendingTransition(R.anim.slide_right_in, R.anim.slide_left_out);
+	}
 	
 }

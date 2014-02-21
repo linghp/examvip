@@ -1,5 +1,7 @@
 package com.cqvip.mobilevers.ui.base;
 
+import com.cqvip.mobilevers.R;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -67,6 +69,7 @@ public class BaseFragmentActivity extends FragmentActivity implements
 				fManager.popBackStack();
 			} else {
 				finish();
+				overridePendingTransition(R.anim.slide_left_in,R.anim.slide_right_out);
 			}
 		}
 	}

@@ -19,6 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
@@ -161,6 +163,9 @@ public class ExamClassfyActivity extends BaseFragmentActivity implements
 					.setText(mSectionsPagerAdapter.getPageTitle(i))
 					.setTabListener(this));
 		}
+		
+        Animation anim = AnimationUtils.loadAnimation(this,R.anim.slide_right_in);
+        findViewById(R.id.itemlist_fl).startAnimation(anim);
 		
 	}
 
