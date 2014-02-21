@@ -6,9 +6,6 @@
         android:gravity="center_horizontal"
         android:orientation="vertical" >
 
-
-
-
                 <RelativeLayout
                     android:id="@+id/rl_nav"
                     android:layout_width="fill_parent"

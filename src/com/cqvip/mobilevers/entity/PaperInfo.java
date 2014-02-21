@@ -8,6 +8,11 @@ import org.json.JSONObject;
 
 import android.view.View;
 
+/**
+ * 试卷信息类
+ * @author luojiang
+ *
+ */
 public class PaperInfo {
 
 	private String adddate;
