@@ -8,13 +8,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.cqvip.mobilevers.R;
+import com.cqvip.mobilevers.entity.PaperInfo;
 import com.cqvip.mobilevers.ui.ExamActivity;
 import com.cqvip.mobilevers.ui.base.BaseFragment;
 
 public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 
+	private TextView  tyear,tadddate,ttotal,tscroe,ttime,tsize;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -31,6 +34,23 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 		
 		View startExam_btn=(Button) view.findViewById(R.id.btn_exam);
 		startExam_btn.setOnClickListener(this);
+		
+		Bundle bundle = getArguments();
+		PaperInfo info = (PaperInfo) bundle.getSerializable("paper");
+		
+		tyear = (TextView) view.findViewById(R.id.txt_p_year);
+		tadddate = (TextView) view.findViewById(R.id.txt_p_adddata);
+		ttotal = (TextView) view.findViewById(R.id.txt_p_total);
+		tscroe = (TextView) view.findViewById(R.id.txt_p_score);
+		ttime = (TextView) view.findViewById(R.id.txt_p_time);
+		tsize = (TextView) view.findViewById(R.id.txt_p_size);
+			
+		tyear.setText(info.getPulishyear());
+		tadddate.setText(info.getAdddate());
+		ttotal.setText(info.getItemcount());
+		tscroe.setText(info.getScore());
+		ttime.setText(info.getSpenttime());
+		tsize.setText(info.getSize()/1024+"KB");
 		
 		return view;
 	}

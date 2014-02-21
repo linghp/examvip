@@ -9,6 +9,11 @@ import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.ui.base.BaseFragmentActivity;
 import com.cqvip.mobilevers.view.AClassfyFragment;
 
+/**
+ * 考试模块
+ * @author luojiang
+ *
+ */
 public class FragmentExamActivity extends BaseFragmentActivity{
 
 	private static final String TAG = "FragmentExamActivity";

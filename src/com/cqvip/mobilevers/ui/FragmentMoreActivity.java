@@ -10,6 +10,11 @@ import com.cqvip.mobilevers.view.AboutFragment;
 import com.cqvip.mobilevers.view.MoreMenuFragment;
 import com.cqvip.mobilevers.view.UserSuggestFragment;
 
+/**
+ * 更多
+ * @author luojiang
+ *
+ */
 public class FragmentMoreActivity extends FragmentActivity {
 
 	private static final String TAG = "FragmentMoreActivity";

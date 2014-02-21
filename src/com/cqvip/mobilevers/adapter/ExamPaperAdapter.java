@@ -24,14 +24,19 @@ private LayoutInflater inflater;
 	@Override
 	protected View getExView(int position, View convertView, ViewGroup parent) {
 		TextView title = null;
-		TextView count = null;
+		TextView year = null;
+		TextView addtime = null;
 		View v;
 		if(convertView==null){
 			 v = inflater.inflate(R.layout.item_paper, null);
-			title = (TextView) v.findViewById(R.id.txt_item_title);
-			count = (TextView) v.findViewById(R.id.txt_item_count);
+			title = (TextView) v.findViewById(R.id.txt_paper_title);
+			year = (TextView) v.findViewById(R.id.txt_paper_year);
+			addtime = (TextView) v.findViewById(R.id.txt_paper_adddate);
+			
 			title.setText(mList.get(position).getTitile());
-			count.setText(mList.get(position).getItemcount());
+			year.setText("试卷年份："+mList.get(position).getPulishyear());
+			addtime.setText("更新时间："+mList.get(position).getAdddate());
+			
 		}else{
 			v = convertView;
 		}

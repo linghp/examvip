@@ -64,8 +64,8 @@ public class ExamClassfyActivity extends BaseFragmentActivity implements
 	private int indicatorWidth;
 	private int currentIndicatorLeft = 0;
 	
-	private static List<PaperInfo>  reallists;
-	private static List<PaperInfo>  simulatelists;
+	public static List<PaperInfo>  reallists;
+	public static List<PaperInfo>  simulatelists;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -298,7 +298,12 @@ public class ExamClassfyActivity extends BaseFragmentActivity implements
 			case 1:
 				Toast.makeText(getActivity(), ""+reallists.get(position).getTitile(), 1).show();
 				//startActivity(new Intent(getActivity(),ExamDetailActivity.class));
-				((ExamClassfyActivity)getActivity()).addFragmentToStack(new ExamDetailFragment(), R.id.itemlist_fl);
+//				
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("paper", reallists.get(position));
+				ExamDetailFragment detail = new ExamDetailFragment();
+				detail.setArguments(bundle);
+				((ExamClassfyActivity)getActivity()).addFragmentToStack(detail, R.id.itemlist_fl);
 				break;
 			case 2:
 				Toast.makeText(getActivity(), ""+simulatelists.get(position).getTitile(), 1).show();

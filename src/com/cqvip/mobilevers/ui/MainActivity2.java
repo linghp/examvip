@@ -12,6 +12,11 @@ import android.widget.TextView;
 
 import com.cqvip.mobilevers.R;
 
+/**
+ * 主菜单
+ * @author luojiang
+ *
+ */
 public class MainActivity2 extends TabActivity {
 	private TabHost tabHost;
 	private TextView main_tab_new_message;

@@ -1,5 +1,6 @@
 package com.cqvip.mobilevers.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +15,12 @@ import android.view.View;
  * @author luojiang
  *
  */
-public class PaperInfo {
+public class PaperInfo implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5597714058808808547L;
 	private String adddate;
 	private String itemcount;
 	private String desc;
@@ -111,24 +116,24 @@ public class PaperInfo {
 
 	public  PaperInfo(String data)throws JSONException{
 		JSONObject json = new JSONObject(data);
-		titile = json.getString("title");
+		titile = json.getString("titile");
 		itemcount = json.getString("itemcount");
 		desc = json.getString("desc");
 		pulishyear = json.getString("pulishyear");
 		score = getInt("score",json);
 		size = getLong("size",json);
-		subjectid = json.getString("title");
+		subjectid = json.getString("subjectid");
 		spenttime = json.getString("spenttime");
 		adddate = json.getString("adddate");
 	}
 	public  PaperInfo(JSONObject json)throws JSONException{
-		titile = json.getString("title");
+		titile = json.getString("titile");
 		itemcount = json.getString("itemcount");
 		desc = json.getString("desc");
 		pulishyear = json.getString("pulishyear");
 		score = getInt("score",json);
 		size = getLong("size",json);
-		subjectid = json.getString("title");
+		subjectid = json.getString("subjectid");
 		spenttime = json.getString("spenttime");
 		adddate = json.getString("adddate");
 	}
