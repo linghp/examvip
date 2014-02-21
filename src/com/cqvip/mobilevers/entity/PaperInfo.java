@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.view.View;
@@ -19,8 +20,8 @@ public class PaperInfo {
 	private String itemcount;
 	private String desc;
 	private String pulishyear;
-	private String score;
-	private String size;
+	private int score;
+	private long size;
 	private String subjectid;
 	private String spenttime;
 	private String titile;
@@ -57,19 +58,21 @@ public class PaperInfo {
 		this.pulishyear = pulishyear;
 	}
 
-	public String getScore() {
+
+
+	public int getScore() {
 		return score;
 	}
 
-	public void setScore(String score) {
+	public void setScore(int score) {
 		this.score = score;
 	}
 
-	public String getSize() {
+	public long getSize() {
 		return size;
 	}
 
-	public void setSize(String size) {
+	public void setSize(long size) {
 		this.size = size;
 	}
 
@@ -104,28 +107,59 @@ public class PaperInfo {
 				+ score + ", size=" + size + ", subjectid=" + subjectid
 				+ ", spenttime=" + spenttime + ", titile=" + titile + "]";
 	}
+	
 
-//	public static List<PaperInfo> parserJsonData(String data) {
-//		List<PaperInfo> mtempList = new ArrayList<PaperInfo>();
-//		try {
-//			JSONObject js = new JSONObject(data);
-//			JSONArray arrayList = js.getJSONArray("users");
-//			for (int i = 0; i < arrayList.length(); i++) {
-//				JSONObject obj = arrayList.getJSONObject(i);
-//				PaperInfo detail = new PaperInfo();
-//				detail.setId(obj.getString("id"));
-//				detail.setTitle(obj.getString("title"));
-//				detail.setCount(obj.getString("count"));
-//
-//				mtempList.add(detail);
-//			}
-//			// System.out.println(mtempList.size());
-//			// System.out.println(mtempList.toString());
-//			return mtempList;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return null;
-//	}
+	public  PaperInfo(String data)throws JSONException{
+		JSONObject json = new JSONObject(data);
+		titile = json.getString("title");
+		itemcount = json.getString("itemcount");
+		desc = json.getString("desc");
+		pulishyear = json.getString("pulishyear");
+		score = getInt("score",json);
+		size = getLong("size",json);
+		subjectid = json.getString("title");
+		spenttime = json.getString("spenttime");
+		adddate = json.getString("adddate");
+	}
+	public  PaperInfo(JSONObject json)throws JSONException{
+		titile = json.getString("title");
+		itemcount = json.getString("itemcount");
+		desc = json.getString("desc");
+		pulishyear = json.getString("pulishyear");
+		score = getInt("score",json);
+		size = getLong("size",json);
+		subjectid = json.getString("title");
+		spenttime = json.getString("spenttime");
+		adddate = json.getString("adddate");
+	}
+	
+	 protected static int getInt(String key, JSONObject json) throws JSONException {
+	        String str = json.getString(key);
+	        if(null == str || "".equals(str)||"null".equals(str)){
+	            return 0;
+	        }
+	        return Integer.parseInt(str);
+	    }
+	 protected static long getLong(String key, JSONObject json) throws JSONException {
+	        String str = json.getString(key);
+	        if(null == str || "".equals(str)||"null".equals(str)){
+	            return 0;
+	        }
+	        return Long.parseLong(str);
+	    }
+	
+	
+	public static List<PaperInfo> formList(JSONArray array)throws JSONException {
+		List<PaperInfo> mtempList = new ArrayList<PaperInfo>();
+			if(array!=null&&array.length()>0){
+			for (int i = 0; i < array.length(); i++) {
+				JSONObject obj = array.getJSONObject(i);
+				PaperInfo detail = new PaperInfo(obj);
+				mtempList.add(detail); 
+			}
+			return mtempList;
+			}
+		return null;
+	}
 
 }
