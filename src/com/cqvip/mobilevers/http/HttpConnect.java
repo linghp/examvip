@@ -24,7 +24,7 @@ import com.cqvip.mobilevers.utils.StreamTools;
 public class HttpConnect {
 	public static String getNews(String url,List<? extends NameValuePair> parameters) {
 		System.out.println("=======HttpConnect============"+url);
-		StringBuilder sb = new StringBuilder();
+		//StringBuilder sb = new StringBuilder();
 		HttpClient client = new DefaultHttpClient();
 		String path = null;
 		try {

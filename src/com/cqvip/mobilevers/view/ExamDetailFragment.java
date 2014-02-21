@@ -5,18 +5,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.ui.ExamActivity;
 import com.cqvip.mobilevers.ui.base.BaseFragment;
 
-public class ExamDetailFragment extends BaseFragment {
+public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 
-	public void begintest(View v){
-		startActivity(new Intent(getActivity(),ExamActivity.class));
-	}
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -30,7 +28,16 @@ public class ExamDetailFragment extends BaseFragment {
 		actionBar.setTitle("试卷详情");
 		// Show the Up button in the action bar.
 		actionBar.setDisplayHomeAsUpEnabled(true);
+		
+		View startExam_btn=(Button) view.findViewById(R.id.btn_exam);
+		startExam_btn.setOnClickListener(this);
+		
 		return view;
+	}
+
+	@Override
+	public void onClick(View v) {
+		startActivity(new Intent(getActivity(),ExamActivity.class));
 	}
 }
 	

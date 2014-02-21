@@ -226,7 +226,6 @@
             android:layout_height="10.0dip" />
 
         <Button
-            android:onClick="begintest"
             android:id="@+id/btn_exam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
