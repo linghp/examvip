@@ -9,7 +9,7 @@
         android:targetSdkVersion="18" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-        <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -44,10 +44,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.cqvip.mobilevers.ui.FragmentExamActivity" />
         </activity>
-
         <activity
             android:name="com.cqvip.mobilevers.ui.ExamActivity"
             android:label="@string/title_activity_test_exam" >
+        </activity>
+        <activity
+            android:name="com.cqvip.mobilevers.ui.LoginActivity"
+            android:label="@string/title_activity_login" >
         </activity>
     </application>
 

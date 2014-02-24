@@ -20,9 +20,6 @@ public class MainActivity extends Activity {
 		for(int i=0;i<100;i++){
 			array[i]=i+"";
 		}
-		gridview = (GridView) findViewById(R.id.gridView1);
-		adapter = new ExamItemAdapter(this, array);
-		gridview.setAdapter(adapter);
 	}
 
 
