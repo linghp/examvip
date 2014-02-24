@@ -8,13 +8,13 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -24,7 +24,7 @@ import com.cqvip.mobilevers.adapter.ExamBClassfyAdapter;
 import com.cqvip.mobilevers.config.ConstantValues;
 import com.cqvip.mobilevers.entity.ExamInfo;
 import com.cqvip.mobilevers.http.HttpConnect;
-import com.cqvip.mobilevers.ui.ExamClassfyActivity;
+import com.cqvip.mobilevers.ui.FragmentExamActivity;
 
 public class DClassfyFragment extends BaseListFragment implements OnItemClickListener{
 	
@@ -36,14 +36,13 @@ public class DClassfyFragment extends BaseListFragment implements OnItemClickLis
 	 * The fragment's current callback object, which is notified of list item
 	 * clicks.
 	 */
-//	private NextCallbacks mCallbacks = sDummyCallbacks;
-//	
-//	public interface NextCallbacks {
-//		/**
-//		 * Callback for when an item has been selected.
-//		 */
-//		public void onItemDNextSelected(String id);
-//	}
+
+	public interface NextCallbacks {
+		/**
+		 * Callback for when an item has been selected.
+		 */
+		public void onItemDNextSelected(String id);
+	}
 //
 //	private static NextCallbacks sDummyCallbacks = new NextCallbacks() {
 //		@Override
@@ -54,18 +53,18 @@ public class DClassfyFragment extends BaseListFragment implements OnItemClickLis
     String mNum;
 
     
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-
-		// Activities containing this fragment must implement its callbacks.
+//	@Override
+//	public void onAttach(Activity activity) {
+//		super.onAttach(activity);
+//
+//		// Activities containing this fragment must implement its callbacks.
 //		if (!(activity instanceof Callbacks)) {
 //			throw new IllegalStateException(
 //					"Activity must implement fragment's callbacks.");
 //		}
-
-	//	mCallbacks = (NextCallbacks) activity;
-	}
+//
+//		mCallbacks = (NextCallbacks) activity;
+//	}
 
 	@Override
 	public void onDetach() {
@@ -211,8 +210,15 @@ public class DClassfyFragment extends BaseListFragment implements OnItemClickLis
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		//mCallbacks.onItemDNextSelected(tempList.get(position).getId());
-		startActivity(new Intent(getActivity(),ExamClassfyActivity.class));
+		 ((FragmentExamActivity) getActivity()).onItemDNextSelected(tempList.get(position).getId());
+//		startActivity(new Intent(getActivity(),ExamClassfyActivity.class));
+//		getActivity().overridePendingTransition(R.anim.slide_right_in, R.anim.slide_left_out);
 	}
 
+	@Override
+	public void onDestroyView() {
+        Animation anim = AnimationUtils.loadAnimation(getActivity(),R.anim.slide_right_in);
+        getActivity().findViewById(android.R.id.content).startAnimation(anim);
+		super.onDestroyView();
+	}
 }
