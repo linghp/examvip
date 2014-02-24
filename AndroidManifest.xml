@@ -26,10 +26,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.cqvip.mobilevers.ui.CardExamActivity"
-            android:label="@string/title_activity_card_exam" >
-        </activity>
-        <activity
             android:name="com.cqvip.mobilevers.ui.FragmentMoreActivity"
             android:label="@string/title_activity_main_more" >
         </activity>
@@ -38,10 +34,6 @@
         <activity android:name="com.cqvip.mobilevers.ui.FragmentSearchActivity" >
         </activity>
         <activity android:name="com.cqvip.mobilevers.ui.FragmentExamActivity" >
-        </activity>
-        <activity
-            android:name="com.cqvip.mobilevers.ui.ExamPaperActivity"
-            android:label="@string/title_activity_exam_paper" >
         </activity>
         <activity
             android:name="com.cqvip.mobilevers.ui.ExamClassfyActivity"

@@ -4,10 +4,8 @@
     <string name="app_name">MobileVers</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_card_exam">CardExamActivity</string>
     <string name="title_activity_main_more">MainMoreActivity</string>
     <string name="title_activity_main_search">MainSearchActivity</string>
-    <string name="title_activity_exam_paper">ExamPaperActivity</string>
     <string name="title_activity_exam_classfy">ExamClassfyActivity</string>
 
     <string name="title_activity_exam_detail">ExamDetailActivity</string>
