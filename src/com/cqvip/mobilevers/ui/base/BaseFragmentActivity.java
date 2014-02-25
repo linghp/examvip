@@ -12,11 +12,13 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class BaseFragmentActivity extends FragmentActivity implements
 		OnBackStackChangedListener {
@@ -113,54 +115,4 @@ public class BaseFragmentActivity extends FragmentActivity implements
 			isLeftFragment = temp;
 		}
 	}
-
-	
-	private View mNightView = null;
-	private WindowManager mWindowManager;
-	private static boolean isnight=true;
-	public void night() {
-		WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
-				LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT,
-				WindowManager.LayoutParams.TYPE_APPLICATION,
-				WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-						| WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-				PixelFormat.TRANSLUCENT);
-
-		lp.gravity = Gravity.BOTTOM;// 可以自定义显示的位置
-		lp.y = 10;
-		if (mNightView == null) {
-			mNightView = new TextView(this);
-			mNightView.setBackgroundColor(0x80000000);
-		}
-		try {
-			mWindowManager.addView(mNightView, lp);
-		} catch (Exception ex) {
-		}
-
-	}
-
-	public void day() {
-		try {
-			mWindowManager.removeView(mNightView);
-		} catch (Exception ex) {
-		}
-	}
-
-	@Override
-	protected void onResume() {
-		if (isnight) {
-			night();
-		} else {
-			day();
-		}
-		super.onResume();
-
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		day();
-	}
-
 }

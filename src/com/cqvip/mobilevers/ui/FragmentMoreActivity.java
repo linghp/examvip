@@ -2,10 +2,10 @@ package com.cqvip.mobilevers.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
+import com.cqvip.mobilevers.ui.base.BaseMainFragmentActivity;
 import com.cqvip.mobilevers.view.AboutFragment;
 import com.cqvip.mobilevers.view.MoreMenuFragment;
 import com.cqvip.mobilevers.view.UserSuggestFragment;
@@ -15,7 +15,7 @@ import com.cqvip.mobilevers.view.UserSuggestFragment;
  * @author luojiang
  *
  */
-public class FragmentMoreActivity extends FragmentActivity {
+public class FragmentMoreActivity extends BaseMainFragmentActivity {
 
 	private static final String TAG = "FragmentMoreActivity";
 	@Override

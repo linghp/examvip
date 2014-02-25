@@ -30,10 +30,11 @@ public class ExamActivity extends BaseFragmentActivity implements
 	private Context context;
 	ViewPager mPager;
 	int currentpage = 0;
-	private static boolean isnight=false;
+	public static boolean isnight=false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		Log.i(TAG, isnight+"");
 		super.onCreate(savedInstanceState);
 		if (isnight) {
 			this.setTheme(R.style.ThemeNight);
@@ -216,13 +217,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 		addFragmentToStack(newFragment,R.id.exam_fl );
 		break;
 	case R.id.directory_ll:
-		isnight=!isnight;
 		Log.i("ExamActivity", "onClick_directory_ll");
-//		if (isnight) {
-//			this.setTheme(R.style.ThemeNight);
-//		} else {
-//			this.setTheme(R.style.ThemeDefault);
-//		}
 		break;
 
 	default:

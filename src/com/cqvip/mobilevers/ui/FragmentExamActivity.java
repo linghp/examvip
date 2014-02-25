@@ -2,12 +2,10 @@ package com.cqvip.mobilevers.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 
 import com.cqvip.mobilevers.R;
-import com.cqvip.mobilevers.ui.base.BaseFragmentActivity;
+import com.cqvip.mobilevers.ui.base.BaseMainFragmentActivity;
 import com.cqvip.mobilevers.view.AClassfyFragment;
 import com.cqvip.mobilevers.view.DClassfyFragment.NextCallbacks;
 
@@ -16,7 +14,7 @@ import com.cqvip.mobilevers.view.DClassfyFragment.NextCallbacks;
  * @author luojiang
  *
  */
-public class FragmentExamActivity extends BaseFragmentActivity implements NextCallbacks{
+public class FragmentExamActivity extends BaseMainFragmentActivity implements NextCallbacks{
 
 	private static final String TAG = "FragmentExamActivity";
 	@Override
@@ -79,5 +77,46 @@ public class FragmentExamActivity extends BaseFragmentActivity implements NextCa
 		startActivity(new Intent(FragmentExamActivity.this,ExamClassfyActivity.class));
 		overridePendingTransition(R.anim.slide_right_in, R.anim.slide_left_out);
 	}
+	
+//	@Override
+//	protected void onDestroy() {
+//		// TODO Auto-generated method stub
+//		super.onDestroy();
+//		android.os.Process.killProcess(android.os.Process.myPid());
+//	}
+//	
+//	
+//	@Override
+//	public boolean onKeyDown(int keyCode, KeyEvent event) {
+//		if (keyCode == KeyEvent.KEYCODE_BACK) {
+//			exit("再按一次退出程序");
+//			return false;
+//		}
+//		return super.onKeyDown(keyCode, event);
+//	}
+//	
+//	private static boolean isExit = false;
+//
+//	Handler mHandler = new Handler() {
+//
+//		@Override
+//		public void handleMessage(Message msg) {
+//			super.handleMessage(msg);
+//			isExit = false;
+//		}
+//	};
+//	
+//	private void exit(String tips) {
+//		if (!isExit) {
+//			isExit = true;
+//			Toast.makeText(getApplicationContext(), tips, Toast.LENGTH_SHORT)
+//					.show();
+//			// 利用handler延迟发送更改状态信息
+//			mHandler.sendEmptyMessageDelayed(0, 2000);
+//		} else {
+//			finish();
+//			// System.exit(0);
+//		}
+//	}
 	
 }

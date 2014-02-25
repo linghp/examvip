@@ -20,5 +20,8 @@
     <string name="drop_down_list_footer_loading_text">加载中&#8230;</string>
     <string name="drop_down_list_footer_no_more_text">没有更多内容可供加载</string>
     <string name="title_activity_login">LoginActivity</string>
+    
+    <string name="switch_on">开</string>
+    <string name="switch_off">关</string>
 
 </resources>

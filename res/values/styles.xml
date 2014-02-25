@@ -31,13 +31,12 @@
     </style>
     
     	<!-- 默认风格 -->
-	<style name="ThemeDefault" parent="android:Theme.Light">
+	<style name="ThemeDefault" parent="AppTheme">
         <item name="bg_color">@color/white</item>
         <item name="text_color">@color/black</item>
 	</style>
-
 	<!-- 夜间模式 -->
-	<style name="ThemeNight" parent="android:Theme.Black">		
+	<style name="ThemeNight" parent="AppTheme">		
         <item name="bg_color">@color/black</item>
         <item name="text_color">@color/white</item>
 	</style>
