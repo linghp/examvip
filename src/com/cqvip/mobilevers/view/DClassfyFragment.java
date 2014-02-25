@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -216,9 +217,15 @@ public class DClassfyFragment extends BaseListFragment implements OnItemClickLis
 	}
 
 	@Override
+	public void onStop() {
+		Log.i("DClassfyFragment", "onStop");
+//	      Animation anim = AnimationUtils.loadAnimation(getActivity(),R.anim.slide_left_out);
+//	      getActivity().findViewById(R.id.simple_fragment).startAnimation(anim);
+		super.onStop();
+	}
+	@Override
 	public void onDestroyView() {
-        Animation anim = AnimationUtils.loadAnimation(getActivity(),R.anim.slide_right_in);
-        getActivity().findViewById(android.R.id.content).startAnimation(anim);
+		Log.i("DClassfyFragment", "onDestroyView");
 		super.onDestroyView();
 	}
 }

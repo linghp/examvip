@@ -134,7 +134,7 @@ public class AClassfyFragment extends BaseListFragment implements
 			long id) {
 		Fragment newFragment = BClassfyFragment.newInstance(tempList.get(
 				position).getId());
-		addFragmentToStack(newFragment, android.R.id.content);
+		addFragmentToStack(newFragment, R.id.simple_fragment);
 	}
 
 }

@@ -4,6 +4,7 @@ package com.cqvip.mobilevers.ui;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings.System;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
@@ -70,4 +71,10 @@ public class MainActivity2 extends TabActivity {
 		
 	}	
 	
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+		android.os.Process.killProcess(android.os.Process.myPid());
+	}
 }

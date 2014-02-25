@@ -17,10 +17,10 @@ public class FragmentExamActivity extends BaseFragmentActivity implements NextCa
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//setContentView(R.layout.fragment_stack);
+		setContentView(R.layout.fragment_stack);
 	      if (getSupportFragmentManager().findFragmentByTag(TAG) == null) {
 	            final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-	            ft.add(android.R.id.content, new AClassfyFragment(), TAG);
+	            ft.add(R.id.simple_fragment, new AClassfyFragment(), TAG);
 	            ft.commit();
 	        }	
 		

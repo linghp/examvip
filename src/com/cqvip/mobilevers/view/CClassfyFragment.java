@@ -209,7 +209,7 @@ public class CClassfyFragment extends BaseListFragment implements OnItemClickLis
 			long id) {
 		//mCallbacks.onItemCNextSelected(tempList.get(position).getId());
 		Fragment newFragment = DClassfyFragment.newInstance(tempList.get(position).getId());
-		addFragmentToStack(newFragment,android.R.id.content);
+		addFragmentToStack(newFragment,R.id.simple_fragment);
 	}
 
 }

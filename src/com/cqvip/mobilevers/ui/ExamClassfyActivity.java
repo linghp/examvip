@@ -164,8 +164,8 @@ public class ExamClassfyActivity extends BaseFragmentActivity implements
 					.setTabListener(this));
 		}
 		
-        Animation anim = AnimationUtils.loadAnimation(this,R.anim.slide_right_in);
-        findViewById(R.id.itemlist_fl).startAnimation(anim);
+//        Animation anim = AnimationUtils.loadAnimation(this,R.anim.slide_right_in);
+//        findViewById(R.id.itemlist_fl).startAnimation(anim);
 		
 	}
 

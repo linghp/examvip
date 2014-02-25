@@ -1,8 +1,7 @@
 package com.cqvip.mobilevers.ui.base;
 
-import com.cqvip.mobilevers.R;
-
 import android.content.Context;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -10,10 +9,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
+import android.view.Gravity;
 import android.view.MotionEvent;
-import android.view.Window;
+import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
+import android.widget.TextView;
 
 public class BaseFragmentActivity extends FragmentActivity implements
 		OnBackStackChangedListener {
@@ -69,7 +72,7 @@ public class BaseFragmentActivity extends FragmentActivity implements
 				fManager.popBackStack();
 			} else {
 				finish();
-				overridePendingTransition(R.anim.slide_left_in,R.anim.slide_right_out);
+				// overridePendingTransition(R.anim.slide_left_in,R.anim.slide_right_out);
 			}
 		}
 	}
@@ -96,6 +99,7 @@ public class BaseFragmentActivity extends FragmentActivity implements
 
 	// 防止viewpager滑动非第一页时，isLeftFragment设为false，造成后面的页面右滑无响应。
 	boolean temp = true;
+
 	@Override
 	public void onBackStackChanged() {
 		if (fManager.getBackStackEntryCount() > 0) {
@@ -109,5 +113,54 @@ public class BaseFragmentActivity extends FragmentActivity implements
 			isLeftFragment = temp;
 		}
 	}
+
 	
+	private View mNightView = null;
+	private WindowManager mWindowManager;
+	private static boolean isnight=true;
+	public void night() {
+		WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
+				LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT,
+				WindowManager.LayoutParams.TYPE_APPLICATION,
+				WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+						| WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+				PixelFormat.TRANSLUCENT);
+
+		lp.gravity = Gravity.BOTTOM;// 可以自定义显示的位置
+		lp.y = 10;
+		if (mNightView == null) {
+			mNightView = new TextView(this);
+			mNightView.setBackgroundColor(0x80000000);
+		}
+		try {
+			mWindowManager.addView(mNightView, lp);
+		} catch (Exception ex) {
+		}
+
+	}
+
+	public void day() {
+		try {
+			mWindowManager.removeView(mNightView);
+		} catch (Exception ex) {
+		}
+	}
+
+	@Override
+	protected void onResume() {
+		if (isnight) {
+			night();
+		} else {
+			day();
+		}
+		super.onResume();
+
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		day();
+	}
+
 }

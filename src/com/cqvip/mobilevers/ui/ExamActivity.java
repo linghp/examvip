@@ -30,10 +30,16 @@ public class ExamActivity extends BaseFragmentActivity implements
 	private Context context;
 	ViewPager mPager;
 	int currentpage = 0;
+	private static boolean isnight=false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if (isnight) {
+			this.setTheme(R.style.ThemeNight);
+		} else {
+			this.setTheme(R.style.ThemeDefault);
+		}
 		setContentView(R.layout.activity_exam);
 		context = this;
 		// Fragment newFragment = new FragmentExam();
@@ -51,6 +57,9 @@ public class ExamActivity extends BaseFragmentActivity implements
 		// mPager.setOffscreenPageLimit(5);
 		ViewGroup answercard = (ViewGroup) findViewById(R.id.answercard_ll);
 		answercard.setOnClickListener(this);
+		ViewGroup directory = (ViewGroup) findViewById(R.id.directory_ll);
+		directory.setOnClickListener(this);
+		
 		Button button = (Button) findViewById(R.id.goto_first);
 		button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -206,9 +215,27 @@ public class ExamActivity extends BaseFragmentActivity implements
 		Fragment newFragment = new FragmentAnswerScard();
 		addFragmentToStack(newFragment,R.id.exam_fl );
 		break;
+	case R.id.directory_ll:
+		isnight=!isnight;
+		Log.i("ExamActivity", "onClick_directory_ll");
+//		if (isnight) {
+//			this.setTheme(R.style.ThemeNight);
+//		} else {
+//			this.setTheme(R.style.ThemeDefault);
+//		}
+		break;
 
 	default:
 		break;
 	}
+	}
+	
+	public void addFragmentToStack(Fragment newFragment, int layoutid) {
+		FragmentTransaction ft = fManager.beginTransaction();
+		ft.setCustomAnimations(R.anim.slide_up_in, R.anim.blank, R.anim.blank, R.anim.slide_up_out);
+		ft.replace(layoutid, newFragment);
+		//ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+		ft.addToBackStack(null);
+		ft.commit();
 	}
 }

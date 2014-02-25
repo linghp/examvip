@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate 
+         android:fillBefore="true" 
+         android:fillAfter="true" 
+         android:fillEnabled="true"
+         android:interpolator="@android:anim/anticipate_overshoot_interpolator"
+        android:fromYDelta="-100%p" 
+        android:toYDelta="0%p" 
+        android:duration="@integer/activity_switch_duration"/>
+</set>
