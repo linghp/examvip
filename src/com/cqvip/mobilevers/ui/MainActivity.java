@@ -72,7 +72,12 @@ public class MainActivity extends TabActivity {
 				}
 			}
 		});
-		
 	}	
 	
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+		android.os.Process.killProcess(android.os.Process.myPid());
+	}
 }
