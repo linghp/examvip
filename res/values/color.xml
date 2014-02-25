@@ -16,6 +16,11 @@
     <drawable name="GreenYellow">#ADFF2F</drawable>
     <drawable name="titlegreen">#73cfeca0</drawable>
     <drawable name="transparent">#00000000</drawable>
+    
+    <color name="color_dark_grey">#ff808080</color>
+    <color name="login_bg">#ff509cd8</color>
+    <color name="login_dark_grey">#20808080</color>
+    <color name="login_black">#aa000000</color>
 
     <color name="examtop_fontcolor">#000</color>
 

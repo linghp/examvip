@@ -8,6 +8,11 @@ import org.json.JSONObject;
 
 import android.view.View;
 
+/**
+ * 考试分类
+ * @author luojiang
+ *
+ */
 public class ExamInfo {
 	
 	private String id;
@@ -37,7 +42,11 @@ public class ExamInfo {
 				+ "]";
 	}
 	
-	
+	/**
+	 * 获取考试信息列表
+	 * @param data
+	 * @return
+	 */
 
 	public static List<ExamInfo> parserJsonData(String data){
 		List<ExamInfo> mtempList=new ArrayList<ExamInfo>();

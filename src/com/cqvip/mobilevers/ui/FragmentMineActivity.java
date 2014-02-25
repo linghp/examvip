@@ -9,6 +9,11 @@ import android.view.View;
 import com.cqvip.mobilevers.view.AboutFragment;
 import com.cqvip.mobilevers.view.MineMenuFragment;
 
+/**
+ * 我的模块
+ * @author luojiang
+ *
+ */
 public class FragmentMineActivity extends FragmentActivity {
 
 	private static final String TAG = "FragmentMineActivity";

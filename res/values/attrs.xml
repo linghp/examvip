@@ -2,4 +2,9 @@
 <resources>
     <attr name="bg_color" format="reference|color" />
     <attr name="text_color" format="color" />
+    <declare-styleable name="drop_down_list_attr">
+        <attr name="isDropDownStyle" format="boolean" />
+        <attr name="isOnBottomStyle" format="boolean" />
+        <attr name="isAutoLoadOnBottom" format="boolean" />
+    </declare-styleable>
 </resources>

@@ -14,6 +14,11 @@ import com.cqvip.mobilevers.view.AboutFragment;
 import com.cqvip.mobilevers.view.MineMenuFragment;
 import com.cqvip.mobilevers.view.SearchExamFragment;
 
+/**
+ * 搜索模块
+ * @author luojiang
+ *
+ */
 public class FragmentSearchActivity extends FragmentActivity {
 
 	private static final String TAG = "FragmentSearchActivity";

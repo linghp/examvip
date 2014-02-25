@@ -11,6 +11,11 @@ import com.cqvip.mobilevers.ui.base.BaseFragmentActivity;
 import com.cqvip.mobilevers.view.AClassfyFragment;
 import com.cqvip.mobilevers.view.DClassfyFragment.NextCallbacks;
 
+/**
+ * 考试模块
+ * @author luojiang
+ *
+ */
 public class FragmentExamActivity extends BaseFragmentActivity implements NextCallbacks{
 
 	private static final String TAG = "FragmentExamActivity";

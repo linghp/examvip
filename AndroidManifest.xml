@@ -9,7 +9,7 @@
         android:targetSdkVersion="18" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-        <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -17,17 +17,13 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.cqvip.mobilevers.ui.MainActivity2"
+            android:name="com.cqvip.mobilevers.ui.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name="com.cqvip.mobilevers.ui.CardExamActivity"
-            android:label="@string/title_activity_card_exam" >
         </activity>
         <activity
             android:name="com.cqvip.mobilevers.ui.FragmentMoreActivity"
@@ -40,10 +36,6 @@
         <activity android:name="com.cqvip.mobilevers.ui.FragmentExamActivity" >
         </activity>
         <activity
-            android:name="com.cqvip.mobilevers.ui.ExamPaperActivity"
-            android:label="@string/title_activity_exam_paper" >
-        </activity>
-        <activity
             android:name="com.cqvip.mobilevers.ui.ExamClassfyActivity"
             android:label="@string/title_activity_exam_classfy"
             android:parentActivityName="com.cqvip.mobilevers.ui.FragmentExamActivity"
@@ -52,10 +44,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.cqvip.mobilevers.ui.FragmentExamActivity" />
         </activity>
-
         <activity
             android:name="com.cqvip.mobilevers.ui.ExamActivity"
             android:label="@string/title_activity_test_exam" >
+        </activity>
+        <activity
+            android:name="com.cqvip.mobilevers.ui.LoginActivity"
+            android:label="@string/title_activity_login" >
         </activity>
     </application>
 

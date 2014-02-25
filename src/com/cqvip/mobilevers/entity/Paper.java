@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Paper {
@@ -43,26 +44,13 @@ public class Paper {
 		return null;
 	}
 	
-	public static List<PaperInfo> parserData(JSONObject data,String tag){
+	public static List<PaperInfo> parserData(JSONObject data,String tag)throws JSONException{
 		List<PaperInfo> mtempList=new ArrayList<PaperInfo>();
-		try{
-			
 			JSONArray arrayList= data.getJSONArray(tag);
-			for(int i=0;i<arrayList.length();i++){
-				JSONObject obj=arrayList.getJSONObject(i);
-				PaperInfo detail=new PaperInfo();
-				detail.setSubjectid(obj.getString("subjectid"));
-				detail.setTitile(obj.getString("titile"));
-				detail.setItemcount(obj.getString("itemcount"));
-				
-				mtempList.add(detail);
-			}
-			//System.out.println(mtempList.size());
-			//System.out.println(mtempList.toString());
+			if(arrayList!=null&&arrayList.length()>0){
+			mtempList = PaperInfo.formList(arrayList);
 			return mtempList;
-		}catch(Exception e){
-			e.printStackTrace();
-		}
+			}
 		return null;
 	}
 
