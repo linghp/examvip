@@ -2,12 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/exam_fl"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-     >
+    android:layout_height="match_parent" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="?attr/bg_color"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -15,6 +15,7 @@
             android:layout_width="fill_parent"
             android:layout_height="59dp"
             android:layout_weight="0.03"
+            android:background="@color/transparent"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:padding="@dimen/examtop_padding" >
@@ -29,12 +30,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/examtop_margininner"
-                android:layout_weight="1" >
+                android:layout_weight="1"
+                android:background="@color/transparent" >
 
                 <LinearLayout
                     android:id="@+id/lookanswer_ll"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@color/transparent"
                     android:gravity="center_horizontal"
                     android:orientation="vertical" >
 
@@ -49,7 +52,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="查看答案"
-                        android:textColor="@color/examtop_fontcolor"
                         android:textSize="@dimen/examtop_fontsize" />
                 </LinearLayout>
 
@@ -58,6 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/examtop_margininner"
+                    android:background="@color/transparent"
                     android:clickable="true"
                     android:gravity="center_horizontal"
                     android:orientation="vertical" >
@@ -72,7 +75,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="答题卡"
-                        android:textColor="@color/examtop_fontcolor"
                         android:textSize="@dimen/examtop_fontsize" />
                 </LinearLayout>
 
@@ -81,6 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/examtop_margininner"
+                    android:background="@color/transparent"
                     android:gravity="center_horizontal"
                     android:orientation="vertical" >
 
@@ -94,37 +97,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="交卷"
-                        android:textColor="@color/examtop_fontcolor"
-                        android:textSize="@dimen/examtop_fontsize" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/time_ll"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/examtop_margininner"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical" >
-
-                    <ImageView
-                        android:layout_width="@dimen/examtop_imageviewsize"
-                        android:layout_height="@dimen/examtop_imageviewsize"
-                        android:src="@drawable/DeepBlue" />
-
-                    <TextView
-                        android:id="@+id/tv_exam"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="00:50"
-                        android:textColor="@color/examtop_fontcolor"
                         android:textSize="@dimen/examtop_fontsize" />
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/directory_ll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/examtop_margininner"
+                android:background="@color/transparent"
+                android:clickable="true"
                 android:gravity="center"
                 android:orientation="horizontal" >
 
@@ -146,13 +129,16 @@
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" >
+            android:layout_weight="1"
+            android:background="@color/transparent" >
         </android.support.v4.view.ViewPager>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+ android:layout_margin="2dp"
             android:layout_weight="0"
+            android:background="@color/transparent"
             android:orientation="horizontal" >
 
             <Button
@@ -160,7 +146,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="first" >
+                android:background="@drawable/DeepBlue"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="last"
+                android:textColor="?attr/text_color" >
             </Button>
 
             <TextView
@@ -170,14 +160,19 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="last" />
+                android:text="00:00"
+                android:textColor="?attr/text_color" />
 
             <Button
                 android:id="@+id/goto_last"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:text="next" >
+                android:background="@drawable/DeepBlue"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="next"
+                android:textColor="?attr/text_color" >
             </Button>
         </LinearLayout>
     </LinearLayout>

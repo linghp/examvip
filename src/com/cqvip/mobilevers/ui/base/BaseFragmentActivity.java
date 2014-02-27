@@ -1,8 +1,7 @@
 package com.cqvip.mobilevers.ui.base;
 
-import com.cqvip.mobilevers.R;
-
 import android.content.Context;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -10,10 +9,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
-import android.view.Window;
+import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class BaseFragmentActivity extends FragmentActivity implements
 		OnBackStackChangedListener {
@@ -69,7 +74,7 @@ public class BaseFragmentActivity extends FragmentActivity implements
 				fManager.popBackStack();
 			} else {
 				finish();
-				overridePendingTransition(R.anim.slide_left_in,R.anim.slide_right_out);
+				// overridePendingTransition(R.anim.slide_left_in,R.anim.slide_right_out);
 			}
 		}
 	}
@@ -96,6 +101,7 @@ public class BaseFragmentActivity extends FragmentActivity implements
 
 	// 防止viewpager滑动非第一页时，isLeftFragment设为false，造成后面的页面右滑无响应。
 	boolean temp = true;
+
 	@Override
 	public void onBackStackChanged() {
 		if (fManager.getBackStackEntryCount() > 0) {
@@ -109,5 +115,4 @@ public class BaseFragmentActivity extends FragmentActivity implements
 			isLeftFragment = temp;
 		}
 	}
-	
 }

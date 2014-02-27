@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="bg_color" format="reference|color" />
+    <attr name="text_color" format="color" />
     <declare-styleable name="drop_down_list_attr">
         <attr name="isDropDownStyle" format="boolean" />
         <attr name="isOnBottomStyle" format="boolean" />

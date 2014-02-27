@@ -30,6 +30,17 @@
 		<item name="android:paddingTop">2.0dip</item>
     </style>
     
+    	<!-- 默认风格 -->
+	<style name="ThemeDefault" parent="AppTheme">
+        <item name="bg_color">@color/white</item>
+        <item name="text_color">@color/black</item>
+	</style>
+	<!-- 夜间模式 -->
+	<style name="ThemeNight" parent="AppTheme">		
+        <item name="bg_color">@color/black</item>
+        <item name="text_color">@color/white</item>
+	</style>
+    
      <style name="drop_down_list_header_progress_bar_style">
         <item name="android:minHeight">@dimen/drop_down_list_header_progress_bar_height</item>
         <item name="android:maxHeight">@dimen/drop_down_list_header_progress_bar_height</item>

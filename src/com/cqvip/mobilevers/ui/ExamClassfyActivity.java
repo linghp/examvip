@@ -164,8 +164,8 @@ public class ExamClassfyActivity extends BaseFragmentActivity implements
 					.setTabListener(this));
 		}
 		
-        Animation anim = AnimationUtils.loadAnimation(this,R.anim.slide_right_in);
-        findViewById(R.id.itemlist_fl).startAnimation(anim);
+//        Animation anim = AnimationUtils.loadAnimation(this,R.anim.slide_right_in);
+//        findViewById(R.id.itemlist_fl).startAnimation(anim);
 		
 	}
 
@@ -292,20 +292,21 @@ public class ExamClassfyActivity extends BaseFragmentActivity implements
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			int select = getArguments().getInt(ARG_SECTION_NUMBER);
-			switch (select) {
+			ExamDetailFragment detail = new ExamDetailFragment();
+			Bundle bundle = new Bundle();
+			switch (select){
 			case 1:
 				Toast.makeText(getActivity(), ""+reallists.get(position).getTitile(), 1).show();
 				//startActivity(new Intent(getActivity(),ExamDetailActivity.class));
-//				
-				Bundle bundle = new Bundle();
 				bundle.putSerializable("paper", reallists.get(position));
-				ExamDetailFragment detail = new ExamDetailFragment();
 				detail.setArguments(bundle);
 				((ExamClassfyActivity)getActivity()).addFragmentToStack(detail, R.id.itemlist_fl);
 				break;
 			case 2:
 				Toast.makeText(getActivity(), ""+simulatelists.get(position).getTitile(), 1).show();
-				((ExamClassfyActivity)getActivity()).addFragmentToStack(new ExamDetailFragment(), R.id.itemlist_fl);
+				bundle.putSerializable("paper", simulatelists.get(position));
+				detail.setArguments(bundle);
+				((ExamClassfyActivity)getActivity()).addFragmentToStack(detail, R.id.itemlist_fl);
 				break;
 
 			default:

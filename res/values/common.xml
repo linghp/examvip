@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    	<!-- 默认风格 -->
+	<style name="BaseThemeDefault" parent="android:Theme.Light">
+        <item name="bg_color">@color/white</item>
+        <item name="text_color">@color/black</item>
+	</style>
+
+	<!-- 夜间模式 -->
+	<style name="BaseThemeNight" parent="android:Theme.Black">		
+        <item name="bg_color">@color/black</item>
+        <item name="text_color">@color/white</item>
+	</style>
+
+</resources>

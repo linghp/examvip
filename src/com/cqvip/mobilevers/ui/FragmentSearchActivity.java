@@ -2,16 +2,9 @@ package com.cqvip.mobilevers.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.cqvip.mobilevers.R;
-import com.cqvip.mobilevers.view.AboutFragment;
-import com.cqvip.mobilevers.view.MineMenuFragment;
+import com.cqvip.mobilevers.ui.base.BaseMainFragmentActivity;
 import com.cqvip.mobilevers.view.SearchExamFragment;
 
 /**
@@ -19,7 +12,7 @@ import com.cqvip.mobilevers.view.SearchExamFragment;
  * @author luojiang
  *
  */
-public class FragmentSearchActivity extends FragmentActivity {
+public class FragmentSearchActivity extends BaseMainFragmentActivity {
 
 	private static final String TAG = "FragmentSearchActivity";
 	@Override

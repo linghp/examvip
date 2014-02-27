@@ -241,7 +241,7 @@ public class BClassfyFragment extends BaseListFragment implements OnItemClickLis
 			long id) {
 		Fragment newFragment = CClassfyFragment.newInstance(tempList.get(position).getId());
 		//mCallbacks.onItemNextSelected(tempList.get(position).getId());
-		addFragmentToStack(newFragment,android.R.id.content);
+		addFragmentToStack(newFragment,R.id.simple_fragment);
 		Toast.makeText(getActivity(), "11", 1).show();
 	}
 

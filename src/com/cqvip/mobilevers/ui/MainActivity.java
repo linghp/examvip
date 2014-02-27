@@ -4,11 +4,15 @@ package com.cqvip.mobilevers.ui;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.KeyEvent;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cqvip.mobilevers.R;
 
@@ -72,7 +76,19 @@ public class MainActivity extends TabActivity {
 				}
 			}
 		});
-		
 	}	
 	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		android.os.Process.killProcess(android.os.Process.myPid());
+	}
+	
+	//屏蔽回退键，当在子activity中按回退键时会响应此activity的回退事件finish掉程序，故在此屏蔽。
+	public boolean onKeyDown(int keyCode, KeyEvent event) { 
+	    if(keyCode == KeyEvent.KEYCODE_BACK) { //监控/拦截/屏蔽返回键 
+	        return true; 
+	    } 
+	return super.onKeyDown(keyCode, event); 
+	}
 }

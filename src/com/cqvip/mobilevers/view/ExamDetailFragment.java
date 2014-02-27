@@ -49,7 +49,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 		tyear.setText(info.getPulishyear());
 		tadddate.setText(info.getAdddate());
 		ttotal.setText(info.getItemcount());
-		tscroe.setText(info.getScore());
+		tscroe.setText(info.getScore()+"");
 		ttime.setText(info.getSpenttime());
 		tsize.setText(info.getSize()/1024+"KB");
 		
