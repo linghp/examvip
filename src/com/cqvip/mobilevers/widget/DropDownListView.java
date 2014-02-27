@@ -1,4 +1,4 @@
-package com.cqvip.mobilevers.listview;
+package com.cqvip.mobilevers.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;

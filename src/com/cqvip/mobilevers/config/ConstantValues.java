@@ -6,6 +6,16 @@ public class ConstantValues {
 	public static final String curl="http://192.168.20.214:8080/web/CServlet";
 	public static final String durl="http://192.168.20.214:8080/web/DServlet";
 	public static final String paperurl="http://192.168.20.214:8080/web/PServlet";
+
+	
+	public static final String SERVER_URL="http://192.168.20.75:3000/";
+	
+	public static final String LOGIN_ADDR="Service1.asmx?op=Login";
+	public static final String LOGINOUT_ADDR="Service1.asmx?op=LoginOut";
+	public static final String ADDFAVOREXAM_ADDR="";
+	public static final String GETEXAMPAPER_ADDR="";
+	
+	
 	
 	public static final int toutiao_id=1;
 	public static final int yule_id=2;

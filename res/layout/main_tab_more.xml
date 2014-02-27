@@ -37,14 +37,16 @@
         					android:text="夜间模式"
         					android:textSize="17sp"		
 							android:textColor="#000" />
-            			<ImageView
-            				android:layout_width="wrap_content"
-        					android:layout_height="wrap_content"        	     	
-        					android:scaleType="matrix"
-        					android:layout_centerVertical="true"
-        					android:layout_alignParentRight="true"
-        					android:clickable="true"
-        					android:src="@drawable/mm_submenu" />      					
+
+
+            			<ToggleButton
+            			    android:id="@+id/toggleButton1"
+            			    android:layout_width="wrap_content"
+            			    android:layout_height="wrap_content"
+            			    android:layout_alignParentTop="true"
+            			    android:layout_alignParentRight="true"
+            			    android:text="ToggleButton" />
+      					
       				</RelativeLayout>
       				<RelativeLayout
             			android:layout_width="fill_parent"
