@@ -80,6 +80,7 @@
 
                 <LinearLayout
                     android:id="@+id/handpaper_ll"
+                    android:clickable="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/examtop_margininner"
@@ -154,13 +155,13 @@
             </Button>
 
             <TextView
-                android:id="@+id/time"
+                android:id="@+id/time_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="00:00"
+                android:text="00:00:00"
                 android:textColor="?attr/text_color" />
 
             <Button

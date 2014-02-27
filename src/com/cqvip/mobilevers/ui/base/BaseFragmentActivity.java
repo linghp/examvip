@@ -68,17 +68,17 @@ public class BaseFragmentActivity extends FragmentActivity implements
 			}
 			return false;
 		}
-
-		private void backpage() {
-			if (fManager.getBackStackEntryCount() > 0) {
-				fManager.popBackStack();
-			} else {
-				finish();
-				// overridePendingTransition(R.anim.slide_left_in,R.anim.slide_right_out);
-			}
-		}
 	}
 
+	protected void backpage() {
+		if (fManager.getBackStackEntryCount() > 0) {
+			fManager.popBackStack();
+		} else {
+			finish();
+			// overridePendingTransition(R.anim.slide_left_in,R.anim.slide_right_out);
+		}
+	}
+	
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
 		if (mGestureDetector.onTouchEvent(ev)) {

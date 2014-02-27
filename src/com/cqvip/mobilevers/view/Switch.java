@@ -215,6 +215,9 @@ public class Switch extends CompoundButton {
                 requestLayout();
             }
         }
+        
+//      mTextPaint.setTextSize(22);
+//      requestLayout();
 
         int typefaceIndex, styleIndex;
 

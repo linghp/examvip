@@ -8,6 +8,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +26,7 @@ import com.cqvip.mobilevers.adapter.ExamBClassfyAdapter;
 import com.cqvip.mobilevers.config.ConstantValues;
 import com.cqvip.mobilevers.entity.ExamInfo;
 import com.cqvip.mobilevers.http.HttpConnect;
+import com.cqvip.mobilevers.ui.ExamClassfyActivity;
 import com.cqvip.mobilevers.ui.FragmentExamActivity;
 
 public class DClassfyFragment extends BaseListFragment implements OnItemClickListener{
@@ -211,8 +213,8 @@ public class DClassfyFragment extends BaseListFragment implements OnItemClickLis
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		 ((FragmentExamActivity) getActivity()).onItemDNextSelected(tempList.get(position).getId());
-//		startActivity(new Intent(getActivity(),ExamClassfyActivity.class));
+		 //((FragmentExamActivity) getActivity()).onItemDNextSelected(tempList.get(position).getId());
+		startActivity(new Intent(getActivity(),ExamClassfyActivity.class));
 //		getActivity().overridePendingTransition(R.anim.slide_right_in, R.anim.slide_left_out);
 	}
 
