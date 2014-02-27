@@ -1,9 +1,11 @@
 package com.cqvip.mobilevers.http;
 
-import org.apache.http.NameValuePair;
-
 import android.content.Context;
 import android.util.Log;
+
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.RetryPolicy;
+import com.cqvip.mobilevers.config.Configs;
 
 public class HttpUtils {
 
@@ -37,5 +39,14 @@ public class HttpUtils {
 	// 判断是否为漫游
 	public static boolean isNetworkRoaming(Context context) {
 		return NetWorkHelper.isNetworkRoaming(context);
+	}
+	
+	/**
+	 * vollery设置超时20s
+	 * @return
+	 */
+	public static RetryPolicy setTimeout(){
+		RetryPolicy retryPolicy = new DefaultRetryPolicy(Configs.SOCKET_TIMEOUT, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+		return retryPolicy;
 	}
 }

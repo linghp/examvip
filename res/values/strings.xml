@@ -10,6 +10,8 @@
     <string name="title_activity_exam_detail">ExamDetailActivity</string>
     <string name="title_activity_test_exam">TestExamActivity</string>
     <string name="generic_server_down">服务器无响应</string>
+    <string name="need_pwd">请输入密码</string>
+    <string name="need_username">请输入用户名</string>
     <string name="no_internet">无网络连接</string>
     <string name="generic_error">连接错误</string>
     <string name="drop_down_list_header_default_text">点击可以刷新&#8230;</string>
@@ -20,6 +22,7 @@
     <string name="drop_down_list_footer_loading_text">加载中&#8230;</string>
     <string name="drop_down_list_footer_no_more_text">没有更多内容可供加载</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_test_main">TestMainActivity</string>
     
     <string name="switch_on">开</string>
     <string name="switch_off">关</string>

@@ -48,7 +48,7 @@
                 android:textSize="15.0dip" />
 
             <EditText
-                android:id="@+id/autoCompleteTVName"
+                android:id="@+id/et_username"
                 android:layout_width="fill_parent"
                 android:layout_height="40.0dip"
                 android:layout_marginLeft="5.0dip"
@@ -92,7 +92,7 @@
                 android:textSize="15.0dip" />
 
             <EditText
-                android:id="@+id/etPassword"
+                android:id="@+id/et_password"
                 android:layout_width="fill_parent"
                 android:layout_height="40.0dip"
                 android:layout_marginLeft="5.0dip"
@@ -107,7 +107,9 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/login"
+        android:id="@+id/txtbtn_login"
+        android:onClick="login"
+        android:clickable="true"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20.0dip"
