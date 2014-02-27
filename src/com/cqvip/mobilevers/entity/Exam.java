@@ -1,5 +1,7 @@
 package com.cqvip.mobilevers.entity;
 
+import java.util.Arrays;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,9 +49,13 @@ public class Exam {
 			for(int i=0;i<array.length();i++)
 			subjectlists[i] =  new SubjectExam(array.getJSONObject(i));
 		}
-		
-		
-		
+	}
+	@Override
+	public String toString() {
+		return "Exam [examTime=" + examTime + ", score=" + score
+				+ ", _examPaperName=" + _examPaperName + ", subjectlists="
+				+ Arrays.toString(subjectlists) + "]";
 	}
 
+	
 }

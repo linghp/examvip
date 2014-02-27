@@ -1,5 +1,7 @@
 package com.cqvip.mobilevers.entity;
 
+import java.util.Arrays;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -68,4 +70,14 @@ public class SubjectExam {
 		}
 		
 	}
+
+
+	@Override
+	public String toString() {
+		return "SubjectExam [questionNum=" + questionNum
+				+ ", scorePerQuestion=" + scorePerQuestion + ", totalScore="
+				+ totalScore + ", exam3List=" + Arrays.toString(exam3List)
+				+ "]";
+	}
+	
 }

@@ -26,6 +26,11 @@ public class Exam3 {
 		
 		return null;
 	}
+
+	@Override
+	public String toString() {
+		return "Exam3 [title=" + title + "]";
+	}
 	
 
 	
