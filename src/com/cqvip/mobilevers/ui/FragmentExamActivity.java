@@ -14,7 +14,7 @@ import com.cqvip.mobilevers.view.DClassfyFragment.NextCallbacks;
  * @author luojiang
  *
  */
-public class FragmentExamActivity extends BaseMainFragmentActivity implements NextCallbacks{
+public class FragmentExamActivity extends BaseMainFragmentActivity{
 
 	private static final String TAG = "FragmentExamActivity";
 	@Override
@@ -72,11 +72,11 @@ public class FragmentExamActivity extends BaseMainFragmentActivity implements Ne
 //		startActivity(new Intent(this,ExamClassfyActivity.class));
 //	}
 
-	@Override
-	public void onItemDNextSelected(String id) {
-		startActivity(new Intent(FragmentExamActivity.this,ExamClassfyActivity.class));
-		overridePendingTransition(R.anim.slide_right_in, R.anim.slide_left_out);
-	}
+//	@Override
+//	public void onItemDNextSelected(String id) {
+//		startActivity(new Intent(FragmentExamActivity.this,ExamClassfyActivity.class));
+//		overridePendingTransition(R.anim.slide_right_in, R.anim.slide_left_out);
+//	}
 	
 //	@Override
 //	protected void onDestroy() {

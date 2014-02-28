@@ -1,9 +1,13 @@
 package com.cqvip.mobilevers.ui;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
@@ -14,6 +18,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -30,11 +36,18 @@ public class ExamActivity extends BaseFragmentActivity implements
 	private Context context;
 	ViewPager mPager;
 	int currentpage = 0;
-	public static boolean isnight=false;
+	public static boolean isnight = false;
+
+	private Timer timer = null;
+	private TimerTask task = null;
+	private Handler handler = null;
+	private Message msg = null;
+	private int secondTotal;
+	private TextView time_tv;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		Log.i(TAG, isnight+"");
+		Log.i(TAG, isnight + "");
 		super.onCreate(savedInstanceState);
 		if (isnight) {
 			this.setTheme(R.style.ThemeNight);
@@ -43,12 +56,62 @@ public class ExamActivity extends BaseFragmentActivity implements
 		}
 		setContentView(R.layout.activity_exam);
 		context = this;
+		if (savedInstanceState != null) {
+			secondTotal = savedInstanceState.getInt("secondTotal");
+		}
 		// Fragment newFragment = new FragmentExam();
 		// FragmentTransaction ft =
 		// getSupportFragmentManager().beginTransaction();
 		// ft.add(R.id.exam_fl, newFragment).commit();
 		mAdapter = new MyAdapter(getSupportFragmentManager(), context);
 		initView();
+		init();
+		startCountTime();
+	}
+
+	// 计时
+	private void startCountTime() {
+		task = new TimerTask() {
+			@Override
+			public void run() {
+				if (null == msg) {
+					msg = new Message();
+				} else {
+					msg = Message.obtain();
+				}
+				msg.what = 1;
+				handler.sendMessage(msg);
+			}
+		};
+		timer = new Timer(true);
+		timer.schedule(task, 1000, 1000);
+	}
+
+	private void init() {
+		handler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				switch (msg.what) {
+				case 1:
+					secondTotal++;
+					int second = secondTotal % 60;
+					int minTotal = (secondTotal / 60);
+					int hour = 0,
+					minute = 0;
+					minute = minTotal;
+					if (minTotal >= 60) {
+						hour = minTotal / 60;
+						minute = minute % 60;
+					}
+					time_tv.setText(String.format("%1$02d:%2$02d:%3$02d", hour,
+							minute, second));
+					break;
+				default:
+					break;
+				}
+				super.handleMessage(msg);
+			}
+		};
 	}
 
 	private void initView() {
@@ -60,7 +123,11 @@ public class ExamActivity extends BaseFragmentActivity implements
 		answercard.setOnClickListener(this);
 		ViewGroup directory = (ViewGroup) findViewById(R.id.directory_ll);
 		directory.setOnClickListener(this);
-		
+		ViewGroup handpaper = (ViewGroup) findViewById(R.id.handpaper_ll);
+		handpaper.setOnClickListener(this);
+
+		time_tv = (TextView) findViewById(R.id.time_tv);
+
 		Button button = (Button) findViewById(R.id.goto_first);
 		button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -77,35 +144,11 @@ public class ExamActivity extends BaseFragmentActivity implements
 		});
 	}
 
-	// @Override
-	// public void onBackPressed() {
-	// Log.i(TAG, getSupportFragmentManager().getBackStackEntryCount()+"");
-	// if(getSupportFragmentManager().getBackStackEntryCount()>0){
-	// getSupportFragmentManager().popBackStack();
-	// }
-	// else{
-	// super.onBackPressed();
-	// }
-	// }
-
-//	public void addFragmentToStack(View v) {
-//
-//		// Instantiate a new fragment.
-//		Fragment newFragment = new FragmentAnswerScard();
-//
-//		// Add the fragment to the activity, pushing this transaction
-//		// on to the back stack.
-//		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//		// ft.setCustomAnimations(R.anim.slide_right_in,
-//		// 0,
-//		// R.anim.slide_right_out,
-//		// 0);
-//		ft.replace(R.id.exam_fl, newFragment);
-//		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-//		ft.addToBackStack(null);
-//		ft.commit();
-//		// startActivity(new Intent(this, FragmentMineActivity.class));
-//	}
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		outState.putInt("secondTotal", secondTotal);
+		super.onSaveInstanceState(outState);
+	}
 
 	public static class MyAdapter extends FragmentStatePagerAdapter {
 		private Context context;
@@ -211,26 +254,42 @@ public class ExamActivity extends BaseFragmentActivity implements
 
 	@Override
 	public void onClick(View v) {
-	switch (v.getId()) {
-	case R.id.answercard_ll:
-		Fragment newFragment = new FragmentAnswerScard();
-		addFragmentToStack(newFragment,R.id.exam_fl );
-		break;
-	case R.id.directory_ll:
-		Log.i("ExamActivity", "onClick_directory_ll");
-		break;
+		switch (v.getId()) {
+		case R.id.answercard_ll:
+			Fragment newFragment = new FragmentAnswerScard();
+			addFragmentToStack(newFragment, R.id.exam_fl);
+			break;
+		case R.id.directory_ll:
+			Log.i("ExamActivity", "onClick_directory_ll");
+			break;
+		case R.id.handpaper_ll:
+			Log.i("ExamActivity", "onClick_handpaper_ll");
+			try {
+				task.cancel();
+				task = null;
+				timer.cancel();
+				timer.purge();
+				timer = null;
+				handler.removeMessages(msg.what);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
 
-	default:
-		break;
+		default:
+			break;
+		}
 	}
-	}
-	
+
 	public void addFragmentToStack(Fragment newFragment, int layoutid) {
 		FragmentTransaction ft = fManager.beginTransaction();
-		ft.setCustomAnimations(R.anim.slide_up_in, R.anim.blank, R.anim.blank, R.anim.slide_up_out);
+		ft.setCustomAnimations(R.anim.slide_up_in, R.anim.blank, R.anim.blank,
+				R.anim.slide_up_out);
 		ft.replace(layoutid, newFragment);
-		//ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+		// ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 		ft.addToBackStack(null);
 		ft.commit();
 	}
+
 }

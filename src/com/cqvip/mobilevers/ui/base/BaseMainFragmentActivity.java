@@ -11,7 +11,17 @@ import android.widget.Toast;
 public class BaseMainFragmentActivity extends BaseFragmentActivity {
 	private static final String TAG = "BaseMainFragmentActivity";
 	long exitTime;
-
+	
+	@Override
+	protected void backpage() {
+		if (fManager.getBackStackEntryCount() > 0) {
+			fManager.popBackStack();
+		} else {
+			//finish();
+			// overridePendingTransition(R.anim.slide_left_in,R.anim.slide_right_out);
+		}
+	}
+	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (fManager.getBackStackEntryCount() <= 0) {
