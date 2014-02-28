@@ -19,11 +19,6 @@
         <activity
             android:name="com.cqvip.mobilevers.ui.MainActivity"
             android:label="@string/app_name" >
-               <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.cqvip.mobilevers.ui.FragmentMoreActivity"
@@ -56,6 +51,11 @@
         <activity
             android:name="com.cqvip.mobilevers.ui.TestMainActivity"
             android:label="@string/title_activity_test_main" >
+                           <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

@@ -1,6 +1,6 @@
 package com.cqvip.mobilevers.ui;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.json.JSONException;
@@ -8,28 +8,27 @@ import org.json.JSONObject;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.android.volley.Request.Method;
 import com.android.volley.Response.Listener;
-import com.android.volley.Response;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.cqvip.mobilevers.R;
-import com.cqvip.mobilevers.adapter.ExamAClassfyAdapter;
 import com.cqvip.mobilevers.config.ConstantValues;
 import com.cqvip.mobilevers.entity.Exam;
-import com.cqvip.mobilevers.entity.ExamInfo;
+import com.cqvip.mobilevers.http.VersStringRequest;
 import com.cqvip.mobilevers.ui.base.BaseActivity;
 
 public class TestMainActivity extends BaseActivity {
 
 	
 	private Map<String, String> gparams;
+	private TextView tv;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_test_main);
+		tv = (TextView) findViewById(R.id.tv1);
 	}
 
 	// 2db21d4bab0e40478a65a32bb9e94f45    /Service1.asmx/GetExamPaperInfo
@@ -40,7 +39,8 @@ public class TestMainActivity extends BaseActivity {
 				JSONObject json = new JSONObject(response);
 				if(!json.isNull("_userScore")){
 				Exam exam = new Exam(json);
-				System.out.println(exam.toString());
+				//System.out.println(exam.toString());
+				tv.setText(exam.toString());
 				}
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
@@ -68,7 +68,7 @@ public class TestMainActivity extends BaseActivity {
 	
 	private void requestVolley(String addr, Listener<String> bl, int method) {
 		try {
-			StringRequest mys = new StringRequest(method, addr, bl, volleyErrorListener) {
+			VersStringRequest mys = new		VersStringRequest(method, addr, bl, volleyErrorListener) {
 
 				protected Map<String, String> getParams()
 						throws com.android.volley.AuthFailureError {
@@ -81,10 +81,13 @@ public class TestMainActivity extends BaseActivity {
 			//onError(2);
 		}
 	}
-	
-	public void getXml(View v){
 		
-		requestVolley(ConstantValues.SERVER_URL+"Service1.asmx/GetExamPaperInfo", backlistener, Method.POST);
+	public void getxml(View v){
+		
+		gparams = new HashMap<String, String>() ;
+		gparams.put("examPaperId", "4cc4160c59de4f41a38711368fe2e864");
+		System.out.println(ConstantValues.SERVER_URL+ConstantValues.GETEXAM_ADDR);
+		requestVolley(ConstantValues.SERVER_URL+ConstantValues.GETEXAM_ADDR, backlistener, Method.POST);
 		
 		
 		

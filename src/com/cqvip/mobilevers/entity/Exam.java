@@ -46,6 +46,7 @@ public class Exam {
 		score = json.getInt("_maxScore");
 		JSONArray array = json.getJSONArray("_epstsInfo");
 		if(array.length()>0){
+			subjectlists = new SubjectExam[array.length()];
 			for(int i=0;i<array.length();i++)
 			subjectlists[i] =  new SubjectExam(array.getJSONObject(i));
 		}

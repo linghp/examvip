@@ -65,6 +65,7 @@ public class SubjectExam {
 		
 		JSONArray array = json.getJSONArray("_epsubInfo");
 		if(array.length()>0){
+			exam3List = new Exam3[array.length()];
 			for(int i=0;i<array.length();i++)
 			exam3List[i] =  new Exam3(array.getJSONObject(i));
 		}

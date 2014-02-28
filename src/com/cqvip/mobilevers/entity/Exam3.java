@@ -18,14 +18,14 @@ public class Exam3 {
 	}
 	
 	//解析xml
-	public Choice parSubXml(String xml){
-		
-		
-		
-		
-		
-		return null;
-	}
+//	public Choice parSubXml(String xml){
+//		
+//		
+//		
+//		
+//		
+//		return null;
+//	}
 
 	@Override
 	public String toString() {
