@@ -16,10 +16,10 @@ import org.xmlpull.v1.XmlPullParserException;
  */
 public class Exam {
 	
-	private int examTime;
-	private int score;
-	private String _examPaperName;
-	private SubjectExam[] subjectlists;
+	private int examTime;//考试时间
+	private int score;//总分
+	private String _examPaperName;//试题名称
+	private SubjectExam[] subjectlists;//包含的大题
 	
 	public int getExamTime() {
 		return examTime;

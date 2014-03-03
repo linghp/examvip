@@ -11,30 +11,24 @@ import org.xmlpull.v1.XmlPullParserException;
 import com.cqvip.mobilevers.utils.PullParseXML;
 
 /**
- * 从xml解析返回的 试卷 实体类
+ * 从xml解析返回的 每一道具体试题  （包含标题 和问题和答案，解析）实体类
  * @author luojiang
  *
  */
 public class Subject {
-	String type;
-	String title;
-	ArrayList<Question> question;
-	boolean isTitleContainPic;
-	ArrayList<String> pics;
+	String type;//类型
+	Content title;//标题
+	ArrayList<Question> question;//问题和答案以及解析
 	@Override
 	public String toString() {
 		return "Subject [type=" + type + ", title=" + title + ", question="
-				+ question + ", isTitleContainPic=" + isTitleContainPic
-				+ ", pics=" + pics + "]";
+				+ question + "]";
 	}
-	public Subject(String type, String title, ArrayList<Question> question,
-			boolean isTitleContainPic, ArrayList<String> pics) {
+	public Subject(String type, Content title, ArrayList<Question> question) {
 		super();
 		this.type = type;
 		this.title = title;
 		this.question = question;
-		this.isTitleContainPic = isTitleContainPic;
-		this.pics = pics;
 	}
 
 	

@@ -20,7 +20,7 @@ public class SubjectExam {
 	private int questionNum;//题目数量
 	private int scorePerQuestion;//每小题分数
 	private int totalScore;//题目总分
-	private Subject[] exam3List;
+	private Subject[] exam3List;//大题下包含的小题
 	
 	public SubjectExam(JSONObject json)throws JSONException, IOException, XmlPullParserException{
 		totalScore = json.getInt("_totalScore");

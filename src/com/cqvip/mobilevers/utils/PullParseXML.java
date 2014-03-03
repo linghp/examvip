@@ -65,7 +65,7 @@ public class PullParseXML {
 	        	skip(xmlParse);
 	        }
 	    }  
-		return new Subject(type,title,questions,isTitleContainPic,pics);
+		return new Subject(type,new Content(pics, title, isTitleContainPic),questions);
 	}
 	
 	/**
