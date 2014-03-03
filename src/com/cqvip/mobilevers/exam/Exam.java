@@ -1,11 +1,19 @@
-package com.cqvip.mobilevers.entity;
+package com.cqvip.mobilevers.exam;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xmlpull.v1.XmlPullParserException;
 
+/**
+ * 试卷对象
+ * Exam(试题)->>SubjectExam(各类大题)->>Subjcet(所有小题)
+ * @author luojiang
+ *
+ */
 public class Exam {
 	
 	private int examTime;
@@ -38,7 +46,7 @@ public class Exam {
 		this.subjectlists = exam2lists;
 	}
 	
-	public Exam (JSONObject json)throws JSONException{
+	public Exam (JSONObject json)throws JSONException, IOException, XmlPullParserException{
 	
 		
 		examTime = json.getInt("_examPaperLimitTime");

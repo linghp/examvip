@@ -1,10 +1,9 @@
-package com.cqvip.mobilevers.entity;
+package com.cqvip.mobilevers.exam;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 /**
- * 试题对象
+ * 试题参考（暂不使用）
  * @author luojiang
  *
  */
