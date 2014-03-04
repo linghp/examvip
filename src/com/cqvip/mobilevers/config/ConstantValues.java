@@ -6,6 +6,8 @@ public class ConstantValues {
 	public static final String curl="http://192.168.20.214:8080/web/CServlet";
 	public static final String durl="http://192.168.20.214:8080/web/DServlet";
 	public static final String paperurl="http://192.168.20.214:8080/web/PServlet";
+	
+	public static final String EXAMTYPEURL="http://192.168.20.75:3000/Service1.asmx/GetKnowledgeClassList";
 
 	
 	public static final String SERVER_URL="http://192.168.20.75:3000/";
@@ -15,6 +17,7 @@ public class ConstantValues {
 	public static final String ADDFAVOREXAM_ADDR="";
 	public static final String GETEXAMPAPER_ADDR="";
 	
+	public static final String DBNAME="MobileVers.db";
 	
 	
 	public static final int toutiao_id=1;

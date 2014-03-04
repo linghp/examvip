@@ -12,13 +12,13 @@ import android.widget.Toast;
 
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.adapter.base.AdapterBase;
-import com.cqvip.mobilevers.entity.ExamInfo;
+import com.cqvip.mobilevers.db.OneLevelType;
 
-public class ExamAClassfyAdapter extends AdapterBase<ExamInfo> implements OnClickListener {
+public class ExamAClassfyAdapter extends AdapterBase<OneLevelType> implements OnClickListener {
 
 	private Context context;
 	
-	public ExamAClassfyAdapter (Context context,List<ExamInfo> lists) {
+	public ExamAClassfyAdapter (Context context,List<OneLevelType> lists) {
 		this.context = context;
 		this.mList = lists;
 	}
@@ -34,14 +34,13 @@ public class ExamAClassfyAdapter extends AdapterBase<ExamInfo> implements OnClic
 			 viewGroup=(ViewGroup) v.findViewById(R.id.ll_classifyexamlist);
 			 viewGroup.setOnClickListener(this);
 			 viewGroup.setTag(position);
-			title = (TextView) v.findViewById(R.id.txt_item_title);
-			count = (TextView) v.findViewById(R.id.tx_arrow);
-			title.setText(mList.get(position).getTitle());
-			count.setText(mList.get(position).getCount());
 		}else{
 			v = convertView;
 		}
-		
+		title = (TextView) v.findViewById(R.id.txt_item_title);
+		count = (TextView) v.findViewById(R.id.tx_arrow);
+		title.setText(mList.get(position).getTitle());
+		count.setText(mList.get(position).getCount()+"");
 		return v;
 	}
 

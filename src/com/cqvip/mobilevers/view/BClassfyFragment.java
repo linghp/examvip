@@ -52,7 +52,7 @@ public class BClassfyFragment extends BaseListFragment implements OnItemClickLis
 //		}
 //	};
 	
-    String mNum;
+    String superiorexamtypeid;
 
     
 	@Override
@@ -113,7 +113,7 @@ public class BClassfyFragment extends BaseListFragment implements OnItemClickLis
 
         // Supply num input as an argument.
         Bundle args = new Bundle();
-        args.putString("num", num);
+        args.putString("superiorexamtypeid", num);
         f.setArguments(args);
 
         return f;
@@ -125,7 +125,7 @@ public class BClassfyFragment extends BaseListFragment implements OnItemClickLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mNum = getArguments() != null ? getArguments().getString("num") : 0+"";
+        superiorexamtypeid = getArguments() != null ? getArguments().getString("superiorexamtypeid") : 0+"";
         //获取数据
     }
 

@@ -1,10 +1,14 @@
 package com.cqvip.mobilevers.ui;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
+import com.cqvip.mobilevers.MyApplication;
 import com.cqvip.mobilevers.R;
+import com.cqvip.mobilevers.db.OneLevelType;
+import com.cqvip.mobilevers.db.OneLevelTypeDao;
 import com.cqvip.mobilevers.ui.base.BaseMainFragmentActivity;
 import com.cqvip.mobilevers.view.AClassfyFragment;
 import com.cqvip.mobilevers.view.DClassfyFragment.NextCallbacks;
@@ -17,6 +21,8 @@ import com.cqvip.mobilevers.view.DClassfyFragment.NextCallbacks;
 public class FragmentExamActivity extends BaseMainFragmentActivity{
 
 	private static final String TAG = "FragmentExamActivity";
+	public OneLevelTypeDao oneLevelTypeDao;
+	public SQLiteDatabase db;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -26,8 +32,15 @@ public class FragmentExamActivity extends BaseMainFragmentActivity{
 	            ft.add(R.id.simple_fragment, new AClassfyFragment(), TAG);
 	            ft.commit();
 	        }	
-		
+	      getDB();
 	    }
+	
+	private void getDB() {
+		oneLevelTypeDao=((MyApplication)getApplication()).daoSession.getOneLevelTypeDao();
+		db=((MyApplication)getApplication()).db;
+	}
+	
+	
 
 //	@Override
 //	public void onItemSelected(String id) {
