@@ -21,7 +21,7 @@ public class VersStringRequest extends StringRequest {
 	protected Response<String> parseNetworkResponse(NetworkResponse response) {
 		 String str = null;
 	        try {
-	            str = new String(response.data,"utf-8");
+	            str = new String(response.data,"gbk");
 	        } catch (UnsupportedEncodingException e) {
 	            // TODO Auto-generated catch block
 	            e.printStackTrace();
