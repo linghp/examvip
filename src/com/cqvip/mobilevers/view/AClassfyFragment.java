@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -22,14 +25,17 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request.Method;
+import com.android.volley.Response.Listener;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.adapter.ExamAClassfyAdapter;
+import com.cqvip.mobilevers.adapter.ExamBClassfyAdapter;
 import com.cqvip.mobilevers.config.ConstantValues;
 import com.cqvip.mobilevers.db.OneLevelType;
 import com.cqvip.mobilevers.db.OneLevelTypeDao;
 import com.cqvip.mobilevers.exception.ErrorVolleyThrow;
+import com.cqvip.mobilevers.http.HttpUtils;
 import com.cqvip.mobilevers.http.VersStringRequest;
 import com.cqvip.mobilevers.ui.FragmentExamActivity;
 
@@ -48,6 +54,7 @@ public class AClassfyFragment extends BaseListFragment implements
 	private Cursor cursor;
 	private SQLiteDatabase db;
 	private ListView listview;
+	private Map<String, String> gparams;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,6 +69,7 @@ public class AClassfyFragment extends BaseListFragment implements
 
 		oneLevelTypeDao = ((FragmentExamActivity) getActivity()).oneLevelTypeDao;
 		db = ((FragmentExamActivity) getActivity()).db;
+		
 		getData();
 
 		listview.setOnItemClickListener(this);
@@ -79,11 +87,70 @@ public class AClassfyFragment extends BaseListFragment implements
 			mAdapter = new ExamAClassfyAdapter(getActivity(), tempList);
 			listview.setAdapter(mAdapter);
 		}else{
-			Toast.makeText(getActivity(), "网络获取", 1).show();
-			String url = ConstantValues.EXAMTYPEURL;// 获取分类路径
-			getStringDate(listview, url);
+			String url = ConstantValues.SERVER_URL+ConstantValues.GetKnowledgeClassList_ADDR;// url
+		  	String parentID = "-1";
+			getDataFromNet(url,parentID);
 		}
 	}
+
+	private void getDataFromNet(String url, String parentID) {
+		customProgressDialog.show();
+		gparams=new HashMap<String, String>();			
+		gparams.put("parentId", parentID);
+		requestVolley(url,
+				back_ls, Method.POST);
+		
+	}
+	 private void requestVolley(String addr, Listener<String> bl, int method) {
+			try {
+				VersStringRequest mys = new VersStringRequest(method, addr, bl, volleyErrorListener) {
+
+					protected Map<String, String> getParams()
+							throws com.android.volley.AuthFailureError {
+						return gparams;
+					};
+				};
+				mys.setRetryPolicy(HttpUtils.setTimeout());
+				mQueue.add(mys);
+			} catch (Exception e) {
+				//onError(2);
+			}
+		}
+
+		private Listener<String> back_ls = new Listener<String>() {
+
+			@Override
+			public void onResponse(String response) {
+				if(customProgressDialog!=null&&customProgressDialog.isShowing())
+				customProgressDialog.dismiss();
+				//解析结果
+				if (response != null) {
+				try {
+					JSONObject json = new JSONObject(response);
+					//判断
+					if(json.isNull("error")){
+						//返回正常
+						tempList = OneLevelType.parserJsonData(response);
+						if (tempList != null && !tempList.isEmpty()) {
+							mAdapter = new ExamAClassfyAdapter(
+									getActivity(), tempList);
+							listview.setAdapter(mAdapter);
+							setDataToDatabase();
+						}
+						
+					}else {
+						//返回错误
+						//TODO
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			 } else {
+					Toast.makeText(getActivity(), "无数据",
+							Toast.LENGTH_LONG).show();
+				}
+			}
+		};
 
 	private void cursorToList() {
 		try {
@@ -109,93 +176,11 @@ public class AClassfyFragment extends BaseListFragment implements
 			}
 		}
 	}
-
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onActivityCreated(savedInstanceState);
-		Log.i(TAG, "onActivityCreated");
-	}
-
-	@Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		Log.i(TAG, "onPause");
-	}
-
-	@Override
-	public void onStop() {
-		// TODO Auto-generated method stub
-		super.onStop();
-		Log.i(TAG, "onStop");
-	}
-
-	@Override
-	public void onDestroyView() {
-		// TODO Auto-generated method stub
-		super.onDestroyView();
-		Log.i(TAG, "onDestroyView");
-	}
-
-	@Override
-	public void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-		Log.i(TAG, "onDestroy");
-	}
-
-	@Override
-	public void onDetach() {
-		// TODO Auto-generated method stub
-		super.onDetach();
-		Log.i(TAG, "onDetach");
-	}
-
 	/**
-	 * 从网络获取书籍
-	 * 
-	 * @param listview
+	 * 插入数据库
 	 */
-	private Map<String, String> gparams;
-
-	private void getStringDate(final ListView listview, String url) {
-		mQueue = Volley.newRequestQueue(getActivity());
-		volleyErrorListener = new ErrorVolleyThrow(getActivity(), null);
-		gparams = new HashMap<String, String>();
-		gparams.put("parentId", "-1");
-		VersStringRequest myReq = new VersStringRequest(Method.POST, url,
-				new Response.Listener<String>() {
-
-					@Override
-					public void onResponse(String result) {
-						System.out.println(result);
-						if (result != null) {
-							tempList = OneLevelType.parserJsonData(result);
-							if (tempList != null && !tempList.isEmpty()) {
-								mAdapter = new ExamAClassfyAdapter(
-										getActivity(), tempList);
-								listview.setAdapter(mAdapter);
-								setDataToDatabase();
-							}
-						} else {
-							Toast.makeText(getActivity(), "无数据",
-									Toast.LENGTH_LONG).show();
-						}
-
-					}
-
-					private void setDataToDatabase() {
-						oneLevelTypeDao.insertInTx(tempList);
-					}
-				}, volleyErrorListener) {
-			@Override
-			protected Map<String, String> getParams() throws AuthFailureError {
-				// TODO Auto-generated method stub
-				return gparams;
-			}
-		};
-		mQueue.add(myReq);
+	private void setDataToDatabase() {
+		oneLevelTypeDao.insertInTx(tempList);
 	}
 
 	@Override

@@ -2,17 +2,16 @@ package com.cqvip.mobilevers.view;
 
 
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
-import android.os.AsyncTask;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,88 +20,26 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.Request.Method;
+import com.android.volley.Response.Listener;
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.adapter.ExamBClassfyAdapter;
 import com.cqvip.mobilevers.config.ConstantValues;
-import com.cqvip.mobilevers.entity.ExamInfo;
-import com.cqvip.mobilevers.http.HttpConnect;
+import com.cqvip.mobilevers.db.OneLevelType;
+import com.cqvip.mobilevers.http.HttpUtils;
+import com.cqvip.mobilevers.http.VersStringRequest;
+import com.cqvip.mobilevers.ui.ExamClassfyActivity;
 
 public class BClassfyFragment extends BaseListFragment implements OnItemClickListener{
 	
 	
-	
-	private List<ExamInfo> tempList;
+	private Map<String, String> gparams;
+	private List<OneLevelType> tempList;
 	final static String TAG="BClassfyFragment";
-	/**
-	 * The fragment's current callback object, which is notified of list item
-	 * clicks.
-	 */
-//	private NextCallbacks mCallbacks = sDummyCallbacks;
-//	
-//	public interface NextCallbacks {
-//		/**
-//		 * Callback for when an item has been selected.
-//		 */
-//		public void onItemNextSelected(String id);
-//	}
-//
-//	private static NextCallbacks sDummyCallbacks = new NextCallbacks() {
-//		@Override
-//		public void onItemNextSelected(String id) {
-//		}
-//	};
 	
     String superiorexamtypeid;
 
     
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-
-		// Activities containing this fragment must implement its callbacks.
-//		if (!(activity instanceof Callbacks)) {
-//			throw new IllegalStateException(
-//					"Activity must implement fragment's callbacks.");
-//		}
-
-		//mCallbacks = (NextCallbacks) activity;
-	}
-
-	@Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		Log.i(TAG, "onPause");
-	}
-	
-	@Override
-	public void onStop() {
-		// TODO Auto-generated method stub
-		super.onStop();
-		Log.i(TAG, "onStop");
-	}
-	
-	@Override
-	public void onDestroyView() {
-		// TODO Auto-generated method stub
-		super.onDestroyView();
-		Log.i(TAG, "onDestroyView");
-	}
-	
-	@Override
-	public void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-		Log.i(TAG, "onDestroy");
-	}
-	
-	@Override
-	public void onDetach() {
-		// TODO Auto-generated method stub
-		super.onDetach();
-		Log.i(TAG, "onDetach");
-	}
-
     
     /**
      * Create a new instance of CountingFragment, providing "num"
@@ -125,7 +62,7 @@ public class BClassfyFragment extends BaseListFragment implements OnItemClickLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        superiorexamtypeid = getArguments() != null ? getArguments().getString("superiorexamtypeid") : 0+"";
+      //  superiorexamtypeid = getArguments() != null ? getArguments().getString("superiorexamtypeid") : 0+"";
         //获取数据
     }
 
@@ -141,108 +78,103 @@ public class BClassfyFragment extends BaseListFragment implements OnItemClickLis
 		}
 		view = inflater.inflate(R.layout.main_tab_exam, container, false);
     	//view = inflater.inflate(R.layout.main_tab_exam, null);
-	   	   ListView listview = (ListView) view.findViewById(R.id.lst_next_classy);
-	   	   refreshData(ConstantValues.burl, listview);
+	   	 listview = (ListView) view.findViewById(R.id.lst_next_classy);
+
+	   	String url = ConstantValues.SERVER_URL+ConstantValues.GetKnowledgeClassList_ADDR;// url
+	   	superiorexamtypeid = getArguments() != null ? getArguments().getString("superiorexamtypeid") : 0+""; //参数
+	   	
+	   	getData(url,superiorexamtypeid);
+	   	
 	   	listview.setOnItemClickListener(this);
         return view;
     }
+    
+    private void getData(String url,String superiorexamtypeid) {
+		// TODO Auto-generated method stub
+    	//数据库获取
+    	
+    	
+    	//网络获取
+    	getDataFromNet(url,superiorexamtypeid);
+		
+	}
 
-	private void refreshData(String url, ListView view) {
-		GetNewsFromServer asyncTask=new GetNewsFromServer(view,0,0,0);
-		   asyncTask.execute(url);
-		   
-	   }		   	   
-	   
-	   /**
-	 		 * 去服务器获取数据
-	 		 * @author Administrator
-	 		 *
-	 		 */
-	 		@SuppressWarnings("unused")
-	 		private class GetNewsFromServer extends AsyncTask<String, Integer, String>{
-	 			private ListView view;
-//	 			private int startId;
-//	 			private int categoryId;
-//	 			private int type;
-	 			public GetNewsFromServer(ListView view,int startId,int categoryId,int type){
-	 				this.view=view;
-//	 				this.startId=startId;
-//	 				this.categoryId=categoryId;
-//	 				this.type=type;
-	 			}
+	/**
+     * 从网络获取数据
+     * @param url
+     * @param superiorexamtypeid
+     */
+	private void getDataFromNet(String url,String superiorexamtypeid) {
+		customProgressDialog.show();
+		gparams=new HashMap<String, String>();			
+		gparams.put("parentId", superiorexamtypeid);
+		requestVolley(url,
+				back_ls, Method.POST);
+	}
+    private void requestVolley(String addr, Listener<String> bl, int method) {
+		try {
+			VersStringRequest mys = new VersStringRequest(method, addr, bl, volleyErrorListener) {
 
-	 			@Override
-	 			protected String doInBackground(String... params) {
-	 				//向服务器发送请求的数据
-//	 				List<NameValuePair> values=new ArrayList<NameValuePair>();
-//	 				values.add(new BasicNameValuePair("startId", startId+""));
-//	 				values.add(new BasicNameValuePair("categoryId", categoryId+""));
-//	 				values.add(new BasicNameValuePair("type", type+""));
-//	 				return HttpConnect.getNews(params[0],values);
-	 				return HttpConnect.getNews(params[0],null);
-	 			}
+				protected Map<String, String> getParams()
+						throws com.android.volley.AuthFailureError {
+					return gparams;
+				};
+			};
+			mys.setRetryPolicy(HttpUtils.setTimeout());
+			mQueue.add(mys);
+		} catch (Exception e) {
+			//onError(2);
+		}
+	}
 
-	 			@Override
-	 			protected void onPostExecute(String result) {
-	 				super.onPostExecute(result);
-	 				System.out.println("==================");
-	 				if(result!=null){
-	 					System.out.println("=========result======");
-	 					tempList =	parserJsonData(result,view);
-	 					if(tempList!=null&& !tempList.isEmpty()){
-	 						mAdapter=new  ExamBClassfyAdapter(getActivity(), tempList);
-	 						view.setAdapter(mAdapter);
-	 					}
-	 					//更新数据
-	 				}else{
-						System.out.println("======no=============");
-					}
-//	 				if(type==0){
-//	 				   view.findViewById(R.id.pb).setVisibility(View.GONE);
-//	 				}
-	 				
-	 			}
+	private Listener<String> back_ls = new Listener<String>() {
 
-	 			@Override
-	 			protected void onPreExecute() {
-	 				super.onPreExecute();
-//	 				if(type==0){
-	 					//view.findViewById(R.id.lst_next_classy).setVisibility(View.VISIBLE);	
-//	 				}
-	 				
-	 			}
-	 			
-	 		}
-	 		private List<ExamInfo> parserJsonData(String data,View view){
-				List<ExamInfo> mtempList=new ArrayList<ExamInfo>();
-				try{
-					JSONObject js = new JSONObject(data);
-					JSONArray arrayList= js.getJSONArray("users");
-					for(int i=0;i<arrayList.length();i++){
-						JSONObject obj=arrayList.getJSONObject(i);
-						ExamInfo detail=new ExamInfo();
-						detail.setId(obj.getString("id"));
-						detail.setTitle(obj.getString("title"));
-						detail.setCount(obj.getString("count"));
-						
-						mtempList.add(detail);
-					}
-					System.out.println(mtempList.size());
-					System.out.println(mtempList.toString());
-					return mtempList;
-				}catch(Exception e){
-					e.printStackTrace();
+		@Override
+		public void onResponse(String response) {
+			if(customProgressDialog!=null&&customProgressDialog.isShowing())
+			customProgressDialog.dismiss();
+			//解析结果
+			if (response != null) {
+			try {
+				JSONObject json = new JSONObject(response);
+				//判断
+				if(json.isNull("error")){
+					//返回正常
+						tempList = OneLevelType.parserJsonData(response);
+						if (tempList != null && !tempList.isEmpty()) {
+							mAdapter = new ExamBClassfyAdapter(
+									getActivity(), tempList);
+							listview.setAdapter(mAdapter);
+							//setDataToDatabase();
+						}
+					
+				}else {
+					//登陆错误
+					//TODO
 				}
-				return null;
+			} catch (JSONException e) {
+				e.printStackTrace();
 			}
+		 } else {
+				Toast.makeText(getActivity(), "无数据",
+						Toast.LENGTH_LONG).show();
+			}
+		}
+	};  
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		Fragment newFragment = CClassfyFragment.newInstance(tempList.get(position).getId());
-		//mCallbacks.onItemNextSelected(tempList.get(position).getId());
-		addFragmentToStack(newFragment,R.id.simple_fragment);
-		Toast.makeText(getActivity(), "11", 1).show();
+		String nextId = tempList.get(position).getExamtypeid().toString();
+		if(tempList.get(position).getHaschildren()){
+			Fragment newFragment = BClassfyFragment.newInstance(nextId);
+			addFragmentToStack(newFragment, R.id.simple_fragment);
+		}else{
+			Intent intent = new Intent(getActivity(),ExamClassfyActivity.class);
+			intent.putExtra("subjectId", nextId);
+			startActivity(new Intent(getActivity(),ExamClassfyActivity.class));
+			
+		}
 	}
 
 }

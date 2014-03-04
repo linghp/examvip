@@ -11,7 +11,6 @@ import com.cqvip.mobilevers.db.OneLevelType;
 import com.cqvip.mobilevers.db.OneLevelTypeDao;
 import com.cqvip.mobilevers.ui.base.BaseMainFragmentActivity;
 import com.cqvip.mobilevers.view.AClassfyFragment;
-import com.cqvip.mobilevers.view.DClassfyFragment.NextCallbacks;
 
 /**
  * 考试模块
