@@ -10,19 +10,29 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.Response.ErrorListener;
 import com.android.volley.toolbox.Volley;
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.exception.ErrorVolleyThrow;
+import com.cqvip.mobilevers.widget.CustomProgressDialog;
 
 public class BaseListFragment extends Fragment {
 	protected ListView listview;
 	protected View view;
 	LayoutInflater mInflater;
 	protected BaseAdapter mAdapter;
-	RequestQueue mQueue;
-	ErrorVolleyThrow volleyErrorListener;
-
+	protected RequestQueue mQueue;
+	protected ErrorVolleyThrow volleyErrorListener;
+	protected CustomProgressDialog customProgressDialog;
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		mQueue = Volley.newRequestQueue(getActivity());
+		volleyErrorListener = new ErrorVolleyThrow(getActivity(), null);
+		if(customProgressDialog==null){
+			customProgressDialog=CustomProgressDialog.createDialog(getActivity());
+		}
+	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
