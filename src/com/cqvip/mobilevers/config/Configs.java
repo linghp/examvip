@@ -5,5 +5,5 @@ public class Configs {
 	/**
 	 * 超时时间
 	 */
-	public static final int SOCKET_TIMEOUT =20;
+	public static final int SOCKET_TIMEOUT =5000;
 }

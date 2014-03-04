@@ -30,6 +30,7 @@ import com.cqvip.mobilevers.config.ConstantValues;
 import com.cqvip.mobilevers.db.OneLevelType;
 import com.cqvip.mobilevers.db.OneLevelTypeDao;
 import com.cqvip.mobilevers.exception.ErrorVolleyThrow;
+import com.cqvip.mobilevers.http.HttpUtils;
 import com.cqvip.mobilevers.http.VersStringRequest;
 import com.cqvip.mobilevers.ui.FragmentExamActivity;
 
@@ -195,6 +196,7 @@ public class AClassfyFragment extends BaseListFragment implements
 				return gparams;
 			}
 		};
+		myReq.setRetryPolicy(HttpUtils.setTimeout());
 		mQueue.add(myReq);
 	}
 
