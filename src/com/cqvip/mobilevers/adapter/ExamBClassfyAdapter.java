@@ -12,13 +12,14 @@ import android.widget.TextView;
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.adapter.base.AdapterBase;
 import com.cqvip.mobilevers.db.OneLevelType;
+import com.cqvip.mobilevers.db.TwoLevelType;
 import com.cqvip.mobilevers.entity.ExamInfo;
 
-public class ExamBClassfyAdapter extends AdapterBase<OneLevelType> {
+public class ExamBClassfyAdapter extends AdapterBase<TwoLevelType> {
 
 	private Context context;
 	
-	public ExamBClassfyAdapter (Context context,List<OneLevelType> lists) {
+	public ExamBClassfyAdapter (Context context,List<TwoLevelType> lists) {
 		this.context = context;
 		this.mList = lists;
 	}

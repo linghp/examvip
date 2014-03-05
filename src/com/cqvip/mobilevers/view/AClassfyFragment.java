@@ -160,8 +160,7 @@ public class AClassfyFragment extends BaseListFragment implements
 				while (!cursor.isAfterLast()) {
 					OneLevelType oneLevelType = new OneLevelType(
 							cursor.getLong(0), cursor.getInt(1),cursor.getInt(2),
-							cursor.getString(3), Boolean.parseBoolean(cursor
-									.getString(4)));
+							cursor.getString(3), cursor.getInt(4)==0?false:true);
 					Log.i("AClassfyFragment", oneLevelType.toString());
 					tempList.add(oneLevelType);
 					cursor.moveToNext();
@@ -187,7 +186,7 @@ public class AClassfyFragment extends BaseListFragment implements
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		Fragment newFragment = BClassfyFragment.newInstance(tempList
-				.get(position).getExamtypeid().toString());
+				.get(position).getExamtypeid().toString(),2);
 		addFragmentToStack(newFragment, R.id.simple_fragment);
 	}
 
