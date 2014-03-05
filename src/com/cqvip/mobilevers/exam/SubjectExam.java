@@ -26,7 +26,7 @@ public class SubjectExam {
 		totalScore = json.getInt("_totalScore");
 		scorePerQuestion = json.getInt("_scorePerQuestion");
 		questionNum = json.getInt("_questionNum");
-		subjectTypeName = json.getString("subjectTypeName");
+		subjectTypeName = json.getString("_subjectTypeName");
 		JSONArray array = json.getJSONArray("_epsubInfo");
 		if(array.length()>0){
 			exam3List = new Subject[array.length()];
