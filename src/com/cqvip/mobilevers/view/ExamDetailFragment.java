@@ -18,6 +18,20 @@ import com.cqvip.mobilevers.ui.base.BaseFragment;
 
 public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 
+	  public static final String ARG_ID = "subjectId";
+	  public static ExamDetailFragment newInstance(String id) {
+		  ExamDetailFragment f = new ExamDetailFragment();
+
+	        // Supply num input as an argument.
+	        Bundle args = new Bundle();
+	        args.putString(ARG_ID, id);
+	        f.setArguments(args);
+
+	        return f;
+	    }
+	
+	
+	
 	private TextView  tyear,tadddate,ttotal,tscroe,ttime,tsize;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,17 +46,18 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 		startExam_btn.setOnClickListener(this);
 		
 		Bundle bundle = getArguments();
-		PaperInfo info = (PaperInfo) bundle.getSerializable("paper");
 		
-		tyear = (TextView) view.findViewById(R.id.txt_p_year);
-		tadddate = (TextView) view.findViewById(R.id.txt_p_adddata);
-		ttotal = (TextView) view.findViewById(R.id.txt_p_total);
-		tscroe = (TextView) view.findViewById(R.id.txt_p_score);
-		ttime = (TextView) view.findViewById(R.id.txt_p_time);
-		tsize = (TextView) view.findViewById(R.id.txt_p_size);
-			
-		tyear.setText(info.getPulishyear());
-		tadddate.setText(info.getAdddate());
+		String subjectId = bundle.getString(ARG_ID);
+		
+//		tyear = (TextView) view.findViewById(R.id.txt_p_year);
+//		tadddate = (TextView) view.findViewById(R.id.txt_p_adddata);
+//		ttotal = (TextView) view.findViewById(R.id.txt_p_total);
+//		tscroe = (TextView) view.findViewById(R.id.txt_p_score);
+//		ttime = (TextView) view.findViewById(R.id.txt_p_time);
+//		tsize = (TextView) view.findViewById(R.id.txt_p_size);
+//			
+//		tyear.setText(info.getPulishyear());
+//		tadddate.setText(info.getAdddate());
 //		ttotal.setText(info.getItemcount());
 //		tscroe.setText(info.getScore()+"");
 //		ttime.setText(info.getSpenttime());

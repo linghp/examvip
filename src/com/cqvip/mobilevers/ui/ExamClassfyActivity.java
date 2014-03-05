@@ -23,10 +23,11 @@ import com.android.volley.toolbox.Volley;
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.exception.ErrorVolleyThrow;
 import com.cqvip.mobilevers.ui.base.BaseFragmentActivity;
+import com.cqvip.mobilevers.view.ExamDetailFragment;
 import com.cqvip.mobilevers.view.ExamPaperListFragment;
 import com.cqvip.mobilevers.widget.CustomProgressDialog;
 
-public class ExamClassfyActivity extends BaseFragmentActivity {
+public class ExamClassfyActivity extends BaseFragmentActivity implements ExamPaperListFragment.NextCallbacks{
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -197,5 +198,12 @@ public class ExamClassfyActivity extends BaseFragmentActivity {
 			return tabTitle.length;
 		}
 
+	}
+
+	@Override
+	public void onItemNextSelected(String id) {
+		Fragment newFragment = ExamDetailFragment.newInstance(id);
+		this.addFragmentToStack(newFragment, R.id.itemlist_fl);
+		
 	}
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -42,6 +43,38 @@ public class ExamPaperListFragment extends Fragment implements OnItemClickListen
     private Map<String, String> gparams;
     private ExamPaperAdapter adapter; 
     private int page;
+    
+   	private NextCallbacks mCallbacks = sDummyCallbacks;
+	
+	public interface NextCallbacks {
+		/**
+		 * Callback for when an item has been selected.
+		 */
+		public void onItemNextSelected(String id);
+	}
+
+	private static NextCallbacks sDummyCallbacks = new NextCallbacks() {
+		@Override
+		public void onItemNextSelected(String id) {
+		}
+	};
+    
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+
+		mCallbacks = (NextCallbacks) activity;
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+
+		// Reset the active callbacks interface to the dummy implementation.
+		mCallbacks = sDummyCallbacks;
+	}
+	
     /**
      * Create a new instance of ExamPaperListFragment, providing "num"
      * as an argument.
@@ -224,8 +257,6 @@ public class ExamPaperListFragment extends Fragment implements OnItemClickListen
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		
-		
-		
+		mCallbacks.onItemNextSelected(adapter.getList().get(position).getSubjectid());
 	}  
 }
