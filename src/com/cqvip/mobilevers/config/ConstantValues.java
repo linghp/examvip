@@ -11,16 +11,22 @@ public class ConstantValues {
 
 	
 	public static final String SERVER_URL="http://192.168.20.75:3000/";
-	
 	public static final String LOGIN_ADDR="Service1.asmx/Login";
 	public static final String LOGINOUT_ADDR="Service1.asmx/LoginOut";
 	public static final String ADDFAVOREXAM_ADDR="";
-	public static final String GETEXAMPAPER_ADDR="";
+	public static final String GETEXAMPAPER_ADDR="Service1.asmx/GetExamPaperList";
 	public static final String GETEXAM_ADDR="Service1.asmx/GetExamPaperInfo";
 	public static final String GetKnowledgeClassList_ADDR="Service1.asmx/GetKnowledgeClassList";
 	
 	public static final String DBNAME="MobileVers.db";
 	
+	
+	public static final int TYPE_EXAM_REAL=2;// 真题
+	public static final int TYPE_EXAM_SIMULATE=1;//模拟
+	
+	public static final int GETFIRSTPAGE = 1;//上一页
+	public static final int GETNEXTPAGE = 2;//下一页
+	public static final int DEFAULYPAGESIZE = 15;//默认一次去15条
 	
 	public static final int toutiao_id=1;
 	public static final int yule_id=2;

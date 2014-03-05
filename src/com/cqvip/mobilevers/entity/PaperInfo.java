@@ -20,123 +20,52 @@ public class PaperInfo implements Serializable{
 	/**
 	 * 
 	 */
+	
+	
 	private static final long serialVersionUID = -5597714058808808547L;
-	private String adddate;
-	private String itemcount;
-	private String desc;
-	private String pulishyear;
-	private int score;
-	private long size;
 	private String subjectid;
-	private String spenttime;
-	private String titile;
-
-	public String getAdddate() {
-		return adddate;
-	}
-
-	public void setAdddate(String adddate) {
-		this.adddate = adddate;
-	}
-
-	public String getItemcount() {
-		return itemcount;
-	}
-
-	public void setItemcount(String itemcount) {
-		this.itemcount = itemcount;
-	}
-
-	public String getDesc() {
-		return desc;
-	}
-
-	public void setDesc(String desc) {
-		this.desc = desc;
-	}
-
-	public String getPulishyear() {
-		return pulishyear;
-	}
-
-	public void setPulishyear(String pulishyear) {
-		this.pulishyear = pulishyear;
-	}
-
-
-
-	public int getScore() {
-		return score;
-	}
-
-	public void setScore(int score) {
-		this.score = score;
-	}
-
-	public long getSize() {
-		return size;
-	}
-
-	public void setSize(long size) {
-		this.size = size;
-	}
+	private String name;
+	private String className;
+	private String adddate;
+	private String pulishyear;
 
 	public String getSubjectid() {
 		return subjectid;
 	}
-
 	public void setSubjectid(String subjectid) {
 		this.subjectid = subjectid;
 	}
-
-	public String getSpenttime() {
-		return spenttime;
+	public String getName() {
+		return name;
 	}
-
-	public void setSpenttime(String spenttime) {
-		this.spenttime = spenttime;
+	public void setName(String name) {
+		this.name = name;
 	}
-
-	public String getTitile() {
-		return titile;
+	public String getAdddate() {
+		return adddate;
 	}
-
-	public void setTitile(String titile) {
-		this.titile = titile;
+	public void setAdddate(String adddate) {
+		this.adddate = adddate;
 	}
-
-	@Override
-	public String toString() {
-		return "PaperInfo [adddate=" + adddate + ", itemcount=" + itemcount
-				+ ", desc=" + desc + ", pulishyear=" + pulishyear + ", score="
-				+ score + ", size=" + size + ", subjectid=" + subjectid
-				+ ", spenttime=" + spenttime + ", titile=" + titile + "]";
+	public String getPulishyear() {
+		return pulishyear;
+	}
+	public void setPulishyear(String pulishyear) {
+		this.pulishyear = pulishyear;
 	}
 	
-
-	public  PaperInfo(String data)throws JSONException{
-		JSONObject json = new JSONObject(data);
-		titile = json.getString("titile");
-		itemcount = json.getString("itemcount");
-		desc = json.getString("desc");
-		pulishyear = json.getString("pulishyear");
-		score = getInt("score",json);
-		size = getLong("size",json);
-		subjectid = json.getString("subjectid");
-		spenttime = json.getString("spenttime");
-		adddate = json.getString("adddate");
+	@Override
+	public String toString() {
+		return "PaperInfo [subjectid=" + subjectid + ", name=" + name
+				+ ", className=" + className + ", adddate=" + adddate
+				+ ", pulishyear=" + pulishyear + "]";
 	}
 	public  PaperInfo(JSONObject json)throws JSONException{
-		titile = json.getString("titile");
-		itemcount = json.getString("itemcount");
-		desc = json.getString("desc");
-		pulishyear = json.getString("pulishyear");
-		score = getInt("score",json);
-		size = getLong("size",json);
-		subjectid = json.getString("subjectid");
-		spenttime = json.getString("spenttime");
-		adddate = json.getString("adddate");
-	}
+		name = json.getString("name");
+		className = json.getString("kclassname");
+		pulishyear = json.getString("year");
+		subjectid = json.getString("id");
+		adddate = json.getString("createtime");	}
 	
 	 protected static int getInt(String key, JSONObject json) throws JSONException {
 	        String str = json.getString(key);

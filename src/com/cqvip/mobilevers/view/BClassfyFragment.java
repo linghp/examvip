@@ -172,7 +172,8 @@ public class BClassfyFragment extends BaseListFragment implements OnItemClickLis
 		}else{
 			Intent intent = new Intent(getActivity(),ExamClassfyActivity.class);
 			intent.putExtra("subjectId", nextId);
-			startActivity(new Intent(getActivity(),ExamClassfyActivity.class));
+			System.out.println("nexiId:"+nextId);
+			startActivity(intent);
 			
 		}
 	}

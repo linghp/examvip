@@ -27,11 +27,6 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 		}
 		//Log.i(TAG, "onCreateView");
 		view = inflater.inflate(R.layout.paper_info, null);
-		final ActionBar actionBar = getActivity().getActionBar();
-		actionBar.setNavigationMode(ActionBar.DISPLAY_SHOW_TITLE);
-		actionBar.setTitle("试卷详情");
-		// Show the Up button in the action bar.
-		actionBar.setDisplayHomeAsUpEnabled(true);
 		
 		View startExam_btn=(Button) view.findViewById(R.id.btn_exam);
 		startExam_btn.setOnClickListener(this);
@@ -48,10 +43,10 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 			
 		tyear.setText(info.getPulishyear());
 		tadddate.setText(info.getAdddate());
-		ttotal.setText(info.getItemcount());
-		tscroe.setText(info.getScore()+"");
-		ttime.setText(info.getSpenttime());
-		tsize.setText(info.getSize()/1024+"KB");
+//		ttotal.setText(info.getItemcount());
+//		tscroe.setText(info.getScore()+"");
+//		ttime.setText(info.getSpenttime());
+//		tsize.setText(info.getSize()/1024+"KB");
 		
 		return view;
 	}

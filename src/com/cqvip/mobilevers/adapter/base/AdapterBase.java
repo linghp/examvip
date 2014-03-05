@@ -38,6 +38,9 @@ public abstract class AdapterBase<T> extends BaseAdapter {
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
+		if(mList==null){
+			return 0;
+		}
 		return mList.size();
 	}
 

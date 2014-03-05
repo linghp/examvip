@@ -36,12 +36,7 @@
         </activity>
         <activity
             android:name="com.cqvip.mobilevers.ui.ExamClassfyActivity"
-            android:label="@string/title_activity_exam_classfy"
-            android:parentActivityName="com.cqvip.mobilevers.ui.FragmentExamActivity"
-            android:theme="@android:style/Theme.Holo" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.cqvip.mobilevers.ui.FragmentExamActivity" />
+            android:label="@string/title_activity_exam_classfy">
         </activity>
         <activity
             android:name="com.cqvip.mobilevers.ui.ExamActivity"

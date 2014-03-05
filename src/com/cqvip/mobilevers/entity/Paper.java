@@ -7,6 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.android.volley.toolbox.JsonObjectRequest;
+
 public class Paper {
 	
 	private List<PaperInfo> real;
@@ -24,34 +26,35 @@ public class Paper {
 		this.simulate = simulate;
 	}
 
-	public static Paper parserJsonData(String data){
+	public static Paper parserJsonData(JSONObject js)throws JSONException{
 		Paper p = new Paper();
-		try{
-			JSONObject js = new JSONObject(data);
 			JSONArray array= js.getJSONArray("result");
 			//真题
+			if(array.length()==2){
 			JSONObject obj1=array.getJSONObject(0);
-			p.setReal(parserData(obj1, "real"));
-			
+			p.setReal(parserData(obj1));
 			//模拟题
 			JSONObject obj2=array.getJSONObject(1);
-			p.setSimulate(parserData(obj2, "simulate"));			
-		
+			p.setSimulate(parserData(obj2));			
+			}else if(array.length()>0){
+				JSONObject obj1=array.getJSONObject(0);
+				p.setReal(parserData(obj1));
+			}
 			return p;
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return null;
 	}
 	
-	public static List<PaperInfo> parserData(JSONObject data,String tag)throws JSONException{
+	public static List<PaperInfo> parserData(JSONObject data)throws JSONException{
 		List<PaperInfo> mtempList=new ArrayList<PaperInfo>();
-			JSONArray arrayList= data.getJSONArray(tag);
+			JSONArray arrayList= data.getJSONArray("exampaperlist");
 			if(arrayList!=null&&arrayList.length()>0){
 			mtempList = PaperInfo.formList(arrayList);
 			return mtempList;
 			}
 		return null;
 	}
-
+	@Override
+	public String toString() {
+		return "Paper [real=" + real + ", simulate=" + simulate + "]";
+	}
+	
 }

@@ -14,12 +14,23 @@ import com.cqvip.mobilevers.entity.PaperInfo;
 
 public class ExamPaperAdapter extends AdapterBase<PaperInfo>{
 
-private LayoutInflater inflater;
+private Context	context;;
 	
-	public ExamPaperAdapter (LayoutInflater inflater,List<PaperInfo> lists) {
-		this.inflater = inflater;
+	public ExamPaperAdapter (Context context,List<PaperInfo> lists) {
+		this.context = context;
 		this.mList = lists;
 	}
+	
+	/**
+	 * 增加更多数据
+	 * 
+	 * @param moreStatus
+	 */
+	public void addMoreData(List<PaperInfo> moreStatus) {
+		this.mList.addAll(moreStatus);// 把新数据增加到原有集合
+		this.notifyDataSetChanged();
+	}
+	
 	
 	@Override
 	protected View getExView(int position, View convertView, ViewGroup parent) {
@@ -28,12 +39,12 @@ private LayoutInflater inflater;
 		TextView addtime = null;
 		View v;
 		if(convertView==null){
-			 v = inflater.inflate(R.layout.item_paper, null);
+			 v = LayoutInflater.from(context).inflate(R.layout.item_paper, null);
 			title = (TextView) v.findViewById(R.id.txt_paper_title);
 			year = (TextView) v.findViewById(R.id.txt_paper_year);
 			addtime = (TextView) v.findViewById(R.id.txt_paper_adddate);
 			
-			title.setText(mList.get(position).getTitile());
+			title.setText(mList.get(position).getName());
 			year.setText("试卷年份："+mList.get(position).getPulishyear());
 			addtime.setText("更新时间："+mList.get(position).getAdddate());
 			
@@ -43,6 +54,7 @@ private LayoutInflater inflater;
 		
 		return v;
 	}
+	
 
 	@Override
 	protected void onReachBottom() {
