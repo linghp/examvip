@@ -30,6 +30,7 @@ public class TwoLevelTypeDao extends AbstractDao<TwoLevelType, Long> {
         public final static Property Title = new Property(4, String.class, "title", false, "TITLE");
         public final static Property Haschildren = new Property(5, Boolean.class, "haschildren", false, "HASCHILDREN");
         public final static Property Isprivate = new Property(6, Boolean.class, "isprivate", false, "ISPRIVATE");
+        public final static Property Level = new Property(7, Integer.class, "level", false, "LEVEL");
     };
 
 
@@ -46,12 +47,13 @@ public class TwoLevelTypeDao extends AbstractDao<TwoLevelType, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'TWO_LEVEL_TYPE' (" + //
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
-                "'SUPERIOREXAMTYPEID' INTEGER UNIQUE ," + // 1: superiorexamtypeid
+                "'SUPERIOREXAMTYPEID' INTEGER," + // 1: superiorexamtypeid
                 "'EXAMTYPEID' INTEGER UNIQUE ," + // 2: examtypeid
                 "'COUNT' INTEGER," + // 3: count
                 "'TITLE' TEXT," + // 4: title
                 "'HASCHILDREN' INTEGER," + // 5: haschildren
-                "'ISPRIVATE' INTEGER);"); // 6: isprivate
+                "'ISPRIVATE' INTEGER," + // 6: isprivate
+                "'LEVEL' INTEGER);"); // 7: level
     }
 
     /** Drops the underlying database table. */
@@ -99,6 +101,11 @@ public class TwoLevelTypeDao extends AbstractDao<TwoLevelType, Long> {
         if (isprivate != null) {
             stmt.bindLong(7, isprivate ? 1l: 0l);
         }
+ 
+        Integer level = entity.getLevel();
+        if (level != null) {
+            stmt.bindLong(8, level);
+        }
     }
 
     /** @inheritdoc */
@@ -117,7 +124,8 @@ public class TwoLevelTypeDao extends AbstractDao<TwoLevelType, Long> {
             cursor.isNull(offset + 3) ? null : cursor.getInt(offset + 3), // count
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // title
             cursor.isNull(offset + 5) ? null : cursor.getShort(offset + 5) != 0, // haschildren
-            cursor.isNull(offset + 6) ? null : cursor.getShort(offset + 6) != 0 // isprivate
+            cursor.isNull(offset + 6) ? null : cursor.getShort(offset + 6) != 0, // isprivate
+            cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7) // level
         );
         return entity;
     }
@@ -132,6 +140,7 @@ public class TwoLevelTypeDao extends AbstractDao<TwoLevelType, Long> {
         entity.setTitle(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setHaschildren(cursor.isNull(offset + 5) ? null : cursor.getShort(offset + 5) != 0);
         entity.setIsprivate(cursor.isNull(offset + 6) ? null : cursor.getShort(offset + 6) != 0);
+        entity.setLevel(cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7));
      }
     
     /** @inheritdoc */
