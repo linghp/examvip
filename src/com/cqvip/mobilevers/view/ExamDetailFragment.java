@@ -12,19 +12,19 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.cqvip.mobilevers.R;
+import com.cqvip.mobilevers.config.ConstantValues;
 import com.cqvip.mobilevers.entity.PaperInfo;
 import com.cqvip.mobilevers.ui.ExamActivity;
 import com.cqvip.mobilevers.ui.base.BaseFragment;
 
 public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 
-	  public static final String ARG_ID = "subjectId";
 	  public static ExamDetailFragment newInstance(String id) {
 		  ExamDetailFragment f = new ExamDetailFragment();
 
 	        // Supply num input as an argument.
 	        Bundle args = new Bundle();
-	        args.putString(ARG_ID, id);
+	        args.putString(ConstantValues.EXAMPAPERID, id);
 	        f.setArguments(args);
 
 	        return f;
@@ -47,7 +47,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 		
 		Bundle bundle = getArguments();
 		
-		String subjectId = bundle.getString(ARG_ID);
+		String subjectId = bundle.getString(ConstantValues.EXAMPAPERID);
 		
 //		tyear = (TextView) view.findViewById(R.id.txt_p_year);
 //		tadddate = (TextView) view.findViewById(R.id.txt_p_adddata);
@@ -68,7 +68,9 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 
 	@Override
 	public void onClick(View v) {
-		startActivity(new Intent(getActivity(),ExamActivity.class));
+		Intent intent=new Intent(getActivity(),ExamActivity.class);
+		intent.putExtra(ConstantValues.EXAMPAPERID, this.getArguments().getString(ConstantValues.EXAMPAPERID));
+		startActivity(intent);
 	}
 	
 	  
