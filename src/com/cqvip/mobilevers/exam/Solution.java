@@ -7,6 +7,14 @@ package com.cqvip.mobilevers.exam;
  *
  */
 public class Solution {
+	public Content getAnswer() {
+		return answer;
+	}
+
+	public Content getAnswerDesc() {
+		return answerDesc;
+	}
+
 	Content answer;//答案，可能是图片或者文字
 	Content answerDesc;//答案解析，图片或者文字
 	

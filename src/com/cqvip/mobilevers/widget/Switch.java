@@ -1,4 +1,4 @@
-package com.cqvip.mobilevers.view;
+package com.cqvip.mobilevers.widget;
 
 /*
  * Copyright (C) 2010 The Android Open Source Project
