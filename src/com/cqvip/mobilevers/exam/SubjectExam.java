@@ -22,6 +22,46 @@ public class SubjectExam {
 	private int totalScore;//题目总分
 	private Subject[] exam3List;//大题下包含的小题
 	
+	public String getSubjectTypeName() {
+		return subjectTypeName;
+	} 
+
+	public void setSubjectTypeName(String subjectTypeName) {
+		this.subjectTypeName = subjectTypeName;
+	}
+
+	public int getQuestionNum() {
+		return questionNum;
+	}
+
+	public void setQuestionNum(int questionNum) {
+		this.questionNum = questionNum;
+	}
+
+	public int getScorePerQuestion() {
+		return scorePerQuestion;
+	}
+
+	public void setScorePerQuestion(int scorePerQuestion) {
+		this.scorePerQuestion = scorePerQuestion;
+	}
+
+	public int getTotalScore() {
+		return totalScore;
+	}
+
+	public void setTotalScore(int totalScore) {
+		this.totalScore = totalScore;
+	}
+
+	public Subject[] getExam3List() {
+		return exam3List;
+	}
+
+	public void setExam3List(Subject[] exam3List) {
+		this.exam3List = exam3List;
+	}
+
 	public SubjectExam(JSONObject json)throws JSONException, IOException, XmlPullParserException{
 		totalScore = json.getInt("_totalScore");
 		scorePerQuestion = json.getInt("_scorePerQuestion");
@@ -47,9 +87,16 @@ public class SubjectExam {
 	
 	@Override
 	public String toString() {
-		return "SubjectExam [questionNum=" + questionNum
-				+ ", scorePerQuestion=" + scorePerQuestion + ", totalScore="
-				+ totalScore + ", exam3List=" + Arrays.toString(exam3List)
+		return "SubjectExam [subjectTypeName=" + subjectTypeName
+				+ ", questionNum=" + questionNum + ", scorePerQuestion="
+				+ scorePerQuestion + ", totalScore=" + totalScore
+				+ ", exam3List=" + Arrays.toString(exam3List) + "]";
+	}
+
+	public String toStringSimple() {
+		return "SubjectExam [subjectTypeName=" + subjectTypeName
+				+ ", questionNum=" + questionNum + ", scorePerQuestion="
+				+ scorePerQuestion + ", totalScore=" + totalScore
 				+ "]";
 	}
 	

@@ -1,7 +1,14 @@
 package com.cqvip.mobilevers.ui;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -19,8 +26,19 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request.Method;
+import com.android.volley.Response.Listener;
 import com.cqvip.mobilevers.R;
+import com.cqvip.mobilevers.adapter.ExamBClassfyAdapter;
+import com.cqvip.mobilevers.config.ConstantValues;
+import com.cqvip.mobilevers.db.TwoLevelType;
+import com.cqvip.mobilevers.exam.Exam;
+import com.cqvip.mobilevers.exam.Subject;
+import com.cqvip.mobilevers.exam.SubjectExam;
+import com.cqvip.mobilevers.http.HttpUtils;
+import com.cqvip.mobilevers.http.VersStringRequest;
 import com.cqvip.mobilevers.ui.base.BaseFragmentActivity;
 import com.cqvip.mobilevers.view.ExamFragment;
 import com.cqvip.mobilevers.view.FragmentAnswerScard;
@@ -29,7 +47,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 		OnPageChangeListener, OnClickListener {
 
 	final static String TAG = "ExamActivity";
-	static final int NUM_ITEMS = 10;
+	//static final int NUM_ITEMS = 10;
 	MyAdapter mAdapter;
 	private Context context;
 	ViewPager mPager;
@@ -43,6 +61,14 @@ public class ExamActivity extends BaseFragmentActivity implements
 	private int secondTotal;
 	private TextView time_tv;
 
+	private String examPaperId;
+	private Map<String, String> gparams;
+	public Exam exam;
+	
+	private  int countall;//总题数
+	private int subjectExamCount;//大题型种类数量
+	public ArrayList<Subject> subjects_list=new ArrayList<Subject>();
+	private ArrayList<Integer> startLitmitCount_List=new ArrayList<Integer>();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.i(TAG, isnight + "");
@@ -62,11 +88,85 @@ public class ExamActivity extends BaseFragmentActivity implements
 		// getSupportFragmentManager().beginTransaction();
 		// ft.add(R.id.exam_fl, newFragment).commit();
 		mAdapter = new MyAdapter(getSupportFragmentManager(), context);
+		examPaperId=getIntent().getStringExtra(ConstantValues.EXAMPAPERID);
+		Log.i(TAG, examPaperId);
 		initView();
 		init();
 		startCountTime();
+		
+		String url = ConstantValues.SERVER_URL + ConstantValues.GETEXAM_ADDR;
+		getData(url, examPaperId);
 	}
 
+	private void getData(String url, String examPaperId) {
+		getDataFromNet(url, examPaperId);
+	}
+	
+	private void getDataFromNet(String url, String examPaperId) {
+		customProgressDialog.show();
+		gparams = new HashMap<String, String>();
+		gparams.put(ConstantValues.EXAMPAPERID, examPaperId);
+		requestVolley(url, back_ls, Method.POST);
+	}
+	
+	private void requestVolley(String addr, Listener<String> bl, int method) {
+		try {
+			VersStringRequest mys = new VersStringRequest(method, addr, bl,
+					volleyErrorListener) {
+
+				protected Map<String, String> getParams()
+						throws com.android.volley.AuthFailureError {
+					return gparams;
+				};
+			};
+			mys.setRetryPolicy(HttpUtils.setTimeout());
+			mQueue.add(mys);
+		} catch (Exception e) {
+			e.printStackTrace();
+			// onError(2);
+		}
+	}
+	
+	private Listener<String> back_ls = new Listener<String>() {
+
+		@Override
+		public void onResponse(String response) {
+			if (customProgressDialog != null
+					&& customProgressDialog.isShowing())
+				customProgressDialog.dismiss();
+			// 解析结果
+			if (response != null) {
+				try {
+					JSONObject json = new JSONObject(response);
+					// 判断
+					if (json.isNull("error")) {
+						// 返回正常
+						exam = new Exam(json);
+						if (exam != null) {
+							SubjectExam[] subjectExams_array=exam.getExam2lists();
+							for (SubjectExam subjectExam : subjectExams_array) {
+								startLitmitCount_List.add(countall);
+								countall+=subjectExam.getQuestionNum();
+								subjects_list.addAll(Arrays.asList(subjectExam.getExam3List()));
+								subjectExamCount++;
+							}
+							System.out.println(exam);
+							mPager.setAdapter(mAdapter);
+						}
+
+					} else {
+						// 登陆错误
+						// TODO
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} else {
+				Toast.makeText(ExamActivity.this, "无数据", Toast.LENGTH_LONG).show();
+			}
+		}
+	};
+	
 	// 计时
 	private void startCountTime() {
 		task = new TimerTask() {
@@ -115,7 +215,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 	private void initView() {
 		mPager = (ViewPager) findViewById(R.id.pager);
 		mPager.setOnPageChangeListener(this);
-		mPager.setAdapter(mAdapter);
+		//mPager.setAdapter(mAdapter);
 		// mPager.setOffscreenPageLimit(5);
 		ViewGroup answercard = (ViewGroup) findViewById(R.id.answercard_ll);
 		answercard.setOnClickListener(this);
@@ -136,7 +236,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 		button = (Button) findViewById(R.id.goto_last);
 		button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				if (currentpage < NUM_ITEMS - 1)
+				if (currentpage < countall - 1)
 					mPager.setCurrentItem(++currentpage);
 			}
 		});
@@ -148,7 +248,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 		super.onSaveInstanceState(outState);
 	}
 
-	public static class MyAdapter extends FragmentStatePagerAdapter {
+	public  class MyAdapter extends FragmentStatePagerAdapter {
 		private Context context;
 
 		// public MyAdapter(FragmentManager fm) {
@@ -161,13 +261,13 @@ public class ExamActivity extends BaseFragmentActivity implements
 
 		@Override
 		public int getCount() {
-			return NUM_ITEMS;
+			return countall;
 		}
 
 		@Override
 		public Fragment getItem(int position) {
 			Log.i(TAG, "MyAdapter_getItem:" + position);
-			return ExamFragment.newInstance(position, context);
+			return ExamFragment.newInstance(position, context,startLitmitCount_List);
 		}
 
 		@Override

@@ -1,5 +1,10 @@
 package com.cqvip.mobilevers.ui.base;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+import com.cqvip.mobilevers.exception.ErrorVolleyThrow;
+import com.cqvip.mobilevers.widget.CustomProgressDialog;
+
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
@@ -27,7 +32,10 @@ public class BaseFragmentActivity extends FragmentActivity implements
 	protected GestureDetector mGestureDetector;
 	protected FragmentManager fManager;
 	protected boolean isLeftFragment = true;// 判断viewpager是否滑动到最左边的fragment
-
+	
+	protected RequestQueue mQueue;
+	protected ErrorVolleyThrow volleyErrorListener;
+	protected CustomProgressDialog customProgressDialog;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -36,6 +44,11 @@ public class BaseFragmentActivity extends FragmentActivity implements
 				new MyGestrueListener(this));
 		fManager = getSupportFragmentManager();
 		fManager.addOnBackStackChangedListener(this);
+		mQueue = Volley.newRequestQueue(this);
+		volleyErrorListener = new ErrorVolleyThrow(this, null);
+		if(customProgressDialog==null){
+			customProgressDialog=CustomProgressDialog.createDialog(this);
+		}
 	}
 
 	class MyGestrueListener extends SimpleOnGestureListener {

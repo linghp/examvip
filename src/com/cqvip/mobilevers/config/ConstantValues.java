@@ -8,7 +8,7 @@ public class ConstantValues {
 	public static final String paperurl="http://192.168.20.214:8080/web/PServlet";
 	
 	public static final String EXAMTYPEURL="http://192.168.20.75:3000/Service1.asmx/GetKnowledgeClassList";
-
+	public static final String EXAMPAPERID= "examPaperId";//试卷id
 	
 	public static final String SERVER_URL="http://192.168.20.75:3000/";
 	public static final String LOGIN_ADDR="Service1.asmx/Login";
