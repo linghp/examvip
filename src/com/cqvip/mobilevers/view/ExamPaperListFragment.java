@@ -95,20 +95,17 @@ public class ExamPaperListFragment extends Fragment implements OnItemClickListen
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
-    	 if (ExamClassfyActivity.class.isInstance(getActivity())) {
-	            mQueue = ((ExamClassfyActivity) getActivity()).getRequestQueue();
-	            customProgressDialog = ((ExamClassfyActivity) getActivity()).getCustomDialog();
-	            volleyErrorListener = ((ExamClassfyActivity) getActivity()).getVolleyErrorListener();
-	        }
-    	
-    	
-    	
     	
     }
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+   	 if (ExamClassfyActivity.class.isInstance(getActivity())) {
+         mQueue = ((ExamClassfyActivity) getActivity()).getRequestQueue();
+         customProgressDialog = ((ExamClassfyActivity) getActivity()).getCustomDialog();
+         volleyErrorListener = ((ExamClassfyActivity) getActivity()).getVolleyErrorListener();
+     }
 		View rootView = inflater.inflate(
 				R.layout.fragment_exam_classfy_dummy, container, false);
 		listview = (DropDownListView) rootView

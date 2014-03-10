@@ -38,7 +38,7 @@
             android:name="com.cqvip.mobilevers.ui.ExamClassfyActivity"
             android:label="@string/title_activity_exam_classfy">
         </activity>
-        <activity
+        <activity android:screenOrientation="portrait"
             android:name="com.cqvip.mobilevers.ui.ExamActivity"
             android:label="@string/title_activity_test_exam" >
         </activity>

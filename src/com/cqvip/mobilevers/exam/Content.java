@@ -11,6 +11,16 @@ public class Content {
 	ArrayList<String> img; //图片，可能包含多张
 	String content;//内容
 	boolean isContainPic;//是否包含图片
+	
+	public ArrayList<String> getImg() {
+		return img;
+	}
+	public String getContent() {
+		return content;
+	}
+	public boolean isContainPic() {
+		return isContainPic;
+	}
 	public Content(ArrayList<String> img, String content, boolean isContainPic) {
 		super();
 		this.img = img;

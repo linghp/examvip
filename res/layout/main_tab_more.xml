@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
          />
-            <com.cqvip.mobilevers.view.Switch
+            <com.cqvip.mobilevers.widget.Switch
                 android:id="@+id/switchBtn"
                 style="@style/Switch"
                 android:layout_width="wrap_content"

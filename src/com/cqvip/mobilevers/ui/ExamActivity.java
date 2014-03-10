@@ -150,7 +150,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 								subjects_list.addAll(Arrays.asList(subjectExam.getExam3List()));
 								subjectExamCount++;
 							}
-							System.out.println(exam);
+							System.out.println("subjects_list.size()"+subjects_list.size());
 							mPager.setAdapter(mAdapter);
 						}
 
