@@ -6,15 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/bg_color">
+    <ScrollView     android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <TextView android:id="@+id/text"
+    <com.cqvip.mobilevers.widget.ImageTextView android:id="@+id/text"
         android:layout_width="match_parent" android:layout_height="match_parent"
         android:gravity="center_vertical|center_horizontal"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="?attr/text_color"
         android:text="@string/hello_world"/>
-
-
-
+</ScrollView>
 </LinearLayout>
 

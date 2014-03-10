@@ -2,6 +2,7 @@ package com.cqvip.mobilevers.view;
 
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.ui.ExamActivity;
+import com.cqvip.mobilevers.widget.Switch;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

@@ -17,6 +17,7 @@ import com.cqvip.mobilevers.exam.Exam;
 import com.cqvip.mobilevers.exam.Subject;
 import com.cqvip.mobilevers.exam.SubjectExam;
 import com.cqvip.mobilevers.ui.ExamActivity;
+import com.cqvip.mobilevers.widget.ImageTextView;
 
 public class ExamFragment extends Fragment{
 	int mNum;
@@ -56,11 +57,12 @@ public class ExamFragment extends Fragment{
 		subjectlists=((ExamActivity)getActivity()).exam.getExam2lists();
 		subjects_list=((ExamActivity)getActivity()).subjects_list;
 		
-		View tv = v.findViewById(R.id.text);
+		ImageTextView tv = (ImageTextView) v.findViewById(R.id.text);
+		
 		if(isfirst){
-		((TextView) tv).setText(subjectlists[current].toStringSimple()+"\n"+"Fragment #"+mNum+"\n"+ subjects_list.get(mNum).getTitle());
+		tv.setText(subjects_list.get(mNum).getQuestion().get(0).getSolution().getAnswerDesc(),"Fragment #"+mNum+"    "+subjectlists[current].toStringSimple()+"\n"+ subjects_list.get(mNum).getTitle());
 		}else{
-			((TextView) tv).setText("Fragment #"+mNum+"\n"+ subjects_list.get(mNum).getTitle());	
+			 tv.setText(subjects_list.get(mNum).getQuestion().get(0).getSolution().getAnswerDesc(),"Fragment #"+mNum+"    "+ subjects_list.get(mNum).getTitle());	
 		}
 		tv.setBackgroundDrawable(getResources().getDrawable(
 				android.R.drawable.gallery_thumb));

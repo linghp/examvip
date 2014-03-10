@@ -81,6 +81,10 @@ public class PullParseXML {
     	xmlParse.require(XmlPullParser.START_TAG, ns, "Question");
     	type = xmlParse.getAttributeValue(null, "type");
     	ArrayList<Content> lists = new ArrayList<Content>();
+    	String title = null;
+    	boolean isContainPic = false;
+    	ArrayList<String> imgs = new ArrayList<String>();
+    	Content content = null;
     	int itemCount = 0;
 	    while (xmlParse.next() != XmlPullParser.END_TAG) {
 	        if (xmlParse.getEventType() != XmlPullParser.START_TAG) {
@@ -91,17 +95,27 @@ public class PullParseXML {
 	        	//读取item 内容
 	        	Content item = readAnswer(xmlParse, "Item");
 	        	lists.add(item);
+	        }else if(name.equals("Content")){
+	        	title = readText(xmlParse);
 	        } else if(name.equals("SelItemCount")){
 	        	String count = readText(xmlParse);
 	        	itemCount = Integer.parseInt(count);
 	        }else if(name.equals("Solution")){
 	        	//读取解析
 	        	s = readSolution(xmlParse);
+	        }else if(name.equals("Attach")){
+	        	isContainPic = true;
+				String tpimg = readText(xmlParse);
+				imgs.add(tpimg);
 	        }else{
 	        	skip(xmlParse);
 	        }
-	    }  
-	    return new Question(type,lists, s,itemCount);
+	    } 
+	    if(title!=null||!imgs.isEmpty()){
+	    	content = new Content(imgs, title, isContainPic);
+	    }
+	    
+	    return new Question(type,content,lists,s,itemCount);
     }
 	/**
 	 * 读取问题解析，答案和描述
