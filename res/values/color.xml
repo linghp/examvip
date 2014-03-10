@@ -23,5 +23,6 @@
     <color name="login_black">#aa000000</color>
 
     <color name="examtop_fontcolor">#000</color>
+     <color name="fontclcor">#ffffffff</color>
 
 </resources>
