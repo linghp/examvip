@@ -26,7 +26,6 @@
                     android:text="下列说法正确的是？"
                     android:textColor="@color/black"
                     android:textSize="17.0sp" />
-
                 <ImageView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
