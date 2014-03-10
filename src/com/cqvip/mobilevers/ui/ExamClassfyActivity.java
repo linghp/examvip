@@ -21,6 +21,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.toolbox.Volley;
 import com.cqvip.mobilevers.R;
+import com.cqvip.mobilevers.entity.PaperInfo;
 import com.cqvip.mobilevers.exception.ErrorVolleyThrow;
 import com.cqvip.mobilevers.ui.base.BaseFragmentActivity;
 import com.cqvip.mobilevers.view.ExamDetailFragment;
@@ -201,9 +202,13 @@ public class ExamClassfyActivity extends BaseFragmentActivity implements ExamPap
 	}
 
 	@Override
-	public void onItemNextSelected(String id) {
-		Fragment newFragment = ExamDetailFragment.newInstance(id);
+	public void onItemNextSelected(PaperInfo info) {
+		if(info!=null){
+		Fragment newFragment = ExamDetailFragment.newInstance(info);
 		this.addFragmentToStack(newFragment, R.id.itemlist_fl);
+		}else{
+			return;
+		}
 		
 	}
 }

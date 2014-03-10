@@ -27,10 +27,10 @@ public class BaseActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
 		mQueue=Volley.newRequestQueue(this);
-		volleyErrorListener = new  ErrorVolleyThrow(this, null);
 		if(customProgressDialog==null){
 			customProgressDialog=CustomProgressDialog.createDialog(this);
 		}
+		volleyErrorListener = new  ErrorVolleyThrow(this, customProgressDialog);
 	}
 
 }

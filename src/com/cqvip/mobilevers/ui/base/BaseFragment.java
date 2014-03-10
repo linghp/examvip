@@ -9,10 +9,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.toolbox.Volley;
 import com.cqvip.mobilevers.exception.ErrorVolleyThrow;
-
+import com.cqvip.mobilevers.widget.CustomProgressDialog;
 public class BaseFragment extends Fragment {
+	
 	protected RequestQueue mQueue;
 	protected ErrorListener volleyErrorListener;
+	protected CustomProgressDialog customProgressDialog;
 	protected View view;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -20,7 +22,8 @@ public class BaseFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 		
 		mQueue = Volley.newRequestQueue(getActivity());
-		volleyErrorListener = new  ErrorVolleyThrow(getActivity(), null);
+		customProgressDialog = CustomProgressDialog.createDialog(getActivity());
+		volleyErrorListener = new  ErrorVolleyThrow(getActivity(), customProgressDialog);
 	}
 	
 	/**

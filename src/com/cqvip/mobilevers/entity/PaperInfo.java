@@ -25,49 +25,67 @@ public class PaperInfo implements Serializable{
 	private static final long serialVersionUID = -5597714058808808547L;
 	private String subjectid;
 	private String name;
-	private String className;
-	private String adddate;
+	private String kclassName;
+	private int type;
+	private int score;
 	private String pulishyear;
+	private String adddate;
 
-	public String getSubjectid() {
+	
+	public  PaperInfo(JSONObject json)throws JSONException{
+		subjectid = json.getString("id");
+		name = json.getString("name");
+		type = json.getInt("type");
+		score = json.getInt("score");
+		kclassName = json.getString("kclassname");
+		pulishyear = json.getString("year");
+		adddate = json.getString("createtime");	}
+	
+	
+	
+	 public String getSubjectid() {
 		return subjectid;
 	}
-	public void setSubjectid(String subjectid) {
-		this.subjectid = subjectid;
-	}
+
+
+
 	public String getName() {
 		return name;
 	}
-	public void setName(String name) {
-		this.name = name;
+
+
+
+	public String getKclassName() {
+		return kclassName;
 	}
-	public String getAdddate() {
-		return adddate;
+
+
+
+	public int getType() {
+		return type;
 	}
-	public void setAdddate(String adddate) {
-		this.adddate = adddate;
+
+
+
+	public int getScore() {
+		return score;
 	}
+
+
+
 	public String getPulishyear() {
 		return pulishyear;
 	}
-	public void setPulishyear(String pulishyear) {
-		this.pulishyear = pulishyear;
+
+
+
+	public String getAdddate() {
+		return adddate;
 	}
-	
-	@Override
-	public String toString() {
-		return "PaperInfo [subjectid=" + subjectid + ", name=" + name
-				+ ", className=" + className + ", adddate=" + adddate
-				+ ", pulishyear=" + pulishyear + "]";
-	}
-	public  PaperInfo(JSONObject json)throws JSONException{
-		name = json.getString("name");
-		className = json.getString("kclassname");
-		pulishyear = json.getString("year");
-		subjectid = json.getString("id");
-		adddate = json.getString("createtime");	}
-	
-	 protected static int getInt(String key, JSONObject json) throws JSONException {
+
+
+
+	protected static int getInt(String key, JSONObject json) throws JSONException {
 	        String str = json.getString(key);
 	        if(null == str || "".equals(str)||"null".equals(str)){
 	            return 0;
@@ -82,7 +100,16 @@ public class PaperInfo implements Serializable{
 	        return Long.parseLong(str);
 	    }
 	
+	 
 	
+	@Override
+	public String toString() {
+		return "PaperInfo [subjectid=" + subjectid + ", name=" + name
+				+ ", kclassName=" + kclassName + ", type=" + type + ", score="
+				+ score + ", pulishyear=" + pulishyear + ", adddate=" + adddate
+				+ "]";
+	}
+
 	public static List<PaperInfo> formList(JSONArray array)throws JSONException {
 		List<PaperInfo> mtempList = new ArrayList<PaperInfo>();
 			if(array!=null&&array.length()>0){

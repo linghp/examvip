@@ -6,6 +6,13 @@ import org.json.JSONObject;
 public class TagInfo {
 	private String id;
 	private String tag;
+	
+	public String getId() {
+		return id;
+	}
+	public String getTag() {
+		return tag;
+	}
 	@Override
 	public String toString() {
 		return "TagInfo [id=" + id + ", tag=" + tag + "]";

@@ -11,6 +11,7 @@ public class PaperDetail {
 		private String id;
         private String  name;
         private int  score;
+        private int  type;
         private int questioncount;
         private int exampapertime;
         private String  year;
@@ -19,7 +20,61 @@ public class PaperDetail {
 
         
         
-        public PaperDetail(JSONObject json)throws JSONException{
+        public String getId() {
+			return id;
+		}
+
+
+
+		public String getName() {
+			return name;
+		}
+
+
+
+		public int getScore() {
+			return score;
+		}
+
+
+
+		public int getType() {
+			return type;
+		}
+
+
+
+		public int getQuestioncount() {
+			return questioncount;
+		}
+
+
+
+		public int getExampapertime() {
+			return exampapertime;
+		}
+
+
+
+		public String getYear() {
+			return year;
+		}
+
+
+
+		public String getUpdatetime() {
+			return updatetime;
+		}
+
+
+
+		public ArrayList<TagInfo> getTag_title() {
+			return tag_title;
+		}
+
+
+
+		public PaperDetail(JSONObject json)throws JSONException{
         	
         	id = json.getString("id");
         	name = json.getString("name");
@@ -27,6 +82,7 @@ public class PaperDetail {
         	questioncount = json.getInt("questioncount");
         	exampapertime = json.getInt("exampapertime");
         	year = json.getString("year");
+        	type = json.getInt("type");
         	updatetime = json.getString("updatetime");
             JSONArray  array = json.getJSONArray("kclass");
             int len = array.length();
@@ -44,26 +100,30 @@ public class PaperDetail {
 		@Override
 		public String toString() {
 			return "PaperDetail [id=" + id + ", name=" + name + ", score="
-					+ score + ", questioncount=" + questioncount
-					+ ", exampapertime=" + exampapertime + ", year=" + year
-					+ ", updatetime=" + updatetime + ", tag_title=" + tag_title
-					+ "]";
+					+ score + ", type=" + type + ", questioncount="
+					+ questioncount + ", exampapertime=" + exampapertime
+					+ ", year=" + year + ", updatetime=" + updatetime
+					+ ", tag_title=" + tag_title + "]";
 		}
 
 
 
-		public PaperDetail(String id, String name, int score,
+		public PaperDetail(String id, String name, int score, int type,
 				int questioncount, int exampapertime, String year,
 				String updatetime, ArrayList<TagInfo> tag_title) {
 			super();
 			this.id = id;
 			this.name = name;
 			this.score = score;
+			this.type = type;
 			this.questioncount = questioncount;
 			this.exampapertime = exampapertime;
 			this.year = year;
 			this.updatetime = updatetime;
 			this.tag_title = tag_title;
 		}
-        
+
+
+
+		
 }

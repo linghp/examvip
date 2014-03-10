@@ -50,12 +50,12 @@ public class ExamPaperListFragment extends Fragment implements OnItemClickListen
 		/**
 		 * Callback for when an item has been selected.
 		 */
-		public void onItemNextSelected(String id);
+		public void onItemNextSelected(PaperInfo info);
 	}
 
 	private static NextCallbacks sDummyCallbacks = new NextCallbacks() {
 		@Override
-		public void onItemNextSelected(String id) {
+		public void onItemNextSelected(PaperInfo info) {
 		}
 	};
     
@@ -254,6 +254,11 @@ public class ExamPaperListFragment extends Fragment implements OnItemClickListen
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		mCallbacks.onItemNextSelected(adapter.getList().get(position).getSubjectid());
+		PaperInfo info = adapter.getList().get(position);
+		if(info!=null){
+		mCallbacks.onItemNextSelected(info);
+		}else{
+			return;
+		}
 	}  
 }
