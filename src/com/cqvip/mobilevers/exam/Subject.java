@@ -1,6 +1,7 @@
 package com.cqvip.mobilevers.exam;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -16,7 +17,11 @@ import com.cqvip.mobilevers.utils.PullParseXML;
  * @author luojiang
  * 
  */
-public class Subject {
+public class Subject implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8623714460809516006L;
 	String type;// 类型
 	Content title;// 标题
 	ArrayList<Question> question;// 问题和答案以及解析

@@ -18,9 +18,10 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
+               
 
                 <com.cqvip.mobilevers.widget.ImageTextView 
-                    android:id="@+id/text"
+                    android:id="@+id/txt_exam_title"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="下列说法正确的是？"
@@ -240,22 +241,44 @@
                     android:orientation="horizontal"
                     android:visibility="visible" >
 
-                    <TextView
+                     <TextView 
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="答案："
+                        android:textColor="@color/black" />
+                     
+                    <com.cqvip.mobilevers.widget.ImageTextView 
                         android:id="@+id/correct_answer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="答案：A"
+                        android:text=""
                         android:textColor="@color/black" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/title_parser"
-                    android:layout_width="wrap_content"
+                  <LinearLayout
+                    android:id="@+id/decision3"
+                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="30.0dip"
-                    android:text="解析：阿斯顿发送到，阿斯顿发，阿斯顿发为"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="visible" >
+                 <TextView 
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="解析："
+                        android:textColor="@color/black" />
+                
+                <com.cqvip.mobilevers.widget.ImageTextView 
+                    android:id="@+id/anser_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
                     android:textColor="@color/black"
                     android:visibility="visible" />
+                </LinearLayout>
+                
+                
             </LinearLayout>
         </ScrollView>
 

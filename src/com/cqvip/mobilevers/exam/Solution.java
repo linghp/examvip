@@ -1,12 +1,19 @@
 package com.cqvip.mobilevers.exam;
 
+import java.io.Serializable;
+
 
 /**
  * 包含答案和答案解析
  * @author luojiang
  *
  */
-public class Solution {
+public class Solution implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8621076289121382697L;
+
 	public Content getAnswer() {
 		return answer;
 	}

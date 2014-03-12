@@ -35,6 +35,7 @@ import com.cqvip.mobilevers.adapter.ExamBClassfyAdapter;
 import com.cqvip.mobilevers.config.ConstantValues;
 import com.cqvip.mobilevers.db.TwoLevelType;
 import com.cqvip.mobilevers.exam.Exam;
+import com.cqvip.mobilevers.exam.Question;
 import com.cqvip.mobilevers.exam.Subject;
 import com.cqvip.mobilevers.exam.SubjectExam;
 import com.cqvip.mobilevers.http.HttpUtils;
@@ -61,18 +62,25 @@ public class ExamActivity extends BaseFragmentActivity implements
 	private int secondTotal;
 	private TextView time_tv;
 
-	private String examPaperId;
-	private Map<String, String> gparams;
+	//private String examPaperId;
+	//private Map<String, String> gparams;
 	public Exam exam;
 	
-	private  int countall;//总题数
+	private  int clientShowCount = 0;//总题数
+	private  int paperShowCount = 0;//总子题数
 	private int subjectExamCount;//大题型种类数量
-	public ArrayList<Subject> subjects_list=new ArrayList<Subject>();
-	private ArrayList<Integer> startLitmitCount_List=new ArrayList<Integer>();
+	private int score;//总分
+	
+	public ArrayList<SubjectExam> subjectExam_list=new ArrayList<SubjectExam>(); // 所有subject
+	public ArrayList<Subject> subjects_list=new ArrayList<Subject>(); // 所有subject
+	public ArrayList<Question> Question_list=new ArrayList<Question>(); // 所有question
+	public ArrayList<Integer> subjectExamCount_list=new ArrayList<Integer>(); // 所有subject
+	public ArrayList<Integer> startLitmitCount_List=new ArrayList<Integer>();//统计subject题目
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.i(TAG, isnight + "");
 		super.onCreate(savedInstanceState);
+		//模式设置
 		if (isnight) {
 			this.setTheme(R.style.ThemeNight);
 		} else {
@@ -83,90 +91,83 @@ public class ExamActivity extends BaseFragmentActivity implements
 		if (savedInstanceState != null) {
 			secondTotal = savedInstanceState.getInt("secondTotal");
 		}
+		
+		exam = (Exam) getIntent().getSerializableExtra("exam");
 		// Fragment newFragment = new FragmentExam();
 		// FragmentTransaction ft =
 		// getSupportFragmentManager().beginTransaction();
 		// ft.add(R.id.exam_fl, newFragment).commit();
 		mAdapter = new MyAdapter(getSupportFragmentManager(), context);
-		examPaperId=getIntent().getStringExtra(ConstantValues.EXAMPAPERID);
-		Log.i(TAG, examPaperId);
+//		examPaperId=getIntent().getStringExtra(ConstantValues.EXAMPAPERID);
+//		Log.i(TAG, examPaperId);
 		initView();
 		init();
 		startCountTime();
-		
-		String url = ConstantValues.SERVER_URL + ConstantValues.GETEXAM_ADDR;
-		getData(url, examPaperId);
-	}
-
-	private void getData(String url, String examPaperId) {
-		getDataFromNet(url, examPaperId);
-	}
-	
-	private void getDataFromNet(String url, String examPaperId) {
-		customProgressDialog.show();
-		gparams = new HashMap<String, String>();
-		gparams.put(ConstantValues.EXAMPAPERID, examPaperId);
-		requestVolley(url, back_ls, Method.POST);
-	}
-	
-	private void requestVolley(String addr, Listener<String> bl, int method) {
-		try {
-			VersStringRequest mys = new VersStringRequest(method, addr, bl,
-					volleyErrorListener) {
-
-				protected Map<String, String> getParams()
-						throws com.android.volley.AuthFailureError {
-					return gparams;
-				};
-			};
-			mys.setRetryPolicy(HttpUtils.setTimeout());
-			mQueue.add(mys);
-		} catch (Exception e) {
-			e.printStackTrace();
-			// onError(2);
+		//大题
+		SubjectExam[] subjectExams_array=exam.getExam2lists();
+		//
+		for (SubjectExam subjectExam : subjectExams_array) {
+			//客户端显示题目数量
+			startLitmitCount_List.add(clientShowCount);
+			clientShowCount += subjectExam.getQuestionNum();
+			//所有试卷大题数量size与startLitmitCount_List相同
+			subjects_list.addAll(Arrays.asList(subjectExam.getExam3List()));
+			
+			subjectExamCount_list.add(paperShowCount);
+			paperShowCount += subjectExam.getExam3List().length;
+			
+			//subjectExamCount++;
 		}
-	}
-	
-	private Listener<String> back_ls = new Listener<String>() {
-
-		@Override
-		public void onResponse(String response) {
-			if (customProgressDialog != null
-					&& customProgressDialog.isShowing())
-				customProgressDialog.dismiss();
-			// 解析结果
-			if (response != null) {
-				try {
-					JSONObject json = new JSONObject(response);
-					// 判断
-					if (json.isNull("error")) {
-						// 返回正常
-						exam = new Exam(json);
-						if (exam != null) {
-							SubjectExam[] subjectExams_array=exam.getExam2lists();
-							for (SubjectExam subjectExam : subjectExams_array) {
-								startLitmitCount_List.add(countall);
-								countall+=subjectExam.getQuestionNum();
-								subjects_list.addAll(Arrays.asList(subjectExam.getExam3List()));
-								subjectExamCount++;
-							}
-							System.out.println("subjects_list.size()"+subjects_list.size());
-							mPager.setAdapter(mAdapter);
-						}
-
-					} else {
-						// 登陆错误
-						// TODO
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			} else {
-				Toast.makeText(ExamActivity.this, "无数据", Toast.LENGTH_LONG).show();
+		
+		for (Subject subject : subjects_list) {
+			if(subject!=null){
+			ArrayList<Question> lists = subject.getQuestion();
+			//所有客户端显示question数量
+			Question_list.addAll(lists);
 			}
 		}
-	};
+		
+		System.out.println("题目总数"+Question_list.size());
+		mPager.setAdapter(mAdapter);
+		
+	}
 	
+	
+	
+
+	public ArrayList<SubjectExam> getSubjectExam_list() {
+		return subjectExam_list;
+	}
+
+	public ArrayList<Subject> getSubjects_list() {
+		return subjects_list;
+	}
+
+	public int getSubjectExamCount() {
+		return subjectExamCount;
+	}
+
+	public ArrayList<Integer> getSubjectExamCount_list() {
+		return subjectExamCount_list;
+	}
+
+
+
+	public ArrayList<Integer> getStartLitmitCount_List() {
+		return startLitmitCount_List;
+	}
+
+	public void setStartLitmitCount_List(ArrayList<Integer> startLitmitCount_List) {
+		this.startLitmitCount_List = startLitmitCount_List;
+	}
+
+	public ArrayList<Question> getQuestion_list() {
+		return Question_list;
+	}
+
+
+
+
 	// 计时
 	private void startCountTime() {
 		task = new TimerTask() {
@@ -236,7 +237,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 		button = (Button) findViewById(R.id.goto_last);
 		button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				if (currentpage < countall - 1)
+				if (currentpage < clientShowCount - 1)
 					mPager.setCurrentItem(++currentpage);
 			}
 		});
@@ -261,13 +262,13 @@ public class ExamActivity extends BaseFragmentActivity implements
 
 		@Override
 		public int getCount() {
-			return countall;
+			return clientShowCount;
 		}
 
 		@Override
 		public Fragment getItem(int position) {
 			Log.i(TAG, "MyAdapter_getItem:" + position);
-			return ExamFragment.newInstance(position, context,startLitmitCount_List);
+			return ExamFragment.newInstance(position,context);
 		}
 
 		@Override

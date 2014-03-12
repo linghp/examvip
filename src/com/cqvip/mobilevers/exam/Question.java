@@ -1,5 +1,6 @@
 package com.cqvip.mobilevers.exam;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -8,7 +9,11 @@ import java.util.ArrayList;
  * @author luojiang
  * 
  */
-public class Question {
+public class Question implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7932089273676021492L;
 	String type;// 试题类型
 	Content title;
 	ArrayList<Content> option;// 包含的显示内容

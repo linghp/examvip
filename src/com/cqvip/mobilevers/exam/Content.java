@@ -1,5 +1,6 @@
 package com.cqvip.mobilevers.exam;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,11 @@ import java.util.ArrayList;
  * @author luojiang
  *
  */
-public class Content {
+public class Content implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9005569241465663917L;
 	ArrayList<String> img; //图片，可能包含多张
 	String content;//内容
 	boolean isContainPic;//是否包含图片

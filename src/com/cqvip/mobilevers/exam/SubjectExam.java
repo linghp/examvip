@@ -1,6 +1,7 @@
 package com.cqvip.mobilevers.exam;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Arrays;
 
 import org.json.JSONArray;
@@ -15,7 +16,11 @@ import com.cqvip.mobilevers.utils.PullParseXML;
  * @author luojiang
  *
  */
-public class SubjectExam {
+public class SubjectExam implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7033662467805212114L;
 	private String subjectTypeName;//大题名称
 	private int questionNum;//题目数量
 	private int scorePerQuestion;//每小题分数

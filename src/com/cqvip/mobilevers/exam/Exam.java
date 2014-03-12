@@ -1,6 +1,7 @@
 package com.cqvip.mobilevers.exam;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Arrays;
 
 import org.json.JSONArray;
@@ -14,8 +15,12 @@ import org.xmlpull.v1.XmlPullParserException;
  * @author luojiang
  *
  */
-public class Exam {
+public class Exam implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1314424987386293407L;
 	private int examTime;//考试时间
 	private int score;//总分
 	private String _examPaperName;//试题名称

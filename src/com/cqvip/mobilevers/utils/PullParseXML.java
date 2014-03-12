@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import android.text.TextUtils;
+import android.util.Log;
 import android.util.Xml;
 
 import com.cqvip.mobilevers.exam.Content;
@@ -27,10 +29,15 @@ public class PullParseXML {
 	public  Subject parseXml(String xml) throws IOException, XmlPullParserException {
 		Subject sub = null;
 		XmlPullParser xmlParse = Xml.newPullParser();
+		if(!TextUtils.isEmpty(xml)){
 		InputStream in = new ByteArrayInputStream(xml.getBytes("utf-8"));
 		xmlParse.setInput(in, "utf-8");
+		Log.i("xml",xml);
+		Log.i("star_document",xmlParse.START_DOCUMENT+"");
+		Log.i("star_tag",xmlParse.START_TAG+"");
 		xmlParse.nextTag();
 		sub = ShowAllSubjectQuestion(xmlParse);
+		}
 		return sub;
 	}
 	
