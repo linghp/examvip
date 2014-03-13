@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.cqvip.mobilevers.R;
+import com.cqvip.mobilevers.exam.Content;
+
+import android.R.integer;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,38 +19,27 @@ import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
 import android.util.AttributeSet;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.cqvip.mobilevers.R;
-import com.cqvip.mobilevers.exam.Content;
-
-public class ImageTextView extends TextView {
-
+public class ImageTextCheckBox  extends CheckBox{
 	// 匹配图片[*]
-	public static Pattern PIC_PATTERN = Pattern.compile("\\[([\\*]+)\\]",
-			Pattern.CASE_INSENSITIVE);
+		public static Pattern PIC_PATTERN = Pattern.compile("\\[([\\*]+)\\]",
+				Pattern.CASE_INSENSITIVE);
 
-	public ImageTextView(Context context) {
-		super(context);
-		// TODO Auto-generated constructor stub
-	}
-
-	public ImageTextView(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		// TODO Auto-generated constructor stub
-	}
-
-	public ImageTextView(Context context, AttributeSet attrs, int defStyle) {
+		public ImageTextCheckBox(Context context) {
+			super(context);
+			// TODO Auto-generated constructor stub
+		}
+		public ImageTextCheckBox(Context context, AttributeSet attrs) {
+			super(context, attrs);
+			// TODO Auto-generated constructor stub
+		}	
+	public ImageTextCheckBox(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		// TODO Auto-generated constructor stub
 	}
 
-	public void setText(Content content) {
-		// TODO Auto-generated method stub
-		setOutlineText(this, content.getContent(), content.isContainPic(),
-				content.getImg());
-	}
-	
 	public void setText(String pretext,Content content) {
 		// TODO Auto-generated method stub
 		setOutlineText(this, content.getContent(), content.isContainPic(),
@@ -58,7 +51,7 @@ public class ImageTextView extends TextView {
 		// TODO Auto-generated method stub
 		setOutlineText(this, text, isContainpic, imgs);
 	}
-
+	
 	public void setOutlineText(TextView textView, String text,
 			boolean isContainpic, ArrayList<String> imgs) {
 		// 判断是否含有图片
@@ -147,4 +140,7 @@ public class ImageTextView extends TextView {
 			textView.setText(tips+(text != null ? text : ""));
 		}
 	}
+	
+	
+	
 }

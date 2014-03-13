@@ -95,11 +95,9 @@ public class BaseFragmentActivity extends FragmentActivity implements
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
 		if (mGestureDetector.onTouchEvent(ev)) {
-			Log.i("mylinearlayout", "dispatchTouchEvent_true");
 			return true;
 		} else {
 			boolean temp = super.dispatchTouchEvent(ev);
-			Log.i(TAG, "dispatchTouchEvent_" + temp);
 			return temp;
 		}
 	}

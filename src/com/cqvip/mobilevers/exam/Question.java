@@ -14,12 +14,19 @@ public class Question implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -7932089273676021492L;
-	String type;// 试题类型
-	Content title;
-	ArrayList<Content> option;// 包含的显示内容
-	Solution solution; // 答案和答案解析
-	int itemCount = 0;// 如果题目为图片显示是，显示选项个数，默认值为 0
-
+	private String type;// 试题类型
+	private Content title;
+	private ArrayList<Content> option;// 包含的显示内容
+	private Solution solution; // 答案和答案解析
+	private int itemCount = 0;// 如果题目为图片显示是，显示选项个数，默认值为 0
+	
+	private  Content sub_Title; //子题标题
+	private String sebexam_Title;//大题标题
+	private String  sub_Type;//subject类型
+	int perscore;
+	
+	
+	
 	public Question(String type, Content title, ArrayList<Content> option,
 			Solution solution, int itemCount) {
 		super();
@@ -29,6 +36,27 @@ public class Question implements Serializable{
 		this.solution = solution;
 		this.itemCount = itemCount;
 	}
+
+	
+	
+
+	public Question(String type, Content title, ArrayList<Content> option,
+			Solution solution, int itemCount, Content sub_Title,
+			String sebexam_Title, String sub_Type, int perscore) {
+		super();
+		this.type = type;
+		this.title = title;
+		this.option = option;
+		this.solution = solution;
+		this.itemCount = itemCount;
+		this.sub_Title = sub_Title;
+		this.sebexam_Title = sebexam_Title;
+		this.sub_Type = sub_Type;
+		this.perscore = perscore;
+	}
+
+
+
 
 	public String getType() {
 		return type;
@@ -49,6 +77,22 @@ public class Question implements Serializable{
 	public int getItemCount() {
 		return itemCount;
 	}
+	
+
+	public Content getSub_Title() {
+		return sub_Title;
+	}
+
+
+	public String getSebexam_Title() {
+		return sebexam_Title;
+	}
+
+
+	public String getSub_Type() {
+		return sub_Type;
+	}
+
 
 	@Override
 	public String toString() {

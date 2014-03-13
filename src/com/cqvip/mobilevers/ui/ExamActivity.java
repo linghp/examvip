@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -78,8 +79,8 @@ public class ExamActivity extends BaseFragmentActivity implements
 	public ArrayList<Integer> startLitmitCount_List=new ArrayList<Integer>();//统计subject题目
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		Log.i(TAG, isnight + "");
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		//模式设置
 		if (isnight) {
 			this.setTheme(R.style.ThemeNight);

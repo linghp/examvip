@@ -26,7 +26,7 @@ public class PullParseXML {
 	public PullParseXML() {
 		super();
 	}
-	public  Subject parseXml(String xml) throws IOException, XmlPullParserException {
+	public  Subject parseXml(String xml,String subjectTypeName,int scorePerQuestion) throws IOException, XmlPullParserException {
 		Subject sub = null;
 		XmlPullParser xmlParse = Xml.newPullParser();
 		if(!TextUtils.isEmpty(xml)){
@@ -36,14 +36,15 @@ public class PullParseXML {
 		Log.i("star_document",xmlParse.START_DOCUMENT+"");
 		Log.i("star_tag",xmlParse.START_TAG+"");
 		xmlParse.nextTag();
-		sub = ShowAllSubjectQuestion(xmlParse);
+		sub = ShowAllSubjectQuestion(xmlParse,subjectTypeName,scorePerQuestion);
 		}
 		return sub;
 	}
 	
-	public Subject ShowAllSubjectQuestion(XmlPullParser xmlParse)throws IOException, XmlPullParserException {
+	public Subject ShowAllSubjectQuestion(XmlPullParser xmlParse,String subjectTypeName,int scorePerQuestion)throws IOException, XmlPullParserException {
 		String type = null;
 		ArrayList<Question> questions = new ArrayList<Question>();
+		ArrayList<Question> allquestion = new ArrayList<Question>();
 		String title = null;;
 		Question question = null;
 		ArrayList<String> pics = new ArrayList<String>();
@@ -72,7 +73,19 @@ public class PullParseXML {
 	        	skip(xmlParse);
 	        }
 	    }  
-		return new Subject(type,new Content(pics, title, isTitleContainPic),questions);
+	    //设置子题目
+	    Content sub_title = new Content(pics, title, isTitleContainPic);
+	    //子类型
+	    String sub_Type = type;
+	    
+	    for(int i=0;i<questions.size();i++){
+	    	Question ques =questions.get(i);
+	    	Question allqu = new Question(ques.getType(), ques.getTitle(), ques.getOption(),
+	    			ques.getSolution(), ques.getItemCount(), sub_title, subjectTypeName, sub_Type,scorePerQuestion);
+	    	allquestion.add(allqu);
+	    }
+	    
+		return new Subject(type,new Content(pics, title, isTitleContainPic),allquestion);
 	}
 	
 	/**

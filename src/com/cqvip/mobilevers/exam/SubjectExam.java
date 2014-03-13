@@ -76,15 +76,15 @@ public class SubjectExam implements Serializable{
 		if(array.length()>0){
 			exam3List = new Subject[array.length()];
 			for(int i=0;i<array.length();i++)
-			exam3List[i] =  getSubjecFormXml(array.getJSONObject(i));
+			exam3List[i] =  getSubjecFormXml(array.getJSONObject(i),subjectTypeName,scorePerQuestion);
 		}
 	}
 
-	private Subject getSubjecFormXml(JSONObject json) throws IOException, XmlPullParserException, JSONException {
+	private Subject getSubjecFormXml(JSONObject json,String subjectTypeName,int scorePerQuestion) throws IOException, XmlPullParserException, JSONException {
 		String  xml = json.getString("_subXmlString");
 		//System.out.println(xml);
 		PullParseXML pullParse = new PullParseXML();
-		Subject sub = pullParse.parseXml(xml);
+		Subject sub = pullParse.parseXml(xml,subjectTypeName,scorePerQuestion);
 		return sub;
 	}
 
