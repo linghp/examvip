@@ -1,12 +1,10 @@
 package com.cqvip.mobilevers.adapter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
-import com.cqvip.mobilevers.R;
-import com.cqvip.mobilevers.view.FragmentAnswerScard;
 
 import android.content.Context;
+import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +13,10 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.cqvip.mobilevers.R;
+import com.cqvip.mobilevers.ui.ExamActivity;
+import com.cqvip.mobilevers.view.FragmentAnswerScard;
 
 public class AnswerscardListViewAdapter extends BaseAdapter {
 
@@ -26,6 +27,7 @@ public class AnswerscardListViewAdapter extends BaseAdapter {
 	private Context mContext;
 	private ArrayList<Integer> mList;
 	private ArrayList<ArrayList<Integer>> mList_Gist = new ArrayList<ArrayList<Integer>>();
+	private FragmentManager fm;
 
 	public AnswerscardListViewAdapter(Context context,
 			ArrayList<Integer> list,
@@ -34,6 +36,15 @@ public class AnswerscardListViewAdapter extends BaseAdapter {
 		this.mContext = context;
 		this.mList = list;
 		this.mList_Gist = gist;
+	}
+	public AnswerscardListViewAdapter(Context context,
+			ArrayList<Integer> list,
+			ArrayList<ArrayList<Integer>> gist,FragmentManager fm) {
+		
+		this.mContext = context;
+		this.mList = list;
+		this.mList_Gist = gist;
+		this.fm = fm;
 	}
 
 	@Override
@@ -70,7 +81,12 @@ public class AnswerscardListViewAdapter extends BaseAdapter {
 				public void onItemClick(AdapterView<?> arg0, View arg1,
 						int arg2, long arg3) {
 					TextView tv=(TextView) arg1.findViewById(R.id.tv);
-					Toast.makeText(mContext, tv.getText(), 1).show();
+					String id = tv.getText().toString();
+					//Toast.makeText(mContext, tv.getText(), 1).show();
+					fm.popBackStack();
+					Log.i("select",id);
+					((ExamActivity)mContext).updateView(id);
+					
 				}
 				
 			});

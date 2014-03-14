@@ -106,15 +106,15 @@ public class ImageTextView extends TextView {
 	public void setOutlineText(TextView textView, String text,
 			boolean isContainpic, ArrayList<String> imgs,String tips) {
 		// 判断是否含有图片
-
+		
 		if (isContainpic) {
 			// 含有图片
 			// 1、使用这则表达式替换图片
-
+			text = tips+text;
 			SpannableString spannable = new SpannableString(text);
 			SpannableStringBuilder style = new SpannableStringBuilder(spannable);
 
-			Matcher picMatcher = PIC_PATTERN.matcher(tips+text);
+			Matcher picMatcher = PIC_PATTERN.matcher(text);
 			// 匹配图片
 			while (picMatcher.find()) {
 				try {

@@ -1,10 +1,11 @@
 package com.cqvip.mobilevers.view;
 
 import java.util.ArrayList;
-import java.util.Random;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,41 +15,51 @@ import android.widget.ListView;
 
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.adapter.AnswerscardListViewAdapter;
+import com.cqvip.mobilevers.ui.ExamActivity;
 
+/**
+ * 答题卡类
+ * @author luojiang
+ *
+ */
 public class FragmentAnswerScard extends Fragment {
 	private ListView mListView;
 	private ArrayList<ArrayList<Integer>> mList_Gist = new ArrayList<ArrayList< Integer>>();
 	private ArrayList<Integer> rowIndexList = new ArrayList<Integer>();
+	
+	private  ArrayList<Integer> perCount_row = new ArrayList<Integer>();
 	public  static int screenWidth, screenHeight;
 	public static int gridviewcolumnwidth;
 	public static final String TAG = "FragmentAnswerScard";
+	
+	
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view=inflater.inflate(R.layout.fragment_answerscard, container,false);
 		mListView = (ListView) view.findViewById(R.id.listview);
 		initData();
-		AnswerscardListViewAdapter adapter = new AnswerscardListViewAdapter(getActivity(), rowIndexList,mList_Gist);
+		FragmentManager fm = getFragmentManager();
+		AnswerscardListViewAdapter adapter = new AnswerscardListViewAdapter(getActivity(), rowIndexList,mList_Gist,fm);
 		mListView.setAdapter(adapter);
 		return view;
 	}
 	
-	int b = 0;
-	int a = 0;
 
 	public void initData() {
-		for (int i = 0; i < 5; i++) {
+		int b = 0;
+		int a = 0;
+		perCount_row = ((ExamActivity)getActivity()).getCardCount_List();
+		for (int i = 0; i < perCount_row.size(); i++) {
 			rowIndexList.add(i);
 			ArrayList<Integer> temp_mGist = new ArrayList<Integer>();
-			Random random = new Random();
 			b += a;
-			a = random.nextInt(30);
-			Log.i("MainActivity", a + "");
+			a = perCount_row.get(i);
 			for (int j = 1; j <= a; j++) {
 				temp_mGist.add(j + b);
 			}
 			mList_Gist.add(temp_mGist);
-			// mList.add(hashmap);
 		}
 
 		getscreeninfo();
@@ -78,7 +89,7 @@ public class FragmentAnswerScard extends Fragment {
 	void countgridviewcolumnwidth(){
 		int answerlistviewpaddingall=dip2px(getResources().getDimension(R.dimen.answerlistviewpadding)*2);
 		int columnnumber=getResources().getInteger(R.integer.answergridviewcolumnnumber);
-		int gridviewcolumnall =dip2px(getResources().getDimension(R.dimen.answergridviewspace))*(columnnumber-1);
+		int gridviewcolumnall =dip2px(getResources().getDimension(R.dimen.answergridviewhorionspace))*(columnnumber-1);
 		gridviewcolumnwidth=(screenWidth-answerlistviewpaddingall-gridviewcolumnall)/columnnumber;
 		Log.i(TAG + " gridviewcolumnwidth", "answerlistviewpaddingall:"+answerlistviewpaddingall+" gridviewcolumnall:"+gridviewcolumnall+" gridviewcolumnwidth:"+gridviewcolumnwidth);
 	}

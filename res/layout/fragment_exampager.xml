@@ -44,73 +44,16 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/list_line" />
 
-                    <TextView
-                        android:id="@+id/knowtv"
-                        android:layout_width="100.0dip"
-                        android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/eg_correct_answer_ico"
-                        android:gravity="center_vertical"
-                        android:text="这题我会"
-                        android:textColor="@color/black"
-                        android:visibility="gone" />
-
-                    <TextView
-                        android:id="@+id/unknow"
-                        android:layout_width="100.0dip"
-                        android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/eg_wrong_answer_ico"
-                        android:gravity="center"
-                        android:text="这题我不会"
-                        android:textColor="@color/black"
-                        android:visibility="gone" />
-
-                    <LinearLayout
-                        android:id="@+id/qanswerView"
+                         <EditText
+                        android:id="@+id/et_answer"
+                        android:visibility="gone"
                         android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical"
-                        android:visibility="gone" >
-
-                        <View
-                            android:layout_width="50.0dip"
-                            android:layout_height="20.0dip" />
-
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            android:orientation="horizontal" >
-
-                            <View
-                                android:layout_width="wrap_content"
-                                android:layout_height="20.0dip"
-                                android:layout_weight="1.0" />
-
-                            <Button
-                                android:id="@+id/btn_know"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:drawableLeft="@drawable/eg_correct_answer_ico"
-                                android:text="我会,核对答案   " />
-
-                            <View
-                                android:layout_width="wrap_content"
-                                android:layout_height="20.0dip"
-                                android:layout_weight="1.0" />
-
-                            <Button
-                                android:id="@+id/btn_unknow"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:drawableLeft="@drawable/eg_wrong_answer_ico"
-                                android:text="我不会,查看答案" />
-
-                            <View
-                                android:layout_width="wrap_content"
-                                android:layout_height="20.0dip"
-                                android:layout_weight="1.0" />
-                        </LinearLayout>
-                    </LinearLayout>
+                        android:layout_height="200dp"
+                        android:gravity="left|top"
+                        android:hint="请写下您的答案"
+                        android:textColor="@color/black"
+                         />
+                 
 
                     <LinearLayout
                         android:id="@+id/mulitiple_chose_group"

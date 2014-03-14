@@ -7,7 +7,7 @@
          android:id="@+id/iv"
         android:layout_width="fill_parent"   
         android:layout_height="fill_parent"  
-        android:src="@drawable/GreenYellow"  
+      	android:background="@drawable/grid_style_gree"
         android:scaleType="centerCrop"
     />  
     <TextView  

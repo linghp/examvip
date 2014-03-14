@@ -22,6 +22,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.View;
+import android.view.Choreographer.FrameCallback;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -46,7 +47,7 @@ import com.cqvip.mobilevers.view.ExamFragment;
 import com.cqvip.mobilevers.view.FragmentAnswerScard;
 
 public class ExamActivity extends BaseFragmentActivity implements
-		OnPageChangeListener, OnClickListener {
+		OnPageChangeListener, OnClickListener{
 
 	final static String TAG = "ExamActivity";
 	//static final int NUM_ITEMS = 10;
@@ -77,6 +78,8 @@ public class ExamActivity extends BaseFragmentActivity implements
 	public ArrayList<Question> Question_list=new ArrayList<Question>(); // 所有question
 	public ArrayList<Integer> subjectExamCount_list=new ArrayList<Integer>(); // 所有subject
 	public ArrayList<Integer> startLitmitCount_List=new ArrayList<Integer>();//统计subject题目
+	
+	public ArrayList<Integer> cardCount_List=new ArrayList<Integer>();//答题卡题目
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -109,8 +112,11 @@ public class ExamActivity extends BaseFragmentActivity implements
 		//
 		for (SubjectExam subjectExam : subjectExams_array) {
 			//客户端显示题目数量
+			int count = subjectExam.getQuestionNum();
+			cardCount_List.add(count);//答题卡
+			
 			startLitmitCount_List.add(clientShowCount);
-			clientShowCount += subjectExam.getQuestionNum();
+			clientShowCount += count;
 			//所有试卷大题数量size与startLitmitCount_List相同
 			subjects_list.addAll(Arrays.asList(subjectExam.getExam3List()));
 			
@@ -135,6 +141,13 @@ public class ExamActivity extends BaseFragmentActivity implements
 	
 	
 	
+
+	public ArrayList<Integer> getCardCount_List() {
+		return cardCount_List;
+	}
+
+
+
 
 	public ArrayList<SubjectExam> getSubjectExam_list() {
 		return subjectExam_list;
@@ -314,6 +327,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 			isLeftFragment = false;
 		}
 	}
+	
 
 	@Override
 	public void onPageScrollStateChanged(int state) {
@@ -360,5 +374,17 @@ public class ExamActivity extends BaseFragmentActivity implements
 		ft.addToBackStack(null);
 		ft.commit();
 	}
+
+
+	public void updateView(String id){
+		int position = Integer.parseInt(id)-1;
+		mPager.setCurrentItem(position);
+	}
+	
+
+
+
+
+
 
 }
