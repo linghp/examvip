@@ -1,8 +1,8 @@
 package com.cqvip.mobilevers.adapter;
 
-import java.util.ArrayList;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,53 +20,45 @@ import com.cqvip.mobilevers.view.FragmentAnswerScard;
 
 public class AnswerscardListViewAdapter extends BaseAdapter {
 
-	//�п�
-	private int cWidth = 20;
-	//ˮƽ���
-	private int hSpacing = 10;
 	private Context mContext;
-	private ArrayList<Integer> mList;
-	private ArrayList<ArrayList<Integer>> mList_Gist = new ArrayList<ArrayList<Integer>>();
 	private FragmentManager fm;
-
+	private int[][] mLists;// 记录所有的题目号
+	private int[][] done_List;
 	public AnswerscardListViewAdapter(Context context,
-			ArrayList<Integer> list,
-			ArrayList<ArrayList<Integer>> gist) {
-
-		this.mContext = context;
-		this.mList = list;
-		this.mList_Gist = gist;
+			int[][] allAnswer, FragmentManager fm2) {
+		    this.mContext = context;
+			this.mLists = allAnswer;
+			this.fm = fm2;
 	}
+	
 	public AnswerscardListViewAdapter(Context context,
-			ArrayList<Integer> list,
-			ArrayList<ArrayList<Integer>> gist,FragmentManager fm) {
-		
+			int[][] allAnswer, int[][] donelists, FragmentManager fm2) {
 		this.mContext = context;
-		this.mList = list;
-		this.mList_Gist = gist;
-		this.fm = fm;
+		this.mLists = allAnswer;
+		this.fm = fm2;
+		this.done_List = donelists;
 	}
 
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return mList.size();
+		return mLists.length;
 	}
 
 	@Override
-	public Object getItem(int arg0) {
+	public Object getItem(int position) {
 		// TODO Auto-generated method stub
-		return mList.get(arg0);
+		return position;
 	}
 
 	@Override
-	public long getItemId(int arg0) {
+	public long getItemId(int position) {
 		// TODO Auto-generated method stub
-		return mList.size();
+		return position;
 	}
 
 	@Override
-	public View getView(int arg0, View convertView, ViewGroup arg2) {
+	public View getView(int position, View convertView, ViewGroup arg2) {
 		// TODO Auto-generated method stub
 		ViewHolder holder = null;
 		if (convertView == null) {
@@ -97,7 +89,8 @@ public class AnswerscardListViewAdapter extends BaseAdapter {
 		}
 		//holder.iv.setImageResource(mList.get(arg0).get("list"));
 
-		AnswerscardGridViewAdapter ga = new AnswerscardGridViewAdapter(mContext, mList.get(arg0),mList_Gist);
+		//AnswerscardGridViewAdapter ga = new AnswerscardGridViewAdapter(mContext, mList.get(arg0),mList_Gist);
+		AnswerscardGridViewAdapter ga = new AnswerscardGridViewAdapter(mContext, mLists[position],done_List[position]);
 		//int ii = ga.getCount();
 //		LayoutParams params = new LayoutParams(ii * (48 + 10),
 //				LayoutParams.WRAP_CONTENT);

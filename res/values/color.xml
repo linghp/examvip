@@ -11,6 +11,7 @@
 
     <drawable name="LightSkyBlue">#7387CEFA</drawable>
     <drawable name="DeepSkyBlue">#7300BFFF</drawable>
+    <drawable name="grey">#bb9D9C9C</drawable>
     <drawable name="DeepBlue">#734DA6FF</drawable>
     <drawable name="silvergray">#a9a9a9</drawable>
     <drawable name="GreenYellow">#ADFF2F</drawable>

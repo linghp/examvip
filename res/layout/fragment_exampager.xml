@@ -112,16 +112,6 @@
                             android:layout_height="1.0dip"
                             android:layout_weight="1.0" />
 
-                        <ImageView
-                            android:id="@+id/feelings"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/eg_correct_smile_ico" />
-
-                        <View
-                            android:layout_width="wrap_content"
-                            android:layout_height="1.0dip"
-                            android:layout_weight="1.0" />
                     </LinearLayout>
 
                     <LinearLayout

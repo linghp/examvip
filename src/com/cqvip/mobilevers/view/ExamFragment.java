@@ -11,6 +11,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.text.style.BulletSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.cqvip.mobilevers.R;
+import com.cqvip.mobilevers.config.ConstantValues;
 import com.cqvip.mobilevers.exam.Content;
 import com.cqvip.mobilevers.exam.Question;
 import com.cqvip.mobilevers.exam.Solution;
@@ -34,6 +36,7 @@ import com.cqvip.mobilevers.widget.ImageTextView;
 
 public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 	private static final String NUM_TAG = "num";
+	private static String TAG = "ExamFragment";
 	private int position; //第几个fragment
 
 //    private ArrayList<Subject> subjects_list;
@@ -44,7 +47,9 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 //	private ArrayList<Subject> subjects_list=new ArrayList<Subject>(); // 所有subject
 //	private ArrayList<Integer> subjectExamCount_list=new ArrayList<Integer>(); // 所有subject
 //	private ArrayList<Integer> startLitmitCount_List=new ArrayList<Integer>();//统计subject题目
-    
+    private LinearLayout decision,decision2,decision3;
+    private TextView user_answer;
+    private TextView tx_cue;//是否答对
     private TextView page_title,tv_back;
     private LinearLayout ll_main,ll_title;
     private Content contentTitle;
@@ -57,18 +62,24 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
     private String type;
     private boolean isMultiCheck = false;
     private static Map<Integer, Boolean> isSelected;
-    private int singleChoose;
     private String fillanswer;
+    private int clientSingleChoose;
     private ArrayList<Integer> multiChoose = new ArrayList<Integer>();
+    private String realAnswer;
+    
+    private int rightOrWrong = ConstantValues.ANSWER_UNDONG;//没做
+    
+    private boolean isTextType = false;
+    private ColAndRow colAndRow;
 	
     @Override
     public void onAttach(Activity activity) {
-    	Log.i("ExamFragment", "onAttach"+position);
+    	//Log.i("ExamFragment", "onAttach"+position);
     	super.onAttach(activity);
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
-    	Log.i("ExamFragment", "onCreate"+position);
+    	//Log.i("ExamFragment", "onCreate"+position);
     	super.onCreate(savedInstanceState);
     }
 	@Override
@@ -88,6 +99,15 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		page_title = (TextView) v.findViewById(R.id.txt_viewtitle);
 		tv_back = (TextView) v.findViewById(R.id.txt_title_back);
 		et_client_answer = (EditText) v.findViewById(R.id.et_answer);
+		user_answer = (TextView) v.findViewById(R.id.user_answer);
+		tx_cue = (TextView) v.findViewById(R.id.tx_cue);//对错
+		decision = (LinearLayout) v.findViewById(R.id.decision);
+		decision2 = (LinearLayout) v.findViewById(R.id.decision2);
+		decision3 = (LinearLayout) v.findViewById(R.id.decision3);
+		decision.setVisibility(View.GONE);
+		decision2.setVisibility(View.GONE);
+		decision3.setVisibility(View.GONE);
+		
 		ll_main.setVisibility(View.VISIBLE);
 		ll_title.setVisibility(View.GONE);
 		page_title.setVisibility(View.GONE);
@@ -114,6 +134,9 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		Content sub_title = question.getSub_Title();
 		String subExam_title = question.getSebexam_Title();
 		String sub_type = question.getSub_Type();
+		
+		//答案，用于比较
+		realAnswer = solution.getAnswer().getContent();
 		
 		Log.i("sub_type",sub_type);
 		Log.i("sub_Title","tttt:"+sub_title.getContent());
@@ -157,6 +180,9 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 				
 		}
 		
+		colAndRow = getItemPosition(position);
+		Log.i(TAG,"row,col"+colAndRow.row+","+colAndRow.col);
+		
 		page_title.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -177,12 +203,14 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		
 		
 		tv_answer.setText(answer);
-		System.out.println(answerdesc.getContent());
 		tv_answerdesc.setText(answerdesc);
 		tv_title.setBackgroundDrawable(getResources().getDrawable(
 				android.R.drawable.gallery_thumb));
 		return v;
 	}
+	
+	
+	
 	/**
 	 * 显示所有题目
 	 * @param sub_type
@@ -357,6 +385,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 	 * @param xmlParse
 	 */
 	private void ShowFillQuestion() {
+		isTextType = true;
 		et_client_answer.setVisibility(View.VISIBLE);
 		mulitiple_chose_group.setVisibility(View.GONE);
 		
@@ -366,13 +395,37 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 	  * @param xmlParse
 	  */
 	private void ShowTextQuestion() {
+		isTextType = true;
 		et_client_answer.setVisibility(View.VISIBLE);
 		mulitiple_chose_group.setVisibility(View.GONE);
 	}
 	
+	public void viewAnswer(){
+		if(decision.getVisibility()==View.GONE){
+			decision.setVisibility(View.VISIBLE);
+		}else{
+			decision.setVisibility(View.GONE);
+		}
+		if(decision2.getVisibility()==View.GONE){
+			decision2.setVisibility(View.VISIBLE);
+		}else{
+			decision2.setVisibility(View.GONE);
+		}
+		if(decision3.getVisibility()==View.GONE){
+			decision3.setVisibility(View.VISIBLE);
+		}else{
+			decision3.setVisibility(View.GONE);
+		}
+		
+		
+	}
 	
-	
-
+	/**
+	 * 返回试题
+	 * @param num
+	 * @param context
+	 * @return
+	 */
 	public static ExamFragment newInstance(int num, Context context) {
 
 		ExamFragment f = (ExamFragment) ExamFragment.instantiate(context,
@@ -382,7 +435,9 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		// Supply num input as an argument.
 		Bundle args = new Bundle();
 		args.putInt(NUM_TAG, num);
+		args.putString("TAG",num+"");
 		f.setArguments(args);
+		
 		return f;
 	}
 	@Override
@@ -394,13 +449,34 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		if(!isMultiCheck){
 		if(isChecked){
 			if(validateMultiChoosed()){
-			check_list.get(singleChoose).toggle();
+			check_list.get(clientSingleChoose).toggle();
 			}
 			for(int i =0;i<check_list.size();i++){
 				if(check_list.get(i).isChecked()){
-					singleChoose = i;
+					clientSingleChoose = i;
 				}
 			}
+			
+			//显示答案
+			user_answer.setText(ALPHABET[clientSingleChoose]+"");
+			//显示对错
+			if(validateAnswer(clientSingleChoose)){
+			tx_cue.setText("恭喜您，答对了");
+			rightOrWrong = ConstantValues.ANSWER_RIGHT;
+			setSignRightdone(ExamActivity.right_position,ExamActivity.wrong_position);
+			}else{
+				setSignWrongdone(ExamActivity.right_position,ExamActivity.wrong_position);
+				rightOrWrong = ConstantValues.ANSWER_WRONG;
+				
+				tx_cue.setText("对不起，答错了");
+			}
+			setSigndone(ExamActivity.done_position);
+		}else{
+			user_answer.setText("");
+			tx_cue.setText("");
+			rightOrWrong = ConstantValues.ANSWER_UNDONG;
+			removeSignDone(ExamActivity.done_position);
+			//signDone();
 		}	
 		 }else{
 			 //多选
@@ -412,22 +488,138 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 						//Log.i("multichoose",multiChoose+"");
 					}
 				}
+			 if(!multiChoose.isEmpty()){
+			 user_answer.setText(formString(multiChoose));
+			 if(validateMultiAnswer(multiChoose)){
+					tx_cue.setText("恭喜您，答对了");
+					rightOrWrong = ConstantValues.ANSWER_RIGHT;
+					setSignRightdone(ExamActivity.right_position,ExamActivity.wrong_position);
+				}else{
+					setSignWrongdone(ExamActivity.right_position,ExamActivity.wrong_position);
+					rightOrWrong = ConstantValues.ANSWER_WRONG;
+						tx_cue.setText("对不起，答错了");
+					}
+			    setSigndone(ExamActivity.done_position);
+			 }else{
+				 removeSignDone(ExamActivity.done_position);
+				 rightOrWrong = ConstantValues.ANSWER_UNDONG;
+				 user_answer.setText("");
+				 tx_cue.setText("");
+			 }
 		 }
+		
+	}
+	/**
+	 * 移除答题
+	 */
+	private void removeSignDone(int[][] array) {
+		array[colAndRow.row][colAndRow.col] = 0;
+	}
+	
+	/**
+	 * 记录答题位置
+	 */
+//	private void signDone() {
+//		Log.i(TAG,"========singDone");
+//		switch (rightOrWrong) {
+//		case ConstantValues.ANSWER_DONG:
+//			setSigndone(ExamActivity.done_position);
+//			break;
+//		case ConstantValues.ANSWER_RIGHT:
+//			setSignRightdone(ExamActivity.right_position,ExamActivity.wrong_position);
+//			break;
+//		case ConstantValues.ANSWER_WRONG:
+//			setSignWrongdone(ExamActivity.right_position,ExamActivity.wrong_position);
+//			break;
+//		default://没有做
+//			removeSignDone(ExamActivity.done_position);
+//			break;
+//		}
+//		
+//	}
+	/**
+	 * 记录已经答过
+	 * @param array
+	 */
+	private void setSigndone(int[][] array) {
+		
+		array[colAndRow.row][colAndRow.col] = position+1;
+	}
+	/**
+	 * 记录正确答案
+	 * @param rightArray
+	 * @param wrongArray
+	 */
+	private void setSignRightdone(int[][] rightArray,int[][] wrongArray) {
+		removeSignDone(wrongArray);
+		rightArray[colAndRow.row][colAndRow.col] = position+1;
+	}
+	/**
+	 * 记录错误答案
+	 * @param rightArray
+	 * @param wrongArray
+	 */
+	private void setSignWrongdone(int[][] rightArray,int[][] wrongArray) {
+		removeSignDone(rightArray);
+		wrongArray[colAndRow.row][colAndRow.col] = position+1;
+	}
+	
+	private boolean validateMultiAnswer(ArrayList<Integer> multiChoose2) {
+		StringBuilder builder = new StringBuilder();
+		for(int i=0;i<multiChoose2.size();i++){
+			int k = multiChoose2.get(i);
+			builder.append((k+1)+"");
+			if(i!=multiChoose2.size()){
+				builder.append(",");
+			}
+		}
+		String result = builder.toString();
+		Log.i(TAG,"result:"+result);
+		return realAnswer.equals(result);
+	}
+	private boolean validateAnswer(int clientSingleChoose2) {
+		if(realAnswer!=null){
+			int answer = Integer.parseInt(realAnswer);
+			if((clientSingleChoose2+1) == answer){
+				return true;
+			}
+		}
+		return false;
+	}
+	/**
+	 * A,B,c
+	 * @param multiChoose2
+	 * @return
+	 */
+	private String formString(ArrayList<Integer> multiChoose2) {
+		StringBuilder builder = new StringBuilder();
+		for(int i=0;i<multiChoose2.size();i++){
+			int k = multiChoose2.get(i);
+			builder.append(ALPHABET[k]+"");
+			if(i!=multiChoose2.size()){
+				builder.append(",");
+			}
+		}
+		return builder.toString();
 	}
 	@Override
 	public void onStop() {
-		// TODO Auto-generated method stub
 		super.onStop();
 		//保存用户答案
 		String clientanswer = et_client_answer.getText().toString();
 		if(!TextUtils.isEmpty(clientanswer)){
 			fillanswer = clientanswer;
+			rightOrWrong = ConstantValues.ANSWER_DONG;
+			setSigndone(ExamActivity.done_position);
 		}else{
+			if(isTextType){
+				rightOrWrong = ConstantValues.ANSWER_UNDONG;
+				removeSignDone(ExamActivity.done_position);
+			}
 			fillanswer = null;
 		}
-		
+//		signDone();
 	}
-	
 	/**
      * 判断是否有选中
      * @return
@@ -443,6 +635,33 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 			return true;
 		}
 		return false;
+	}
+	
+	
+	private class ColAndRow{
+		int row;//行
+		int col;//列
+		public ColAndRow(int row,int col){
+			this.col = col;
+			this.row = row;
+		}
+	}
+	/**
+	 * 根据position获取下标
+	 * @param position
+	 * @return
+	 */
+	public ColAndRow getItemPosition(int position){
+		ColAndRow cr = null;
+		int[][] tmpArray = ((ExamActivity)getActivity()).getAll_position();
+		for(int i=0;i<tmpArray.length;i++){
+			for(int j=0;j<tmpArray[i].length;j++){
+				if(tmpArray[i][j]==(position+1)){
+					cr = new ColAndRow(i, j);
+				}
+			}
+		}
+		return cr;
 	}
 	
 	

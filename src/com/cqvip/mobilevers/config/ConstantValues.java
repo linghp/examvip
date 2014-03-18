@@ -38,4 +38,10 @@ public class ConstantValues {
 	public static final int refresh=1;
 	public static final int load=2;
 	
+	
+	public static final int ANSWER_UNDONG = 0;
+	public static final int ANSWER_DONG = 1;
+	public static final int ANSWER_RIGHT = 2;
+	public static final int ANSWER_WRONG = 3;
+	
 }

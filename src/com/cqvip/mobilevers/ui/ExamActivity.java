@@ -2,13 +2,8 @@ package com.cqvip.mobilevers.ui;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -21,27 +16,21 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
-import android.view.Choreographer.FrameCallback;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.Request.Method;
-import com.android.volley.Response.Listener;
 import com.cqvip.mobilevers.R;
-import com.cqvip.mobilevers.adapter.ExamBClassfyAdapter;
-import com.cqvip.mobilevers.config.ConstantValues;
-import com.cqvip.mobilevers.db.TwoLevelType;
+import com.cqvip.mobilevers.entity.TwoDimensionArray;
 import com.cqvip.mobilevers.exam.Exam;
 import com.cqvip.mobilevers.exam.Question;
 import com.cqvip.mobilevers.exam.Subject;
 import com.cqvip.mobilevers.exam.SubjectExam;
-import com.cqvip.mobilevers.http.HttpUtils;
-import com.cqvip.mobilevers.http.VersStringRequest;
 import com.cqvip.mobilevers.ui.base.BaseFragmentActivity;
 import com.cqvip.mobilevers.view.ExamFragment;
 import com.cqvip.mobilevers.view.FragmentAnswerScard;
@@ -56,6 +45,8 @@ public class ExamActivity extends BaseFragmentActivity implements
 	ViewPager mPager;
 	int currentpage = 0;
 	public static boolean isnight = false;
+	
+	private LinearLayout lookanswer_ll;
 
 	private Timer timer = null;
 	private TimerTask task = null;
@@ -73,11 +64,16 @@ public class ExamActivity extends BaseFragmentActivity implements
 	private int subjectExamCount;//大题型种类数量
 	private int score;//总分
 	
-	public ArrayList<SubjectExam> subjectExam_list=new ArrayList<SubjectExam>(); // 所有subject
+	//public ArrayList<SubjectExam> subjectExam_list=new ArrayList<SubjectExam>(); // 所有subject
+//	public ArrayList<Integer> subjectExamCount_list=new ArrayList<Integer>(); // 所有subject
+//	public ArrayList<Integer> startLitmitCount_List=new ArrayList<Integer>();//统计subject题目
 	public ArrayList<Subject> subjects_list=new ArrayList<Subject>(); // 所有subject
 	public ArrayList<Question> Question_list=new ArrayList<Question>(); // 所有question
-	public ArrayList<Integer> subjectExamCount_list=new ArrayList<Integer>(); // 所有subject
-	public ArrayList<Integer> startLitmitCount_List=new ArrayList<Integer>();//统计subject题目
+	
+	private int[][] all_position;
+	public static int[][] done_position;//统计subject题目
+	public static int[][] right_position;//统计正确题目
+	public static int[][] wrong_position;//统计错误题目
 	
 	public ArrayList<Integer> cardCount_List=new ArrayList<Integer>();//答题卡题目
 	@Override
@@ -115,15 +111,24 @@ public class ExamActivity extends BaseFragmentActivity implements
 			int count = subjectExam.getQuestionNum();
 			cardCount_List.add(count);//答题卡
 			
-			startLitmitCount_List.add(clientShowCount);
+		//	startLitmitCount_List.add(clientShowCount);
 			clientShowCount += count;
 			//所有试卷大题数量size与startLitmitCount_List相同
 			subjects_list.addAll(Arrays.asList(subjectExam.getExam3List()));
 			
-			subjectExamCount_list.add(paperShowCount);
+		//	subjectExamCount_list.add(paperShowCount);
 			paperShowCount += subjectExam.getExam3List().length;
 			
 			//subjectExamCount++;
+		}
+		int mCount = subjectExams_array.length;
+		done_position = new int[mCount][];
+		right_position = new int[mCount][];
+		wrong_position = new int[mCount][];
+		for(int i=0;i<mCount;i++ ){
+			done_position[i] = new int[subjectExams_array[i].getQuestionNum()];
+			right_position[i] = new int[subjectExams_array[i].getQuestionNum()];
+			wrong_position[i] = new int[subjectExams_array[i].getQuestionNum()];
 		}
 		
 		for (Subject subject : subjects_list) {
@@ -133,14 +138,42 @@ public class ExamActivity extends BaseFragmentActivity implements
 			Question_list.addAll(lists);
 			}
 		}
-		
+		all_position = initDoubleDimensionalData();
 		System.out.println("题目总数"+Question_list.size());
 		mPager.setAdapter(mAdapter);
 		
 	}
 	
+	/**
+	 * 根据
+	 * @param list
+	 * @return
+	 */
+	private int[][] initDoubleDimensionalData() {
+		int a=0;
+		int b=0;
+		//把这个集合转换成二维数组，维度同size相同
+		ArrayList<Integer> perCount_row = getCardCount_List();//所有题目（8,10,20,4,5）
+		int[][] mlists = new int[perCount_row.size()][];
+		for (int i = 0; i < perCount_row.size(); i++) {
+			a = perCount_row.get(i);
+			mlists[i] = new int[a];
+			for (int j = 1; j <= a; j++) {
+				mlists[i][j-1] = j+b;
+			}
+			b += a;
+		}
+		return mlists;
+	}
 	
-	
+
+	public int[][] getAll_position() {
+		return all_position;
+	}
+
+	public void setAll_position(int[][] all_position) {
+		this.all_position = all_position;
+	}
 
 	public ArrayList<Integer> getCardCount_List() {
 		return cardCount_List;
@@ -149,9 +182,6 @@ public class ExamActivity extends BaseFragmentActivity implements
 
 
 
-	public ArrayList<SubjectExam> getSubjectExam_list() {
-		return subjectExam_list;
-	}
 
 	public ArrayList<Subject> getSubjects_list() {
 		return subjects_list;
@@ -159,20 +189,6 @@ public class ExamActivity extends BaseFragmentActivity implements
 
 	public int getSubjectExamCount() {
 		return subjectExamCount;
-	}
-
-	public ArrayList<Integer> getSubjectExamCount_list() {
-		return subjectExamCount_list;
-	}
-
-
-
-	public ArrayList<Integer> getStartLitmitCount_List() {
-		return startLitmitCount_List;
-	}
-
-	public void setStartLitmitCount_List(ArrayList<Integer> startLitmitCount_List) {
-		this.startLitmitCount_List = startLitmitCount_List;
 	}
 
 	public ArrayList<Question> getQuestion_list() {
@@ -228,6 +244,8 @@ public class ExamActivity extends BaseFragmentActivity implements
 	}
 
 	private void initView() {
+		lookanswer_ll = (LinearLayout) findViewById(R.id.lookanswer_ll);
+		lookanswer_ll.setOnClickListener(this);
 		mPager = (ViewPager) findViewById(R.id.pager);
 		mPager.setOnPageChangeListener(this);
 		//mPager.setAdapter(mAdapter);
@@ -269,9 +287,13 @@ public class ExamActivity extends BaseFragmentActivity implements
 		// public MyAdapter(FragmentManager fm) {
 		// super(fm);
 		// }
+		//private Map<Integer ,ExamFragment> mPageReferenceMap;
+		private SparseArray<ExamFragment> mPageReferenceMap = new SparseArray<ExamFragment>();
+		
 		public MyAdapter(FragmentManager fm, Context context) {
 			super(fm);
 			this.context = context;
+		//	mPageReferenceMap = new HashMap<Integer, ExamFragment>();
 		}
 
 		@Override
@@ -281,15 +303,38 @@ public class ExamActivity extends BaseFragmentActivity implements
 
 		@Override
 		public Fragment getItem(int position) {
-			Log.i(TAG, "MyAdapter_getItem:" + position);
-			return ExamFragment.newInstance(position,context);
+			//Log.i(TAG, "MyAdapter_getItem:" + position);
+			ExamFragment myFragment = ExamFragment.newInstance(position,context);
+			    mPageReferenceMap.put(position, myFragment);
+			return myFragment;
 		}
 
+		
+		@Override
+		public Object instantiateItem(ViewGroup container, int position) {
+			ExamFragment fragment = (ExamFragment) super.instantiateItem(container,
+			            position);
+			    mPageReferenceMap.put(position, fragment);
+			    return fragment;
+		}
+
+		public ExamFragment getFragment(int key) {
+		    return mPageReferenceMap.get(key);
+		}
+		
 		@Override
 		public int getItemPosition(Object object) {
 			// TODO Auto-generated method stub
 			return POSITION_NONE;
 		}
+
+		@Override
+		public void destroyItem(ViewGroup container, int position, Object object) {
+			// TODO Auto-generated method stub
+			super.destroyItem(container, position, object);
+			 mPageReferenceMap.remove(position);
+		}
+		
 	}
 
 	@Override
@@ -339,8 +384,14 @@ public class ExamActivity extends BaseFragmentActivity implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.answercard_ll:
-			Fragment newFragment = new FragmentAnswerScard();
+			TwoDimensionArray dimensionArray = new TwoDimensionArray();
+			dimensionArray.setSs(done_position);
+			Fragment newFragment = FragmentAnswerScard.newInstance(dimensionArray, context);
 			addFragmentToStack(newFragment, R.id.exam_fl);
+			break;
+		case R.id.lookanswer_ll:
+		ExamFragment fragment = mAdapter.getFragment(currentpage);
+		fragment.viewAnswer();
 			break;
 		case R.id.directory_ll:
 			Log.i("ExamActivity", "onClick_directory_ll");
@@ -381,8 +432,6 @@ public class ExamActivity extends BaseFragmentActivity implements
 		mPager.setCurrentItem(position);
 	}
 	
-
-
 
 
 

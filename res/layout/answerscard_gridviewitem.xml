@@ -3,20 +3,13 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-    <ImageView  
-         android:id="@+id/iv"
-        android:layout_width="fill_parent"   
-        android:layout_height="fill_parent"  
-      	android:background="@drawable/grid_style_gree"
-        android:scaleType="centerCrop"
-    />  
+   
     <TextView  
         android:id="@+id/tv"
         android:layout_width="fill_parent"   
         android:layout_height="fill_parent"  
-        android:text="1"  
+        android:text=""  
         android:gravity="center"
-        android:background="#00FF0000"  
         android:textColor="@color/DeepBlue"    
         android:textSize="16dip"    
     />  
