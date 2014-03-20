@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class AnswerscardGridViewAdapter extends BaseAdapter {
@@ -16,6 +17,8 @@ public class AnswerscardGridViewAdapter extends BaseAdapter {
 	private Context mContext;
 	private int[] mLists;
 	private int[] done_Lists;
+	private int[] right_Lists;
+	private int[] wrong_Lists;
 	public AnswerscardGridViewAdapter(Context mContext2, int[] is) {
 		this.mContext = mContext2;
 		this.mLists = is;
@@ -24,6 +27,13 @@ public class AnswerscardGridViewAdapter extends BaseAdapter {
 		this.mContext = mContext2;
 		this.mLists = is;
 		this.done_Lists = is2;
+	}
+	public AnswerscardGridViewAdapter(Context mContext2, int[] is, int[] is2,int[] rightis,int[] wrongis) {
+		this.mContext = mContext2;
+		this.mLists = is;
+		this.done_Lists = is2;
+		this.right_Lists = rightis;
+		this.wrong_Lists = wrongis;
 	}
 	@Override
 	public int getCount() {
@@ -50,24 +60,35 @@ public class AnswerscardGridViewAdapter extends BaseAdapter {
 		if(convertView ==null){
 			holder = new GViewHolder();
 			convertView = LayoutInflater.from(mContext).inflate(R.layout.answerscard_gridviewitem, null, false);
-			holder.tv = (TextView) convertView.findViewById(R.id.tv);
+			holder.rl = (RelativeLayout) convertView.findViewById(R.id.rl_card);
+			holder.tv_num = (TextView) convertView.findViewById(R.id.tv_num);
+			holder.tv_rightwrong = (TextView) convertView.findViewById(R.id.tv_rightwrong);
 			convertView.setTag(holder);
 		}else{
 			holder = (GViewHolder) convertView.getTag();
 		}
 		//holder.giv.setImageResource(mGist.get(position).get("grid"));
-		Drawable drawble ;
+		int resid;
 		if(done_Lists[position]>0){
-			drawble = mContext.getResources().getDrawable(R.drawable.grid_style_gree);
+			resid = R.drawable.grid_style_gree;
 		}else{
-			drawble = mContext.getResources().getDrawable(R.drawable.grid_style_gray);
+			resid = R.drawable.grid_style_gray;
 		}
-		holder.tv.setText(mLists[position]+"");
-		holder.tv.setBackgroundDrawable(drawble);
+		holder.tv_num.setText(mLists[position]+"");
+		if(right_Lists[position]>0){
+		holder.tv_rightwrong.setText("√");
+		}
+		if(wrong_Lists[position]>0){
+			holder.tv_rightwrong.setText("×");
+		}
+		holder.rl.setBackgroundResource(resid);
 		return convertView;
 	}
 
 	private  class GViewHolder{
-		TextView tv;
+		RelativeLayout rl;
+		TextView tv_num;
+		TextView tv_rightwrong;
+		
 	}
 }

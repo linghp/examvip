@@ -38,6 +38,8 @@ public class FragmentAnswerScard extends Fragment {
 	public static final String TAG = "FragmentAnswerScard";
 	private static final String NUM_TAG = "num";
 	private int[][]  donelists ;//做过的题目
+	private int[][]  rightlists ;//做过正确的题目
+	private int[][]  wronglists ;//做过的错误题目
 	
 	
 	/**
@@ -63,7 +65,10 @@ public class FragmentAnswerScard extends Fragment {
 			Bundle savedInstanceState) {
 		View view=inflater.inflate(R.layout.fragment_answerscard, container,false);
 		mListView = (ListView) view.findViewById(R.id.listview);
-		donelists = ((TwoDimensionArray)getArguments().getSerializable(NUM_TAG)).getSs();
+		TwoDimensionArray tmpTow= ((TwoDimensionArray)getArguments().getSerializable(NUM_TAG));
+		donelists = tmpTow.getAllss();
+		rightlists = tmpTow.getRightss();
+		wronglists = tmpTow.getWrongss();
 		Log.i(TAG,"lists:"+Arrays.toString(donelists[0])+Arrays.toString(donelists[1]));
 		//initData();
 		allAnswer = initDoubleDimensionalData();
@@ -71,7 +76,7 @@ public class FragmentAnswerScard extends Fragment {
 		countgridviewcolumnwidth();
 		FragmentManager fm = getFragmentManager();
 		//AnswerscardListViewAdapter adapter = new AnswerscardListViewAdapter(getActivity(), rowIndexList,mList_Gist,fm);
-		AnswerscardListViewAdapter adapter = new AnswerscardListViewAdapter(getActivity(),allAnswer,donelists,fm);
+		AnswerscardListViewAdapter adapter = new AnswerscardListViewAdapter(getActivity(),allAnswer,donelists,rightlists,wronglists,fm);
 		mListView.setAdapter(adapter);
 		return view;
 	}

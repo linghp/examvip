@@ -1,16 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.cqvip.mobilevers.widget.SquareRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:id="@+id/rl_card"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
    
     <TextView  
-        android:id="@+id/tv"
+        android:id="@+id/tv_num"
         android:layout_width="fill_parent"   
         android:layout_height="fill_parent"  
         android:text=""  
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:gravity="center"
-        android:textColor="@color/DeepBlue"    
         android:textSize="16dip"    
     />  
-</FrameLayout>
+    
+    <TextView
+        android:id="@+id/tv_rightwrong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:textColor="#FF0000"
+        android:text="" />
+    
+    
+    
+</com.cqvip.mobilevers.widget.SquareRelativeLayout>

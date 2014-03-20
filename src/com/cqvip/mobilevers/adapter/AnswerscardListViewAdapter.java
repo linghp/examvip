@@ -24,6 +24,8 @@ public class AnswerscardListViewAdapter extends BaseAdapter {
 	private FragmentManager fm;
 	private int[][] mLists;// 记录所有的题目号
 	private int[][] done_List;
+	private int[][] right_List;
+	private int[][] wrong_List;
 	public AnswerscardListViewAdapter(Context context,
 			int[][] allAnswer, FragmentManager fm2) {
 		    this.mContext = context;
@@ -37,6 +39,15 @@ public class AnswerscardListViewAdapter extends BaseAdapter {
 		this.mLists = allAnswer;
 		this.fm = fm2;
 		this.done_List = donelists;
+	}
+	public AnswerscardListViewAdapter(Context context,
+			int[][] allAnswer, int[][] donelists, int[][] rightlist, int[][] wronglist, FragmentManager fm2) {
+		this.mContext = context;
+		this.mLists = allAnswer;
+		this.fm = fm2;
+		this.done_List = donelists;
+		this.right_List = rightlist;
+		this.wrong_List = wronglist;
 	}
 
 	@Override
@@ -72,11 +83,11 @@ public class AnswerscardListViewAdapter extends BaseAdapter {
 				@Override
 				public void onItemClick(AdapterView<?> arg0, View arg1,
 						int arg2, long arg3) {
-					TextView tv=(TextView) arg1.findViewById(R.id.tv);
+					TextView tv=(TextView) arg1.findViewById(R.id.tv_num);
 					String id = tv.getText().toString();
 					//Toast.makeText(mContext, tv.getText(), 1).show();
 					fm.popBackStack();
-					Log.i("select",id);
+					Log.i("select",id+"");
 					((ExamActivity)mContext).updateView(id);
 					
 				}
@@ -90,7 +101,7 @@ public class AnswerscardListViewAdapter extends BaseAdapter {
 		//holder.iv.setImageResource(mList.get(arg0).get("list"));
 
 		//AnswerscardGridViewAdapter ga = new AnswerscardGridViewAdapter(mContext, mList.get(arg0),mList_Gist);
-		AnswerscardGridViewAdapter ga = new AnswerscardGridViewAdapter(mContext, mLists[position],done_List[position]);
+		AnswerscardGridViewAdapter ga = new AnswerscardGridViewAdapter(mContext, mLists[position],done_List[position],right_List[position],wrong_List[position]);
 		//int ii = ga.getCount();
 //		LayoutParams params = new LayoutParams(ii * (48 + 10),
 //				LayoutParams.WRAP_CONTENT);

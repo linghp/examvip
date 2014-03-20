@@ -18,6 +18,8 @@ public class ConstantValues {
 	public static final String GETEXAM_ADDR="Service1.asmx/GetExamPaperInfo";
 	public static final String GetKnowledgeClassList_ADDR="Service1.asmx/GetKnowledgeClassList";
 	public static final String GET_DETAIL_PAPERINFO="Service1.asmx/GetExamPaperBaseInfo";
+	public static final String SEARCH_PAPERINFO="Service1.asmx/SearchExamPaperList";
+	
 	
 	public static final String DBNAME="MobileVers.db";
 	

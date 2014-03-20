@@ -88,6 +88,8 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		View v = inflater.inflate(R.layout.fragment_exampager, container,false);
 		position = getArguments().getInt(NUM_TAG);//fragment位置，及第几个Question
 		Log.i("ExamFragment", "onCreateView"+position);
+		colAndRow = getItemPosition(position);
+		Log.i(TAG,"row,col"+colAndRow.row+","+colAndRow.col);
 //		subjectExamCount_list = ((ExamActivity)getActivity()).getSubjectExamCount_list();
 //		startLitmitCount_List =((ExamActivity)getActivity()).getStartLitmitCount_List();
 //		subjectExam_list = ((ExamActivity)getActivity()).getSubjectExam_list();
@@ -138,8 +140,9 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		//答案，用于比较
 		realAnswer = solution.getAnswer().getContent();
 		
-		Log.i("sub_type",sub_type);
-		Log.i("sub_Title","tttt:"+sub_title.getContent());
+//		Log.i("sub_type",sub_type);
+//		Log.i("Question_type",type);
+//		Log.i("sub_Title","tttt:"+sub_title.getContent());
 		
 		int options = question.getItemCount();
 		//判断小题的类型
@@ -180,8 +183,6 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 				
 		}
 		
-		colAndRow = getItemPosition(position);
-		Log.i(TAG,"row,col"+colAndRow.row+","+colAndRow.col);
 		
 		page_title.setOnClickListener(new View.OnClickListener() {
 			
@@ -235,7 +236,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 			//判断
 			ShowJudgementQuestion();
 			
-		}else if (sub_type.equals(SubjectType.ShowStyle.SSS_TEXT_QUSTION)){
+		}else if (sub_type.equals(SubjectType.ShowStyle.SSS_TEXT_QUSTION.toString())){
 			//问答
 			ShowTextQuestion();
 			
@@ -283,6 +284,24 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 			check_list.add(ck);
 		}
 		
+		setPreSingChoice();
+		
+	}
+	/**
+	 * fragment回收后，设置用户已经答过的答案
+	 */
+	private void setPreSingChoice() {
+		//判断是否已经答过
+		if(ExamActivity.done_position[colAndRow.row][colAndRow.col]>0){
+			//用户已经做过
+			Log.i(TAG,"==========DONE=============");
+			ArrayList<String> answlist = ExamActivity.clientAnswer.get(position);
+			if(answlist!=null&&!answlist.isEmpty()){
+				Log.i(TAG,"==========ANSWER============="+answlist.get(0));
+				//设置上选择的答案
+				check_list.get(Integer.parseInt(answlist.get(0))).setChecked(true);
+			}
+		}
 	}
 	/**
 	 * 多选样式
@@ -306,6 +325,24 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 			check_list.add(ck);
 		}
 		
+		//判断是否已经答过
+				setPreMultiChoice();
+		
+	}
+	/**
+	 * fragment回收后，设置用户已经答过的答案
+	 */
+	private void setPreMultiChoice() {
+		if(ExamActivity.done_position[colAndRow.row][colAndRow.col]>0){
+			//用户已经做过
+			ArrayList<String> answString = ExamActivity.clientAnswer.get(position);
+			if(answString!=null&&!answString.isEmpty()){
+				//设置上选择的答案
+				for(int i=0;i<answString.size();i++){
+				check_list.get(Integer.parseInt(answString.get(i))).setChecked(true);
+				}
+			}
+		}
 	}
 	 /**
 		 * 解析简单单选
@@ -329,7 +366,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 				check_list.add(ck);
 			}
 			
-			
+			setPreSingChoice();
 			
 		}
 	
@@ -354,6 +391,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 				mulitiple_chose_group.addView(img);
 				check_list.add(ck);
 			}
+		 setPreMultiChoice();
 	}
 	 
 	 /**
@@ -377,7 +415,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 				check_list.add(ck);
 			}
 			
-			
+			setPreSingChoice();
 		}
 	
 	/**
@@ -389,15 +427,29 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		et_client_answer.setVisibility(View.VISIBLE);
 		mulitiple_chose_group.setVisibility(View.GONE);
 		
+		setPreTextQuestion();
+		
+	}
+	private void setPreTextQuestion() {
+		if(ExamActivity.done_position[colAndRow.row][colAndRow.col]>0){
+			//用户已经做过
+			ArrayList<String> answString = ExamActivity.clientAnswer.get(position);
+			if(answString!=null&&!answString.isEmpty()){
+				//设置上选择的答案
+				et_client_answer.setText(answString.get(0));
+			}
+		}
 	}
 	 /**
 	  * 解析问答
 	  * @param xmlParse
 	  */
 	private void ShowTextQuestion() {
+		Log.i(TAG,"=========ShowTextQuestion=================");
 		isTextType = true;
 		et_client_answer.setVisibility(View.VISIBLE);
 		mulitiple_chose_group.setVisibility(View.GONE);
+		setPreTextQuestion();
 	}
 	
 	public void viewAnswer(){
@@ -416,8 +468,6 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		}else{
 			decision3.setVisibility(View.GONE);
 		}
-		
-		
 	}
 	
 	/**
@@ -470,12 +520,20 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 				
 				tx_cue.setText("对不起，答错了");
 			}
-			setSigndone(ExamActivity.done_position);
+			setSigndone(ExamActivity.done_position);//记录已经做过
+			ArrayList<String> array = new ArrayList<String>();
+			array.add(clientSingleChoose+"");
+			//ExamActivity.clientAnswer.append(position, array);
+			//ExamActivity.clientAnswer.setValueAt(position, array);
+			ExamActivity.clientAnswer.append(position, array);
+			
 		}else{
 			user_answer.setText("");
 			tx_cue.setText("");
 			rightOrWrong = ConstantValues.ANSWER_UNDONG;
 			removeSignDone(ExamActivity.done_position);
+			Log.i(TAG,"=====remove=============="+position);
+			ExamActivity.clientAnswer.append(position, null);
 			//signDone();
 		}	
 		 }else{
@@ -500,8 +558,15 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 						tx_cue.setText("对不起，答错了");
 					}
 			    setSigndone(ExamActivity.done_position);
+			    ArrayList<String> array = new ArrayList<String>();
+			    for(int i=0;i<multiChoose.size();i++){
+				array.add(multiChoose.get(i).toString());
+			    }
+				ExamActivity.clientAnswer.append(position, array);
 			 }else{
 				 removeSignDone(ExamActivity.done_position);
+				 Log.i(TAG,"=====remove=============="+position);
+				 ExamActivity.clientAnswer.append(position, null);
 				 rightOrWrong = ConstantValues.ANSWER_UNDONG;
 				 user_answer.setText("");
 				 tx_cue.setText("");
@@ -517,33 +582,14 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 	}
 	
 	/**
-	 * 记录答题位置
-	 */
-//	private void signDone() {
-//		Log.i(TAG,"========singDone");
-//		switch (rightOrWrong) {
-//		case ConstantValues.ANSWER_DONG:
-//			setSigndone(ExamActivity.done_position);
-//			break;
-//		case ConstantValues.ANSWER_RIGHT:
-//			setSignRightdone(ExamActivity.right_position,ExamActivity.wrong_position);
-//			break;
-//		case ConstantValues.ANSWER_WRONG:
-//			setSignWrongdone(ExamActivity.right_position,ExamActivity.wrong_position);
-//			break;
-//		default://没有做
-//			removeSignDone(ExamActivity.done_position);
-//			break;
-//		}
-//		
-//	}
-	/**
 	 * 记录已经答过
 	 * @param array
 	 */
 	private void setSigndone(int[][] array) {
 		
 		array[colAndRow.row][colAndRow.col] = position+1;
+		
+		
 	}
 	/**
 	 * 记录正确答案
@@ -611,10 +657,19 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 			fillanswer = clientanswer;
 			rightOrWrong = ConstantValues.ANSWER_DONG;
 			setSigndone(ExamActivity.done_position);
+			ArrayList<String> array = new ArrayList<String>();
+			array.add(clientanswer);
+			//ExamActivity.clientAnswer.append(position, array);
+			//ExamActivity.clientAnswer.setValueAt(position, array);
+			ExamActivity.clientAnswer.append(position, array);
+			
+			
 		}else{
 			if(isTextType){
 				rightOrWrong = ConstantValues.ANSWER_UNDONG;
 				removeSignDone(ExamActivity.done_position);
+				ExamActivity.clientAnswer.append(position, null);
+				Log.i(TAG,"=====remove=============="+position);
 			}
 			fillanswer = null;
 		}

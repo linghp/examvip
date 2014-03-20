@@ -34,6 +34,7 @@ import com.cqvip.mobilevers.exam.SubjectExam;
 import com.cqvip.mobilevers.ui.base.BaseFragmentActivity;
 import com.cqvip.mobilevers.view.ExamFragment;
 import com.cqvip.mobilevers.view.FragmentAnswerScard;
+import com.cqvip.mobilevers.view.ResultFragment;
 
 public class ExamActivity extends BaseFragmentActivity implements
 		OnPageChangeListener, OnClickListener{
@@ -45,6 +46,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 	ViewPager mPager;
 	int currentpage = 0;
 	public static boolean isnight = false;
+	private TextView tv_item_count;
 	
 	private LinearLayout lookanswer_ll;
 
@@ -63,7 +65,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 	private  int paperShowCount = 0;//总子题数
 	private int subjectExamCount;//大题型种类数量
 	private int score;//总分
-	
+	public static  int clientScore = 0;//用户得分
 	//public ArrayList<SubjectExam> subjectExam_list=new ArrayList<SubjectExam>(); // 所有subject
 //	public ArrayList<Integer> subjectExamCount_list=new ArrayList<Integer>(); // 所有subject
 //	public ArrayList<Integer> startLitmitCount_List=new ArrayList<Integer>();//统计subject题目
@@ -76,6 +78,11 @@ public class ExamActivity extends BaseFragmentActivity implements
 	public static int[][] wrong_position;//统计错误题目
 	
 	public ArrayList<Integer> cardCount_List=new ArrayList<Integer>();//答题卡题目
+	
+	
+	public static SparseArray<ArrayList<String>> clientAnswer;
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -142,6 +149,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 		System.out.println("题目总数"+Question_list.size());
 		mPager.setAdapter(mAdapter);
 		
+		clientAnswer = new SparseArray<ArrayList<String>>();
 	}
 	
 	/**
@@ -258,7 +266,8 @@ public class ExamActivity extends BaseFragmentActivity implements
 		handpaper.setOnClickListener(this);
 
 		time_tv = (TextView) findViewById(R.id.time_tv);
-
+		tv_item_count = (TextView) findViewById(R.id.tv_item_count);
+		
 		Button button = (Button) findViewById(R.id.goto_first);
 		button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -371,6 +380,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 		} else {
 			isLeftFragment = false;
 		}
+		tv_item_count.setText((position+1)+"|"+clientShowCount);
 	}
 	
 
@@ -385,7 +395,9 @@ public class ExamActivity extends BaseFragmentActivity implements
 		switch (v.getId()) {
 		case R.id.answercard_ll:
 			TwoDimensionArray dimensionArray = new TwoDimensionArray();
-			dimensionArray.setSs(done_position);
+			dimensionArray.setAllss(done_position);
+			dimensionArray.setRightss(right_position);
+			dimensionArray.setWrongss(wrong_position);
 			Fragment newFragment = FragmentAnswerScard.newInstance(dimensionArray, context);
 			addFragmentToStack(newFragment, R.id.exam_fl);
 			break;
@@ -398,6 +410,9 @@ public class ExamActivity extends BaseFragmentActivity implements
 			break;
 		case R.id.handpaper_ll:
 			Log.i("ExamActivity", "onClick_handpaper_ll");
+			//交卷
+			Fragment resultFragment = new ResultFragment();
+			addFragmentToStack(resultFragment, R.id.exam_fl);
 			try {
 				task.cancel();
 				task = null;

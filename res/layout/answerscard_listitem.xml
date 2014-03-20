@@ -10,15 +10,13 @@
 
 
             <com.cqvip.mobilevers.view.AnswerscardGridView android:numColumns="@integer/answergridviewcolumnnumber"
-                android:stretchMode="spacingWidth"
-                android:columnWidth="30dp"
+                android:stretchMode="columnWidth"
                 android:horizontalSpacing="@dimen/answergridviewhorionspace"
-                android:verticalSpacing="@dimen/answergridviewverticspace"
+                android:verticalSpacing="@dimen/answergridviewhorionspace"
                 android:gravity="center"                
                 android:id="@+id/gridview"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 >
             </com.cqvip.mobilevers.view.AnswerscardGridView>
-
 </LinearLayout>
