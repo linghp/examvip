@@ -446,7 +446,11 @@ public class ExamActivity extends BaseFragmentActivity implements
 		int position = Integer.parseInt(id)-1;
 		mPager.setCurrentItem(position);
 	}
-	
+	@Override
+	public void onBackStackChanged() {
+		super.onBackStackChanged();
+				
+	}
 
 
 

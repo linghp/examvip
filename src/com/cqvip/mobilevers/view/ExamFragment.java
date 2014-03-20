@@ -1,18 +1,18 @@
 package com.cqvip.mobilevers.view;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
-
-import org.xmlpull.v1.XmlPullParser;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
 import android.text.TextUtils;
-import android.text.style.BulletSpan;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,14 +74,31 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 	
     @Override
     public void onAttach(Activity activity) {
-    	//Log.i("ExamFragment", "onAttach"+position);
+    	Log.i("ExamFragment", "================onAttach==============");
     	super.onAttach(activity);
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
-    	//Log.i("ExamFragment", "onCreate"+position);
+    	Log.i("ExamFragment", "=========onCreate========");
     	super.onCreate(savedInstanceState);
     }
+    
+    
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		Log.i("ExamFragment", "=========onConfigurationChanged========");
+		super.onConfigurationChanged(newConfig);
+	}
+	@Override
+	public void onHiddenChanged(boolean hidden) {
+		Log.i("ExamFragment", "=========onHiddenChanged========");
+		super.onHiddenChanged(hidden);
+	}
+	@Override
+	public void onPause() {
+		Log.i("ExamFragment", "=========onPause()========");
+		super.onPause();
+	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -426,8 +443,57 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		isTextType = true;
 		et_client_answer.setVisibility(View.VISIBLE);
 		mulitiple_chose_group.setVisibility(View.GONE);
-		
 		setPreTextQuestion();
+//		et_client_answer.setOnKeyListener(new EditText.OnKeyListener(){
+//			@Override
+//			public boolean onKey(View v, int keyCode, KeyEvent event) {
+//				String clientanswer = et_client_answer.getText().toString();
+//				Log.i(TAG,"answer:"+clientanswer);
+//				Log.i(TAG,"answer:"+clientanswer);
+//				if(!TextUtils.isEmpty(clientanswer)){
+//					fillanswer = clientanswer;
+//					rightOrWrong = ConstantValues.ANSWER_DONG;
+//					setSigndone(ExamActivity.done_position);
+//					ArrayList<String> array = new ArrayList<String>();
+//					array.add(clientanswer);
+//					ExamActivity.clientAnswer.append(position, array);
+//				}else{
+//					fillanswer = null;
+//					rightOrWrong = ConstantValues.ANSWER_UNDONG;
+//					removeSignDone(ExamActivity.done_position);
+//					ExamActivity.clientAnswer.append(position, null);
+//				}
+//				return false;
+//			}});
+		et_client_answer.addTextChangedListener(new TextWatcher() {           
+            @Override  
+            public void onTextChanged(CharSequence s, int start, int before, int count) {  
+            }  
+              
+            @Override  
+            public void beforeTextChanged(CharSequence s, int start, int count,  
+                    int after) {                  
+            }  
+              
+            @Override  
+            public void afterTextChanged(Editable s) {   
+            	String clientanswer = et_client_answer.getText().toString();
+				if(!TextUtils.isEmpty(clientanswer)){
+					fillanswer = clientanswer;
+					rightOrWrong = ConstantValues.ANSWER_DONG;
+					setSigndone(ExamActivity.done_position);
+					ArrayList<String> array = new ArrayList<String>();
+					array.add(clientanswer);
+					ExamActivity.clientAnswer.append(position, array);
+				}else{
+					fillanswer = null;
+					rightOrWrong = ConstantValues.ANSWER_UNDONG;
+					removeSignDone(ExamActivity.done_position);
+					ExamActivity.clientAnswer.append(position, null);
+				}
+            }  
+        });  
+		
 		
 	}
 	private void setPreTextQuestion() {
@@ -445,11 +511,38 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 	  * @param xmlParse
 	  */
 	private void ShowTextQuestion() {
-		Log.i(TAG,"=========ShowTextQuestion=================");
 		isTextType = true;
 		et_client_answer.setVisibility(View.VISIBLE);
 		mulitiple_chose_group.setVisibility(View.GONE);
 		setPreTextQuestion();
+		et_client_answer.addTextChangedListener(new TextWatcher() {           
+            @Override  
+            public void onTextChanged(CharSequence s, int start, int before, int count) {  
+            }  
+              
+            @Override  
+            public void beforeTextChanged(CharSequence s, int start, int count,  
+                    int after) {                  
+            }  
+              
+            @Override  
+            public void afterTextChanged(Editable s) {   
+            	String clientanswer = et_client_answer.getText().toString();
+				if(!TextUtils.isEmpty(clientanswer)){
+					fillanswer = clientanswer;
+					rightOrWrong = ConstantValues.ANSWER_DONG;
+					setSigndone(ExamActivity.done_position);
+					ArrayList<String> array = new ArrayList<String>();
+					array.add(clientanswer);
+					ExamActivity.clientAnswer.append(position, array);
+				}else{
+					fillanswer = null;
+					rightOrWrong = ConstantValues.ANSWER_UNDONG;
+					removeSignDone(ExamActivity.done_position);
+					ExamActivity.clientAnswer.append(position, null);
+				}
+            }  
+        }); 
 	}
 	
 	public void viewAnswer(){
@@ -477,24 +570,16 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 	 * @return
 	 */
 	public static ExamFragment newInstance(int num, Context context) {
-
 		ExamFragment f = (ExamFragment) ExamFragment.instantiate(context,
 				ExamFragment.class.getName());
-		// ExamFragment f =new ExamFragment();
-		//f.position = num;
-		// Supply num input as an argument.
 		Bundle args = new Bundle();
 		args.putInt(NUM_TAG, num);
 		args.putString("TAG",num+"");
 		f.setArguments(args);
-		
 		return f;
 	}
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		
-		System.out.println("isCheck"+isChecked);
-		
 		 //单选
 		if(!isMultiCheck){
 		if(isChecked){
@@ -572,7 +657,6 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 				 tx_cue.setText("");
 			 }
 		 }
-		
 	}
 	/**
 	 * 移除答题
@@ -580,16 +664,12 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 	private void removeSignDone(int[][] array) {
 		array[colAndRow.row][colAndRow.col] = 0;
 	}
-	
 	/**
 	 * 记录已经答过
 	 * @param array
 	 */
 	private void setSigndone(int[][] array) {
-		
 		array[colAndRow.row][colAndRow.col] = position+1;
-		
-		
 	}
 	/**
 	 * 记录正确答案
@@ -651,29 +731,16 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 	@Override
 	public void onStop() {
 		super.onStop();
-		//保存用户答案
-		String clientanswer = et_client_answer.getText().toString();
-		if(!TextUtils.isEmpty(clientanswer)){
-			fillanswer = clientanswer;
-			rightOrWrong = ConstantValues.ANSWER_DONG;
-			setSigndone(ExamActivity.done_position);
-			ArrayList<String> array = new ArrayList<String>();
-			array.add(clientanswer);
-			//ExamActivity.clientAnswer.append(position, array);
-			//ExamActivity.clientAnswer.setValueAt(position, array);
-			ExamActivity.clientAnswer.append(position, array);
-			
-			
-		}else{
-			if(isTextType){
-				rightOrWrong = ConstantValues.ANSWER_UNDONG;
-				removeSignDone(ExamActivity.done_position);
-				ExamActivity.clientAnswer.append(position, null);
-				Log.i(TAG,"=====remove=============="+position);
-			}
-			fillanswer = null;
-		}
-//		signDone();
+//		//保存用户答案
+//		String clientanswer = et_client_answer.getText().toString();
+//		if(TextUtils.isEmpty(clientanswer)){
+//			if(isTextType){
+//				rightOrWrong = ConstantValues.ANSWER_UNDONG;
+//				removeSignDone(ExamActivity.done_position);
+//				ExamActivity.clientAnswer.append(position, null);
+//			}
+//			fillanswer = null;
+//		}
 	}
 	/**
      * 判断是否有选中
