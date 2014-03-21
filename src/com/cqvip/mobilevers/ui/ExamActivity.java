@@ -121,11 +121,13 @@ public class ExamActivity extends BaseFragmentActivity implements
 		//	startLitmitCount_List.add(clientShowCount);
 			clientShowCount += count;
 			//所有试卷大题数量size与startLitmitCount_List相同
-			subjects_list.addAll(Arrays.asList(subjectExam.getExam3List()));
+			Subject[] subjects=subjectExam.getExam3List();//当_questionNum为0时，判断
+			if(subjects!=null){
+			subjects_list.addAll(Arrays.asList(subjects));
+			paperShowCount += subjects.length;
+			}
 			
 		//	subjectExamCount_list.add(paperShowCount);
-			paperShowCount += subjectExam.getExam3List().length;
-			
 			//subjectExamCount++;
 		}
 		int mCount = subjectExams_array.length;
