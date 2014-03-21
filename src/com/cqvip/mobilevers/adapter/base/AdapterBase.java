@@ -15,6 +15,14 @@ public abstract class AdapterBase<T> extends BaseAdapter {
 		return mList;
 	}
 	
+	public List<T> getmList() {
+		return mList;
+	}
+
+	public void setmList(List<T> mList) {
+		this.mList = mList;
+	}
+
 	public void appendToList(List<T> list) {
 		if (list == null) {
 			return;
