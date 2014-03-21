@@ -2,22 +2,46 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    android:clickable="true"
     android:orientation="vertical" >
 
+    <RelativeLayout 
+  			android:layout_width="fill_parent"
+  			android:layout_height="48dp"
+  			android:id="@+id/title" 
+  			android:background="@drawable/title_bar"
+  			android:gravity="center_vertical"  >  
+  			
+            
+      		    
+			<TextView  
+ 			    android:layout_width="wrap_content"  
+        		android:layout_height="wrap_content" 
+        		android:text="评分"
+        		android:textSize="18sp"
+        		android:layout_centerInParent="true"
+				android:textColor="@android:color/white"
+				
+			    />
+		</RelativeLayout>
+    
+    
+    
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/btn_socre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="主观题打分" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btn_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="查看答题卡" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/btn_anwer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="查看时间答案" />

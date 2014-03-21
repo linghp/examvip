@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import android.R.xml;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Xml;
@@ -32,9 +33,6 @@ public class PullParseXML {
 		if(!TextUtils.isEmpty(xml)){
 		InputStream in = new ByteArrayInputStream(xml.getBytes("utf-8"));
 		xmlParse.setInput(in, "utf-8");
-		Log.i("xml",xml);
-		Log.i("star_document",xmlParse.START_DOCUMENT+"");
-		Log.i("star_tag",xmlParse.START_TAG+"");
 		xmlParse.nextTag();
 		sub = ShowAllSubjectQuestion(xmlParse,subjectTypeName,scorePerQuestion);
 		}
@@ -87,7 +85,7 @@ public class PullParseXML {
 	    
 	    for(int i=0;i<questions.size();i++){
 	    	Question ques =questions.get(i);
-	    	Question allqu = new Question(ques.getType(), ques.getTitle(), ques.getOption(),
+	    	Question allqu = new Question(ques.getId(),ques.getType(), ques.getTitle(), ques.getOption(),
 	    			ques.getSolution(), ques.getItemCount(), sub_title, subjectTypeName, sub_Type,scorePerQuestion);
 	    	allquestion.add(allqu);
 	    }
@@ -105,8 +103,10 @@ public class PullParseXML {
     private Question readQuestion(XmlPullParser xmlParse) throws IOException, XmlPullParserException {
     	String type = null;
     	Solution s = null ;
+    	String id = null;
     	xmlParse.require(XmlPullParser.START_TAG, ns, "Question");
     	type = xmlParse.getAttributeValue(null, "type");
+    	id = xmlParse.getAttributeValue(null,"id");
     	ArrayList<Content> lists = new ArrayList<Content>();
     	String title = null;
     	boolean isContainPic = false;
@@ -142,7 +142,7 @@ public class PullParseXML {
 	    	content = new Content(imgs, title, isContainPic);
 	    }
 	    
-	    return new Question(type,content,lists,s,itemCount);
+	    return new Question(id,type,content,lists,s,itemCount);
     }
     /**
 	 * 读取Question
@@ -154,8 +154,10 @@ public class PullParseXML {
     private Question readQuestion(XmlPullParser xmlParse,String sub_count) throws IOException, XmlPullParserException {
     	String type = null;
     	Solution s = null ;
+    	String id = null;
     	xmlParse.require(XmlPullParser.START_TAG, ns, "Question");
     	type = xmlParse.getAttributeValue(null, "type");
+    	id = xmlParse.getAttributeValue(null,"id");
     	ArrayList<Content> lists = new ArrayList<Content>();
     	String title = null;
     	boolean isContainPic = false;
@@ -193,7 +195,7 @@ public class PullParseXML {
 	    if(itemCount == 0){
 	    itemCount = Integer.parseInt(sub_count); 
 	    }
-	    return new Question(type,content,lists,s,itemCount);
+	    return new Question(id,type,content,lists,s,itemCount);
     }
 	/**
 	 * 读取问题解析，答案和描述

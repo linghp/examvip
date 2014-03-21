@@ -29,6 +29,7 @@ import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.entity.TwoDimensionArray;
 import com.cqvip.mobilevers.exam.Exam;
 import com.cqvip.mobilevers.exam.Question;
+import com.cqvip.mobilevers.exam.SimpleAnswer;
 import com.cqvip.mobilevers.exam.Subject;
 import com.cqvip.mobilevers.exam.SubjectExam;
 import com.cqvip.mobilevers.ui.base.BaseFragmentActivity;
@@ -76,11 +77,13 @@ public class ExamActivity extends BaseFragmentActivity implements
 	public static int[][] done_position;//统计subject题目
 	public static int[][] right_position;//统计正确题目
 	public static int[][] wrong_position;//统计错误题目
+	private boolean isHandleOver = false;
+	private boolean isRightWrong = false;
 	
 	public ArrayList<Integer> cardCount_List=new ArrayList<Integer>();//答题卡题目
 	
 	
-	public static SparseArray<ArrayList<String>> clientAnswer;
+	public static SparseArray<ArrayList<SimpleAnswer>> clientAnswer;
 	
 	
 	@Override
@@ -149,7 +152,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 		System.out.println("题目总数"+Question_list.size());
 		mPager.setAdapter(mAdapter);
 		
-		clientAnswer = new SparseArray<ArrayList<String>>();
+		clientAnswer = new SparseArray<ArrayList<SimpleAnswer>>();
 	}
 	
 	/**
@@ -394,12 +397,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.answercard_ll:
-			TwoDimensionArray dimensionArray = new TwoDimensionArray();
-			dimensionArray.setAllss(done_position);
-			dimensionArray.setRightss(right_position);
-			dimensionArray.setWrongss(wrong_position);
-			Fragment newFragment = FragmentAnswerScard.newInstance(dimensionArray, context);
-			addFragmentToStack(newFragment, R.id.exam_fl);
+			showAnswerCard(isHandleOver,isRightWrong);
 			break;
 		case R.id.lookanswer_ll:
 		ExamFragment fragment = mAdapter.getFragment(currentpage);
@@ -409,10 +407,15 @@ public class ExamActivity extends BaseFragmentActivity implements
 			Log.i("ExamActivity", "onClick_directory_ll");
 			break;
 		case R.id.handpaper_ll:
-			Log.i("ExamActivity", "onClick_handpaper_ll");
+			isHandleOver = true;
 			//交卷
-			Fragment resultFragment = new ResultFragment();
+			TwoDimensionArray resultArray = new TwoDimensionArray(done_position,right_position,wrong_position,clientAnswer);
+			Fragment resultFragment = FragmentAnswerScard.newInstance(resultArray, context,isHandleOver,isRightWrong);
 			addFragmentToStack(resultFragment, R.id.exam_fl);
+			
+			
+//			Fragment resultFragment = new ResultFragment();
+//			addFragmentToStack(resultFragment, R.id.exam_fl);
 			try {
 				task.cancel();
 				task = null;
@@ -429,6 +432,12 @@ public class ExamActivity extends BaseFragmentActivity implements
 		default:
 			break;
 		}
+	}
+
+	public void showAnswerCard(boolean isHandleOver,boolean isRightWrong) {
+		TwoDimensionArray dimensionArray = new TwoDimensionArray(done_position,right_position,wrong_position);
+		Fragment newFragment = FragmentAnswerScard.newInstance(dimensionArray, context,isHandleOver,isRightWrong);
+		addFragmentToStack(newFragment, R.id.exam_fl);
 	}
 
 	public void addFragmentToStack(Fragment newFragment, int layoutid) {

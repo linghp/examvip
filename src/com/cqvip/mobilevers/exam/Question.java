@@ -14,6 +14,7 @@ public class Question implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -7932089273676021492L;
+	private String id;//试题id
 	private String type;// 试题类型
 	private Content title;
 	private ArrayList<Content> option;// 包含的显示内容
@@ -27,9 +28,10 @@ public class Question implements Serializable{
 	
 	
 	
-	public Question(String type, Content title, ArrayList<Content> option,
+	public Question(String id,String type, Content title, ArrayList<Content> option,
 			Solution solution, int itemCount) {
 		super();
+		this.id = id;
 		this.type = type;
 		this.title = title;
 		this.option = option;
@@ -37,13 +39,12 @@ public class Question implements Serializable{
 		this.itemCount = itemCount;
 	}
 
-	
-	
-
-	public Question(String type, Content title, ArrayList<Content> option,
-			Solution solution, int itemCount, Content sub_Title,
-			String sebexam_Title, String sub_Type, int perscore) {
+	public Question(String id, String type, Content title,
+			ArrayList<Content> option, Solution solution, int itemCount,
+			Content sub_Title, String sebexam_Title, String sub_Type,
+			int perscore) {
 		super();
+		this.id = id;
 		this.type = type;
 		this.title = title;
 		this.option = option;
@@ -55,8 +56,9 @@ public class Question implements Serializable{
 		this.perscore = perscore;
 	}
 
-
-
+;	public String getId() {
+		return id;
+	}
 
 	public String getType() {
 		return type;
@@ -67,7 +69,7 @@ public class Question implements Serializable{
 	}
 
 	public ArrayList<Content> getOption() {
-		return option;
+		return option; 
 	}
 
 	public Solution getSolution() {
@@ -93,12 +95,15 @@ public class Question implements Serializable{
 		return sub_Type;
 	}
 
-
 	@Override
 	public String toString() {
-		return "Question [type=" + type + ", title=" + title + ", option="
-				+ option + ", solution=" + solution + ", itemCount="
-				+ itemCount + "]";
+		return "Question [id=" + id + ", type=" + type + ", title=" + title
+				+ ", option=" + option + ", solution=" + solution
+				+ ", itemCount=" + itemCount + ", sub_Title=" + sub_Title
+				+ ", sebexam_Title=" + sebexam_Title + ", sub_Type=" + sub_Type
+				+ ", perscore=" + perscore + "]";
 	}
+
+
 
 }

@@ -28,6 +28,7 @@ import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.config.ConstantValues;
 import com.cqvip.mobilevers.exam.Content;
 import com.cqvip.mobilevers.exam.Question;
+import com.cqvip.mobilevers.exam.SimpleAnswer;
 import com.cqvip.mobilevers.exam.Solution;
 import com.cqvip.mobilevers.ui.ExamActivity;
 import com.cqvip.mobilevers.utils.SubjectType;
@@ -50,7 +51,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
     private LinearLayout decision,decision2,decision3;
     private TextView user_answer;
     private TextView tx_cue;//是否答对
-    private TextView page_title,tv_back;
+    private TextView page_title;
     private LinearLayout ll_main,ll_title;
     private Content contentTitle;
     private ImageTextView itvTitle;
@@ -59,7 +60,8 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
     private ArrayList<ImageTextCheckBox> check_list;
     private static final char[]  ALPHABET = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T'};
     private static final String[] TRUEFALSE = {"正确","错误"};
-    private String type;
+    private String type;//question type;
+    private String id;//question id;
     private boolean isMultiCheck = false;
     private static Map<Integer, Boolean> isSelected;
     private String fillanswer;
@@ -115,8 +117,6 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		ll_main = (LinearLayout) v.findViewById(R.id.ll_main);
 		ll_title = (LinearLayout) v.findViewById(R.id.ll_title);
 		page_title = (TextView) v.findViewById(R.id.txt_viewtitle);
-		page_title = (TextView) v.findViewById(R.id.txt_viewtitle);
-		tv_back = (TextView) v.findViewById(R.id.txt_title_back);
 		et_client_answer = (EditText) v.findViewById(R.id.et_answer);
 		user_answer = (TextView) v.findViewById(R.id.user_answer);
 		tx_cue = (TextView) v.findViewById(R.id.tx_cue);//对错
@@ -146,6 +146,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		Content answer = solution.getAnswer();
 		Content answerdesc = solution.getAnswerDesc();
 		type = question.getType();
+		id = question.getId();
 		//判断
 		//获取当前小题的subject和大题subjectExam;
 		//SubjectExam  now_subjectExam = subjectExam_list.get(currentSubject);
@@ -195,6 +196,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 //				//显示材料
 				contentTitle = sub_title;//获取到子题材料内容
 				page_title.setVisibility(View.VISIBLE);
+				page_title.setText(" 查看材料>>");
 				tv_title.setText((position+1)+"、",question_title);
 				ShowAnyQuestionCollSubject(question);
 				
@@ -205,17 +207,19 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 			
 			@Override
 			public void onClick(View v) {
+				if(ll_main.getVisibility()==View.VISIBLE){
+				
 				ll_main.setVisibility(View.GONE);
 				ll_title.setVisibility(View.VISIBLE);
+				page_title.setText("返回>>");
 				itvTitle.setText(contentTitle);
-			}
-		});
-		tv_back.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
+				}else{
+				page_title.setText("查看材料>>");
 				ll_main.setVisibility(View.VISIBLE);
 				ll_title.setVisibility(View.GONE);
+				}
+				
+				
 			}
 		});
 		
@@ -312,11 +316,11 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		if(ExamActivity.done_position[colAndRow.row][colAndRow.col]>0){
 			//用户已经做过
 			Log.i(TAG,"==========DONE=============");
-			ArrayList<String> answlist = ExamActivity.clientAnswer.get(position);
+			ArrayList<SimpleAnswer> answlist = ExamActivity.clientAnswer.get(position);
 			if(answlist!=null&&!answlist.isEmpty()){
-				Log.i(TAG,"==========ANSWER============="+answlist.get(0));
+				//Log.i(TAG,"==========ANSWER============="+answlist.get(0));
 				//设置上选择的答案
-				check_list.get(Integer.parseInt(answlist.get(0))).setChecked(true);
+				check_list.get(Integer.parseInt(answlist.get(0).getAnswer())).setChecked(true);
 			}
 		}
 	}
@@ -352,11 +356,11 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 	private void setPreMultiChoice() {
 		if(ExamActivity.done_position[colAndRow.row][colAndRow.col]>0){
 			//用户已经做过
-			ArrayList<String> answString = ExamActivity.clientAnswer.get(position);
+			ArrayList<SimpleAnswer> answString = ExamActivity.clientAnswer.get(position);
 			if(answString!=null&&!answString.isEmpty()){
 				//设置上选择的答案
 				for(int i=0;i<answString.size();i++){
-				check_list.get(Integer.parseInt(answString.get(i))).setChecked(true);
+				check_list.get(Integer.parseInt(answString.get(i).getAnswer())).setChecked(true);
 				}
 			}
 		}
@@ -482,8 +486,8 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 					fillanswer = clientanswer;
 					rightOrWrong = ConstantValues.ANSWER_DONG;
 					setSigndone(ExamActivity.done_position);
-					ArrayList<String> array = new ArrayList<String>();
-					array.add(clientanswer);
+					ArrayList<SimpleAnswer> array = new ArrayList<SimpleAnswer>();
+					array.add(new SimpleAnswer(id, clientanswer));
 					ExamActivity.clientAnswer.append(position, array);
 				}else{
 					fillanswer = null;
@@ -499,10 +503,10 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 	private void setPreTextQuestion() {
 		if(ExamActivity.done_position[colAndRow.row][colAndRow.col]>0){
 			//用户已经做过
-			ArrayList<String> answString = ExamActivity.clientAnswer.get(position);
+			ArrayList<SimpleAnswer> answString = ExamActivity.clientAnswer.get(position);
 			if(answString!=null&&!answString.isEmpty()){
 				//设置上选择的答案
-				et_client_answer.setText(answString.get(0));
+				et_client_answer.setText(answString.get(0).getAnswer());
 			}
 		}
 	}
@@ -532,8 +536,8 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 					fillanswer = clientanswer;
 					rightOrWrong = ConstantValues.ANSWER_DONG;
 					setSigndone(ExamActivity.done_position);
-					ArrayList<String> array = new ArrayList<String>();
-					array.add(clientanswer);
+					ArrayList<SimpleAnswer> array = new ArrayList<SimpleAnswer>();
+					array.add(new SimpleAnswer(id, clientanswer));
 					ExamActivity.clientAnswer.append(position, array);
 				}else{
 					fillanswer = null;
@@ -606,8 +610,9 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 				tx_cue.setText("对不起，答错了");
 			}
 			setSigndone(ExamActivity.done_position);//记录已经做过
-			ArrayList<String> array = new ArrayList<String>();
-			array.add(clientSingleChoose+"");
+			ArrayList<SimpleAnswer> array = new ArrayList<SimpleAnswer>();
+			
+			array.add(new SimpleAnswer(id, clientSingleChoose+""));
 			//ExamActivity.clientAnswer.append(position, array);
 			//ExamActivity.clientAnswer.setValueAt(position, array);
 			ExamActivity.clientAnswer.append(position, array);
@@ -643,9 +648,9 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 						tx_cue.setText("对不起，答错了");
 					}
 			    setSigndone(ExamActivity.done_position);
-			    ArrayList<String> array = new ArrayList<String>();
+			    ArrayList<SimpleAnswer> array = new ArrayList<SimpleAnswer>();
 			    for(int i=0;i<multiChoose.size();i++){
-				array.add(multiChoose.get(i).toString());
+				array.add(new SimpleAnswer(id, multiChoose.get(i).toString()));                  
 			    }
 				ExamActivity.clientAnswer.append(position, array);
 			 }else{

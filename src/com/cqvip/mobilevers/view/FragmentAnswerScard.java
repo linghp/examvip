@@ -1,23 +1,25 @@
 package com.cqvip.mobilevers.view;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.adapter.AnswerscardListViewAdapter;
 import com.cqvip.mobilevers.entity.TwoDimensionArray;
+import com.cqvip.mobilevers.exam.SimpleAnswer;
 import com.cqvip.mobilevers.ui.ExamActivity;
 
 /**
@@ -25,7 +27,7 @@ import com.cqvip.mobilevers.ui.ExamActivity;
  * @author luojiang
  *
  */
-public class FragmentAnswerScard extends Fragment {
+public class FragmentAnswerScard extends Fragment implements OnClickListener {
 	private ListView mListView;
 	private ArrayList<ArrayList<Integer>> mList_Gist = new ArrayList<ArrayList< Integer>>();//所有的记录，二维数组
 	private ArrayList<Integer> rowIndexList = new ArrayList<Integer>();//记录行号
@@ -37,11 +39,17 @@ public class FragmentAnswerScard extends Fragment {
 	public static int gridviewcolumnwidth;//单位大小
 	public static final String TAG = "FragmentAnswerScard";
 	private static final String NUM_TAG = "num";
+	private static final String HANDLEOVER = "handle"; //是否交卷
+	private static final String RIGHTWRONG = "right";//是否显示对错
 	private int[][]  donelists ;//做过的题目
 	private int[][]  rightlists ;//做过正确的题目
 	private int[][]  wronglists ;//做过的错误题目
+	private SparseArray<ArrayList<SimpleAnswer>> clientAnswers;
 	
+	private boolean isHandleOver;
+	private boolean isShowRightWrong;
 	
+	private TextView tv_handleover;
 	/**
 	 * 返回试题
 	 * @param num
@@ -57,7 +65,23 @@ public class FragmentAnswerScard extends Fragment {
 		f.setArguments(args);
 		return f;
 	}
-	
+	/**
+	 * 返回试题
+	 * @param num
+	 * @param context
+	 * @return
+	 */
+	public static FragmentAnswerScard newInstance(TwoDimensionArray done_position, Context context,boolean isHandleover,boolean isShowrightWrong) {
+		
+		FragmentAnswerScard f = (FragmentAnswerScard) FragmentAnswerScard.instantiate(context,
+				FragmentAnswerScard.class.getName());
+		Bundle args = new Bundle();
+		args.putSerializable(NUM_TAG, done_position);
+		args.putBoolean(HANDLEOVER, isHandleover);
+		args.putBoolean(RIGHTWRONG, isShowrightWrong);
+		f.setArguments(args);
+		return f;
+	}
 	
 	
 	@Override
@@ -65,18 +89,31 @@ public class FragmentAnswerScard extends Fragment {
 			Bundle savedInstanceState) {
 		View view=inflater.inflate(R.layout.fragment_answerscard, container,false);
 		mListView = (ListView) view.findViewById(R.id.listview);
-		TwoDimensionArray tmpTow= ((TwoDimensionArray)getArguments().getSerializable(NUM_TAG));
+		tv_handleover = (TextView) view.findViewById(R.id.tv_hanle_examover);
+		Bundle bundle = getArguments();
+		TwoDimensionArray tmpTow= ((TwoDimensionArray)bundle.getSerializable(NUM_TAG));
 		donelists = tmpTow.getAllss();
 		rightlists = tmpTow.getRightss();
 		wronglists = tmpTow.getWrongss();
-		Log.i(TAG,"lists:"+Arrays.toString(donelists[0])+Arrays.toString(donelists[1]));
+		
+		isHandleOver = bundle.getBoolean(HANDLEOVER);
+		isShowRightWrong = bundle.getBoolean(RIGHTWRONG);
+		//Log.i(TAG,"lists:"+Arrays.toString(donelists[0])+Arrays.toString(donelists[1]));
 		//initData();
+		if(isHandleOver){
+			tv_handleover.setVisibility(View.VISIBLE);
+			clientAnswers = tmpTow.getClientAnswers();
+		}else{
+			tv_handleover.setVisibility(View.GONE);
+		}
+			tv_handleover.setOnClickListener(this);
+		
 		allAnswer = initDoubleDimensionalData();
 		getscreeninfo();
 		countgridviewcolumnwidth();
 		FragmentManager fm = getFragmentManager();
 		//AnswerscardListViewAdapter adapter = new AnswerscardListViewAdapter(getActivity(), rowIndexList,mList_Gist,fm);
-		AnswerscardListViewAdapter adapter = new AnswerscardListViewAdapter(getActivity(),allAnswer,donelists,rightlists,wronglists,fm);
+		AnswerscardListViewAdapter adapter = new AnswerscardListViewAdapter(getActivity(),allAnswer,donelists,rightlists,wronglists,fm,isShowRightWrong);
 		mListView.setAdapter(adapter);
 		return view;
 	}
@@ -153,5 +190,23 @@ public class FragmentAnswerScard extends Fragment {
     public int dip2px(float dpValue) {  
         final float scale = getResources().getDisplayMetrics().density;  
         return (int) (dpValue * scale + 0.5f);  
-    }  
+    }
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.tv_hanle_examover:
+			 //clientAnswers,发送数据到服务器
+			
+			//跳转
+			getFragmentManager().popBackStack();
+			
+			ResultFragment newFragment = new ResultFragment();
+			((ExamActivity)getActivity()).addFragmentToStack(newFragment,R.id.exam_fl);
+			
+			break;
+
+		default:
+			break;
+		}
+	}  
 }

@@ -19,6 +19,7 @@ public class AnswerscardGridViewAdapter extends BaseAdapter {
 	private int[] done_Lists;
 	private int[] right_Lists;
 	private int[] wrong_Lists;
+	private boolean isShowRightWrong;
 	public AnswerscardGridViewAdapter(Context mContext2, int[] is) {
 		this.mContext = mContext2;
 		this.mLists = is;
@@ -28,12 +29,13 @@ public class AnswerscardGridViewAdapter extends BaseAdapter {
 		this.mLists = is;
 		this.done_Lists = is2;
 	}
-	public AnswerscardGridViewAdapter(Context mContext2, int[] is, int[] is2,int[] rightis,int[] wrongis) {
+	public AnswerscardGridViewAdapter(Context mContext2, int[] is, int[] is2,int[] rightis,int[] wrongis, boolean isShowRightWrong) {
 		this.mContext = mContext2;
 		this.mLists = is;
 		this.done_Lists = is2;
 		this.right_Lists = rightis;
 		this.wrong_Lists = wrongis;
+		this.isShowRightWrong = isShowRightWrong;
 	}
 	@Override
 	public int getCount() {
@@ -75,11 +77,13 @@ public class AnswerscardGridViewAdapter extends BaseAdapter {
 			resid = R.drawable.grid_style_gray;
 		}
 		holder.tv_num.setText(mLists[position]+"");
+		if(isShowRightWrong){
 		if(right_Lists[position]>0){
 		holder.tv_rightwrong.setText("√");
 		}
 		if(wrong_Lists[position]>0){
 			holder.tv_rightwrong.setText("×");
+		}
 		}
 		holder.rl.setBackgroundResource(resid);
 		return convertView;

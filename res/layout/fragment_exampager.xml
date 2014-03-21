@@ -3,7 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
+  <TextView
+                        android:id="@+id/txt_viewtitle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:onClick="viewtitle"
+                        android:textColor="@color/gree_deep"
+                        android:textSize="18sp"
+                        android:padding="5.0dip"
+                        android:gravity="right"
+                        android:text="查看材料" />
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
@@ -24,12 +33,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical" >
 
-                    <TextView
-                        android:id="@+id/txt_viewtitle"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:onClick="viewtitle"
-                        android:text="查看材料" />
+                  
 
                     <com.cqvip.mobilevers.widget.ImageTextView
                         android:id="@+id/txt_exam_title"
@@ -168,14 +172,6 @@
                     android:orientation="vertical"
                     android:visibility="gone" >
 
-                    <TextView
-                        android:id="@+id/txt_title_back"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="10dp"
-                        android:text="返回>>"
-                        android:textColor="@color/black" />
 
                     <com.cqvip.mobilevers.widget.ImageTextView
                         android:id="@+id/sub_title"
