@@ -106,7 +106,7 @@ public class PullParseXML {
     	String id = null;
     	xmlParse.require(XmlPullParser.START_TAG, ns, "Question");
     	type = xmlParse.getAttributeValue(null, "type");
-    	id = xmlParse.getAttributeValue(null,"id");
+    	id = xmlParse.getAttributeValue(null,"Id");
     	ArrayList<Content> lists = new ArrayList<Content>();
     	String title = null;
     	boolean isContainPic = false;
@@ -157,7 +157,7 @@ public class PullParseXML {
     	String id = null;
     	xmlParse.require(XmlPullParser.START_TAG, ns, "Question");
     	type = xmlParse.getAttributeValue(null, "type");
-    	id = xmlParse.getAttributeValue(null,"id");
+    	id = xmlParse.getAttributeValue(null,"Id");
     	ArrayList<Content> lists = new ArrayList<Content>();
     	String title = null;
     	boolean isContainPic = false;

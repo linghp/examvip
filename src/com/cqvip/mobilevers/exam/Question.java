@@ -24,20 +24,8 @@ public class Question implements Serializable{
 	private  Content sub_Title; //子题标题
 	private String sebexam_Title;//大题标题
 	private String  sub_Type;//subject类型
-	int perscore;
+	int perscore;//每一题分数
 	
-	
-	
-	public Question(String id,String type, Content title, ArrayList<Content> option,
-			Solution solution, int itemCount) {
-		super();
-		this.id = id;
-		this.type = type;
-		this.title = title;
-		this.option = option;
-		this.solution = solution;
-		this.itemCount = itemCount;
-	}
 
 	public Question(String id, String type, Content title,
 			ArrayList<Content> option, Solution solution, int itemCount,
@@ -56,7 +44,19 @@ public class Question implements Serializable{
 		this.perscore = perscore;
 	}
 
-;	public String getId() {
+		
+		public Question(String id, String type, Content title,
+				ArrayList<Content> option, Solution solution, int itemCount) {
+			super();
+			this.id = id;
+			this.type = type;
+			this.title = title;
+			this.option = option;
+			this.solution = solution;
+			this.itemCount = itemCount;
+		}
+
+public String getId() {
 		return id;
 	}
 
@@ -93,6 +93,11 @@ public class Question implements Serializable{
 
 	public String getSub_Type() {
 		return sub_Type;
+	}
+
+
+	public int getPerscore() {
+		return perscore;
 	}
 
 	@Override

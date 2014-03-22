@@ -50,6 +50,7 @@ public class FragmentAnswerScard extends Fragment implements OnClickListener {
 	private boolean isShowRightWrong;
 	
 	private TextView tv_handleover;
+	private TextView txt_card_tips;
 	/**
 	 * 返回试题
 	 * @param num
@@ -90,6 +91,7 @@ public class FragmentAnswerScard extends Fragment implements OnClickListener {
 		View view=inflater.inflate(R.layout.fragment_answerscard, container,false);
 		mListView = (ListView) view.findViewById(R.id.listview);
 		tv_handleover = (TextView) view.findViewById(R.id.tv_hanle_examover);
+		txt_card_tips = (TextView) view.findViewById(R.id.txt_card_tips);
 		Bundle bundle = getArguments();
 		TwoDimensionArray tmpTow= ((TwoDimensionArray)bundle.getSerializable(NUM_TAG));
 		donelists = tmpTow.getAllss();
@@ -100,11 +102,17 @@ public class FragmentAnswerScard extends Fragment implements OnClickListener {
 		isShowRightWrong = bundle.getBoolean(RIGHTWRONG);
 		//Log.i(TAG,"lists:"+Arrays.toString(donelists[0])+Arrays.toString(donelists[1]));
 		//initData();
+		int unfinished = findUnfinished(donelists);
+		
 		if(isHandleOver){
+			txt_card_tips.setVisibility(View.VISIBLE);
+			String tips = getTips(unfinished);
+			txt_card_tips.setText(tips);
 			tv_handleover.setVisibility(View.VISIBLE);
 			clientAnswers = tmpTow.getClientAnswers();
 		}else{
 			tv_handleover.setVisibility(View.GONE);
+			txt_card_tips.setVisibility(View.GONE);
 		}
 			tv_handleover.setOnClickListener(this);
 		
@@ -118,7 +126,25 @@ public class FragmentAnswerScard extends Fragment implements OnClickListener {
 		return view;
 	}
 	
-//	private int[][] formDoubleDimensionalData(ArrayList<Integer> array){
+	private String getTips(int unfinished) {
+			if(unfinished==0){
+			return "您已经答完所有题目！";
+			}else{
+				return "您还有"+unfinished+"道题未做，确定要交卷？";
+			}
+		}
+	private int findUnfinished(int[][] donelists2) {
+			int count = 0;
+			for(int i=0;i<donelists2.length;i++){
+				for(int j=0;j<donelists2[i].length;j++){
+					 if(donelists2[i][j]==0){
+						 count++;
+					 }
+				}
+			}
+			return count;
+		}
+	//	private int[][] formDoubleDimensionalData(ArrayList<Integer> array){
 //		for(int i=0;i<array.size();i++)
 //		
 //		
@@ -197,6 +223,10 @@ public class FragmentAnswerScard extends Fragment implements OnClickListener {
 		case R.id.tv_hanle_examover:
 			 //clientAnswers,发送数据到服务器
 			
+			
+			//算出分数 
+			int score = getTotalScore(clientAnswers);
+			Log.i(TAG,"score:"+score);
 			//跳转
 			getFragmentManager().popBackStack();
 			
@@ -208,5 +238,13 @@ public class FragmentAnswerScard extends Fragment implements OnClickListener {
 		default:
 			break;
 		}
+	}
+	private int getTotalScore(SparseArray<ArrayList<SimpleAnswer>> answers) {
+		int total = 0 ;
+		for(int i=0;i<answers.size();i++){
+			SimpleAnswer perAnswer =  answers.get(i).get(0);
+			total+= perAnswer.getScore();
+		}
+		return total;
 	}  
 }

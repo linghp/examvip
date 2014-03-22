@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.test.IsolatedContext;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
@@ -49,7 +50,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 	public static boolean isnight = false;
 	private TextView tv_item_count;
 	
-	private LinearLayout lookanswer_ll;
+	private LinearLayout shwoSubTitle_ll;
 
 	private Timer timer = null;
 	private TimerTask task = null;
@@ -57,19 +58,16 @@ public class ExamActivity extends BaseFragmentActivity implements
 	private Message msg = null;
 	private int secondTotal;
 	private TextView time_tv;
+	private TextView tips_viewSubTitle;
 
 	//private String examPaperId;
 	//private Map<String, String> gparams;
 	public Exam exam;
 	
 	private  int clientShowCount = 0;//总题数
-	private  int paperShowCount = 0;//总子题数
 	private int subjectExamCount;//大题型种类数量
-	private int score;//总分
 	public static  int clientScore = 0;//用户得分
-	//public ArrayList<SubjectExam> subjectExam_list=new ArrayList<SubjectExam>(); // 所有subject
-//	public ArrayList<Integer> subjectExamCount_list=new ArrayList<Integer>(); // 所有subject
-//	public ArrayList<Integer> startLitmitCount_List=new ArrayList<Integer>();//统计subject题目
+	public static boolean isShowAnswer = false;
 	public ArrayList<Subject> subjects_list=new ArrayList<Subject>(); // 所有subject
 	public ArrayList<Question> Question_list=new ArrayList<Question>(); // 所有question
 	
@@ -79,6 +77,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 	public static int[][] wrong_position;//统计错误题目
 	private boolean isHandleOver = false;
 	private boolean isRightWrong = false;
+	private boolean isOnshowing = false;
 	
 	public ArrayList<Integer> cardCount_List=new ArrayList<Integer>();//答题卡题目
 	
@@ -127,7 +126,6 @@ public class ExamActivity extends BaseFragmentActivity implements
 			Subject[] subjects=subjectExam.getExam3List();//当_questionNum为0时，判断
 			if(subjects!=null){
 			subjects_list.addAll(Arrays.asList(subjects));
-			paperShowCount += subjects.length;
 			}
 			
 		//	subjectExamCount_list.add(paperShowCount);
@@ -257,17 +255,20 @@ public class ExamActivity extends BaseFragmentActivity implements
 	}
 
 	private void initView() {
-		lookanswer_ll = (LinearLayout) findViewById(R.id.lookanswer_ll);
-		lookanswer_ll.setOnClickListener(this);
+		shwoSubTitle_ll = (LinearLayout) findViewById(R.id.ll_show_subtitle);
+		tips_viewSubTitle = (TextView) findViewById(R.id.tv_view_subtitle);
+		tips_viewSubTitle.setText(getResources().getString(R.string.btn_show_subtitle));
+	//	lookanswer_ll.setVisibility(View.GONE);
+		shwoSubTitle_ll.setOnClickListener(this);
 		mPager = (ViewPager) findViewById(R.id.pager);
 		mPager.setOnPageChangeListener(this);
 		//mPager.setAdapter(mAdapter);
 		// mPager.setOffscreenPageLimit(5);
-		ViewGroup answercard = (ViewGroup) findViewById(R.id.answercard_ll);
+		LinearLayout answercard = (LinearLayout) findViewById(R.id.ll_show_card);
 		answercard.setOnClickListener(this);
-		ViewGroup directory = (ViewGroup) findViewById(R.id.directory_ll);
-		directory.setOnClickListener(this);
-		ViewGroup handpaper = (ViewGroup) findViewById(R.id.handpaper_ll);
+		LinearLayout showAnswer = (LinearLayout) findViewById(R.id.ll_show_answer);
+		showAnswer.setOnClickListener(this);
+		LinearLayout handpaper = (LinearLayout) findViewById(R.id.ll_exam_handle);
 		handpaper.setOnClickListener(this);
 
 		time_tv = (TextView) findViewById(R.id.time_tv);
@@ -338,13 +339,11 @@ public class ExamActivity extends BaseFragmentActivity implements
 		
 		@Override
 		public int getItemPosition(Object object) {
-			// TODO Auto-generated method stub
 			return POSITION_NONE;
 		}
 
 		@Override
 		public void destroyItem(ViewGroup container, int position, Object object) {
-			// TODO Auto-generated method stub
 			super.destroyItem(container, position, object);
 			 mPageReferenceMap.remove(position);
 		}
@@ -372,7 +371,6 @@ public class ExamActivity extends BaseFragmentActivity implements
 	@Override
 	public void onPageScrolled(int position, float positionOffset,
 			int positionOffsetPixels) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -385,39 +383,47 @@ public class ExamActivity extends BaseFragmentActivity implements
 		} else {
 			isLeftFragment = false;
 		}
+		isOnshowing = false;
+		tips_viewSubTitle.setText(getResources().getString(R.string.btn_show_subtitle));
 		tv_item_count.setText((position+1)+"|"+clientShowCount);
 	}
 	
 
 	@Override
 	public void onPageScrollStateChanged(int state) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.answercard_ll:
+		case R.id.ll_show_card://查看答题卡
+			isRightWrong = isShowAnswer;
+			isHandleOver = false;
 			showAnswerCard(isHandleOver,isRightWrong);
 			break;
-		case R.id.lookanswer_ll:
-		ExamFragment fragment = mAdapter.getFragment(currentpage);
-		fragment.viewAnswer();
+		case R.id.ll_show_subtitle:
+			ExamFragment fragment = mAdapter.getFragment(currentpage);
+			if(isOnshowing){
+				tips_viewSubTitle.setText(getResources().getString(R.string.btn_show_subtitle));
+				fragment.hideSubjectTitle();
+				isOnshowing = false;
+			}else{
+				fragment.showSubjectTitle();
+				tips_viewSubTitle.setText(getResources().getString(R.string.btn_hide_subtitle));
+				isOnshowing = true;
+			}
 			break;
-		case R.id.directory_ll:
-			Log.i("ExamActivity", "onClick_directory_ll");
+		case R.id.ll_show_answer:
+			ExamFragment mfragment = mAdapter.getFragment(currentpage);
+			mfragment.viewAnswer();
 			break;
-		case R.id.handpaper_ll:
+		case R.id.ll_exam_handle:
 			isHandleOver = true;
 			//交卷
 			TwoDimensionArray resultArray = new TwoDimensionArray(done_position,right_position,wrong_position,clientAnswer);
 			Fragment resultFragment = FragmentAnswerScard.newInstance(resultArray, context,isHandleOver,isRightWrong);
 			addFragmentToStack(resultFragment, R.id.exam_fl);
-			
-			
-//			Fragment resultFragment = new ResultFragment();
-//			addFragmentToStack(resultFragment, R.id.exam_fl);
 			try {
 				task.cancel();
 				task = null;
@@ -426,7 +432,6 @@ public class ExamActivity extends BaseFragmentActivity implements
 				timer = null;
 				handler.removeMessages(msg.what);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
@@ -452,7 +457,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 		ft.commit();
 	}
 
-
+	
 	public void updateView(String id){
 		int position = Integer.parseInt(id)-1;
 		mPager.setCurrentItem(position);

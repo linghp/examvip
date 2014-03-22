@@ -19,9 +19,13 @@ public class ConstantValues {
 	public static final String GetKnowledgeClassList_ADDR="Service1.asmx/GetKnowledgeClassList";
 	public static final String GET_DETAIL_PAPERINFO="Service1.asmx/GetExamPaperBaseInfo";
 	public static final String SEARCH_PAPERINFO="Service1.asmx/SearchExamPaperList";
+	public static final String SAVEEXAMANSWER="Service1.asmx/SaveExamAnswer";
 	
 	
 	public static final String DBNAME="MobileVers.db";
+	
+	
+	public static final String HTMLTAG="{{*HTML*}}";
 	
 	
 	public static final int TYPE_EXAM_REAL=2;// 真题

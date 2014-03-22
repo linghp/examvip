@@ -9,6 +9,10 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.SpannedString;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -38,69 +42,68 @@ import com.cqvip.mobilevers.widget.ImageTextView;
 public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 	private static final String NUM_TAG = "num";
 	private static String TAG = "ExamFragment";
-	private int position; //第几个fragment
-
-//    private ArrayList<Subject> subjects_list;
-//    public ArrayList<Integer> startLitmitCount_List;
-    
-	private ArrayList<Question> Question_list=new ArrayList<Question>(); // 所有question
-//	private ArrayList<SubjectExam> subjectExam_list=new ArrayList<SubjectExam>(); // 所有subject
-//	private ArrayList<Subject> subjects_list=new ArrayList<Subject>(); // 所有subject
-//	private ArrayList<Integer> subjectExamCount_list=new ArrayList<Integer>(); // 所有subject
-//	private ArrayList<Integer> startLitmitCount_List=new ArrayList<Integer>();//统计subject题目
-    private LinearLayout decision,decision2,decision3;
+	private static final char[]  ALPHABET = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T'};
+	private static final String[] TRUEFALSE = {"正确","错误"};
+	
+	private LinearLayout decision,decision2,decision3,decision4; //答案
     private TextView user_answer;
-    private TextView tx_cue;//是否答对
-    private TextView page_title;
-    private LinearLayout ll_main,ll_title;
-    private Content contentTitle;
-    private ImageTextView itvTitle;
-    private EditText et_client_answer;
-    private LinearLayout mulitiple_chose_group;
-    private ArrayList<ImageTextCheckBox> check_list;
-    private static final char[]  ALPHABET = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T'};
-    private static final String[] TRUEFALSE = {"正确","错误"};
+    private TextView tx_rightwrong;//是否答对
+    private TextView tx_perscore;//分数
+    private TextView page_title;//材料，
+    private TextView subject_title;//题干，
+    private LinearLayout ll_main;//试题主体
+    private LinearLayout ll_title;//材料
+    private LinearLayout mulitiple_chose_group;//选项
+    private ImageTextView itvTitle; //标题
+    private EditText et_client_answer;//输入框
+   
+    private int position; //第几个fragment
+    private int clientSingleChoose;//用户选择
+    private int rightOrWrong = ConstantValues.ANSWER_UNDONG;//状态，四种做，没做，对，错
+    private int perScore;//每小题分数
+    
     private String type;//question type;
     private String id;//question id;
-    private boolean isMultiCheck = false;
-    private static Map<Integer, Boolean> isSelected;
-    private String fillanswer;
-    private int clientSingleChoose;
+    private String realAnswer;//参考答案
+   
+    private boolean isMultiCheck = false;//是否多选
+    private boolean isTextType = false;//是否客观题
+    
+    private ArrayList<Question> Question_list=new ArrayList<Question>(); // 所有question
+    private ArrayList<ImageTextCheckBox> check_list;//选项
     private ArrayList<Integer> multiChoose = new ArrayList<Integer>();
-    private String realAnswer;
+   
     
-    private int rightOrWrong = ConstantValues.ANSWER_UNDONG;//没做
-    
-    private boolean isTextType = false;
-    private ColAndRow colAndRow;
+    private Content contentTitle;  //标题内容
+    private ColAndRow colAndRow;//position坐标
 	
-    @Override
-    public void onAttach(Activity activity) {
-    	Log.i("ExamFragment", "================onAttach==============");
-    	super.onAttach(activity);
-    }
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-    	Log.i("ExamFragment", "=========onCreate========");
-    	super.onCreate(savedInstanceState);
-    }
-    
-    
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		Log.i("ExamFragment", "=========onConfigurationChanged========");
-		super.onConfigurationChanged(newConfig);
-	}
-	@Override
-	public void onHiddenChanged(boolean hidden) {
-		Log.i("ExamFragment", "=========onHiddenChanged========");
-		super.onHiddenChanged(hidden);
-	}
-	@Override
-	public void onPause() {
-		Log.i("ExamFragment", "=========onPause()========");
-		super.onPause();
-	}
+//    @Override
+//    public void onAttach(Activity activity) {
+//    	Log.i("ExamFragment", "================onAttach==============");
+//    	super.onAttach(activity);
+//    }
+//    @Override
+//    public void onCreate(Bundle savedInstanceState) {
+//    	Log.i("ExamFragment", "=========onCreate========");
+//    	super.onCreate(savedInstanceState);
+//    }
+//    
+//    
+//	@Override
+//	public void onConfigurationChanged(Configuration newConfig) {
+//		Log.i("ExamFragment", "=========onConfigurationChanged========");
+//		super.onConfigurationChanged(newConfig);
+//	}
+//	@Override
+//	public void onHiddenChanged(boolean hidden) {
+//		Log.i("ExamFragment", "=========onHiddenChanged========");
+//		super.onHiddenChanged(hidden);
+//	}
+//	@Override
+//	public void onPause() {
+//		Log.i("ExamFragment", "=========onPause()========");
+//		super.onPause();
+//	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -109,24 +112,19 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		Log.i("ExamFragment", "onCreateView"+position);
 		colAndRow = getItemPosition(position);
 		Log.i(TAG,"row,col"+colAndRow.row+","+colAndRow.col);
-//		subjectExamCount_list = ((ExamActivity)getActivity()).getSubjectExamCount_list();
-//		startLitmitCount_List =((ExamActivity)getActivity()).getStartLitmitCount_List();
-//		subjectExam_list = ((ExamActivity)getActivity()).getSubjectExam_list();
-//		subjects_list = ((ExamActivity)getActivity()).getSubjects_list();
 		Question_list = ((ExamActivity)getActivity()).getQuestion_list();
 		ll_main = (LinearLayout) v.findViewById(R.id.ll_main);
 		ll_title = (LinearLayout) v.findViewById(R.id.ll_title);
 		page_title = (TextView) v.findViewById(R.id.txt_viewtitle);
+		subject_title = (TextView) v.findViewById(R.id.txt_subject_title);
 		et_client_answer = (EditText) v.findViewById(R.id.et_answer);
 		user_answer = (TextView) v.findViewById(R.id.user_answer);
-		tx_cue = (TextView) v.findViewById(R.id.tx_cue);//对错
+		tx_perscore = (TextView) v.findViewById(R.id.tx_perscore);//分值
+		tx_rightwrong = (TextView) v.findViewById(R.id.tx_right_wrong);//对错
 		decision = (LinearLayout) v.findViewById(R.id.decision);
 		decision2 = (LinearLayout) v.findViewById(R.id.decision2);
 		decision3 = (LinearLayout) v.findViewById(R.id.decision3);
-		decision.setVisibility(View.GONE);
-		decision2.setVisibility(View.GONE);
-		decision3.setVisibility(View.GONE);
-		
+		decision4 = (LinearLayout) v.findViewById(R.id.decision4);
 		ll_main.setVisibility(View.VISIBLE);
 		ll_title.setVisibility(View.GONE);
 		page_title.setVisibility(View.GONE);
@@ -147,6 +145,8 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		Content answerdesc = solution.getAnswerDesc();
 		type = question.getType();
 		id = question.getId();
+		perScore = question.getPerscore();
+		//Log.i("EXAM","id:"+id+"type:"+type);
 		//判断
 		//获取当前小题的subject和大题subjectExam;
 		//SubjectExam  now_subjectExam = subjectExam_list.get(currentSubject);
@@ -154,10 +154,12 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		Content sub_title = question.getSub_Title();
 		String subExam_title = question.getSebexam_Title();
 		String sub_type = question.getSub_Type();
-		
+		//perScore = question.get
 		//答案，用于比较
 		realAnswer = solution.getAnswer().getContent();
-		
+		//显示答题题干，判断是否有html
+		Spanned mtitle = formSubTitle(subExam_title);
+		subject_title.setText(mtitle);
 //		Log.i("sub_type",sub_type);
 //		Log.i("Question_type",type);
 //		Log.i("sub_Title","tttt:"+sub_title.getContent());
@@ -223,16 +225,74 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 			}
 		});
 		
+		tx_perscore.setText(perScore+"分");
 		
-		tv_answer.setText(answer);
+		if(answer.isContainPic()){
+			tv_answer.setText(answer);
+		}else{
+			if(isTextType){//填空，问答
+			tv_answer.setText(answer);
+			}else{
+				//选择
+			tv_answer.setText(formABC(answer));	
+			}
+		}
 		tv_answerdesc.setText(answerdesc);
 		tv_title.setBackgroundDrawable(getResources().getDrawable(
 				android.R.drawable.gallery_thumb));
+		if(ExamActivity.isShowAnswer){
+			if(!isTextType){
+			decision.setVisibility(View.VISIBLE);
+			decision2.setVisibility(View.VISIBLE);
+			decision3.setVisibility(View.VISIBLE);
+			decision4.setVisibility(View.VISIBLE);
+			}else{
+			decision2.setVisibility(View.VISIBLE);
+			decision3.setVisibility(View.VISIBLE);
+			decision4.setVisibility(View.VISIBLE);
+			}
+		}else{
+		decision.setVisibility(View.GONE);
+		decision2.setVisibility(View.GONE);
+		decision3.setVisibility(View.GONE);
+		decision4.setVisibility(View.GONE);
+		}
 		return v;
 	}
 	
 	
-	
+	private Spanned formSubTitle(String text) {
+		String htmlTag = ConstantValues.HTMLTAG;
+	if(	text != null && text.startsWith(htmlTag)){
+		String result = text.substring(htmlTag.length(),text.length());
+		return Html.fromHtml(result);
+	}else{
+		return new SpannedString(text);
+	}
+	}
+
+
+	/**
+	 * 处理答案样式
+	 * @param answer
+	 * @return
+	 */
+	private String formABC(Content answer) {
+		String str = answer.getContent().trim();
+		StringBuilder builder = new StringBuilder();
+		String[] array = str.split(",");
+		int mLength = array.length;
+		if(mLength>0){
+			for(int i=0;i<array.length;i++){
+			int choice = Integer.parseInt(array[i].trim());
+			builder.append(ALPHABET[choice-1]);
+				if(i!=mLength-1){
+					builder.append(",");
+				}
+			}
+		}
+		return builder.toString();
+	}
 	/**
 	 * 显示所有题目
 	 * @param sub_type
@@ -448,27 +508,6 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		et_client_answer.setVisibility(View.VISIBLE);
 		mulitiple_chose_group.setVisibility(View.GONE);
 		setPreTextQuestion();
-//		et_client_answer.setOnKeyListener(new EditText.OnKeyListener(){
-//			@Override
-//			public boolean onKey(View v, int keyCode, KeyEvent event) {
-//				String clientanswer = et_client_answer.getText().toString();
-//				Log.i(TAG,"answer:"+clientanswer);
-//				Log.i(TAG,"answer:"+clientanswer);
-//				if(!TextUtils.isEmpty(clientanswer)){
-//					fillanswer = clientanswer;
-//					rightOrWrong = ConstantValues.ANSWER_DONG;
-//					setSigndone(ExamActivity.done_position);
-//					ArrayList<String> array = new ArrayList<String>();
-//					array.add(clientanswer);
-//					ExamActivity.clientAnswer.append(position, array);
-//				}else{
-//					fillanswer = null;
-//					rightOrWrong = ConstantValues.ANSWER_UNDONG;
-//					removeSignDone(ExamActivity.done_position);
-//					ExamActivity.clientAnswer.append(position, null);
-//				}
-//				return false;
-//			}});
 		et_client_answer.addTextChangedListener(new TextWatcher() {           
             @Override  
             public void onTextChanged(CharSequence s, int start, int before, int count) {  
@@ -483,14 +522,12 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
             public void afterTextChanged(Editable s) {   
             	String clientanswer = et_client_answer.getText().toString();
 				if(!TextUtils.isEmpty(clientanswer)){
-					fillanswer = clientanswer;
 					rightOrWrong = ConstantValues.ANSWER_DONG;
 					setSigndone(ExamActivity.done_position);
 					ArrayList<SimpleAnswer> array = new ArrayList<SimpleAnswer>();
-					array.add(new SimpleAnswer(id, clientanswer));
+					array.add(new SimpleAnswer(id, clientanswer,0));
 					ExamActivity.clientAnswer.append(position, array);
 				}else{
-					fillanswer = null;
 					rightOrWrong = ConstantValues.ANSWER_UNDONG;
 					removeSignDone(ExamActivity.done_position);
 					ExamActivity.clientAnswer.append(position, null);
@@ -533,14 +570,12 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
             public void afterTextChanged(Editable s) {   
             	String clientanswer = et_client_answer.getText().toString();
 				if(!TextUtils.isEmpty(clientanswer)){
-					fillanswer = clientanswer;
 					rightOrWrong = ConstantValues.ANSWER_DONG;
 					setSigndone(ExamActivity.done_position);
 					ArrayList<SimpleAnswer> array = new ArrayList<SimpleAnswer>();
-					array.add(new SimpleAnswer(id, clientanswer));
+					array.add(new SimpleAnswer(id, clientanswer,0));
 					ExamActivity.clientAnswer.append(position, array);
 				}else{
-					fillanswer = null;
 					rightOrWrong = ConstantValues.ANSWER_UNDONG;
 					removeSignDone(ExamActivity.done_position);
 					ExamActivity.clientAnswer.append(position, null);
@@ -550,8 +585,13 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 	}
 	
 	public void viewAnswer(){
+//		decision.setVisibility(View.VISIBLE);
+//		decision2.setVisibility(View.VISIBLE);
+//		decision3.setVisibility(View.VISIBLE);
 		if(decision.getVisibility()==View.GONE){
+			if(!isTextType){
 			decision.setVisibility(View.VISIBLE);
+			}
 		}else{
 			decision.setVisibility(View.GONE);
 		}
@@ -564,6 +604,11 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 			decision3.setVisibility(View.VISIBLE);
 		}else{
 			decision3.setVisibility(View.GONE);
+		}
+		if(decision4.getVisibility()==View.GONE){
+			decision4.setVisibility(View.VISIBLE);
+		}else{
+			decision4.setVisibility(View.GONE);
 		}
 	}
 	
@@ -598,33 +643,26 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 			
 			//显示答案
 			user_answer.setText(ALPHABET[clientSingleChoose]+"");
+			ArrayList<SimpleAnswer> array = new ArrayList<SimpleAnswer>();
+			int tmpscore ;
 			//显示对错
 			if(validateAnswer(clientSingleChoose)){
-			tx_cue.setText("恭喜您，答对了");
-			rightOrWrong = ConstantValues.ANSWER_RIGHT;
-			setSignRightdone(ExamActivity.right_position,ExamActivity.wrong_position);
+			doAnswerRight();
+			 tmpscore = perScore;
 			}else{
-				setSignWrongdone(ExamActivity.right_position,ExamActivity.wrong_position);
-				rightOrWrong = ConstantValues.ANSWER_WRONG;
-				
-				tx_cue.setText("对不起，答错了");
+				doAnswerWrong();
+			 tmpscore = 0;
 			}
+			array.add(new SimpleAnswer(id, clientSingleChoose+"",tmpscore));
 			setSigndone(ExamActivity.done_position);//记录已经做过
-			ArrayList<SimpleAnswer> array = new ArrayList<SimpleAnswer>();
-			
-			array.add(new SimpleAnswer(id, clientSingleChoose+""));
-			//ExamActivity.clientAnswer.append(position, array);
-			//ExamActivity.clientAnswer.setValueAt(position, array);
 			ExamActivity.clientAnswer.append(position, array);
 			
 		}else{
 			user_answer.setText("");
-			tx_cue.setText("");
+			tx_rightwrong.setText("");
 			rightOrWrong = ConstantValues.ANSWER_UNDONG;
 			removeSignDone(ExamActivity.done_position);
-			Log.i(TAG,"=====remove=============="+position);
 			ExamActivity.clientAnswer.append(position, null);
-			//signDone();
 		}	
 		 }else{
 			 //多选
@@ -632,36 +670,48 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 			 for(int i =0;i<check_list.size();i++){
 					if(check_list.get(i).isChecked()){
 						multiChoose.add(i);
-						//System.out.println(multiChoose);
-						//Log.i("multichoose",multiChoose+"");
 					}
 				}
 			 if(!multiChoose.isEmpty()){
 			 user_answer.setText(formString(multiChoose));
+			 ArrayList<SimpleAnswer> array = new ArrayList<SimpleAnswer>();
+			 int score ;
 			 if(validateMultiAnswer(multiChoose)){
-					tx_cue.setText("恭喜您，答对了");
-					rightOrWrong = ConstantValues.ANSWER_RIGHT;
-					setSignRightdone(ExamActivity.right_position,ExamActivity.wrong_position);
+					doAnswerRight();
+					score = perScore;
 				}else{
-					setSignWrongdone(ExamActivity.right_position,ExamActivity.wrong_position);
-					rightOrWrong = ConstantValues.ANSWER_WRONG;
-						tx_cue.setText("对不起，答错了");
+					doAnswerWrong();
+					score = 0;
 					}
 			    setSigndone(ExamActivity.done_position);
-			    ArrayList<SimpleAnswer> array = new ArrayList<SimpleAnswer>();
 			    for(int i=0;i<multiChoose.size();i++){
-				array.add(new SimpleAnswer(id, multiChoose.get(i).toString()));                  
+				array.add(new SimpleAnswer(id, multiChoose.get(i).toString(),score));                  
 			    }
 				ExamActivity.clientAnswer.append(position, array);
 			 }else{
 				 removeSignDone(ExamActivity.done_position);
-				 Log.i(TAG,"=====remove=============="+position);
 				 ExamActivity.clientAnswer.append(position, null);
 				 rightOrWrong = ConstantValues.ANSWER_UNDONG;
 				 user_answer.setText("");
-				 tx_cue.setText("");
+				 tx_rightwrong.setText("");
 			 }
 		 }
+	}
+
+
+	private void doAnswerWrong() {
+		rightOrWrong = ConstantValues.ANSWER_WRONG;
+		tx_rightwrong.setTextColor(getResources().getColor(R.color.red));	
+		tx_rightwrong.setText(getResources().getString(R.string.tips_wrong));
+		setSignWrongdone(ExamActivity.right_position,ExamActivity.wrong_position);
+	}
+
+
+	private void doAnswerRight() {
+		tx_rightwrong.setTextColor(getResources().getColor(R.color.gree_deep));	
+		tx_rightwrong.setText(getResources().getString(R.string.tips_right));
+		rightOrWrong = ConstantValues.ANSWER_RIGHT;
+		setSignRightdone(ExamActivity.right_position,ExamActivity.wrong_position);
 	}
 	/**
 	 * 移除答题
@@ -705,7 +755,6 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 			}
 		}
 		String result = builder.toString();
-		Log.i(TAG,"result:"+result);
 		return realAnswer.equals(result);
 	}
 	private boolean validateAnswer(int clientSingleChoose2) {
@@ -718,7 +767,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		return false;
 	}
 	/**
-	 * A,B,c
+	 * 多选答案
 	 * @param multiChoose2
 	 * @return
 	 */
@@ -727,7 +776,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		for(int i=0;i<multiChoose2.size();i++){
 			int k = multiChoose2.get(i);
 			builder.append(ALPHABET[k]+"");
-			if(i!=multiChoose2.size()){
+			if(i!=multiChoose2.size()-1){
 				builder.append(",");
 			}
 		}
@@ -789,6 +838,14 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 			}
 		}
 		return cr;
+	}
+
+
+	public void showSubjectTitle() {
+		subject_title.setVisibility(View.VISIBLE);
+	}
+	public void hideSubjectTitle() {
+		subject_title.setVisibility(View.GONE);
 	}
 	
 	

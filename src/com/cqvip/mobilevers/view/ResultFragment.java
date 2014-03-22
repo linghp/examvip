@@ -26,27 +26,16 @@ public class ResultFragment extends Fragment{
 		
 		
 		
-		Button viewright = (Button) view.findViewById(R.id.btn_card);
-		Button viewAnsewer = (Button) view.findViewById(R.id.btn_anwer);
-		Button socre = (Button) view.findViewById(R.id.btn_socre);
-		viewright.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				
-			
-				 // getFragmentManager().popBackStack();
-				 ((ExamActivity)getActivity()).showAnswerCard(false, true);
-			}
-		});
+		
+		Button viewAnsewer = (Button) view.findViewById(R.id.btn_view_desc);
 		
 		viewAnsewer.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				getFragmentManager().popBackStack();
+				ExamActivity.isShowAnswer = true;
 				((ExamActivity)getActivity()).updateView(1+"");
-				
 			}
 		});
 		

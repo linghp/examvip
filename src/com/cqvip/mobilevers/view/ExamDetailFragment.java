@@ -186,6 +186,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 		customProgressDialog.show();
 		gparams = new HashMap<String, String>();
 		gparams.put(ConstantValues.EXAMPAPERID, examPaperId);
+		Log.i("EXAM",examPaperId);
 		requestVolley(url, back_ls, Method.POST);
 	}
 	

@@ -95,10 +95,11 @@ public class ImageTextView extends TextView {
 				}
 			}
 			textView.setText(style);
-		} else if (text != null && text.contains("{{*HTML*}}")) {
+		} else if (text != null && text.startsWith("{{*HTML*}}")) {
 			// 是否是HTML格式的
-			System.out.println("进来了");
-			textView.setText(Html.fromHtml(text));
+			int length = text.length();
+			String trimHtml = text.substring("{{*HTML*}}".length(),length);
+			textView.setText(Html.fromHtml(trimHtml));
 		} else {// 不是html格式，不是图片
 			textView.setText(text != null ? text : "");
 		}
@@ -139,10 +140,11 @@ public class ImageTextView extends TextView {
 				}
 			}
 			textView.setText(style);
-		} else if (text != null && text.contains("{{*HTML*}}")) {
+		} else if (text != null && text.startsWith("{{*HTML*}}")) {
 			// 是否是HTML格式的
-			System.out.println("进来了");
-			textView.setText(tips+Html.fromHtml(text));
+			int length = text.length();
+			String trimHtml = text.substring("{{*HTML*}}".length(),length);
+			textView.setText(tips+Html.fromHtml(trimHtml));
 		} else {// 不是html格式，不是图片
 			textView.setText(tips+(text != null ? text : ""));
 		}
