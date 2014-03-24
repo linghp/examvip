@@ -227,6 +227,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 							
 							Intent intent=new Intent(getActivity(),ExamActivity.class);
 							intent.putExtra("exam", exam);
+							intent.putExtra("id", subjectid);
 							startActivity(intent);
 							
 //							SubjectExam[] subjectExams_array=exam.getExam2lists();

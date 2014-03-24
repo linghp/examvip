@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.entity.TwoDimensionArray;
+import com.cqvip.mobilevers.exam.BaseExamInfo;
 import com.cqvip.mobilevers.exam.Exam;
 import com.cqvip.mobilevers.exam.Question;
 import com.cqvip.mobilevers.exam.SimpleAnswer;
@@ -66,6 +67,11 @@ public class ExamActivity extends BaseFragmentActivity implements
 	
 	private  int clientShowCount = 0;//总题数
 	private int subjectExamCount;//大题型种类数量
+	private int paperScore;
+	private String paperId;
+	private String paperName;
+	private int paperTime;
+	private BaseExamInfo baseExamInfo;
 	public static  int clientScore = 0;//用户得分
 	public static boolean isShowAnswer = false;
 	public ArrayList<Subject> subjects_list=new ArrayList<Subject>(); // 所有subject
@@ -106,6 +112,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 		// FragmentTransaction ft =
 		// getSupportFragmentManager().beginTransaction();
 		// ft.add(R.id.exam_fl, newFragment).commit();
+		
 		mAdapter = new MyAdapter(getSupportFragmentManager(), context);
 //		examPaperId=getIntent().getStringExtra(ConstantValues.EXAMPAPERID);
 //		Log.i(TAG, examPaperId);
@@ -121,7 +128,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 			cardCount_List.add(count);//答题卡
 			
 		//	startLitmitCount_List.add(clientShowCount);
-			clientShowCount += count;
+	
 			//所有试卷大题数量size与startLitmitCount_List相同
 			Subject[] subjects=subjectExam.getExam3List();//当_questionNum为0时，判断
 			if(subjects!=null){
@@ -148,11 +155,20 @@ public class ExamActivity extends BaseFragmentActivity implements
 			Question_list.addAll(lists);
 			}
 		}
+		clientShowCount  = Question_list.size();
+		
 		all_position = initDoubleDimensionalData();
 		System.out.println("题目总数"+Question_list.size());
 		mPager.setAdapter(mAdapter);
 		
 		clientAnswer = new SparseArray<ArrayList<SimpleAnswer>>();
+		
+		paperId = getIntent().getStringExtra("id");
+		paperName = exam.get_examPaperName();
+		paperScore = exam.getScore();
+		paperTime = exam.getExamTime();
+		baseExamInfo = new BaseExamInfo(paperId,paperTime, paperName, paperScore,clientShowCount);
+		
 	}
 	
 	/**
@@ -190,9 +206,9 @@ public class ExamActivity extends BaseFragmentActivity implements
 		return cardCount_List;
 	}
 
-
-
-
+	public BaseExamInfo getBaseExamInfo() {
+		return baseExamInfo;
+	}
 
 	public ArrayList<Subject> getSubjects_list() {
 		return subjects_list;
@@ -422,7 +438,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 			isHandleOver = true;
 			//交卷
 			TwoDimensionArray resultArray = new TwoDimensionArray(done_position,right_position,wrong_position,clientAnswer);
-			Fragment resultFragment = FragmentAnswerScard.newInstance(resultArray, context,isHandleOver,isRightWrong);
+			Fragment resultFragment = FragmentAnswerScard.newInstance(resultArray, context,isHandleOver,isRightWrong,secondTotal);
 			addFragmentToStack(resultFragment, R.id.exam_fl);
 			try {
 				task.cancel();

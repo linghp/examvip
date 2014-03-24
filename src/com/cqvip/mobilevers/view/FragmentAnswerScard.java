@@ -1,10 +1,13 @@
 package com.cqvip.mobilevers.view;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -15,19 +18,28 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request.Method;
+import com.android.volley.Response.Listener;
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.adapter.AnswerscardListViewAdapter;
+import com.cqvip.mobilevers.config.ConstantValues;
 import com.cqvip.mobilevers.entity.TwoDimensionArray;
+import com.cqvip.mobilevers.exam.BaseExamInfo;
+import com.cqvip.mobilevers.exam.ExamDoneInfo;
 import com.cqvip.mobilevers.exam.SimpleAnswer;
+import com.cqvip.mobilevers.http.HttpUtils;
+import com.cqvip.mobilevers.http.VersStringRequest;
 import com.cqvip.mobilevers.ui.ExamActivity;
+import com.cqvip.mobilevers.ui.base.BaseFragment;
 
 /**
  * 答题卡类
  * @author luojiang
  *
  */
-public class FragmentAnswerScard extends Fragment implements OnClickListener {
+public class FragmentAnswerScard extends BaseFragment implements OnClickListener {
 	private ListView mListView;
 	private ArrayList<ArrayList<Integer>> mList_Gist = new ArrayList<ArrayList< Integer>>();//所有的记录，二维数组
 	private ArrayList<Integer> rowIndexList = new ArrayList<Integer>();//记录行号
@@ -41,6 +53,7 @@ public class FragmentAnswerScard extends Fragment implements OnClickListener {
 	private static final String NUM_TAG = "num";
 	private static final String HANDLEOVER = "handle"; //是否交卷
 	private static final String RIGHTWRONG = "right";//是否显示对错
+	private static final String USETIME = "time";//是否显示对错
 	private int[][]  donelists ;//做过的题目
 	private int[][]  rightlists ;//做过正确的题目
 	private int[][]  wronglists ;//做过的错误题目
@@ -51,6 +64,17 @@ public class FragmentAnswerScard extends Fragment implements OnClickListener {
 	
 	private TextView tv_handleover;
 	private TextView txt_card_tips;
+	private Map<String,String> gparams;
+	private BaseExamInfo baseExamInfo;
+	
+	private int clientGetScore;//用户得分
+	private int rightCount;//对的个数
+	private int wrongCount;//错的个数
+	private int doneCount;//做题的个数
+	private int useTime;//耗时
+	
+	private ExamDoneInfo examDoneInfo;//耗时
+	
 	/**
 	 * 返回试题
 	 * @param num
@@ -83,6 +107,24 @@ public class FragmentAnswerScard extends Fragment implements OnClickListener {
 		f.setArguments(args);
 		return f;
 	}
+	/**
+	 * 返回试题
+	 * @param num
+	 * @param context
+	 * @return
+	 */
+	public static FragmentAnswerScard newInstance(TwoDimensionArray done_position, Context context,boolean isHandleover,boolean isShowrightWrong,int costTime) {
+		
+		FragmentAnswerScard f = (FragmentAnswerScard) FragmentAnswerScard.instantiate(context,
+				FragmentAnswerScard.class.getName());
+		Bundle args = new Bundle();
+		args.putSerializable(NUM_TAG, done_position);
+		args.putBoolean(HANDLEOVER, isHandleover);
+		args.putBoolean(RIGHTWRONG, isShowrightWrong);
+		args.putInt(USETIME, costTime);
+		f.setArguments(args);
+		return f;
+	}
 	
 	
 	@Override
@@ -106,11 +148,13 @@ public class FragmentAnswerScard extends Fragment implements OnClickListener {
 		
 		if(isHandleOver){
 			txt_card_tips.setVisibility(View.VISIBLE);
+			useTime = bundle.getInt(USETIME);
 			String tips = getTips(unfinished);
 			txt_card_tips.setText(tips);
 			tv_handleover.setVisibility(View.VISIBLE);
 			clientAnswers = tmpTow.getClientAnswers();
 		}else{
+			useTime = 0;
 			tv_handleover.setVisibility(View.GONE);
 			txt_card_tips.setVisibility(View.GONE);
 		}
@@ -222,16 +266,8 @@ public class FragmentAnswerScard extends Fragment implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.tv_hanle_examover:
 			 //clientAnswers,发送数据到服务器
-			
-			
-			//算出分数 
-			int score = getTotalScore(clientAnswers);
-			Log.i(TAG,"score:"+score);
+			sendResultToServer();
 			//跳转
-			getFragmentManager().popBackStack();
-			
-			ResultFragment newFragment = new ResultFragment();
-			((ExamActivity)getActivity()).addFragmentToStack(newFragment,R.id.exam_fl);
 			
 			break;
 
@@ -239,6 +275,136 @@ public class FragmentAnswerScard extends Fragment implements OnClickListener {
 			break;
 		}
 	}
+	/**
+	 * 组织答案
+	 * @param clientAnswers2
+	 * @return
+	 */
+	private String formResult(
+			SparseArray<ArrayList<SimpleAnswer>> answers) {
+		StringBuilder builder = new StringBuilder();
+		for(int i=0;i<answers.size();i++){
+			ArrayList<SimpleAnswer> perAnswer =  answers.get(i);
+			String mAnswer;
+			SimpleAnswer firstAnswer = perAnswer.get(0);
+			if(perAnswer.size()>1){
+			  mAnswer = getAnswer(perAnswer);
+			}else{
+			  mAnswer = firstAnswer.getAnswer();
+			}
+			int score = firstAnswer.getScore();
+			String questionId = firstAnswer.getId();
+			StringBuilder mbuilder = new StringBuilder();
+			mbuilder.append(questionId);
+			mbuilder.append("<*%*%*%>");
+			mbuilder.append(mAnswer);
+			mbuilder.append("<*%*%*%>");
+			mbuilder.append(score+"");
+			mbuilder.append("<!%!%!%>");
+			builder.append(mbuilder.toString());
+		}
+		return builder.toString();
+	}
+	
+	/**
+	 * 组装答案，样式如1,2,3,4 
+	 * @param perAnswer
+	 */
+	private String getAnswer(ArrayList<SimpleAnswer> perAnswer) {
+		StringBuilder answer = new StringBuilder();
+		for(int j=0;j<perAnswer.size();j++){
+			String mAnswer = perAnswer.get(j).getAnswer();
+			answer.append(Integer.parseInt(mAnswer)+"");
+			if(j!=perAnswer.size()-1){
+				answer.append(",");
+			}
+		}
+		return answer.toString();
+	}
+	private void sendResultToServer() {
+		customProgressDialog.show();
+		baseExamInfo = ((ExamActivity)getActivity()).getBaseExamInfo();
+	    rightCount = getCount(rightlists);
+		wrongCount = getCount(wronglists);
+		doneCount = getCount(donelists);
+		clientGetScore = getTotalScore(clientAnswers);//算出分数 
+		examDoneInfo = new ExamDoneInfo(rightCount, wrongCount, doneCount, clientGetScore, useTime);
+		Log.i(TAG,"score:"+clientGetScore);
+		String result = formResult(clientAnswers);
+		Log.i(TAG,"result:"+result);
+		gparams = new HashMap<String, String>();
+		gparams.put("userId", "e019edfd295b4a8a910948a3d4b115f7");
+		gparams.put("examPaperId", baseExamInfo.getId());
+		gparams.put("userAnswer", result);
+		requestVolley(gparams, ConstantValues.SERVER_URL + ConstantValues.SAVEEXAMANSWER,
+				backlistener, Method.POST);
+		
+	}
+
+
+
+	private int getCount(int[][] lists) {
+		int count = 0;
+		for(int i=0;i<lists.length;i++){
+			for(int j=0;j<lists[i].length;j++){
+				if(lists[i][j]>0){
+					count++;
+				}
+			}
+		}
+		return count;
+	}
+	private void requestVolley(final Map<String, String> gparams, String url,
+			Listener<String> listener, int post) {
+		VersStringRequest mys = new VersStringRequest(post, url, listener, volleyErrorListener) {
+			protected Map<String, String> getParams()
+					throws com.android.volley.AuthFailureError {
+				return gparams;
+			};
+		};
+		mys.setRetryPolicy(HttpUtils.setTimeout());
+		mQueue.add(mys);
+
+	}
+	private  Listener<String> backlistener = new Listener<String>() {
+		@Override
+		public void onResponse(String response) {
+			if(customProgressDialog!=null&&customProgressDialog.isShowing())
+			customProgressDialog.dismiss();
+			//解析结果
+			if (response != null) {
+			try {
+				JSONObject json = new JSONObject(response);
+				//判断
+				if(json.isNull("error")){
+					//返回正常
+				boolean  res = 	json.getBoolean("status");
+					if(res){
+					Toast.makeText(getActivity(), "交卷成功",
+							Toast.LENGTH_LONG).show();
+					}else{
+						Toast.makeText(getActivity(), "交卷失败",
+								Toast.LENGTH_LONG).show();
+					}
+					
+					
+				}else {
+					//登陆错误
+					//TODO
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			getFragmentManager().popBackStack();
+			ResultFragment newFragment = ResultFragment.newInstance(baseExamInfo,examDoneInfo);
+			((ExamActivity)getActivity()).addFragmentToStack(newFragment,R.id.exam_fl);
+		 } else {
+//				Toast.makeText(getActivity(), "无数据",
+//						Toast.LENGTH_LONG).show();
+			}
+		}
+	};
 	private int getTotalScore(SparseArray<ArrayList<SimpleAnswer>> answers) {
 		int total = 0 ;
 		for(int i=0;i<answers.size();i++){

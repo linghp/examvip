@@ -380,7 +380,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 			if(answlist!=null&&!answlist.isEmpty()){
 				//Log.i(TAG,"==========ANSWER============="+answlist.get(0));
 				//设置上选择的答案
-				check_list.get(Integer.parseInt(answlist.get(0).getAnswer())).setChecked(true);
+				check_list.get(Integer.parseInt(answlist.get(0).getAnswer())-1).setChecked(true);
 			}
 		}
 	}
@@ -420,7 +420,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 			if(answString!=null&&!answString.isEmpty()){
 				//设置上选择的答案
 				for(int i=0;i<answString.size();i++){
-				check_list.get(Integer.parseInt(answString.get(i).getAnswer())).setChecked(true);
+				check_list.get(Integer.parseInt(answString.get(i).getAnswer())-1).setChecked(true);
 				}
 			}
 		}
@@ -653,7 +653,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 				doAnswerWrong();
 			 tmpscore = 0;
 			}
-			array.add(new SimpleAnswer(id, clientSingleChoose+"",tmpscore));
+			array.add(new SimpleAnswer(id, (clientSingleChoose+1)+"",tmpscore));
 			setSigndone(ExamActivity.done_position);//记录已经做过
 			ExamActivity.clientAnswer.append(position, array);
 			
@@ -685,7 +685,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 					}
 			    setSigndone(ExamActivity.done_position);
 			    for(int i=0;i<multiChoose.size();i++){
-				array.add(new SimpleAnswer(id, multiChoose.get(i).toString(),score));                  
+				array.add(new SimpleAnswer(id, (multiChoose.get(i)+1)+"",score));                  
 			    }
 				ExamActivity.clientAnswer.append(position, array);
 			 }else{
