@@ -8,6 +8,7 @@
     <color name="green_light">#FF7C953C</color>
     <color name="DeepBlue">#734DA6FF</color>
     <color name="transparent">#00000000</color>
+    <color name="gree_deep">#ADFF2F</color>
 
     <drawable name="LightSkyBlue">#7387CEFA</drawable>
     <drawable name="DeepSkyBlue">#7300BFFF</drawable>

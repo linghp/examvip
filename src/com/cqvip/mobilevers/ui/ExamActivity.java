@@ -5,7 +5,10 @@ import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,10 +18,12 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.test.IsolatedContext;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.KeyEvent;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
@@ -27,8 +32,10 @@ import android.widget.TextView;
 
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.entity.TwoDimensionArray;
+import com.cqvip.mobilevers.exam.BaseExamInfo;
 import com.cqvip.mobilevers.exam.Exam;
 import com.cqvip.mobilevers.exam.Question;
+import com.cqvip.mobilevers.exam.SimpleAnswer;
 import com.cqvip.mobilevers.exam.Subject;
 import com.cqvip.mobilevers.exam.SubjectExam;
 import com.cqvip.mobilevers.ui.base.BaseFragmentActivity;
@@ -48,7 +55,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 	public static boolean isnight = false;
 	private TextView tv_item_count;
 	
-	private LinearLayout lookanswer_ll;
+	private LinearLayout shwoSubTitle_ll;
 
 	private Timer timer = null;
 	private TimerTask task = null;
@@ -56,19 +63,22 @@ public class ExamActivity extends BaseFragmentActivity implements
 	private Message msg = null;
 	private int secondTotal;
 	private TextView time_tv;
+	private TextView tips_viewSubTitle;
+	private TextView tv_back;
 
 	//private String examPaperId;
 	//private Map<String, String> gparams;
 	public Exam exam;
 	
 	private  int clientShowCount = 0;//总题数
-	private  int paperShowCount = 0;//总子题数
 	private int subjectExamCount;//大题型种类数量
-	private int score;//总分
+	private int paperScore;
+	private String paperId;
+	private String paperName;
+	private int paperTime;
+	private BaseExamInfo baseExamInfo;
 	public static  int clientScore = 0;//用户得分
-	//public ArrayList<SubjectExam> subjectExam_list=new ArrayList<SubjectExam>(); // 所有subject
-//	public ArrayList<Integer> subjectExamCount_list=new ArrayList<Integer>(); // 所有subject
-//	public ArrayList<Integer> startLitmitCount_List=new ArrayList<Integer>();//统计subject题目
+	public static boolean isShowAnswer = false;
 	public ArrayList<Subject> subjects_list=new ArrayList<Subject>(); // 所有subject
 	public ArrayList<Question> Question_list=new ArrayList<Question>(); // 所有question
 	
@@ -76,11 +86,14 @@ public class ExamActivity extends BaseFragmentActivity implements
 	public static int[][] done_position;//统计subject题目
 	public static int[][] right_position;//统计正确题目
 	public static int[][] wrong_position;//统计错误题目
+	private boolean isHandleOver = false;
+	private boolean isRightWrong = false;
+	private boolean isOnshowing = false;
 	
 	public ArrayList<Integer> cardCount_List=new ArrayList<Integer>();//答题卡题目
 	
 	
-	public static SparseArray<ArrayList<String>> clientAnswer;
+	public static SparseArray<ArrayList<SimpleAnswer>> clientAnswer;
 	
 	
 	@Override
@@ -104,6 +117,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 		// FragmentTransaction ft =
 		// getSupportFragmentManager().beginTransaction();
 		// ft.add(R.id.exam_fl, newFragment).commit();
+		
 		mAdapter = new MyAdapter(getSupportFragmentManager(), context);
 //		examPaperId=getIntent().getStringExtra(ConstantValues.EXAMPAPERID);
 //		Log.i(TAG, examPaperId);
@@ -119,12 +133,11 @@ public class ExamActivity extends BaseFragmentActivity implements
 			cardCount_List.add(count);//答题卡
 			
 		//	startLitmitCount_List.add(clientShowCount);
-			clientShowCount += count;
+	
 			//所有试卷大题数量size与startLitmitCount_List相同
 			Subject[] subjects=subjectExam.getExam3List();//当_questionNum为0时，判断
 			if(subjects!=null){
 			subjects_list.addAll(Arrays.asList(subjects));
-			paperShowCount += subjects.length;
 			}
 			
 		//	subjectExamCount_list.add(paperShowCount);
@@ -147,11 +160,20 @@ public class ExamActivity extends BaseFragmentActivity implements
 			Question_list.addAll(lists);
 			}
 		}
+		clientShowCount  = Question_list.size();
+		
 		all_position = initDoubleDimensionalData();
 		System.out.println("题目总数"+Question_list.size());
 		mPager.setAdapter(mAdapter);
 		
-		clientAnswer = new SparseArray<ArrayList<String>>();
+		clientAnswer = new SparseArray<ArrayList<SimpleAnswer>>();
+		
+		paperId = getIntent().getStringExtra("id");
+		paperName = exam.get_examPaperName();
+		paperScore = exam.getScore();
+		paperTime = exam.getExamTime();
+		baseExamInfo = new BaseExamInfo(paperId,paperTime, paperName, paperScore,clientShowCount);
+		
 	}
 	
 	/**
@@ -189,9 +211,9 @@ public class ExamActivity extends BaseFragmentActivity implements
 		return cardCount_List;
 	}
 
-
-
-
+	public BaseExamInfo getBaseExamInfo() {
+		return baseExamInfo;
+	}
 
 	public ArrayList<Subject> getSubjects_list() {
 		return subjects_list;
@@ -254,17 +276,22 @@ public class ExamActivity extends BaseFragmentActivity implements
 	}
 
 	private void initView() {
-		lookanswer_ll = (LinearLayout) findViewById(R.id.lookanswer_ll);
-		lookanswer_ll.setOnClickListener(this);
+		shwoSubTitle_ll = (LinearLayout) findViewById(R.id.ll_show_subtitle);
+		tips_viewSubTitle = (TextView) findViewById(R.id.tv_view_subtitle);
+		tips_viewSubTitle.setText(getResources().getString(R.string.btn_show_subtitle));
+	//	lookanswer_ll.setVisibility(View.GONE);
+		tv_back = (TextView) findViewById(R.id.tv_back);
+		tv_back.setOnClickListener(this);
+		shwoSubTitle_ll.setOnClickListener(this);
 		mPager = (ViewPager) findViewById(R.id.pager);
 		mPager.setOnPageChangeListener(this);
 		//mPager.setAdapter(mAdapter);
 		// mPager.setOffscreenPageLimit(5);
-		ViewGroup answercard = (ViewGroup) findViewById(R.id.answercard_ll);
+		LinearLayout answercard = (LinearLayout) findViewById(R.id.ll_show_card);
 		answercard.setOnClickListener(this);
-		ViewGroup directory = (ViewGroup) findViewById(R.id.directory_ll);
-		directory.setOnClickListener(this);
-		ViewGroup handpaper = (ViewGroup) findViewById(R.id.handpaper_ll);
+		LinearLayout showAnswer = (LinearLayout) findViewById(R.id.ll_show_answer);
+		showAnswer.setOnClickListener(this);
+		LinearLayout handpaper = (LinearLayout) findViewById(R.id.ll_exam_handle);
 		handpaper.setOnClickListener(this);
 
 		time_tv = (TextView) findViewById(R.id.time_tv);
@@ -335,13 +362,11 @@ public class ExamActivity extends BaseFragmentActivity implements
 		
 		@Override
 		public int getItemPosition(Object object) {
-			// TODO Auto-generated method stub
 			return POSITION_NONE;
 		}
 
 		@Override
 		public void destroyItem(ViewGroup container, int position, Object object) {
-			// TODO Auto-generated method stub
 			super.destroyItem(container, position, object);
 			 mPageReferenceMap.remove(position);
 		}
@@ -369,7 +394,6 @@ public class ExamActivity extends BaseFragmentActivity implements
 	@Override
 	public void onPageScrolled(int position, float positionOffset,
 			int positionOffsetPixels) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -382,38 +406,67 @@ public class ExamActivity extends BaseFragmentActivity implements
 		} else {
 			isLeftFragment = false;
 		}
+		isOnshowing = false;
+		tips_viewSubTitle.setText(getResources().getString(R.string.btn_show_subtitle));
 		tv_item_count.setText((position+1)+"|"+clientShowCount);
 	}
 	
 
 	@Override
 	public void onPageScrollStateChanged(int state) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.answercard_ll:
-			TwoDimensionArray dimensionArray = new TwoDimensionArray();
-			dimensionArray.setAllss(done_position);
-			dimensionArray.setRightss(right_position);
-			dimensionArray.setWrongss(wrong_position);
-			Fragment newFragment = FragmentAnswerScard.newInstance(dimensionArray, context);
-			addFragmentToStack(newFragment, R.id.exam_fl);
+		case R.id.tv_back://返回
+			//是否退出考试
+			if(!isShowAnswer){
+		Dialog dialog =	new AlertDialog.Builder(this)
+            .setTitle("退出考试")
+            .setMessage("你还未交卷，确定要退出考试")
+            .setPositiveButton(R.string.alert_dialog_confirm, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    finish();
+                }
+            })
+            .setNegativeButton(R.string.alert_dialog_cancel, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                   dialog.dismiss();
+                }
+            })
+            .create();
+			dialog.show();
+			}
 			break;
-		case R.id.lookanswer_ll:
-		ExamFragment fragment = mAdapter.getFragment(currentpage);
-		fragment.viewAnswer();
+		case R.id.ll_show_card://查看答题卡
+			isRightWrong = isShowAnswer;
+			isHandleOver = false;
+			showAnswerCard(isHandleOver,isRightWrong);
 			break;
-		case R.id.directory_ll:
-			Log.i("ExamActivity", "onClick_directory_ll");
+		case R.id.ll_show_subtitle:
+			ExamFragment fragment = mAdapter.getFragment(currentpage);
+			if(isOnshowing){
+				tips_viewSubTitle.setText(getResources().getString(R.string.btn_show_subtitle));
+				fragment.hideSubjectTitle();
+				isOnshowing = false;
+			}else{
+				fragment.showSubjectTitle();
+				tips_viewSubTitle.setText(getResources().getString(R.string.btn_hide_subtitle));
+				isOnshowing = true;
+			}
 			break;
-		case R.id.handpaper_ll:
-			Log.i("ExamActivity", "onClick_handpaper_ll");
+		case R.id.ll_show_answer:
+			ExamFragment mfragment = mAdapter.getFragment(currentpage);
+			mfragment.viewAnswer();
+			break;
+		case R.id.ll_exam_handle:
+			isHandleOver = true;
 			//交卷
-			Fragment resultFragment = new ResultFragment();
+			TwoDimensionArray resultArray = new TwoDimensionArray(done_position,right_position,wrong_position,clientAnswer);
+			Fragment
+			resultFragment = FragmentAnswerScard.newInstance(resultArray, context,isHandleOver,isRightWrong,secondTotal);
 			addFragmentToStack(resultFragment, R.id.exam_fl);
 			try {
 				task.cancel();
@@ -423,7 +476,6 @@ public class ExamActivity extends BaseFragmentActivity implements
 				timer = null;
 				handler.removeMessages(msg.what);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
@@ -431,6 +483,12 @@ public class ExamActivity extends BaseFragmentActivity implements
 		default:
 			break;
 		}
+	}
+
+	public void showAnswerCard(boolean isHandleOver,boolean isRightWrong) {
+		TwoDimensionArray dimensionArray = new TwoDimensionArray(done_position,right_position,wrong_position);
+		Fragment newFragment = FragmentAnswerScard.newInstance(dimensionArray, context,isHandleOver,isRightWrong);
+		addFragmentToStack(newFragment, R.id.exam_fl);
 	}
 
 	public void addFragmentToStack(Fragment newFragment, int layoutid) {
@@ -443,7 +501,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 		ft.commit();
 	}
 
-
+	
 	public void updateView(String id){
 		int position = Integer.parseInt(id)-1;
 		mPager.setCurrentItem(position);
@@ -455,6 +513,39 @@ public class ExamActivity extends BaseFragmentActivity implements
 	}
 
 
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		
+		if(!isShowAnswer){
+		if(keyCode==KeyEvent.KEYCODE_BACK){
+			
+			Dialog dialog =	new AlertDialog.Builder(this)
+            .setTitle("退出考试")
+            .setMessage("你还未交卷，确定要退出考试")
+            .setPositiveButton(R.string.alert_dialog_confirm, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
 
+                    finish();
+                }
+            })
+            .setNegativeButton(R.string.alert_dialog_cancel, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                   dialog.dismiss();
+                }
+            })
+            .create();
+			dialog.show();
+		}
+		}
+		return super.onKeyDown(keyCode, event);
+		
+		
+	}
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		isShowAnswer = false;
+	}
 
 }

@@ -186,6 +186,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 		customProgressDialog.show();
 		gparams = new HashMap<String, String>();
 		gparams.put(ConstantValues.EXAMPAPERID, examPaperId);
+		Log.i("EXAM",examPaperId);
 		requestVolley(url, back_ls, Method.POST);
 	}
 	
@@ -226,6 +227,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 							
 							Intent intent=new Intent(getActivity(),ExamActivity.class);
 							intent.putExtra("exam", exam);
+							intent.putExtra("id", subjectid);
 							startActivity(intent);
 							
 //							SubjectExam[] subjectExams_array=exam.getExam2lists();

@@ -1,6 +1,7 @@
 package com.cqvip.mobilevers.adapter;
 
 
+import android.R.bool;
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -26,6 +27,7 @@ public class AnswerscardListViewAdapter extends BaseAdapter {
 	private int[][] done_List;
 	private int[][] right_List;
 	private int[][] wrong_List;
+	private boolean isShowRightWrong;
 	public AnswerscardListViewAdapter(Context context,
 			int[][] allAnswer, FragmentManager fm2) {
 		    this.mContext = context;
@@ -41,14 +43,16 @@ public class AnswerscardListViewAdapter extends BaseAdapter {
 		this.done_List = donelists;
 	}
 	public AnswerscardListViewAdapter(Context context,
-			int[][] allAnswer, int[][] donelists, int[][] rightlist, int[][] wronglist, FragmentManager fm2) {
+			int[][] allAnswer, int[][] donelists, int[][] rightlist, int[][] wronglist, FragmentManager fm2,boolean isShowRightWrong) {
 		this.mContext = context;
 		this.mLists = allAnswer;
 		this.fm = fm2;
 		this.done_List = donelists;
 		this.right_List = rightlist;
 		this.wrong_List = wronglist;
+		this.isShowRightWrong = isShowRightWrong;
 	}
+
 
 	@Override
 	public int getCount() {
@@ -101,7 +105,7 @@ public class AnswerscardListViewAdapter extends BaseAdapter {
 		//holder.iv.setImageResource(mList.get(arg0).get("list"));
 
 		//AnswerscardGridViewAdapter ga = new AnswerscardGridViewAdapter(mContext, mList.get(arg0),mList_Gist);
-		AnswerscardGridViewAdapter ga = new AnswerscardGridViewAdapter(mContext, mLists[position],done_List[position],right_List[position],wrong_List[position]);
+		AnswerscardGridViewAdapter ga = new AnswerscardGridViewAdapter(mContext, mLists[position],done_List[position],right_List[position],wrong_List[position],isShowRightWrong);
 		//int ii = ga.getCount();
 //		LayoutParams params = new LayoutParams(ii * (48 + 10),
 //				LayoutParams.WRAP_CONTENT);

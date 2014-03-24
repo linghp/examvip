@@ -3,7 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
+  <TextView
+                        android:id="@+id/txt_viewtitle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:onClick="viewtitle"
+                        android:textColor="@color/gree_deep"
+                        android:textSize="18sp"
+                        android:padding="5.0dip"
+                        android:gravity="right"
+                        android:text="查看材料" />
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
@@ -23,19 +32,22 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical" >
-
-                    <TextView
-                        android:id="@+id/txt_viewtitle"
+  					<TextView
+                        android:id="@+id/txt_subject_title"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:onClick="viewtitle"
-                        android:text="查看材料" />
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:padding="5.0dip"
+                        android:visibility="gone"
+                        android:text="" />
+                  
 
                     <com.cqvip.mobilevers.widget.ImageTextView
                         android:id="@+id/txt_exam_title"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="下列说法正确的是？"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="17.0sp" />
 
@@ -84,36 +96,40 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/black" />
 
-                        <View
-                            android:layout_width="wrap_content"
-                            android:layout_height="1.0dip"
-                            android:layout_weight="1.0" />
-
-                        <ImageView
-                            android:id="@+id/answer_ico"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/eg_correct_answer_ico" />
-
-                        <View
-                            android:layout_width="wrap_content"
-                            android:layout_height="1.0dip"
-                            android:layout_weight="1.0" />
 
                         <TextView
-                            android:id="@+id/tx_cue"
+                            android:id="@+id/tx_right_wrong"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="恭喜您，答对了"
-                            android:textColor="@color/black" />
-
-                        <View
-                            android:layout_width="wrap_content"
-                            android:layout_height="1.0dip"
-                            android:layout_weight="1.0" />
+							android:paddingLeft="30dp"
+                            android:textColor="@color/black" 
+                            android:text=""
+                             />
 
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/decision4"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:visibility="visible" >
+                        
+                        
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="该题分值:"
+                            android:textColor="@color/black" />
+                        
+                         <TextView
+                            android:id="@+id/tx_perscore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textColor="@color/black" />
+                        </LinearLayout>
                     <LinearLayout
                         android:id="@+id/decision2"
                         android:layout_width="fill_parent"
@@ -168,14 +184,6 @@
                     android:orientation="vertical"
                     android:visibility="gone" >
 
-                    <TextView
-                        android:id="@+id/txt_title_back"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="10dp"
-                        android:text="返回>>"
-                        android:textColor="@color/black" />
 
                     <com.cqvip.mobilevers.widget.ImageTextView
                         android:id="@+id/sub_title"

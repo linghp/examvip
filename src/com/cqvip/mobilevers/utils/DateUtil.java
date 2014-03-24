@@ -13,4 +13,9 @@ public class DateUtil {
 		date = fmt.parse(str);
 		return fmt.format(date);
 	}
+	
+	 public static int getCachSize(){
+		 int size = (int) Math.round(0.125 * Runtime.getRuntime().maxMemory());
+		 return size;
+	 }
 }

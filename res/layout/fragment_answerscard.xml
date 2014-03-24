@@ -4,12 +4,52 @@
     android:layout_height="match_parent"
     android:background="@color/white" android:clickable="true"
      >
+<RelativeLayout 
+  			android:layout_width="fill_parent"
+  			android:layout_height="48dp"
+  			android:id="@+id/title" 
+  			android:background="@drawable/title_bar"
+  			android:gravity="center_vertical"  >  
+  			
+            
+      		    
+			<TextView  
+ 			    android:layout_width="wrap_content"  
+        		android:layout_height="wrap_content" 
+        		android:text="答题卡"
+        		android:textSize="18sp"
+        		android:layout_centerInParent="true"
+				android:textColor="@android:color/white"
+				
+			    />
+				<TextView  
+ 			    android:id="@+id/tv_hanle_examover" 
+ 			    android:layout_width="wrap_content"  
+        		android:layout_height="wrap_content" 
+        		android:layout_alignParentRight="true"
+        		android:textColor="@android:color/white"
+        		android:gravity="center"
+        		android:text="确定交卷"
+				android:background="@drawable/title_btn_right" 
+			    />
+		</RelativeLayout>
+     <TextView  
+         		android:id="@+id/txt_card_tips"
+ 			    android:layout_width="fill_parent"  
+        		android:layout_height="wrap_content" 
+        		android:text="您还有题未完成，确定交卷吗？"
+        		android:textSize="18sp"
+        		android:visibility="gone"
+        		android:layout_below="@id/title"
+				android:textColor="@android:color/black"
+			    />
 
-    
 	<ListView 
+	    android:layout_below="@id/txt_card_tips"
 	    android:id="@+id/listview"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
+	    android:isScrollContainer="false"
 	    android:padding="@dimen/answerlistviewpadding"
 	    android:divider="@drawable/xuxian"
 	    />

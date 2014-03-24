@@ -20,11 +20,12 @@
             android:orientation="horizontal"
             android:padding="@dimen/examtop_padding" >
 
-            <ImageView
-                android:id="@+id/left_iv"
+            <TextView
+                android:id="@+id/tv_back"
                 android:layout_width="@dimen/examtop_imageviewsize"
                 android:layout_height="@dimen/examtop_imageviewsize"
-                android:src="@drawable/DeepBlue" />
+                android:textSize="30dp"
+                android:text=">"/>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -34,7 +35,7 @@
                 android:background="@color/transparent" >
 
                 <LinearLayout
-                    android:id="@+id/lookanswer_ll"
+                    android:id="@+id/ll_show_subtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/transparent"
@@ -48,20 +49,44 @@
                         android:src="@drawable/DeepBlue" />
 
                     <TextView
-                        android:id="@+id/tv_exam"
+                        android:id="@+id/tv_view_subtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="查看题干"
+                        android:textSize="@dimen/examtop_fontsize" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_show_answer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/examtop_margininner"
+                    android:background="@color/transparent"
+                    android:clickable="true"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:layout_width="@dimen/examtop_imageviewsize"
+                        android:layout_height="@dimen/examtop_imageviewsize"
+                        android:src="@drawable/DeepBlue" />
+
+                    <TextView
+                        android:id="@+id/tv_show_anwer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="查看答案"
                         android:textSize="@dimen/examtop_fontsize" />
                 </LinearLayout>
 
+               
                 <LinearLayout
-                    android:id="@+id/answercard_ll"
+                    android:id="@+id/ll_show_card"
+                    android:clickable="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/examtop_margininner"
                     android:background="@color/transparent"
-                    android:clickable="true"
                     android:gravity="center_horizontal"
                     android:orientation="vertical" >
 
@@ -71,59 +96,45 @@
                         android:src="@drawable/DeepBlue" />
 
                     <TextView
-                        android:id="@+id/tv_exam"
+                        android:id="@+id/tv_show_card"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="答题卡"
                         android:textSize="@dimen/examtop_fontsize" />
                 </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/handpaper_ll"
-                    android:clickable="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/examtop_margininner"
-                    android:background="@color/transparent"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical" >
-
-                    <ImageView
-                        android:layout_width="@dimen/examtop_imageviewsize"
-                        android:layout_height="@dimen/examtop_imageviewsize"
-                        android:src="@drawable/DeepBlue" />
-
-                    <TextView
-                        android:id="@+id/tv_exam"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="交卷"
-                        android:textSize="@dimen/examtop_fontsize" />
-                </LinearLayout>
             </LinearLayout>
 
+              <TextView
+                    android:id="@+id/tv_item_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="1|100" />
+                
+            
             <LinearLayout
-                android:id="@+id/directory_ll"
+                android:id="@+id/ll_exam_handle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/examtop_margininner"
                 android:background="@color/transparent"
                 android:clickable="true"
-                android:gravity="center"
-                android:orientation="horizontal" >
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                 >
+              <ImageView
+                        android:layout_width="@dimen/examtop_imageviewsize"
+                        android:layout_height="@dimen/examtop_imageviewsize"
+                        android:src="@drawable/DeepBlue" />
 
-                <TextView
-                    android:id="@+id/tv_item_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="" />
-
-                <ImageView
-                    android:layout_width="@dimen/examtop_imageviewsize"
-                    android:layout_height="@dimen/examtop_imageviewsize"
-                    android:layout_marginLeft="@dimen/examtop_margininner"
-                    android:src="@drawable/DeepBlue" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/tv_exam_handle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="交卷"
+                        android:textSize="@dimen/examtop_fontsize">
+                    </TextView>
+                    </LinearLayout>
         </LinearLayout>
 
         <android.support.v4.view.ViewPager
@@ -136,8 +147,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
- android:layout_margin="2dp"
+            android:layout_height="42dp"
+ 			android:layout_margin="2dp"
             android:layout_weight="0"
             android:background="@color/transparent"
             android:orientation="horizontal" >
@@ -149,7 +160,6 @@
                 android:layout_gravity="left"
                 android:background="@drawable/DeepBlue"
                 android:gravity="center"
-                android:padding="8dp"
                 android:text="last"
                 android:textColor="?attr/text_color" >
             </Button>
@@ -171,7 +181,6 @@
                 android:layout_gravity="right"
                 android:background="@drawable/DeepBlue"
                 android:gravity="center"
-                android:padding="8dp"
                 android:text="next"
                 android:textColor="?attr/text_color" >
             </Button>

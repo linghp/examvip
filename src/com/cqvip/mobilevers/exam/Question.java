@@ -14,6 +14,7 @@ public class Question implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -7932089273676021492L;
+	private String id;//试题id
 	private String type;// 试题类型
 	private Content title;
 	private ArrayList<Content> option;// 包含的显示内容
@@ -23,27 +24,15 @@ public class Question implements Serializable{
 	private  Content sub_Title; //子题标题
 	private String sebexam_Title;//大题标题
 	private String  sub_Type;//subject类型
-	int perscore;
-	
-	
-	
-	public Question(String type, Content title, ArrayList<Content> option,
-			Solution solution, int itemCount) {
-		super();
-		this.type = type;
-		this.title = title;
-		this.option = option;
-		this.solution = solution;
-		this.itemCount = itemCount;
-	}
-
-	
+	int perscore;//每一题分数
 	
 
-	public Question(String type, Content title, ArrayList<Content> option,
-			Solution solution, int itemCount, Content sub_Title,
-			String sebexam_Title, String sub_Type, int perscore) {
+	public Question(String id, String type, Content title,
+			ArrayList<Content> option, Solution solution, int itemCount,
+			Content sub_Title, String sebexam_Title, String sub_Type,
+			int perscore) {
 		super();
+		this.id = id;
 		this.type = type;
 		this.title = title;
 		this.option = option;
@@ -55,8 +44,21 @@ public class Question implements Serializable{
 		this.perscore = perscore;
 	}
 
+		
+		public Question(String id, String type, Content title,
+				ArrayList<Content> option, Solution solution, int itemCount) {
+			super();
+			this.id = id;
+			this.type = type;
+			this.title = title;
+			this.option = option;
+			this.solution = solution;
+			this.itemCount = itemCount;
+		}
 
-
+public String getId() {
+		return id;
+	}
 
 	public String getType() {
 		return type;
@@ -67,7 +69,7 @@ public class Question implements Serializable{
 	}
 
 	public ArrayList<Content> getOption() {
-		return option;
+		return option; 
 	}
 
 	public Solution getSolution() {
@@ -94,11 +96,19 @@ public class Question implements Serializable{
 	}
 
 
+	public int getPerscore() {
+		return perscore;
+	}
+
 	@Override
 	public String toString() {
-		return "Question [type=" + type + ", title=" + title + ", option="
-				+ option + ", solution=" + solution + ", itemCount="
-				+ itemCount + "]";
+		return "Question [id=" + id + ", type=" + type + ", title=" + title
+				+ ", option=" + option + ", solution=" + solution
+				+ ", itemCount=" + itemCount + ", sub_Title=" + sub_Title
+				+ ", sebexam_Title=" + sebexam_Title + ", sub_Type=" + sub_Type
+				+ ", perscore=" + perscore + "]";
 	}
+
+
 
 }
