@@ -12,6 +12,7 @@
     <string name="generic_server_down">服务器无响应</string>
     <string name="need_pwd">请输入密码</string>
     <string name="need_username">请输入用户名</string>
+    <string name="hellotome">亲！你还未登陆，请登录。</string>
     <string name="no_internet">无网络连接</string>
     <string name="generic_error">连接错误</string>
     <string name="drop_down_list_header_default_text">点击可以刷新&#8230;</string>
