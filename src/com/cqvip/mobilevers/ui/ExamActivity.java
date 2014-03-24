@@ -5,7 +5,10 @@ import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,6 +23,7 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.KeyEvent;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
@@ -60,6 +64,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 	private int secondTotal;
 	private TextView time_tv;
 	private TextView tips_viewSubTitle;
+	private TextView tv_back;
 
 	//private String examPaperId;
 	//private Map<String, String> gparams;
@@ -275,6 +280,8 @@ public class ExamActivity extends BaseFragmentActivity implements
 		tips_viewSubTitle = (TextView) findViewById(R.id.tv_view_subtitle);
 		tips_viewSubTitle.setText(getResources().getString(R.string.btn_show_subtitle));
 	//	lookanswer_ll.setVisibility(View.GONE);
+		tv_back = (TextView) findViewById(R.id.tv_back);
+		tv_back.setOnClickListener(this);
 		shwoSubTitle_ll.setOnClickListener(this);
 		mPager = (ViewPager) findViewById(R.id.pager);
 		mPager.setOnPageChangeListener(this);
@@ -413,6 +420,26 @@ public class ExamActivity extends BaseFragmentActivity implements
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
+		case R.id.tv_back://返回
+			//是否退出考试
+			if(!isShowAnswer){
+		Dialog dialog =	new AlertDialog.Builder(this)
+            .setTitle("退出考试")
+            .setMessage("你还未交卷，确定要退出考试")
+            .setPositiveButton(R.string.alert_dialog_confirm, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    finish();
+                }
+            })
+            .setNegativeButton(R.string.alert_dialog_cancel, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                   dialog.dismiss();
+                }
+            })
+            .create();
+			dialog.show();
+			}
+			break;
 		case R.id.ll_show_card://查看答题卡
 			isRightWrong = isShowAnswer;
 			isHandleOver = false;
@@ -438,7 +465,8 @@ public class ExamActivity extends BaseFragmentActivity implements
 			isHandleOver = true;
 			//交卷
 			TwoDimensionArray resultArray = new TwoDimensionArray(done_position,right_position,wrong_position,clientAnswer);
-			Fragment resultFragment = FragmentAnswerScard.newInstance(resultArray, context,isHandleOver,isRightWrong,secondTotal);
+			Fragment
+			resultFragment = FragmentAnswerScard.newInstance(resultArray, context,isHandleOver,isRightWrong,secondTotal);
 			addFragmentToStack(resultFragment, R.id.exam_fl);
 			try {
 				task.cancel();
@@ -485,6 +513,39 @@ public class ExamActivity extends BaseFragmentActivity implements
 	}
 
 
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		
+		if(!isShowAnswer){
+		if(keyCode==KeyEvent.KEYCODE_BACK){
+			
+			Dialog dialog =	new AlertDialog.Builder(this)
+            .setTitle("退出考试")
+            .setMessage("你还未交卷，确定要退出考试")
+            .setPositiveButton(R.string.alert_dialog_confirm, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
 
+                    finish();
+                }
+            })
+            .setNegativeButton(R.string.alert_dialog_cancel, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                   dialog.dismiss();
+                }
+            })
+            .create();
+			dialog.show();
+		}
+		}
+		return super.onKeyDown(keyCode, event);
+		
+		
+	}
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		isShowAnswer = false;
+	}
 
 }

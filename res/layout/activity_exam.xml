@@ -20,11 +20,12 @@
             android:orientation="horizontal"
             android:padding="@dimen/examtop_padding" >
 
-            <ImageView
-                android:id="@+id/left_iv"
+            <TextView
+                android:id="@+id/tv_back"
                 android:layout_width="@dimen/examtop_imageviewsize"
                 android:layout_height="@dimen/examtop_imageviewsize"
-                android:src="@drawable/DeepBlue" />
+                android:textSize="30dp"
+                android:text=">"/>
 
             <LinearLayout
                 android:layout_width="0dp"
