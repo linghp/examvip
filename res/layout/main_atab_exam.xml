@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/main_tabexam_ll"
+    android:orientation="vertical" 
+    android:clickable="true" 
+    android:background="@color/white">
+    <include 
+       
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        layout="@layout/title_main" />
+
+  
+	<ListView 
+	    android:id="@+id/lst_next_classy"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:isScrollContainer="false"
+	    android:scrollbars="none"
+	   >
+	    
+	</ListView>
+
+</LinearLayout>

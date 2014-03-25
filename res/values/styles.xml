@@ -18,16 +18,15 @@
     </style>
 
     <style name="MMTabButton">
-        		<item name="android:textSize">12.0dip</item>
-		<item name="android:gravity">center_horizontal</item>
-		<item name="android:background">@drawable/bg_checkbox_menus</item>
-		<item name="android:layout_width">fill_parent</item>
-		<item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12.0dip</item>
+        <item name="android:background">@drawable/bg_checkbox_menus</item>
+        <item name="android:gravity">center</item>
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">48dp</item>
 		<item name="android:button">@null</item>
 		<item name="android:textColor">#ffffffff</item>
-		<item name="android:layout_weight">1.0</item>
-		<item name="android:paddingBottom">2.0dip</item>
-		<item name="android:paddingTop">2.0dip</item>
+		<item name="android:paddingTop">4.0dip</item>
+		
     </style>
     
     	<!-- 默认风格 -->

@@ -10,7 +10,6 @@
                 android:id="@+id/txt_paper_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/img_book"
                 android:padding="7dp"
                 android:textSize="18sp"
                 android:text="语言类"

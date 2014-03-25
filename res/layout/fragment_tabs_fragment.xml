@@ -31,7 +31,8 @@
             android:id="@android:id/tabcontent"
             android:layout_width="fill_parent"
             android:layout_height="0.0dip"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0" >
+        </FrameLayout>
 
         <TabWidget
             android:id="@android:id/tabs"
@@ -42,44 +43,43 @@
 
         <FrameLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="48dp" >
             <RadioGroup
                 android:id="@+id/main_tab_group"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:background="@drawable/bottom_bar"
-                android:gravity="bottom"
+                android:layout_height="48dp"
+                android:background="#39A6E5"
+                android:gravity="center"
                 android:orientation="horizontal"
                  >
 
                 <RadioButton
                     android:id="@+id/main_tab_vedio"
                     style="@style/MMTabButton"
-                    android:layout_weight="1.0"   
                     android:checked="true" 
-                    android:drawableTop="@drawable/tab_exam"
+                    android:drawableTop="@drawable/icon_bottom_exam"
+                    android:layout_weight="1.0"   
                     android:text="题库" />
 
                 <RadioButton
                     android:id="@+id/main_tab_newInfo"
                     style="@style/MMTabButton"
+                    android:drawableTop="@drawable/icon_bottom_search"
                     android:layout_weight="1.0"
-                    android:drawableTop="@drawable/tab_exam"
                     android:text="搜索" />
 
                 <RadioButton
                     android:id="@+id/main_tab_promotion"
                     style="@style/MMTabButton"
+                    android:drawableTop="@drawable/icon_bottom_mine"
                     android:layout_weight="1.0"
-                    android:drawableTop="@drawable/tab_exam"
                     android:text="我的" />
                 
                 <RadioButton
                     android:id="@+id/main_tab_garage"
                     style="@style/MMTabButton"
+                    android:drawableTop="@drawable/icon_bottom_more"
                     android:layout_weight="1.0"
-                    android:drawableTop="@drawable/tab_exam"
                     android:text="更多" />
 
             

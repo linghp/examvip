@@ -19,6 +19,9 @@
     <drawable name="titlegreen">#73cfeca0</drawable>
     <drawable name="transparent">#00000000</drawable>
     
+    
+    <drawable name="bg_checkbox_true">#0A83C8</drawable>
+    
     <color name="color_dark_grey">#ff808080</color>
     <color name="login_bg">#ff509cd8</color>
     <color name="login_dark_grey">#20808080</color>
@@ -26,5 +29,8 @@
 
     <color name="examtop_fontcolor">#000</color>
      <color name="fontclcor">#ffffffff</color>
+     
+     
+     <color name="f_title_bg">#2B488A</color>
 
 </resources>

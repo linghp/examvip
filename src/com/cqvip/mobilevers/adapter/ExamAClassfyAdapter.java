@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,31 +18,40 @@ import com.cqvip.mobilevers.db.OneLevelType;
 public class ExamAClassfyAdapter extends AdapterBase<OneLevelType> implements OnClickListener {
 
 	private Context context;
-	
-	public ExamAClassfyAdapter (Context context,List<OneLevelType> lists) {
+	private int[] drawables;
+	public ExamAClassfyAdapter (Context context,List<OneLevelType> lists,int[] drawables) {
 		this.context = context;
 		this.mList = lists;
+		this.drawables = drawables;
+	}
+	
+	
+	private static class ViewHolder{
+		private TextView title;
+		private TextView count;
+		private ImageView img;
 	}
 	
 	@Override
 	protected View getExView(int position, View convertView, ViewGroup parent) {
-		TextView title = null;
-		TextView count = null;
-		View v;
-		ViewGroup viewGroup;
-		if(convertView==null){
-			 v = LayoutInflater.from(context).inflate(R.layout.item_a_classfy, null);
-			 viewGroup=(ViewGroup) v.findViewById(R.id.ll_classifyexamlist);
-			 viewGroup.setOnClickListener(this);
-			 viewGroup.setTag(position);
+	
+		ViewHolder holder = null;
+		if (convertView == null) {
+			holder = new ViewHolder();
+			convertView = LayoutInflater.from(context).inflate(R.layout.item_a_classfy, null);
+			holder.title = (TextView) convertView.findViewById(R.id.txt_aclassfy_title);
+			holder.count = (TextView) convertView.findViewById(R.id.tx_aclassfy_arrow);
+			holder.img = (ImageView) convertView.findViewById(R.id.img_aclassfy_book);
+			holder.count.setOnClickListener(this);
+			convertView.setTag(holder);
+			
 		}else{
-			v = convertView;
+			holder = (ViewHolder) convertView.getTag();
 		}
-		title = (TextView) v.findViewById(R.id.txt_item_title);
-		count = (TextView) v.findViewById(R.id.tx_arrow);
-		title.setText(mList.get(position).getTitle());
-		count.setText(mList.get(position).getCount()+"");
-		return v;
+		holder.title.setText(mList.get(position).getTitle());
+		holder.count.setText(mList.get(position).getCount()+"");
+		holder.img.setImageResource(drawables[position]);
+		return convertView;
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import java.util.Map;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.util.DisplayMetrics;
@@ -329,15 +330,21 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 		doneCount = getCount(donelists);
 		clientGetScore = getTotalScore(clientAnswers);//算出分数 
 		examDoneInfo = new ExamDoneInfo(rightCount, wrongCount, doneCount, clientGetScore, useTime);
-		Log.i(TAG,"score:"+clientGetScore);
 		String result = formResult(clientAnswers);
 		Log.i(TAG,"result:"+result);
+		
+		 SharedPreferences localUsers =	getActivity().getSharedPreferences("mobilevers", getActivity().MODE_PRIVATE);
+		String userId = localUsers.getString("userid", "0");
+		if(!userId.equals("0")){
 		gparams = new HashMap<String, String>();
-		gparams.put("userId", "e019edfd295b4a8a910948a3d4b115f7");
+		gparams.put("userId", userId);
 		gparams.put("examPaperId", baseExamInfo.getId());
 		gparams.put("userAnswer", result);
 		requestVolley(gparams, ConstantValues.SERVER_URL + ConstantValues.SAVEEXAMANSWER,
 				backlistener, Method.POST);
+		}else{
+			Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_LONG).show();
+		}
 		
 	}
 

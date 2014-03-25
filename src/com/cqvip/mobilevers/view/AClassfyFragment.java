@@ -55,6 +55,18 @@ public class AClassfyFragment extends BaseListFragment implements
 	private SQLiteDatabase db;
 	private ListView listview;
 	private Map<String, String> gparams;
+	private final static int[] drawbles={
+		R.drawable.icon1_civil,
+		R.drawable.icon2_jobtitle,
+		R.drawable.icon3_project,
+		R.drawable.icon4_language,
+		R.drawable.icon5_computer,
+		R.drawable.icon6_economical,
+		R.drawable.icon7_medical,
+		R.drawable.icon8_postgraduate,
+		R.drawable.icon9_law,
+		R.drawable.icon10_all
+	};
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,7 +75,7 @@ public class AClassfyFragment extends BaseListFragment implements
 			return view;
 		}
 		Log.i(TAG, "onCreateView");
-		view = inflater.inflate(R.layout.main_tab_exam, null);
+		view = inflater.inflate(R.layout.main_atab_exam, null);
 		listview = (ListView) view
 				.findViewById(R.id.lst_next_classy);
 
@@ -84,7 +96,7 @@ public class AClassfyFragment extends BaseListFragment implements
 				orderBy);
 		if (cursor.moveToNext()) {
 			cursorToList();
-			mAdapter = new ExamAClassfyAdapter(getActivity(), tempList);
+			mAdapter = new ExamAClassfyAdapter(getActivity(), tempList,drawbles);
 			listview.setAdapter(mAdapter);
 		}else{
 			String url = ConstantValues.SERVER_URL+ConstantValues.GetKnowledgeClassList_ADDR;// url
@@ -133,7 +145,7 @@ public class AClassfyFragment extends BaseListFragment implements
 						tempList = OneLevelType.parserJsonData(response);
 						if (tempList != null && !tempList.isEmpty()) {
 							mAdapter = new ExamAClassfyAdapter(
-									getActivity(), tempList);
+									getActivity(), tempList,drawbles);
 							listview.setAdapter(mAdapter);
 							setDataToDatabase();
 						}
@@ -185,8 +197,8 @@ public class AClassfyFragment extends BaseListFragment implements
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		Fragment newFragment = BClassfyFragment.newInstance(tempList
-				.get(position).getExamtypeid().toString(),2);
+		OneLevelType obj = tempList.get(position);
+		Fragment newFragment = BClassfyFragment.newInstance(obj.getExamtypeid().toString(),2,obj.getTitle());
 		addFragmentToStack(newFragment, R.id.simple_fragment);
 	}
 

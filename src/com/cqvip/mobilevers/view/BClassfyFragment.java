@@ -16,10 +16,13 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request.Method;
@@ -39,29 +42,33 @@ import com.cqvip.mobilevers.ui.ExamClassfyActivity;
 import com.cqvip.mobilevers.ui.FragmentExamActivity;
 
 public class BClassfyFragment extends BaseListFragment implements
-		OnItemClickListener {
+		OnItemClickListener, OnClickListener {
 
 	private Map<String, String> gparams;
 	private List<TwoLevelType> tempList;
 	final static String TAG = "BClassfyFragment";
+	final static String TITLE = "title";
 
 	private String superiorexamtypeid;
 	private Cursor cursor;
 	private SQLiteDatabase db;
 	private TwoLevelTypeDao twoLevelTypeDao;
 	private int level = 0;
-
+	private ImageView img_back;
+	private TextView tv_title;
+	private String title;
 	/**
 	 * Create a new instance of CountingFragment, providing "num" as an
 	 * argument.
 	 */
-	public static BClassfyFragment newInstance(String num, int level) {
+	public static BClassfyFragment newInstance(String num, int level,String title) {
 		BClassfyFragment f = new BClassfyFragment();
 
 		// Supply num input as an argument.
 		Bundle args = new Bundle();
 		args.putString("superiorexamtypeid", num);
 		args.putInt("level", level);
+		args.putString(TITLE, title);
 		f.setArguments(args);
 
 		return f;
@@ -97,10 +104,14 @@ public class BClassfyFragment extends BaseListFragment implements
 		if (reuseView()) {
 			return view;
 		}
-		view = inflater.inflate(R.layout.main_tab_exam, container, false);
+		view = inflater.inflate(R.layout.main_btab_exam, container, false);
 		// view = inflater.inflate(R.layout.main_tab_exam, null);
+		title = getArguments().getString(TITLE);
 		listview = (ListView) view.findViewById(R.id.lst_next_classy);
-
+		img_back = (ImageView) view.findViewById(R.id.img_back);
+		img_back.setOnClickListener(this);
+		tv_title = (TextView) view.findViewById(R.id.tv_show_title);
+		tv_title.setText(title);
 		String url = ConstantValues.SERVER_URL
 				+ ConstantValues.GetKnowledgeClassList_ADDR;// url
 		superiorexamtypeid = getArguments() != null ? getArguments().getString(
@@ -238,16 +249,31 @@ public class BClassfyFragment extends BaseListFragment implements
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		String nextId = tempList.get(position).getExamtypeid().toString();
+		TwoLevelType obj = tempList.get(position);
+		String nextId = obj.getExamtypeid().toString();
 		if (tempList.get(position).getHaschildren()) {
 			Fragment newFragment = BClassfyFragment
-					.newInstance(nextId, ++level);
+					.newInstance(nextId, ++level,obj.getTitle());
 			addFragmentToStack(newFragment, R.id.simple_fragment);
 		} else {
 			Intent intent = new Intent(getActivity(), ExamClassfyActivity.class);
 			intent.putExtra("subjectId", nextId);
+			intent.putExtra("title", obj.getTitle());
 			startActivity(intent);
 		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.img_back:
+			getFragmentManager().popBackStack();
+			break;
+
+		default:
+			break;
+		}
+		
 	}
 
 }

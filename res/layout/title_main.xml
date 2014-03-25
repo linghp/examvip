@@ -5,9 +5,9 @@
     android:orientation="vertical" >
       <RelativeLayout 
   			android:layout_width="fill_parent"
-  			android:layout_height="45dp"
+  			android:layout_height="48dp"
   			android:id="@+id/title" 
-  			android:background="@drawable/title_bar"
+  			android:background="@color/f_title_bg"
   			android:gravity="center_vertical"  >  
   			
             
@@ -15,8 +15,10 @@
         		android:layout_width="wrap_content" 
         		android:layout_height="wrap_content" 
         		android:text="维普考试资源系统"
+        		android:gravity="center"
         		android:layout_centerInParent="true"
-        		android:textSize="20sp"		
+        		android:textSize="22sp"
+        		android:drawableLeft="@drawable/title_logo"		
 				android:textColor="#ffffff" /> 
 <!-- 			<ImageButton  -->
 <!-- 			    android:id="@+id/right_btn" -->

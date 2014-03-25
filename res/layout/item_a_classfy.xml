@@ -7,51 +7,36 @@
           	
              >
             <ImageView
-                android:id="@+id/img_book"
+                android:id="@+id/img_aclassfy_book"
                 android:layout_width="48dp"
 		        android:layout_height="64dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:paddingLeft="5dp"
-                android:src="@drawable/eg_book" />
+                />
 
             <TextView
-                android:id="@+id/txt_item_title"
+                android:id="@+id/txt_aclassfy_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/img_book"
+                android:layout_toRightOf="@id/img_aclassfy_book"
+                android:layout_centerVertical="true"
                 android:padding="7dp"
                 android:textSize="22sp"
                 android:text="语言类"
                 android:textColor="#000000" />
-        <LinearLayout
-            android:id="@+id/ll_classifyexamlist"
-             android:layout_width="wrap_content"
-                android:layout_height="64dp"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/mm_listitem"
-                android:gravity="bottom"
-                android:padding="2dp"
-                android:clickable="true"
-             >
+      
             <TextView
-                android:id="@+id/tx_arrow"
+                android:id="@+id/tx_aclassfy_arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
                 android:gravity="bottom"
                 android:paddingRight="5dp"
-                android:paddingBottom="5dp"
+                android:paddingBottom="2dp"
                 android:text="共44444套"
+                android:drawableRight="@drawable/action_arrow"
                 android:textColor="#666"
                 android:textSize="16sp" />
-
-            <ImageView
-                android:id="@+id/img_arrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="2dp"
-                android:paddingRight="4dp"
-                android:layout_marginLeft="-2dp"
-                android:src="@drawable/action_arrow" />
-			</LinearLayout>
         </RelativeLayout>
