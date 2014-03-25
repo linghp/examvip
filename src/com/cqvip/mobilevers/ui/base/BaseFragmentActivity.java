@@ -30,8 +30,8 @@ public class BaseFragmentActivity extends FragmentActivity implements
 
 	private static final String TAG = "BaseFragmentActivity";
 	protected GestureDetector mGestureDetector;
+	public boolean isLeftFragment = true;// 判断viewpager是否滑动到最左边的fragment
 	protected FragmentManager fManager;
-	protected boolean isLeftFragment = true;// 判断viewpager是否滑动到最左边的fragment
 	
 	protected RequestQueue mQueue;
 	protected ErrorVolleyThrow volleyErrorListener;

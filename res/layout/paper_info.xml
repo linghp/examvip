@@ -3,20 +3,25 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/white"
-    android:orientation="vertical" android:clickable="true" >
-
+    android:orientation="vertical" 
+    android:clickable="true" >
+    
+     <include 
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        layout="@layout/title_next" />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
+            android:padding="10dp"
             android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/txt_p_title"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:text=""
@@ -25,55 +30,51 @@
                 android:textSize="20.0sp" />
         </LinearLayout>
 
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/list_line" />
+
 
      <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:padding="3dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
             android:orientation="horizontal" >
     		<TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="分类："
-                    android:textColor="@color/black"
-                    android:textSize="14.0sp" />
+                    android:textColor="@color/color_dark_grey"
+                    android:textSize="16.0sp" />
             <TextView
                 android:id="@+id/txt_p_tag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textColor="@color/black"
+                android:textColor="@color/color_dark_grey"
                 android:textSize="14.0sp" />
-        </LinearLayout>
-       <ImageView
+       </LinearLayout>
+     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/list_line" />
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         android:orientation="vertical" >
 
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="10.0dip" />
+       
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingBottom="5dp"
             android:orientation="horizontal" >
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
+                android:paddingTop="10dp"
                 android:orientation="horizontal" >
 
                 <TextView
@@ -104,6 +105,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
+                android:paddingTop="10dp"
                 android:orientation="horizontal" >
 
                 <TextView
@@ -127,13 +129,13 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
             android:orientation="horizontal" >
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
+                        android:paddingTop="10dp"
                 android:orientation="horizontal" >
 
                 <TextView
@@ -156,6 +158,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
+                        android:paddingTop="10dp"
                 android:orientation="horizontal" >
 
                 <TextView
@@ -179,13 +182,13 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
             android:orientation="horizontal" >
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
+                        android:paddingTop="10dp"
                 android:orientation="horizontal" >
 
                 <TextView
@@ -268,9 +271,12 @@
             android:id="@+id/btn_exam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-           	android:gravity="center_vertical"
+           	android:gravity="center"
             android:text="开始考试"
-            android:textColor="@color/red"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:background="@drawable/btn_style_red"
+            android:textColor="@color/white"
             android:textSize="16.0sp" />
                 <View
             android:layout_width="wrap_content"

@@ -256,10 +256,9 @@ public class BClassfyFragment extends BaseListFragment implements
 					.newInstance(nextId, ++level,obj.getTitle());
 			addFragmentToStack(newFragment, R.id.simple_fragment);
 		} else {
-			Intent intent = new Intent(getActivity(), ExamClassfyActivity.class);
-			intent.putExtra("subjectId", nextId);
-			intent.putExtra("title", obj.getTitle());
-			startActivity(intent);
+			Fragment newFragment = ExamClassfyFragment
+					.newInstance(nextId,obj.getTitle());
+			addFragmentToStack(newFragment, R.id.simple_fragment);
 		}
 	}
 
