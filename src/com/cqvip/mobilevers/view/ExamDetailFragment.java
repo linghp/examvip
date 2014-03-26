@@ -46,7 +46,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 	private String subjectid;
 	private Map<String, String> gparams;
 	private TextView tv_title;
-	private ImageView img_back;
+	//private ImageView img_back;
 	
 	
 	  public static ExamDetailFragment newInstance(String name,String id) {
@@ -72,8 +72,8 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 		view = inflater.inflate(R.layout.paper_info, null);
 		tv_title = (TextView) view.findViewById(R.id.tv_show_title);
 		tv_title.setText("试卷摘要");
-		img_back = (ImageView) view.findViewById(R.id.img_back);
-		img_back.setOnClickListener(this);
+//		img_back = (ImageView) view.findViewById(R.id.img_back);
+//		img_back.setOnClickListener(this);
 	
 		subjectid = getArguments().getString(DETAL_ID);
 		String title = getArguments().getString(DETAL_NAME);
@@ -195,7 +195,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.img_back:
-			   getFragmentManager().popBackStack();
+			 //  getFragmentManager().popBackStack();
 			break;
 		case R.id.btn_exam:
 			String url = ConstantValues.SERVER_URL + ConstantValues.GETEXAM_ADDR;

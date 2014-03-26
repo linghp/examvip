@@ -1,8 +1,5 @@
 package com.cqvip.mobilevers.view;
 
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,19 +7,14 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.ActionBar;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request.Method;
 import com.android.volley.Response.Listener;
@@ -30,33 +22,28 @@ import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.adapter.ExamPaperAdapter;
 import com.cqvip.mobilevers.config.ConstantValues;
 import com.cqvip.mobilevers.entity.Paper;
-import com.cqvip.mobilevers.entity.PaperDetail;
 import com.cqvip.mobilevers.entity.PaperInfo;
-import com.cqvip.mobilevers.entity.TagInfo;
-import com.cqvip.mobilevers.exam.Exam;
-import com.cqvip.mobilevers.exam.SubjectExam;
 import com.cqvip.mobilevers.http.HttpUtils;
 import com.cqvip.mobilevers.http.VersStringRequest;
-import com.cqvip.mobilevers.ui.ExamActivity;
-import com.cqvip.mobilevers.ui.FragmentExamActivity;
-import com.cqvip.mobilevers.ui.base.BaseFragment;
-import com.cqvip.mobilevers.utils.DateUtil;
 import com.cqvip.mobilevers.widget.DropDownListView;
 
 public class ListViewFragment extends BaseListFragment implements OnItemClickListener{
 
-	private static final String DETAL_INFO = "detail";
+	private static final String EXAMTYPEID= "examtypeid";
+	private static final String TITLE = "title";
 	private DropDownListView dropDownListView;
+	private TextView tv_title;
 	private Map<String, String> gparams;
 	private ExamPaperAdapter adapter; 
 	private int page;
 	
-	  public static ListViewFragment newInstance(String examtypeid) {
+	  public static ListViewFragment newInstance(String examtypeid,String title) {
 		  ListViewFragment f = new ListViewFragment();
 
 	        // Supply num input as an argument.
 	        Bundle args = new Bundle();
-	        args.putString(DETAL_INFO, examtypeid);
+	        args.putString(EXAMTYPEID, examtypeid);
+	        args.putString(TITLE, title);
 	        f.setArguments(args);
 	        return f;
 	    }
@@ -70,11 +57,14 @@ public class ListViewFragment extends BaseListFragment implements OnItemClickLis
 			return view;
 		}
 		//Log.i(TAG, "onCreateView");
-		view = inflater.inflate(R.layout.fragment_exam_classfy_dummy, null);
-		dropDownListView=(DropDownListView) view.findViewById(R.id.lst_exampaper);
+		view = inflater.inflate(R.layout.fragment_done_paperlist, null);
+		
+		tv_title = (TextView) view.findViewById(R.id.tv_show_title);
+		tv_title.setText(getArguments().getString(TITLE));
+		dropDownListView=(DropDownListView) view.findViewById(R.id.list_donepaper);
 		dropDownListView.setOnItemClickListener(this);
 		page = 1;
-		final String examtypeid =  getArguments().getString(DETAL_INFO);
+		final String examtypeid =  getArguments().getString(EXAMTYPEID);
 		getData(examtypeid,page,ConstantValues.GETFIRSTPAGE);
 		dropDownListView.setOnBottomListener(new View.OnClickListener() {
 			@Override
@@ -197,8 +187,8 @@ public class ListViewFragment extends BaseListFragment implements OnItemClickLis
 		PaperInfo info = adapter.getList().get(position);
 		if(info!=null){
 		//((FragmentExamActivity)getActivity()).onItemNextSelected(info);
-		}else{
-			return;
+			Fragment newFragment = ExamDetailFragment.newInstance(info.getName(),info.getSubjectid());
+			addFragmentToStack(newFragment, R.id.simple_fragment);
 		}
 	}
 

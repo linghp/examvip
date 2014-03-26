@@ -16,13 +16,16 @@ import com.cqvip.mobilevers.adapter.base.AdapterBase;
 import com.cqvip.mobilevers.db.OneLevelType;
 import com.cqvip.mobilevers.db.TwoLevelType;
 import com.cqvip.mobilevers.entity.ExamInfo;
+import com.cqvip.mobilevers.view.BaseListFragment;
+import com.cqvip.mobilevers.view.ListViewFragment;
 
 public class ExamBClassfyAdapter extends AdapterBase<TwoLevelType> implements OnClickListener{
 
 	private Context context;
-	
-	public ExamBClassfyAdapter (Context context,List<TwoLevelType> lists) {
-		this.context = context;
+	private BaseListFragment baseListFragment;
+	public ExamBClassfyAdapter (BaseListFragment baseListFragment,List<TwoLevelType> lists) {
+		this.context = baseListFragment.getActivity();
+		this.baseListFragment=baseListFragment;
 		this.mList = lists;
 	}
 	
@@ -39,7 +42,7 @@ public class ExamBClassfyAdapter extends AdapterBase<TwoLevelType> implements On
 		title = (TextView) v.findViewById(R.id.txt_item_title);
 		count = (TextView) v.findViewById(R.id.tx_aclassfy_arrow);
 		count.setOnClickListener(this);
-		count.setTag(mList.get(position).getExamtypeid());
+		count.setTag(mList.get(position));
 		title.setText(mList.get(position).getTitle());
 		count.setText(mList.get(position).getCount()+"");
 		
@@ -54,7 +57,9 @@ public class ExamBClassfyAdapter extends AdapterBase<TwoLevelType> implements On
 
 	@Override
 	public void onClick(View v) {
-		Toast.makeText(context, "click"+v.getTag(), 1).show();
+		TwoLevelType twoLevelType=(TwoLevelType)v.getTag();
+		baseListFragment.addFragmentToStack(ListViewFragment.newInstance(twoLevelType.getExamtypeid()+"",twoLevelType.getTitle()),R.id.simple_fragment);
+		//Toast.makeText(context, "click"+v.getTag(), 1).show();
 	}
 
 }

@@ -18,7 +18,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request.Method;
@@ -27,8 +26,6 @@ import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.adapter.DoneExamPaperListAdapter;
 import com.cqvip.mobilevers.config.ConstantValues;
 import com.cqvip.mobilevers.entity.DoneExamPaper;
-import com.cqvip.mobilevers.entity.Paper;
-import com.cqvip.mobilevers.entity.PaperInfo;
 import com.cqvip.mobilevers.http.HttpUtils;
 import com.cqvip.mobilevers.http.VersStringRequest;
 import com.cqvip.mobilevers.ui.base.BaseFragment;
@@ -41,7 +38,7 @@ import com.cqvip.mobilevers.widget.DropDownListView;
 public class DoneExamPaperListFragment extends BaseFragment implements OnClickListener, OnItemClickListener{
 
 	private TextView tv_title;
-	private ImageView img_back;
+	//private ImageView img_back;
 	private DropDownListView listview;
     private Map<String, String> gparams;
     private int page;
@@ -56,9 +53,9 @@ public class DoneExamPaperListFragment extends BaseFragment implements OnClickLi
 		listview = (DropDownListView) view
 				.findViewById(R.id.list_donepaper);
 		listview.setOnItemClickListener(this);
-		img_back = (ImageView) view.findViewById(R.id.img_back);
+		//img_back = (ImageView) view.findViewById(R.id.img_back);
 		tv_title = (TextView) view.findViewById(R.id.tv_show_title);
-		img_back.setOnClickListener(this);
+		//img_back.setOnClickListener(this);
 		tv_title.setText("我做过的试卷");
 		page = 1;
 		getData(page,ConstantValues.GETFIRSTPAGE);
@@ -227,7 +224,7 @@ public void onItemClick(AdapterView<?> parent, View view, int position,
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.img_back:
-			getFragmentManager().popBackStack();
+			//getFragmentManager().popBackStack();
 			
 			break;
 

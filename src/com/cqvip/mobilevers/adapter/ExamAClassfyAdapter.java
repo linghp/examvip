@@ -48,7 +48,7 @@ public class ExamAClassfyAdapter extends AdapterBase<OneLevelType> implements On
 			holder.count = (TextView) convertView.findViewById(R.id.tx_aclassfy_arrow);
 			holder.img = (ImageView) convertView.findViewById(R.id.img_aclassfy_book);
 			holder.count.setOnClickListener(this);
-			holder.count.setTag(mList.get(position).getExamtypeid());
+			holder.count.setTag(mList.get(position));
 			convertView.setTag(holder);
 			
 		}else{
@@ -68,8 +68,9 @@ public class ExamAClassfyAdapter extends AdapterBase<OneLevelType> implements On
 
 	@Override
 	public void onClick(View v) {
-		baseListFragment.addFragmentToStack(ListViewFragment.newInstance(v.getTag()+""),android.R.id.content);
-		Toast.makeText(context, "click"+v.getTag(), 1).show();
+		OneLevelType oneLevelType=(OneLevelType)v.getTag();
+		baseListFragment.addFragmentToStack(ListViewFragment.newInstance(oneLevelType.getExamtypeid()+"",oneLevelType.getTitle()),R.id.simple_fragment);
+		//Toast.makeText(context, "click"+v.getTag(), 1).show();
 	}
 
 }
