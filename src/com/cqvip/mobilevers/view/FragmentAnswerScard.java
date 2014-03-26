@@ -293,7 +293,7 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 			}else{
 			  mAnswer = firstAnswer.getAnswer();
 			}
-			int score = firstAnswer.getScore();
+			double score = firstAnswer.getScore();
 			String questionId = firstAnswer.getId();
 			StringBuilder mbuilder = new StringBuilder();
 			mbuilder.append(questionId);

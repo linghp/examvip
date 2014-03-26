@@ -34,7 +34,7 @@ import com.cqvip.mobilevers.http.VersStringRequest;
 import com.cqvip.mobilevers.ui.base.BaseFragment;
 import com.cqvip.mobilevers.widget.DropDownListView;
 /**
- * 
+ * 我做过的试卷
  * @author luojiang
  *
  */
@@ -215,11 +215,13 @@ private void addFragmentToStack(Fragment newFragment, int layoutid) {
 @Override
 public void onItemClick(AdapterView<?> parent, View view, int position,
 		long id) {
-//	PaperInfo info = adapter.getList().get(position);
+	DoneExamPaper info = adapter.getList().get(position);
 //	if(info!=null){
 //		Fragment newFragment = ExamDetailFragment.newInstance(info);
 //		addFragmentToStack(newFragment, R.id.simple_fragment);
 //	}
+	Fragment newFragment = ExamDetailFragment.newInstance(info.getName(),info.getSubjectid());
+	addFragmentToStack(newFragment, android.R.id.content);
 }  
 	@Override
 	public void onClick(View v) {

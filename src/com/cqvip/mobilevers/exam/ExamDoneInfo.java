@@ -15,11 +15,11 @@ public class ExamDoneInfo implements Serializable{
 	private int rightCount;
 	private int wrongCount;
 	private int doneCount;
-	private int score;
+	private double score;
 	private int useTime;
 	
 	public ExamDoneInfo(int rightCount, int wrongCount, int doneCount,
-			int score, int useTime) {
+			double score, int useTime) {
 		super();
 		this.rightCount = rightCount;
 		this.wrongCount = wrongCount;
@@ -36,7 +36,7 @@ public class ExamDoneInfo implements Serializable{
 	public int getDoneCount() {
 		return doneCount;
 	}
-	public int getScore() {
+	public double getScore() {
 		return score;
 	}
 	public int getUseTime() {

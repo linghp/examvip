@@ -25,7 +25,14 @@ public class Exam implements Serializable{
 	private int score;//总分
 	private String _examPaperName;//试题名称
 	private SubjectExam[] subjectlists;//包含的大题
+	private SimpleAnswer[] answerlists;//用户答案
 	
+	public SubjectExam[] getSubjectlists() {
+		return subjectlists;
+	}
+	public SimpleAnswer[] getAnswerlists() {
+		return answerlists;
+	}
 	public int getExamTime() {
 		return examTime;
 	}
@@ -57,6 +64,8 @@ public class Exam implements Serializable{
 		examTime = json.getInt("_examPaperLimitTime");
 		_examPaperName = json.getString("_examPaperName");
 		score = json.getInt("_maxScore");
+		JSONArray tmparray = json.getJSONArray("_userAnsItem");
+		answerlists = SimpleAnswer.formList(tmparray);
 		JSONArray array = json.getJSONArray("_epstsInfo");
 		if(array.length()>0){
 			subjectlists = new SubjectExam[array.length()];
@@ -68,8 +77,9 @@ public class Exam implements Serializable{
 	public String toString() {
 		return "Exam [examTime=" + examTime + ", score=" + score
 				+ ", _examPaperName=" + _examPaperName + ", subjectlists="
-				+ Arrays.toString(subjectlists) + "]";
+				+ Arrays.toString(subjectlists) + ", answerlists="
+				+ Arrays.toString(answerlists) + "]";
 	}
-
+	
 	
 }

@@ -60,7 +60,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
     private int position; //第几个fragment
     private int clientSingleChoose;//用户选择
     private int rightOrWrong = ConstantValues.ANSWER_UNDONG;//状态，四种做，没做，对，错
-    private int perScore;//每小题分数
+    private double perScore;//每小题分数
     
     private String type;//question type;
     private String id;//question id;
@@ -644,7 +644,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 			//显示答案
 			user_answer.setText(ALPHABET[clientSingleChoose]+"");
 			ArrayList<SimpleAnswer> array = new ArrayList<SimpleAnswer>();
-			int tmpscore ;
+			double tmpscore ;
 			//显示对错
 			if(validateAnswer(clientSingleChoose)){
 			doAnswerRight();
@@ -675,7 +675,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 			 if(!multiChoose.isEmpty()){
 			 user_answer.setText(formString(multiChoose));
 			 ArrayList<SimpleAnswer> array = new ArrayList<SimpleAnswer>();
-			 int score ;
+			 double score ;
 			 if(validateMultiAnswer(multiChoose)){
 					doAnswerRight();
 					score = perScore;
