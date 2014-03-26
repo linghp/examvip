@@ -204,7 +204,6 @@ public class ExamPaperListFragment extends BaseFragment implements OnItemClickLi
 					Paper p = Paper.parserJsonData(json);
 					List<PaperInfo> lists = p.getReal();
 					if (lists != null && !lists.isEmpty()&&lists.size()==ConstantValues.DEFAULYPAGESIZE) {
-						System.out.println(lists.toString());
 						adapter.addMoreData(lists);
 						listview.onBottomComplete();
 					} else if(lists != null &&lists.size()>0){

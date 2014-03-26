@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/ll_mine"
     android:background="#eee"
     android:orientation="vertical" >
 
@@ -41,6 +42,7 @@
             android:onClick="mypassedexam" >
 
             <TextView
+                android:id="@+id/tv_done_paper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_menu_download"
@@ -67,6 +69,7 @@
             android:gravity="center_vertical" >
 
             <TextView
+                android:id="@+id/tv_doing_paper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_menu_download"
@@ -93,6 +96,7 @@
             android:gravity="center_vertical" >
 
             <TextView
+                android:id="@+id/tv_favorite_paper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_menu_download"

@@ -21,6 +21,7 @@ import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request.Method;
 import com.android.volley.Response.Listener;
@@ -37,6 +38,7 @@ import com.cqvip.mobilevers.http.HttpUtils;
 import com.cqvip.mobilevers.http.VersStringRequest;
 import com.cqvip.mobilevers.ui.base.BaseMainFragmentActivity;
 import com.cqvip.mobilevers.view.AboutFragment;
+import com.cqvip.mobilevers.view.DoneExamPaperListFragment;
 import com.cqvip.mobilevers.view.LoginFragment;
 
 /**
@@ -70,6 +72,18 @@ public class FragmentMineActivity extends BaseMainFragmentActivity {
 		}
 	}
 
+	/**
+	 * 
+	 * @param view
+	 */
+	public void mypassedexam(View view){
+		
+       DoneExamPaperListFragment newFragment = new DoneExamPaperListFragment();
+       addFragmentToStack(newFragment, android.R.id.content);
+		
+		
+	}	
+	
 	private void getDB() {
 		userDao = ((MyApplication) getApplication()).daoSession.getUserDao();
 		db = ((MyApplication) getApplication()).db;

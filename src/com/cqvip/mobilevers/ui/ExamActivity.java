@@ -526,6 +526,14 @@ public class ExamActivity extends BaseFragmentActivity implements
                 public void onClick(DialogInterface dialog, int whichButton) {
 
                     finish();
+                    
+                    //保存用户答案
+                    
+                    //clientAnswer;
+                    
+                    
+                    
+                    
                 }
             })
             .setNegativeButton(R.string.alert_dialog_cancel, new DialogInterface.OnClickListener() {

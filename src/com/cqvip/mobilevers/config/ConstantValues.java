@@ -20,6 +20,8 @@ public class ConstantValues {
 	public static final String GET_DETAIL_PAPERINFO="Service1.asmx/GetExamPaperBaseInfo";
 	public static final String SEARCH_PAPERINFO="Service1.asmx/SearchExamPaperList";
 	public static final String SAVEEXAMANSWER="Service1.asmx/SaveExamAnswer";
+	public static final String GETPASTEXAMINFO="Service1.asmx/GetExamPaperAdnAnswerInfo";
+	public static final String GETMYPASTEXAMLIST="Service1.asmx/GetExamScoreList";
 	
 	
 	public static final String DBNAME="MobileVers.db";
@@ -34,6 +36,7 @@ public class ConstantValues {
 	public static final int GETFIRSTPAGE = 1;//上一页
 	public static final int GETNEXTPAGE = 2;//下一页
 	public static final int DEFAULYPAGESIZE = 15;//默认一次去15条
+	public static final int DEFAULSEVERVALUE = -1;//默认参数
 	
 	public static final int toutiao_id=1;
 	public static final int yule_id=2;
