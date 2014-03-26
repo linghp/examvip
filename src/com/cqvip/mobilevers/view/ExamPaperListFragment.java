@@ -7,9 +7,10 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +18,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.android.volley.Request.Method;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.adapter.ExamPaperAdapter;
@@ -27,23 +26,18 @@ import com.cqvip.mobilevers.entity.Paper;
 import com.cqvip.mobilevers.entity.PaperInfo;
 import com.cqvip.mobilevers.http.HttpUtils;
 import com.cqvip.mobilevers.http.VersStringRequest;
-import com.cqvip.mobilevers.ui.ExamClassfyActivity;
-import com.cqvip.mobilevers.widget.CustomProgressDialog;
+import com.cqvip.mobilevers.ui.base.BaseFragment;
 import com.cqvip.mobilevers.widget.DropDownListView;
 
-public class ExamPaperListFragment extends Fragment implements OnItemClickListener {
+public class ExamPaperListFragment extends BaseFragment implements OnItemClickListener {
 
 	
 	public static final String ARG_NUMBER = "number";
 	public static final String ARG_ID = "subjectId";
-	private  RequestQueue mQueue;
-	private  ErrorListener volleyErrorListener;
-	private  CustomProgressDialog customProgressDialog;
 	private DropDownListView listview;
     private Map<String, String> gparams;
     private ExamPaperAdapter adapter; 
     private int page;
-    
    	private NextCallbacks mCallbacks = sDummyCallbacks;
 	
 	public interface NextCallbacks {
@@ -59,21 +53,6 @@ public class ExamPaperListFragment extends Fragment implements OnItemClickListen
 		}
 	};
     
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-
-
-		mCallbacks = (NextCallbacks) activity;
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-
-		// Reset the active callbacks interface to the dummy implementation.
-		mCallbacks = sDummyCallbacks;
-	}
 	
     /**
      * Create a new instance of ExamPaperListFragment, providing "num"
@@ -87,25 +66,25 @@ public class ExamPaperListFragment extends Fragment implements OnItemClickListen
         args.putInt(ARG_NUMBER, num);
         args.putString(ARG_ID, id);
         f.setArguments(args);
-
         return f;
     }
 
-
+	
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-    	super.onCreate(savedInstanceState);
-    	
+    public void onSaveInstanceState(Bundle outState) {
+    	// TODO Auto-generated method stub
+    	super.onSaveInstanceState(outState);
+    	Log.i("ExamPaperListFragment","========onSaveInstanceState==========");
     }
 
+    
+    
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-   	 if (ExamClassfyActivity.class.isInstance(getActivity())) {
-         mQueue = ((ExamClassfyActivity) getActivity()).getRequestQueue();
-         customProgressDialog = ((ExamClassfyActivity) getActivity()).getCustomDialog();
-         volleyErrorListener = ((ExamClassfyActivity) getActivity()).getVolleyErrorListener();
-     }
+		
+		Log.i("ExamPaperListFragment","========onCreateView==========");
+		
 		View rootView = inflater.inflate(
 				R.layout.fragment_exam_classfy_dummy, container, false);
 		listview = (DropDownListView) rootView
@@ -251,14 +230,26 @@ public class ExamPaperListFragment extends Fragment implements OnItemClickListen
 			}
 		}
 	};
+	
+	
+	private void addFragmentToStack(Fragment newFragment, int layoutid) {
+		FragmentTransaction ft = getActivity().getSupportFragmentManager()
+				.beginTransaction();
+		ft.setCustomAnimations(R.anim.slide_right_in, R.anim.slide_left_out,
+				R.anim.slide_left_in, R.anim.slide_right_out);
+		ft.replace(layoutid, newFragment);
+		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+		ft.addToBackStack(null);
+		ft.commit();
+	}
+	
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		PaperInfo info = adapter.getList().get(position);
 		if(info!=null){
-		mCallbacks.onItemNextSelected(info);
-		}else{
-			return;
+			Fragment newFragment = ExamDetailFragment.newInstance(info);
+			addFragmentToStack(newFragment, R.id.simple_fragment);
 		}
 	}  
 }

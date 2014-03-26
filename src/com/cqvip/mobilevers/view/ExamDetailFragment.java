@@ -2,15 +2,11 @@ package com.cqvip.mobilevers.view;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,20 +15,18 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request.Method;
 import com.android.volley.Response.Listener;
 import com.cqvip.mobilevers.R;
-import com.cqvip.mobilevers.adapter.ExamPaperAdapter;
 import com.cqvip.mobilevers.config.ConstantValues;
-import com.cqvip.mobilevers.entity.Paper;
 import com.cqvip.mobilevers.entity.PaperDetail;
 import com.cqvip.mobilevers.entity.PaperInfo;
 import com.cqvip.mobilevers.entity.TagInfo;
 import com.cqvip.mobilevers.exam.Exam;
-import com.cqvip.mobilevers.exam.SubjectExam;
 import com.cqvip.mobilevers.http.HttpUtils;
 import com.cqvip.mobilevers.http.VersStringRequest;
 import com.cqvip.mobilevers.ui.ExamActivity;
@@ -45,6 +39,9 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 	private TextView  tTitle,tTag,tyear,tadddate,ttotal,tscroe,ttime,tsize;
 	private String subjectid;
 	private Map<String, String> gparams;
+	private TextView tv_title;
+	private ImageView img_back;
+	
 	
 	  public static ExamDetailFragment newInstance(PaperInfo info) {
 		  ExamDetailFragment f = new ExamDetailFragment();
@@ -66,7 +63,10 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 		}
 		//Log.i(TAG, "onCreateView");
 		view = inflater.inflate(R.layout.paper_info, null);
-		
+		tv_title = (TextView) view.findViewById(R.id.tv_show_title);
+		tv_title.setText("试卷摘要");
+		img_back = (ImageView) view.findViewById(R.id.img_back);
+		img_back.setOnClickListener(this);
 		PaperInfo info = (PaperInfo) getArguments().getSerializable(DETAL_INFO);
 		subjectid = info.getSubjectid();
 		String title = info.getName();
@@ -174,8 +174,17 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 	};  
 	@Override
 	public void onClick(View v) {
-		String url = ConstantValues.SERVER_URL + ConstantValues.GETEXAM_ADDR;
-		getData(url, subjectid);
+		switch (v.getId()) {
+		case R.id.img_back:
+			   getFragmentManager().popBackStack();
+			break;
+		case R.id.btn_exam:
+			String url = ConstantValues.SERVER_URL + ConstantValues.GETEXAM_ADDR;
+			getData(url, subjectid);
+		default:
+			break;
+		}
+		
 	}
 
 	private void getData(String url, String examPaperId) {
