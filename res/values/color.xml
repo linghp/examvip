@@ -31,8 +31,10 @@
 
     <color name="examtop_fontcolor">#000</color>
      <color name="fontclcor">#ffffffff</color>
-     
-     
      <color name="f_title_bg">#2B488A</color>
+     
+     <color name="grey_onexam_title">#d9e6f0</color>
+     <color name="yellow_onexam_anwerdesc">#faebb9</color>
+     <color name="yellow_onexam_time">#ffff00</color>
 
 </resources>
