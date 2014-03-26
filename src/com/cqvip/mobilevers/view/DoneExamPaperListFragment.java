@@ -18,7 +18,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request.Method;
@@ -27,8 +26,6 @@ import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.adapter.DoneExamPaperListAdapter;
 import com.cqvip.mobilevers.config.ConstantValues;
 import com.cqvip.mobilevers.entity.DoneExamPaper;
-import com.cqvip.mobilevers.entity.Paper;
-import com.cqvip.mobilevers.entity.PaperInfo;
 import com.cqvip.mobilevers.http.HttpUtils;
 import com.cqvip.mobilevers.http.VersStringRequest;
 import com.cqvip.mobilevers.ui.base.BaseFragment;
