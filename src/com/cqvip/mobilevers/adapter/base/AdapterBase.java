@@ -3,6 +3,7 @@ package com.cqvip.mobilevers.adapter.base;
 import java.util.LinkedList;
 import java.util.List;
 
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,6 +11,7 @@ import android.widget.BaseAdapter;
 public abstract class AdapterBase<T> extends BaseAdapter {
 	
 	protected List<T> mList = new LinkedList<T>();
+	private Context context;
 	
 	public List<T> getList(){
 		return mList;
