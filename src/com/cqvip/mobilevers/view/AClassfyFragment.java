@@ -96,7 +96,7 @@ public class AClassfyFragment extends BaseListFragment implements
 				orderBy);
 		if (cursor.moveToNext()) {
 			cursorToList();
-			mAdapter = new ExamAClassfyAdapter(getActivity(), tempList,drawbles);
+			mAdapter = new ExamAClassfyAdapter(this,tempList,drawbles);
 			listview.setAdapter(mAdapter);
 		}else{
 			String url = ConstantValues.SERVER_URL+ConstantValues.GetKnowledgeClassList_ADDR;// url
@@ -145,7 +145,7 @@ public class AClassfyFragment extends BaseListFragment implements
 						tempList = OneLevelType.parserJsonData(response);
 						if (tempList != null && !tempList.isEmpty()) {
 							mAdapter = new ExamAClassfyAdapter(
-									getActivity(), tempList,drawbles);
+									AClassfyFragment.this, tempList,drawbles);
 							listview.setAdapter(mAdapter);
 							setDataToDatabase();
 						}

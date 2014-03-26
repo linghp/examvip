@@ -53,7 +53,7 @@ public class BaseListFragment extends Fragment {
 	 *            fragment
 	 * @return return void
 	 */
-	protected void addFragmentToStack(Fragment newFragment, int layoutid) {
+	public void addFragmentToStack(Fragment newFragment, int layoutid) {
 		FragmentTransaction ft = getActivity().getSupportFragmentManager()
 				.beginTransaction();
 		ft.setCustomAnimations(R.anim.slide_right_in, R.anim.slide_left_out,
