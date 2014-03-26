@@ -68,7 +68,7 @@ public class ExamAClassfyAdapter extends AdapterBase<OneLevelType> implements On
 
 	@Override
 	public void onClick(View v) {
-		baseListFragment.addFragmentToStack(ListViewFragment.newInstance(v.getTag()+""),android.R.id.content);
+		baseListFragment.addFragmentToStack(ListViewFragment.newInstance(v.getTag()+""),R.id.simple_fragment);
 		Toast.makeText(context, "click"+v.getTag(), 1).show();
 	}
 

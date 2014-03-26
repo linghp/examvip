@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -197,8 +198,8 @@ public class ListViewFragment extends BaseListFragment implements OnItemClickLis
 		PaperInfo info = adapter.getList().get(position);
 		if(info!=null){
 		//((FragmentExamActivity)getActivity()).onItemNextSelected(info);
-		}else{
-			return;
+			Fragment newFragment = ExamDetailFragment.newInstance(info);
+			addFragmentToStack(newFragment, R.id.simple_fragment);
 		}
 	}
 
