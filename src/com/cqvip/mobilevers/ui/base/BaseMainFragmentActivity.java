@@ -2,6 +2,7 @@ package com.cqvip.mobilevers.ui.base;
 
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Toast;
 /**
  * 为了使双击回退键退出程序能够在主页面（四个）有效，所以开辟此类
@@ -46,5 +47,12 @@ public class BaseMainFragmentActivity extends BaseFragmentActivity {
 			finish();
 		}
 	}
-
+	
+/**
+ * 回退
+ * @param v
+ */
+	public void back(View v){
+		fManager.popBackStack();
+	}
 }

@@ -13,9 +13,11 @@
         		android:layout_alignParentLeft="true"
 			    android:layout_centerVertical="true"
 			    android:src="@drawable/icon_back"
-			    android:paddingLeft="8dp"
+			    android:paddingLeft="8dp" 
+			    android:onClick="back"
               />
     
+          
       		<TextView
       		    android:id="@+id/tv_show_title"
         		android:layout_width="wrap_content" 

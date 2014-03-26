@@ -41,7 +41,7 @@ import com.cqvip.mobilevers.widget.DropDownListView;
 public class DoneExamPaperListFragment extends BaseFragment implements OnClickListener, OnItemClickListener{
 
 	private TextView tv_title;
-	private ImageView img_back;
+	//private ImageView img_back;
 	private DropDownListView listview;
     private Map<String, String> gparams;
     private int page;
@@ -56,9 +56,9 @@ public class DoneExamPaperListFragment extends BaseFragment implements OnClickLi
 		listview = (DropDownListView) view
 				.findViewById(R.id.list_donepaper);
 		listview.setOnItemClickListener(this);
-		img_back = (ImageView) view.findViewById(R.id.img_back);
+		//img_back = (ImageView) view.findViewById(R.id.img_back);
 		tv_title = (TextView) view.findViewById(R.id.tv_show_title);
-		img_back.setOnClickListener(this);
+		//img_back.setOnClickListener(this);
 		tv_title.setText("我做过的试卷");
 		page = 1;
 		getData(page,ConstantValues.GETFIRSTPAGE);
@@ -225,7 +225,7 @@ public void onItemClick(AdapterView<?> parent, View view, int position,
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.img_back:
-			getFragmentManager().popBackStack();
+			//getFragmentManager().popBackStack();
 			
 			break;
 

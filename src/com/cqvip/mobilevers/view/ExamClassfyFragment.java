@@ -44,7 +44,7 @@ public class ExamClassfyFragment extends BaseFragment implements OnClickListener
 		private int currentIndicatorLeft = 0;
 		private static String subjectId;
 		private TextView tv_title;
-		private ImageView img_back;
+		//private ImageView img_back;
 		
 		
 		public static ExamClassfyFragment newInstance(String num, String title) {
@@ -68,9 +68,9 @@ public class ExamClassfyFragment extends BaseFragment implements OnClickListener
 			view = inflater.inflate(R.layout.activity_exam_classfy, container, false);
 			String title = getArguments().getString(TITLE);
 			subjectId = getArguments().getString(SUBJECTID);
-			img_back = (ImageView) view.findViewById(R.id.img_back);
+			//img_back = (ImageView) view.findViewById(R.id.img_back);
 			tv_title = (TextView) view.findViewById(R.id.tv_show_title);
-			img_back.setOnClickListener(this);
+			//img_back.setOnClickListener(this);
 			tv_title.setText(title);
 			initView(view,inflater);
 			setListener();
@@ -232,7 +232,7 @@ public class ExamClassfyFragment extends BaseFragment implements OnClickListener
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.img_back:
-			getFragmentManager().popBackStack();
+			//getFragmentManager().popBackStack();
 			break;
 
 		default:

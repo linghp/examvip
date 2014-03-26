@@ -54,7 +54,7 @@ public class BClassfyFragment extends BaseListFragment implements
 	private SQLiteDatabase db;
 	private TwoLevelTypeDao twoLevelTypeDao;
 	private int level = 0;
-	private ImageView img_back;
+	//private ImageView img_back;
 	private TextView tv_title;
 	private String title;
 	/**
@@ -108,8 +108,8 @@ public class BClassfyFragment extends BaseListFragment implements
 		// view = inflater.inflate(R.layout.main_tab_exam, null);
 		title = getArguments().getString(TITLE);
 		listview = (ListView) view.findViewById(R.id.lst_next_classy);
-		img_back = (ImageView) view.findViewById(R.id.img_back);
-		img_back.setOnClickListener(this);
+		//img_back = (ImageView) view.findViewById(R.id.img_back);
+		//img_back.setOnClickListener(this);
 		tv_title = (TextView) view.findViewById(R.id.tv_show_title);
 		tv_title.setText(title);
 		String url = ConstantValues.SERVER_URL
@@ -136,7 +136,7 @@ public class BClassfyFragment extends BaseListFragment implements
 				new String[] { superiorexamtypeid }, null, null, orderBy);
 		if (cursor.moveToNext()) {
 			cursorToList();
-			mAdapter = new ExamBClassfyAdapter(getActivity(), tempList);
+			mAdapter = new ExamBClassfyAdapter(this, tempList);
 			listview.setAdapter(mAdapter);
 		} else {
 			// 网络获取
@@ -220,7 +220,7 @@ public class BClassfyFragment extends BaseListFragment implements
 						tempList = TwoLevelType.parserJsonData(response, level,
 								superiorexamtypeid, false);
 						if (tempList != null && !tempList.isEmpty()) {
-							mAdapter = new ExamBClassfyAdapter(getActivity(),
+							mAdapter = new ExamBClassfyAdapter(BClassfyFragment.this,
 									tempList);
 							listview.setAdapter(mAdapter);
 							setDataToDatabase();
@@ -266,7 +266,7 @@ public class BClassfyFragment extends BaseListFragment implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.img_back:
-			getFragmentManager().popBackStack();
+			//getFragmentManager().popBackStack();
 			break;
 
 		default:
