@@ -12,12 +12,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,10 +26,12 @@ import com.android.volley.Response.Listener;
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.config.ConstantValues;
 import com.cqvip.mobilevers.entity.PaperDetail;
-import com.cqvip.mobilevers.entity.PaperInfo;
 import com.cqvip.mobilevers.entity.TagInfo;
+import com.cqvip.mobilevers.entity.TwoDimensionArray;
 import com.cqvip.mobilevers.exam.Exam;
 import com.cqvip.mobilevers.exam.Question;
+import com.cqvip.mobilevers.exam.SeriSqareArray;
+import com.cqvip.mobilevers.exam.SimpleAnswer;
 import com.cqvip.mobilevers.exam.Subject;
 import com.cqvip.mobilevers.exam.SubjectExam;
 import com.cqvip.mobilevers.http.HttpUtils;
@@ -46,6 +48,16 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 	private String subjectid;
 	private Map<String, String> gparams;
 	private TextView tv_title;
+	private int[][] done_position;
+	private int[][] right_position;
+	private int[][] wrong_position;
+	
+	private ArrayList<Integer> allAnswerPostion;
+	private ArrayList<Integer> rightAnswerPostion;
+	private ArrayList<Integer> wrongAnswerPostion;
+	private TwoDimensionArray dimension = null;
+	private SeriSqareArray<SimpleAnswer> clientAnswer;
+	
 	//private ImageView img_back;
 	
 	
@@ -110,13 +122,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 		customProgressDialog.show();
 		gparams = new HashMap<String, String>();
 		//获取用户的userID
-		 SharedPreferences localUsers =	getActivity().getSharedPreferences("mobilevers", getActivity().MODE_PRIVATE);
-	     String userId = localUsers.getString("userid", "0");
-	     if(!userId.equals("0")){
-	    	 
-	     }else{
-	    	 
-	     }
+		 
 		
 		
 		gparams.put(ConstantValues.EXAMPAPERID, subjectid);
@@ -198,23 +204,36 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 			 //  getFragmentManager().popBackStack();
 			break;
 		case R.id.btn_exam:
-			String url = ConstantValues.SERVER_URL + ConstantValues.GETEXAM_ADDR;
-			getData(url, subjectid);
+			
+			SharedPreferences localUsers =	getActivity().getSharedPreferences("mobilevers", getActivity().MODE_PRIVATE);
+		     String userId = localUsers.getString("userid", "0");
+		     if(userId.equals("0")){
+		    	 Toast.makeText(getActivity(), "您还未登录，请您先登录", Toast.LENGTH_SHORT).show();
+		     }else{
+		    	 
+		    	 String url = ConstantValues.SERVER_URL + ConstantValues.GETPASTEXAMINFO;
+		    	 getData(url, subjectid,userId);
+		     }
+			
+			
 		default:
 			break;
 		}
 		
 	}
 
-	private void getData(String url, String examPaperId) {
-		getDataFromNet(url, examPaperId);
+	private void getData(String url, String examPaperId,String userId) {
+		getDataFromNet(url, examPaperId,userId);
 	}
 	
-	private void getDataFromNet(String url, String examPaperId) {
+	private void getDataFromNet(String url, String examPaperId,String userId) {
+		
 		customProgressDialog.show();
 		gparams = new HashMap<String, String>();
 		gparams.put(ConstantValues.EXAMPAPERID, examPaperId);
-		Log.i("EXAM",examPaperId);
+		//Log.i("EXAM",examPaperId);
+		//gparams.put("userId", userId);
+		gparams.put("userId", userId);
 		requestVolley(url, back_ls, Method.POST);
 	}
 	
@@ -252,48 +271,66 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 						// 返回正常
 						Exam exam = new Exam(json);
 						//判断是是否有答案，组装好答案
-//						ArrayList<Subject> subjects_list=new ArrayList<Subject>(); // 所有subject
-//						ArrayList<Question> Question_list=new ArrayList<Question>();
-//						ArrayList<Integer> cardCount_List=new ArrayList<Integer>();//答题卡题目
-//						
-//						SubjectExam[] subjectExams_array=exam.getExam2lists();//获取大题数量
-//						for (SubjectExam subjectExam : subjectExams_array) {
-//							
-//							int count = subjectExam.getQuestionNum();
-//							cardCount_List.add(count);//答题卡	
-//							Subject[] subjects=subjectExam.getExam3List();//当_questionNum为0时，判断
-//							if(subjects!=null){
-//							subjects_list.addAll(Arrays.asList(subjects));
-//							}
-//						}
-//						for (Subject subject : subjects_list) {
-//							if(subject!=null){
-//							ArrayList<Question> lists = subject.getQuestion();
-//							Question_list.addAll(lists);
-//							}
-//						}
+						ArrayList<Subject> subjects_list=new ArrayList<Subject>(); // 所有subject
+						ArrayList<Question> Question_list=new ArrayList<Question>();
+						ArrayList<Integer> cardCount_List=new ArrayList<Integer>();//答题卡题目
 						
+						SubjectExam[] subjectExams_array=exam.getExam2lists();//获取大题数量
+						for (SubjectExam subjectExam : subjectExams_array) {
+							
+							int count = subjectExam.getQuestionNum();
+							cardCount_List.add(count);//答题卡	
+							Subject[] subjects=subjectExam.getExam3List();//当_questionNum为0时，判断
+							if(subjects!=null){
+							subjects_list.addAll(Arrays.asList(subjects));
+							}
+						}
+						for (Subject subject : subjects_list) {
+							if(subject!=null){
+							ArrayList<Question> lists = subject.getQuestion();
+							Question_list.addAll(lists);
+							}
+						}
 						
+						int[][] all_position = DateUtil.initDoubleDimensionalData(cardCount_List);//初始化答题卡的二维结构
+						int mCount = subjectExams_array.length;
+						 done_position = new int[mCount][];
+						 right_position = new int[mCount][];
+						 wrong_position = new int[mCount][];
+						for(int i=0;i<mCount;i++ ){
+							done_position[i] = new int[subjectExams_array[i].getQuestionNum()];
+							right_position[i] = new int[subjectExams_array[i].getQuestionNum()];
+							wrong_position[i] = new int[subjectExams_array[i].getQuestionNum()];
+						}
+						//获取答案 
+						SimpleAnswer[] answers  =  exam.getAnswerlists();
+						if(answers!=null&&answers.length>0){
+							
+							 clientAnswer = new SeriSqareArray<SimpleAnswer>();
+							//初始化对错
+							getAllposition(answers,Question_list);//(1,5,6,7)
+							//初始化位置
+							 formTwoDimetion(all_position); 
+							
+							dimension = new TwoDimensionArray(all_position, done_position, right_position,wrong_position,clientAnswer);
+							
+						}
 						
-						
+						Log.i("ExamDetailFragment","dimen"+dimension);
 						if (exam != null) {
 							
-							Intent intent=new Intent(getActivity(),ExamActivity.class);
-							intent.putExtra("exam", exam);
-							intent.putExtra("id", subjectid);
-							startActivity(intent);
+							 for(int i=0;i<clientAnswer.size();i++){
+								 Log.i("ExamDetailFragment","answer:"+clientAnswer.get(i));
+								 }
 							
-//							SubjectExam[] subjectExams_array=exam.getExam2lists();
-//							for (SubjectExam subjectExam : subjectExams_array) {
-//								startLitmitCount_List.add(countall);
-//								countall+=subjectExam.getQuestionNum();
-//								subjects_list.addAll(Arrays.asList(subjectExam.getExam3List()));
-//								subjectExamCount++;
-//							}
-//							System.out.println("subjects_list.size()"+subjects_list.size());
-//							mPager.setAdapter(mAdapter);
+							Intent intent=new Intent(getActivity(),ExamActivity.class);
+							Bundle bundle = new Bundle();
+							bundle.putSerializable("exam", exam);
+							bundle.putSerializable("dimen", dimension);
+							bundle.putString("id", subjectid);
+							intent.putExtra("bundle", bundle);
+							startActivity(intent);
 						}
-
 					} else {
 						// 登陆错误
 						// TODO
@@ -305,8 +342,76 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 				Toast.makeText(getActivity(), "无数据", Toast.LENGTH_LONG).show();
 			}
 		}
+
+		private void formTwoDimetion(int[][] allpostion) {
+			
+			for(int i=0;i<allAnswerPostion.size();i++){
+				int postion = allAnswerPostion.get(i);
+			ColAndRow colAndRow = getItemPosition(postion,allpostion);
+			done_position[colAndRow.row][colAndRow.col] = postion+1;
+			}			
+			for(int i=0;i<rightAnswerPostion.size();i++){
+				int postion = rightAnswerPostion.get(i);
+			ColAndRow colAndRow = getItemPosition(postion,allpostion);
+			right_position[colAndRow.row][colAndRow.col] = postion+1;
+			}			
+			for(int i=0;i<wrongAnswerPostion.size();i++){
+				int postion = wrongAnswerPostion.get(i);
+			ColAndRow colAndRow = getItemPosition(postion,allpostion);
+			wrong_position[colAndRow.row][colAndRow.col] = postion+1;
+			}			
+			
+		}
+
+		
+		private ColAndRow getItemPosition(int position,int[][] allpostion) {
+			ColAndRow cr = null;
+		
+			for(int i=0;i<allpostion.length;i++){
+				for(int j=0;j<allpostion[i].length;j++){
+					if(allpostion[i][j]==(position+1)){
+						cr = new ColAndRow(i, j);
+					}
+				}
+			}
+			return cr;
+		}
+
+		private void getAllposition(SimpleAnswer[] answers,
+				ArrayList<Question> question_list) {
+		allAnswerPostion = new ArrayList<Integer>();
+		rightAnswerPostion = new ArrayList<Integer>();
+		wrongAnswerPostion = new ArrayList<Integer>();
+			
+			for(int i=0;i<answers.length;i++){
+				SimpleAnswer ans = answers[i];
+				String an_id = ans.getId();
+				double score = ans.getScore();
+				for(int j=0;j<question_list.size();j++){
+					String ques_id = question_list.get(j).getId();
+					if(an_id.equals(ques_id)){//
+							allAnswerPostion.add(j);
+							clientAnswer.append(j,ans);
+						if(score>0){
+							rightAnswerPostion.add(j);
+						}else{
+							wrongAnswerPostion.add(j);
+						}
+					}
+				}
+			}
+		}
 	};
 		
+	private class ColAndRow{
+		int row;//行
+		int col;//列
+		public ColAndRow(int row,int col){
+			this.col = col;
+			this.row = row;
+		}
+	}
+	
 	  
 	 @Override
 	public void onDestroyView() {

@@ -18,15 +18,15 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.test.IsolatedContext;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.KeyEvent;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -35,13 +35,14 @@ import com.cqvip.mobilevers.entity.TwoDimensionArray;
 import com.cqvip.mobilevers.exam.BaseExamInfo;
 import com.cqvip.mobilevers.exam.Exam;
 import com.cqvip.mobilevers.exam.Question;
+import com.cqvip.mobilevers.exam.SeriSqareArray;
 import com.cqvip.mobilevers.exam.SimpleAnswer;
 import com.cqvip.mobilevers.exam.Subject;
 import com.cqvip.mobilevers.exam.SubjectExam;
 import com.cqvip.mobilevers.ui.base.BaseFragmentActivity;
+import com.cqvip.mobilevers.utils.DateUtil;
 import com.cqvip.mobilevers.view.ExamFragment;
 import com.cqvip.mobilevers.view.FragmentAnswerScard;
-import com.cqvip.mobilevers.view.ResultFragment;
 
 public class ExamActivity extends BaseFragmentActivity implements
 		OnPageChangeListener, OnClickListener{
@@ -55,8 +56,6 @@ public class ExamActivity extends BaseFragmentActivity implements
 	public static boolean isnight = false;
 	private TextView tv_item_count;
 	
-	private LinearLayout shwoSubTitle_ll;
-
 	private Timer timer = null;
 	private TimerTask task = null;
 	private Handler handler = null;
@@ -64,7 +63,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 	private int secondTotal;
 	private TextView time_tv;
 	private TextView tips_viewSubTitle;
-	private TextView tv_back;
+	private ImageView tv_back;
 
 	//private String examPaperId;
 	//private Map<String, String> gparams;
@@ -93,8 +92,8 @@ public class ExamActivity extends BaseFragmentActivity implements
 	public ArrayList<Integer> cardCount_List=new ArrayList<Integer>();//答题卡题目
 	
 	
-	public static SparseArray<ArrayList<SimpleAnswer>> clientAnswer;
-	
+	public static SeriSqareArray<SimpleAnswer> clientAnswer;
+	private TwoDimensionArray dimension;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -111,13 +110,10 @@ public class ExamActivity extends BaseFragmentActivity implements
 		if (savedInstanceState != null) {
 			secondTotal = savedInstanceState.getInt("secondTotal");
 		}
-		
-		exam = (Exam) getIntent().getSerializableExtra("exam");
-		// Fragment newFragment = new FragmentExam();
-		// FragmentTransaction ft =
-		// getSupportFragmentManager().beginTransaction();
-		// ft.add(R.id.exam_fl, newFragment).commit();
-		
+		Bundle intent = getIntent().getBundleExtra("bundle");
+		exam = (Exam) intent.getSerializable("exam");
+		dimension = (TwoDimensionArray) intent.getSerializable("dimen");
+		//clientAnswer =  intent.getSparseParcelableArray("answer");
 		mAdapter = new MyAdapter(getSupportFragmentManager(), context);
 //		examPaperId=getIntent().getStringExtra(ConstantValues.EXAMPAPERID);
 //		Log.i(TAG, examPaperId);
@@ -125,32 +121,17 @@ public class ExamActivity extends BaseFragmentActivity implements
 		init();
 		startCountTime();
 		//大题
+
+//		//
 		SubjectExam[] subjectExams_array=exam.getExam2lists();
-		//
 		for (SubjectExam subjectExam : subjectExams_array) {
 			//客户端显示题目数量
 			int count = subjectExam.getQuestionNum();
 			cardCount_List.add(count);//答题卡
-			
-		//	startLitmitCount_List.add(clientShowCount);
-	
-			//所有试卷大题数量size与startLitmitCount_List相同
 			Subject[] subjects=subjectExam.getExam3List();//当_questionNum为0时，判断
 			if(subjects!=null){
 			subjects_list.addAll(Arrays.asList(subjects));
 			}
-			
-		//	subjectExamCount_list.add(paperShowCount);
-			//subjectExamCount++;
-		}
-		int mCount = subjectExams_array.length;
-		done_position = new int[mCount][];
-		right_position = new int[mCount][];
-		wrong_position = new int[mCount][];
-		for(int i=0;i<mCount;i++ ){
-			done_position[i] = new int[subjectExams_array[i].getQuestionNum()];
-			right_position[i] = new int[subjectExams_array[i].getQuestionNum()];
-			wrong_position[i] = new int[subjectExams_array[i].getQuestionNum()];
 		}
 		
 		for (Subject subject : subjects_list) {
@@ -162,40 +143,45 @@ public class ExamActivity extends BaseFragmentActivity implements
 		}
 		clientShowCount  = Question_list.size();
 		
-		all_position = initDoubleDimensionalData();
-		System.out.println("题目总数"+Question_list.size());
+		if(dimension!=null){
+			all_position = dimension.getAllss();
+			done_position = dimension.getDoness();
+			right_position = dimension.getRightss();
+			wrong_position = dimension.getWrongss();
+			clientAnswer = dimension.getClientAnswers();
+			
+			Log.i(TAG,"don"+Arrays.toString(all_position));
+			Log.i(TAG,"right"+Arrays.toString(right_position));
+			Log.i(TAG,Arrays.toString(wrong_position));
+			for(int i=0;i<clientAnswer.size();i++){
+			Log.i(TAG,"answer:"+clientAnswer.get(i));
+			System.out.println(clientAnswer.get(i));
+			}
+		}else{
+		all_position = DateUtil.initDoubleDimensionalData(cardCount_List);
+	
+		int mCount = subjectExams_array.length;
+		done_position = new int[mCount][];
+		right_position = new int[mCount][];
+		wrong_position = new int[mCount][];
+		for(int i=0;i<mCount;i++ ){
+			done_position[i] = new int[subjectExams_array[i].getQuestionNum()];
+			right_position[i] = new int[subjectExams_array[i].getQuestionNum()];
+			wrong_position[i] = new int[subjectExams_array[i].getQuestionNum()];
+			clientAnswer = new SeriSqareArray<SimpleAnswer>();
+		}
+		}
+		
+		
 		mPager.setAdapter(mAdapter);
 		
-		clientAnswer = new SparseArray<ArrayList<SimpleAnswer>>();
 		
-		paperId = getIntent().getStringExtra("id");
+		paperId = intent.getString("id");
 		paperName = exam.get_examPaperName();
 		paperScore = exam.getScore();
 		paperTime = exam.getExamTime();
 		baseExamInfo = new BaseExamInfo(paperId,paperTime, paperName, paperScore,clientShowCount);
 		
-	}
-	
-	/**
-	 * 根据
-	 * @param list
-	 * @return
-	 */
-	private int[][] initDoubleDimensionalData() {
-		int a=0;
-		int b=0;
-		//把这个集合转换成二维数组，维度同size相同
-		ArrayList<Integer> perCount_row = getCardCount_List();//所有题目（8,10,20,4,5）
-		int[][] mlists = new int[perCount_row.size()][];
-		for (int i = 0; i < perCount_row.size(); i++) {
-			a = perCount_row.get(i);
-			mlists[i] = new int[a];
-			for (int j = 1; j <= a; j++) {
-				mlists[i][j-1] = j+b;
-			}
-			b += a;
-		}
-		return mlists;
 	}
 	
 
@@ -276,36 +262,35 @@ public class ExamActivity extends BaseFragmentActivity implements
 	}
 
 	private void initView() {
-		shwoSubTitle_ll = (LinearLayout) findViewById(R.id.ll_show_subtitle);
-		tips_viewSubTitle = (TextView) findViewById(R.id.tv_view_subtitle);
+		tips_viewSubTitle = (TextView) findViewById(R.id.tv_show_subtitle);
 		tips_viewSubTitle.setText(getResources().getString(R.string.btn_show_subtitle));
 	//	lookanswer_ll.setVisibility(View.GONE);
-		tv_back = (TextView) findViewById(R.id.tv_back);
+		tv_back = (ImageView) findViewById(R.id.img_back);
 		tv_back.setOnClickListener(this);
-		shwoSubTitle_ll.setOnClickListener(this);
+		tips_viewSubTitle.setOnClickListener(this);
 		mPager = (ViewPager) findViewById(R.id.pager);
 		mPager.setOnPageChangeListener(this);
 		//mPager.setAdapter(mAdapter);
 		// mPager.setOffscreenPageLimit(5);
-		LinearLayout answercard = (LinearLayout) findViewById(R.id.ll_show_card);
+		TextView answercard = (TextView) findViewById(R.id.tv_show_card);
 		answercard.setOnClickListener(this);
-		LinearLayout showAnswer = (LinearLayout) findViewById(R.id.ll_show_answer);
+		TextView showAnswer = (TextView) findViewById(R.id.tv_show_anwer);
 		showAnswer.setOnClickListener(this);
-		LinearLayout handpaper = (LinearLayout) findViewById(R.id.ll_exam_handle);
+		TextView handpaper = (TextView) findViewById(R.id.tv_exam_handle);
 		handpaper.setOnClickListener(this);
 
 		time_tv = (TextView) findViewById(R.id.time_tv);
 		tv_item_count = (TextView) findViewById(R.id.tv_item_count);
 		
-		Button button = (Button) findViewById(R.id.goto_first);
-		button.setOnClickListener(new OnClickListener() {
+		ImageView button_back = (ImageView) findViewById(R.id.goto_back);
+		button_back.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (currentpage > 0)
 					mPager.setCurrentItem(--currentpage);
 			}
 		});
-		button = (Button) findViewById(R.id.goto_last);
-		button.setOnClickListener(new OnClickListener() {
+		ImageView button_enter = (ImageView) findViewById(R.id.goto_next);
+		button_enter.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (currentpage < clientShowCount - 1)
 					mPager.setCurrentItem(++currentpage);
@@ -420,7 +405,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.tv_back://返回
+		case R.id.img_back://返回
 			//是否退出考试
 			if(!isShowAnswer){
 		Dialog dialog =	new AlertDialog.Builder(this)
@@ -440,12 +425,12 @@ public class ExamActivity extends BaseFragmentActivity implements
 			dialog.show();
 			}
 			break;
-		case R.id.ll_show_card://查看答题卡
+		case R.id.tv_show_card://查看答题卡
 			isRightWrong = isShowAnswer;
 			isHandleOver = false;
 			showAnswerCard(isHandleOver,isRightWrong);
 			break;
-		case R.id.ll_show_subtitle:
+		case R.id.tv_show_subtitle:
 			ExamFragment fragment = mAdapter.getFragment(currentpage);
 			if(isOnshowing){
 				tips_viewSubTitle.setText(getResources().getString(R.string.btn_show_subtitle));
@@ -457,11 +442,11 @@ public class ExamActivity extends BaseFragmentActivity implements
 				isOnshowing = true;
 			}
 			break;
-		case R.id.ll_show_answer:
+		case R.id.tv_show_anwer:
 			ExamFragment mfragment = mAdapter.getFragment(currentpage);
 			mfragment.viewAnswer();
 			break;
-		case R.id.ll_exam_handle:
+		case R.id.tv_exam_handle:
 			isHandleOver = true;
 			//交卷
 			TwoDimensionArray resultArray = new TwoDimensionArray(done_position,right_position,wrong_position,clientAnswer);
