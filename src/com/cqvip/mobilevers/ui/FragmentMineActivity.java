@@ -37,6 +37,7 @@ import com.cqvip.mobilevers.entity.PaperInfo;
 import com.cqvip.mobilevers.http.HttpUtils;
 import com.cqvip.mobilevers.http.VersStringRequest;
 import com.cqvip.mobilevers.ui.base.BaseMainFragmentActivity;
+import com.cqvip.mobilevers.utils.Utils;
 import com.cqvip.mobilevers.view.AboutFragment;
 import com.cqvip.mobilevers.view.DoneExamPaperListFragment;
 import com.cqvip.mobilevers.view.LoginFragment;
@@ -73,15 +74,29 @@ public class FragmentMineActivity extends BaseMainFragmentActivity {
 	}
 
 	/**
-	 * 
+	 * 我做过的试卷
 	 * @param view
 	 */
 	public void mypassedexam(View view){
-		
-       DoneExamPaperListFragment newFragment = new DoneExamPaperListFragment();
+		String userid=null;
+		if((userid=Utils.checkUserid(this))==null){
+			return;
+		}
+       DoneExamPaperListFragment newFragment = DoneExamPaperListFragment.newInstance(userid, getString(R.string.DoneExamPaper), ConstantValues.GETMYPASTEXAMLIST);
        addFragmentToStack(newFragment, android.R.id.content);
-		
-		
+	}	
+	
+	/**
+	 * 我收藏的试卷
+	 * @param view
+	 */
+	public void myfavorite(View view){
+		String userid=null;
+		if((userid=Utils.checkUserid(this))==null){
+			return;
+		}
+       DoneExamPaperListFragment newFragment = DoneExamPaperListFragment.newInstance(userid,getString(R.string.favoriteExamPaper),ConstantValues.GETFAVORITESEXAMPAPERLIST);
+       addFragmentToStack(newFragment, android.R.id.content);
 	}	
 	
 	private void getDB() {

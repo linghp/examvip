@@ -22,6 +22,8 @@ public class ConstantValues {
 	public static final String SAVEEXAMANSWER="Service1.asmx/SaveExamAnswer";
 	public static final String GETPASTEXAMINFO="Service1.asmx/GetExamPaperAdnAnswerInfo";
 	public static final String GETMYPASTEXAMLIST="Service1.asmx/GetExamScoreList";
+	public static final String ADDFAVORITESEXAMPAPER="Service1.asmx/AddFavoritesExamPaper";
+	public static final String GETFAVORITESEXAMPAPERLIST="Service1.asmx/GetFavoritesExamPaperList";
 	
 	
 	public static final String DBNAME="MobileVers.db";

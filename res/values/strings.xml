@@ -35,4 +35,10 @@
     <string name="btn_show_subtitle">查看题干</string>
     <string name="btn_hide_subtitle">隐藏题干</string>
 
+    <string name="favorite_success">收藏成功</string>
+    <string name="favorite_fail">收藏失败</string>
+    
+    <string name="DoneExamPaper">我做过的试卷</string>
+    <string name="DoingExamPaper">我正在做的试卷</string>
+    <string name="favoriteExamPaper">我收藏的试卷</string>
 </resources>

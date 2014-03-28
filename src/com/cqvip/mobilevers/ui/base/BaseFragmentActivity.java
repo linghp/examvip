@@ -66,10 +66,10 @@ public class BaseFragmentActivity extends FragmentActivity implements
 
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 				float velocityY) {
-			Log.e("onFling",
-					"velocityY" + velocityY + "--velocityX" + velocityX
-							+ "  y/x" + (e2.getY() - e1.getY())
-							/ (e2.getX() - e1.getX()));
+//			Log.e("onFling",
+//					"velocityY" + velocityY + "--velocityX" + velocityX
+//							+ "  y/x" + (e2.getY() - e1.getY())
+//							/ (e2.getX() - e1.getX()));
 			if (isLeftFragment
 					&& Math.abs(velocityX) > minVelocitx
 					&& Math.abs(velocityX) > 1.5 * Math.abs(velocityY)

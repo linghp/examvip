@@ -13,7 +13,6 @@
   			android:background="@color/f_title_bg"
   			android:gravity="center_vertical"  >  
   			
-        
         	<ImageView 
               android:id="@+id/img_back"
               android:layout_width="wrap_content" 
@@ -23,9 +22,6 @@
 			    android:src="@drawable/icon_back"
 			    android:paddingLeft="8dp" 
               />
-    
-        
-        
 			<TextView  
  			    android:layout_width="wrap_content"  
         		android:layout_height="wrap_content" 
@@ -124,5 +120,8 @@
       android:background="@drawable/btn_style_blue"
       android:text="查看答案及解析" />
 
-	</RelativeLayout>	
+
+
+</RelativeLayout>	
+
 </RelativeLayout>

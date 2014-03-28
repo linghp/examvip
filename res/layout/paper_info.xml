@@ -303,18 +303,19 @@
         android:gravity="bottom"
         android:orientation="horizontal" >
 
-        <TextView 
- 			       android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="收    藏"
-        android:textSize="20sp"
-       android:padding="10dp"
-       android:drawableLeft="@drawable/ic_menu_download"
-       android:layout_centerVertical="true"
-                   
-            />
+        <TextView
+            android:id="@+id/favorite_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/oneclassfy_allpaper"
+            android:drawableLeft="@drawable/sc2"
+            android:padding="10dp"
+            android:text="收    藏"
+            android:gravity="center"
+            android:textSize="20sp" />
     </RelativeLayout>
      </LinearLayout>
   </ScrollView>

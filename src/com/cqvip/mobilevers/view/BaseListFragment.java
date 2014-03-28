@@ -28,10 +28,10 @@ public class BaseListFragment extends Fragment {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		mQueue = Volley.newRequestQueue(getActivity());
-		volleyErrorListener = new ErrorVolleyThrow(getActivity(), null);
 		if(customProgressDialog==null){
 			customProgressDialog=CustomProgressDialog.createDialog(getActivity());
 		}
+		volleyErrorListener = new ErrorVolleyThrow(getActivity(), customProgressDialog);
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
