@@ -21,6 +21,7 @@
         <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:scrollbars="none"
             android:layout_marginBottom="30.0dip" >
 
             <LinearLayout
@@ -160,6 +161,7 @@
                         android:layout_marginBottom="30.0dip"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
+                        android:background="@color/yellow_onexam_anwerdesc"
                         android:visibility="visible" >
 
                         <TextView
@@ -173,8 +175,9 @@
                             android:id="@+id/anser_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@color/yellow_onexam_anwerdesc"
-                            android:text=""
+                            android:padding="2dp"
+                            android:textSize="16sp"
+                            android:text="阿斯顿发，阿斯顿发"
                             android:textColor="@color/black"
                             android:visibility="visible" />
                     </LinearLayout>

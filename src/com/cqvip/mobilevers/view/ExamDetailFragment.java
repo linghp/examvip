@@ -331,17 +331,8 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 									wrong_position, clientAnswer);
 
 						}
-
-						Log.i("ExamDetailFragment", "dimen" + dimension);
 						if (exam != null) {
-
-							for (int i = 0; i < clientAnswer.size(); i++) {
-								Log.i("ExamDetailFragment", "answer:"
-										+ clientAnswer.get(i));
-							}
-
-							Intent intent = new Intent(getActivity(),
-									ExamActivity.class);
+							Intent intent=new Intent(getActivity(),ExamActivity.class);
 							Bundle bundle = new Bundle();
 							bundle.putSerializable("exam", exam);
 							bundle.putSerializable("dimen", dimension);

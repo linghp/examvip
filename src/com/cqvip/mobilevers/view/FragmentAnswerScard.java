@@ -408,7 +408,7 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 				Toast.makeText(getActivity(), "交卷失败",
 				Toast.LENGTH_LONG).show();
 			}
-			getFragmentManager().popBackStack();
+			((ExamActivity)getActivity()).getSupportFragmentManager().popBackStack();
 			ResultFragment newFragment = ResultFragment.newInstance(baseExamInfo,examDoneInfo);
 			((ExamActivity)getActivity()).addFragmentToStack(newFragment,R.id.exam_fl);
 		}
