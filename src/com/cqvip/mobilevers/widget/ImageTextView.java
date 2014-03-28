@@ -1,5 +1,10 @@
 package com.cqvip.mobilevers.widget;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,6 +14,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -22,6 +28,7 @@ import com.cqvip.mobilevers.exam.Content;
 
 public class ImageTextView extends TextView {
 
+	private static final String ttt = "http://imgsrc.baidu.com/baike/pic/item/346bd85cb9d9f066faf2c02c.jpg";
 	// 匹配图片[*]
 	public static Pattern PIC_PATTERN = Pattern.compile("\\[([\\*]+)\\]",
 			Pattern.CASE_INSENSITIVE);
@@ -90,6 +97,79 @@ public class ImageTextView extends TextView {
 							ImageSpan.ALIGN_BASELINE);
 					style.setSpan(span, picMatcher.start(), picMatcher.end(),
 							Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+					
+					int start = picMatcher.start();
+					int end = picMatcher.end();					
+					int[] array = new int[]{start,end};
+					
+					new AsyncTask<Object, Void, Drawable>(){
+
+						String path ;
+						SpannableStringBuilder builder;
+						TextView textView1 ;
+						int[] indexs;
+						
+						@Override
+						protected Drawable doInBackground(Object... params) {
+							 path = (String) params[0];
+							 builder = (SpannableStringBuilder) params[1];
+							 textView1 = (TextView) params[2];
+							 indexs = (int[]) params[3];
+							
+							  URL myFileUrl = null;  
+					          Bitmap bitmap = null;  
+					          InputStream is = null;  
+					        HttpURLConnection conn = null;  
+					        try {  
+					            myFileUrl = new URL(path);  
+					        } catch (MalformedURLException e) {  
+					            e.printStackTrace();  
+					        } 
+					        try {  
+					            conn = (HttpURLConnection)myFileUrl  
+					                    .openConnection();  
+					            conn.setDoInput(true);  
+					            conn.connect();  
+					            is =conn.getInputStream();  
+					            bitmap =BitmapFactory.decodeStream(is);  
+					            is.close();  
+					        } catch (IOException e) {  
+					            e.printStackTrace();  
+					        }finally{                 
+					                try {  
+					                    if(is != null){  
+					                    is.close();  
+					                    }  
+					                    if( conn != null){  
+					                        conn.disconnect();  
+					                    }  
+					                } catch (IOException e) {  
+					                    // TODO Auto-generated catch block  
+					                    e.printStackTrace();  
+					                }                 
+					        } 
+					        return new BitmapDrawable(bitmap);  
+						}
+
+						@Override
+						protected void onPostExecute(Drawable result) {
+							super.onPostExecute(result);
+							if(result == null)
+								return;
+							
+							result.setBounds(0, 0, result.getIntrinsicWidth(),
+									result.getIntrinsicHeight());
+							ImageSpan span2 = new ImageSpan(result,
+									ImageSpan.ALIGN_BASELINE);
+							SpannableString spannable2 = new SpannableString(ttt);
+							spannable2.setSpan(span2, 0, spannable2.length(),
+									Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+							builder.replace(indexs[0],indexs[1], spannable2);
+							textView1.setText(builder);
+						}
+						
+						
+					}.execute(ttt,style,textView,array);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -135,6 +215,79 @@ public class ImageTextView extends TextView {
 							ImageSpan.ALIGN_BASELINE);
 					style.setSpan(span, picMatcher.start(), picMatcher.end(),
 							Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+					
+					int start = picMatcher.start();
+					int end = picMatcher.end();					
+					int[] array = new int[]{start,end};
+					
+					new AsyncTask<Object, Void, Drawable>(){
+
+						String path ;
+						SpannableStringBuilder builder;
+						TextView textView1 ;
+						int[] indexs;
+						
+						@Override
+						protected Drawable doInBackground(Object... params) {
+							 path = (String) params[0];
+							 builder = (SpannableStringBuilder) params[1];
+							 textView1 = (TextView) params[2];
+							 indexs = (int[]) params[3];
+							
+							  URL myFileUrl = null;  
+					          Bitmap bitmap = null;  
+					          InputStream is = null;  
+					        HttpURLConnection conn = null;  
+					        try {  
+					            myFileUrl = new URL(path);  
+					        } catch (MalformedURLException e) {  
+					            e.printStackTrace();  
+					        } 
+					        try {  
+					            conn = (HttpURLConnection)myFileUrl  
+					                    .openConnection();  
+					            conn.setDoInput(true);  
+					            conn.connect();  
+					            is =conn.getInputStream();  
+					            bitmap =BitmapFactory.decodeStream(is);  
+					            is.close();  
+					        } catch (IOException e) {  
+					            e.printStackTrace();  
+					        }finally{                 
+					                try {  
+					                    if(is != null){  
+					                    is.close();  
+					                    }  
+					                    if( conn != null){  
+					                        conn.disconnect();  
+					                    }  
+					                } catch (IOException e) {  
+					                    // TODO Auto-generated catch block  
+					                    e.printStackTrace();  
+					                }                 
+					        } 
+					        return new BitmapDrawable(bitmap);  
+						}
+
+						@Override
+						protected void onPostExecute(Drawable result) {
+							super.onPostExecute(result);
+							if(result == null)
+								return;
+							
+							result.setBounds(0, 0, result.getIntrinsicWidth(),
+									result.getIntrinsicHeight());
+							ImageSpan span2 = new ImageSpan(result,
+									ImageSpan.ALIGN_BASELINE);
+							SpannableString spannable2 = new SpannableString(ttt);
+							spannable2.setSpan(span2, 0, spannable2.length(),
+									Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+							builder.replace(indexs[0],indexs[1], spannable2);
+							textView1.setText(builder);
+						}
+						
+						
+					}.execute(ttt,style,textView,array);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

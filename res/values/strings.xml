@@ -35,4 +35,16 @@
     <string name="btn_show_subtitle">查看题干</string>
     <string name="btn_hide_subtitle">隐藏题干</string>
 
+    <string name="favorite_success">收藏成功</string>
+    <string name="favorite_fail">收藏失败</string>
+    
+    <string name="DoneExamPaper">我做过的试卷</string>
+    <string name="DoingExamPaper">我正在做的试卷</string>
+    <string name="favoriteExamPaper">我收藏的试卷</string>
+    <string name="about_html">包库版：http://vers.cqvip.com</string>
+    <string name="about_phone">全国客服电话：400-638-5550</string>
+    <string name="about_time">值班时间：9:00-17:00（国家法定工作日）</string>
+    <string name="about_title">VERS维普考试资源系统</string>
+    <string name="about_version">android v1.1.0</string>
+    <string name="about_own">维普资讯公司版权所有</string>
 </resources>

@@ -2,6 +2,7 @@ package com.cqvip.mobilevers.exception;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Response.ErrorListener;
@@ -21,8 +22,10 @@ public class ErrorVolleyThrow implements ErrorListener{
 			
 		 VolleyLog.e("Error: ", arg0.getMessage());
 		
-				if(dialog!=null&&dialog.isShowing())
+				if(dialog!=null&&dialog.isShowing()){
 					dialog.dismiss();
+				Log.i("onErrorResponse", "dialog.dismiss()");
+				}
 				
 				String info = VolleyErrorHelper.getMessage(arg0, context);
 				

@@ -424,6 +424,8 @@ public class ExamActivity extends BaseFragmentActivity implements
             })
             .create();
 			dialog.show();
+			}else{
+				finish();
 			}
 			break;
 		case R.id.tv_show_card://查看答题卡

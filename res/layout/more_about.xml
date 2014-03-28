@@ -1,13 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" android:clickable="true">
+    
+     <include 
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        layout="@layout/title_next" />
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="我的考试" />
+     <ImageView
+         android:id="@+id/img_about_title"
+         android:layout_below="@id/title"
+         android:padding="10dp"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:src="@drawable/update_logo" />
 
-</LinearLayout>
+     <TextView
+         android:id="@+id/tv_about_title"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_alignParentLeft="true"
+         android:layout_below="@+id/img_about_title"
+         android:layout_marginTop="10dp"
+         android:gravity="center"
+         android:text="@string/about_title"
+         android:textSize="22sp" />
+
+     <TextView
+         android:id="@+id/tv_about_version"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_alignParentLeft="true"
+         android:layout_below="@+id/tv_about_title"
+         android:layout_marginTop="5dp"
+         android:gravity="center"
+         android:text="@string/about_version"
+         android:textColor="@color/blue_bottom_bar_press"
+         android:textSize="16sp" />
+
+     <TextView
+         android:id="@+id/tv_about_html"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_alignParentLeft="true"
+         android:layout_marginTop="20dp"
+         android:padding="5dp"
+         android:layout_below="@+id/tv_about_version"
+         android:gravity="center"
+         android:text="@string/about_html" />
+
+     <TextView
+         android:id="@+id/tv_about_phone"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:padding="5dp"
+         android:layout_alignParentLeft="true"
+         android:layout_below="@+id/tv_about_html"
+         android:gravity="center"
+         android:text="@string/about_phone" />
+
+     <TextView
+         android:id="@+id/tv_about_time"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:padding="5dp"
+         android:layout_alignParentLeft="true"
+         android:layout_below="@+id/tv_about_phone"
+         android:gravity="center"
+         android:text="@string/about_time" />
+
+     <TextView
+         android:id="@+id/tv_about_own"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_alignParentBottom="true"
+         android:layout_alignParentLeft="true"
+         android:layout_marginBottom="48dp"
+         android:gravity="center"
+         android:text="@string/about_own"
+         android:textSize="18sp" />
+     
+</RelativeLayout>

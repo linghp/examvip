@@ -1,19 +1,12 @@
 package com.cqvip.mobilevers.view;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,16 +18,11 @@ import android.widget.Toast;
 import com.android.volley.Request.Method;
 import com.android.volley.Response.Listener;
 import com.cqvip.mobilevers.R;
-import com.cqvip.mobilevers.adapter.ExamPaperAdapter;
 import com.cqvip.mobilevers.config.ConstantValues;
-import com.cqvip.mobilevers.db.OneLevelTypeDao;
 import com.cqvip.mobilevers.db.User;
 import com.cqvip.mobilevers.db.UserDao;
-import com.cqvip.mobilevers.entity.Paper;
-import com.cqvip.mobilevers.entity.PaperInfo;
 import com.cqvip.mobilevers.http.HttpUtils;
 import com.cqvip.mobilevers.http.VersStringRequest;
-import com.cqvip.mobilevers.ui.FragmentExamActivity;
 import com.cqvip.mobilevers.ui.FragmentMineActivity;
 import com.cqvip.mobilevers.ui.base.BaseFragment;
 
@@ -124,7 +112,7 @@ public class LoginFragment extends BaseFragment {
    				editor.putString("username", user.getName());
    				editor.putString("userid", user.getUserid());
    				editor.commit();
-						Log.i("database", "存储成功");
+						Log.i("database", "存储成功"+user.getUserid());
 						Toast.makeText(getActivity(), "登陆成功", 0).show();
 					getFragmentManager().popBackStack();
 					((FragmentMineActivity)getActivity()).loginUI();

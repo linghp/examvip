@@ -70,7 +70,7 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 	private Map<String,String> gparams;
 	private BaseExamInfo baseExamInfo;
 	
-	private int clientGetScore;//用户得分
+	private double clientGetScore;//用户得分
 	private int rightCount;//对的个数
 	private int wrongCount;//错的个数
 	private int doneCount;//做题的个数
@@ -408,16 +408,20 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 				Toast.makeText(getActivity(), "交卷失败",
 				Toast.LENGTH_LONG).show();
 			}
+			if(((ExamActivity)getActivity()).getSupportFragmentManager().getBackStackEntryCount()>0){
 			((ExamActivity)getActivity()).getSupportFragmentManager().popBackStack();
+			}
 			ResultFragment newFragment = ResultFragment.newInstance(baseExamInfo,examDoneInfo);
 			((ExamActivity)getActivity()).addFragmentToStack(newFragment,R.id.exam_fl);
 		}
 	};
-	private int getTotalScore(SparseArray<SimpleAnswer> answers) {
-		int total = 0 ;
+	private double getTotalScore(SparseArray<SimpleAnswer> answers) {
+		double total = 0 ;
 		for(int i=0;i<answers.size();i++){
 			SimpleAnswer perAnswer =  answers.get(i);
+			if(perAnswer!=null){
 			total+= perAnswer.getScore();
+			}
 		}
 		return total;
 	}  
