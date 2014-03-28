@@ -43,7 +43,7 @@ public class BaseFragmentActivity extends FragmentActivity implements
 		mGestureDetector = new GestureDetector(this,
 				new MyGestrueListener(this));
 		fManager = getSupportFragmentManager();
-		fManager.addOnBackStackChangedListener(this);
+		//fManager.addOnBackStackChangedListener(this);
 		mQueue = Volley.newRequestQueue(this);
 		volleyErrorListener = new ErrorVolleyThrow(this, null);
 		if(customProgressDialog==null){
@@ -70,6 +70,7 @@ public class BaseFragmentActivity extends FragmentActivity implements
 //					"velocityY" + velocityY + "--velocityX" + velocityX
 //							+ "  y/x" + (e2.getY() - e1.getY())
 //							/ (e2.getX() - e1.getX()));
+			Log.i("onFling", isLeftFragment+"");
 			if (isLeftFragment
 					&& Math.abs(velocityX) > minVelocitx
 					&& Math.abs(velocityX) > 1.5 * Math.abs(velocityY)
@@ -110,7 +111,7 @@ public class BaseFragmentActivity extends FragmentActivity implements
 		ft.commit();
 	}
 
-	// 防止viewpager滑动非第一页时，isLeftFragment设为false，造成后面的页面右滑无响应。
+	// 防止viewpager滑动非第一页时，此时的isLeftFragment已经设为了false，造成后面的页面(答题卡)右滑无响应。
 	boolean temp = true;
 
 	@Override

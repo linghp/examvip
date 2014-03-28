@@ -63,6 +63,12 @@ public class ExamClassfyFragment extends BaseFragment implements OnClickListener
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 			if (reuseView()) {
+				if(mposition==1){
+					((RadioButton) rg_nav_content.getChildAt(0))
+					.performClick();
+					((RadioButton) rg_nav_content.getChildAt(mposition))
+					.performClick();
+				}
 				return view;
 			}
 			view = inflater.inflate(R.layout.activity_exam_classfy, container, false);

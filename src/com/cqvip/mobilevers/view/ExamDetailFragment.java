@@ -144,7 +144,10 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		mQueue.add(mys);
 
 	}
-
+	
+	/**
+	 * 获取试卷详细信息
+	 */
 	private Listener<String> backlistener = new Listener<String>() {
 		@Override
 		public void onResponse(String response) {
@@ -229,6 +232,19 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		gparams.put("userId", userid);
 		gparams.put("examPaperId", subjectid);
 		requestVolley(url, back_favorite_ls, Method.POST);
+	}
+	
+	private void deleteFavorite() {
+		String userid = null;
+		if ((userid = Utils.checkUserid(getActivity())) == null) {
+			return;
+		}
+		String url = ConstantValues.SERVER_URL
+				+ ConstantValues.DELETEFAVORITESEXAMPAPER;
+		gparams = new HashMap<String, String>();
+		gparams.put("userId", userid);
+		gparams.put("examPaperId", subjectid);
+		requestVolley(url, back_deletefavorite_ls, Method.POST);
 	}
 
 	private void getData(String url, String examPaperId, String userId) {
@@ -332,7 +348,8 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 
 						}
 						if (exam != null) {
-							Intent intent=new Intent(getActivity(),ExamActivity.class);
+							Intent intent = new Intent(getActivity(),
+									ExamActivity.class);
 							Bundle bundle = new Bundle();
 							bundle.putSerializable("exam", exam);
 							bundle.putSerializable("dimen", dimension);
@@ -415,24 +432,23 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 
 		@Override
 		public void onResponse(String response) {
-			if (customProgressDialog != null
-					&& customProgressDialog.isShowing())
-				customProgressDialog.dismiss();
 			// 解析结果
 			if (response != null) {
 				try {
 					JSONObject json = new JSONObject(response);
 					boolean isfavorite = json.getBoolean("status");
 					if (isfavorite) {
+						if (customProgressDialog != null
+								&& customProgressDialog.isShowing())
+							customProgressDialog.dismiss();
 						Toast.makeText(
 								getActivity(),
 								getActivity().getString(
 										R.string.favorite_success),
 								Toast.LENGTH_SHORT).show();
-						favorite_tv_drawable();
+						favorite_tv_drawable(R.drawable.sc2);
 					} else {
-						Toast.makeText(getActivity(), "已收藏", Toast.LENGTH_SHORT)
-								.show();
+						deleteFavorite();
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -447,9 +463,46 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 			}
 		}
 	};
+	
+	private Listener<String> back_deletefavorite_ls = new Listener<String>() {
 
-	private void favorite_tv_drawable() {
-		Drawable drawable = getActivity().getResources().getDrawable(R.drawable.sc2);
+		@Override
+		public void onResponse(String response) {
+			// 解析结果
+			if (response != null) {
+				try {
+					JSONObject json = new JSONObject(response);
+					boolean isfavorite = json.getBoolean("status");
+					if (isfavorite) {
+						if (customProgressDialog != null
+								&& customProgressDialog.isShowing())
+							customProgressDialog.dismiss();
+						Toast.makeText(
+								getActivity(),
+								getActivity().getString(
+										R.string.deletefavorite_success),
+								Toast.LENGTH_SHORT).show();
+						favorite_tv_drawable(R.drawable.sc1);
+					} else {
+
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+					Toast.makeText(getActivity(),
+							getActivity().getString(R.string.deletefavorite_fail),
+							Toast.LENGTH_SHORT).show();
+				}
+			} else {
+				Toast.makeText(getActivity(),
+						getActivity().getString(R.string.deletefavorite_fail),
+						Toast.LENGTH_SHORT).show();
+			}
+		}
+	};
+
+	private void favorite_tv_drawable(int id) {
+		Drawable drawable = getActivity().getResources().getDrawable(
+				id);
 		// / 这一步必须要做,否则不会显示.
 		drawable.setBounds(0, 0, drawable.getMinimumWidth(),
 				drawable.getMinimumHeight());

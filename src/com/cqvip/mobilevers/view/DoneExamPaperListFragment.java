@@ -34,6 +34,7 @@ import com.cqvip.mobilevers.widget.DropDownListView;
 
 /**
  * 我做过的试卷和我收藏的试卷
+ * 
  * @author luojiang
  * 
  */
@@ -42,8 +43,8 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 	private static final String USERID = "userid";
 	private static final String TITLE = "title";
 	private static final String URL = "url";
-	public static final String DONEEXAMPAPERLIST_TAG="doneexampaperlist";
-	public static final String FAVORITEEXAMPAPERLIST_TAG="favoriteexampaperlist";
+	public static final String DONEEXAMPAPERLIST_TAG = "doneexampaperlist";
+	public static final String FAVORITEEXAMPAPERLIST_TAG = "favoriteexampaperlist";
 	private TextView tv_title;
 	// private ImageView img_back;
 	private DropDownListView listview;
@@ -177,10 +178,13 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 							}
 						} else if (getArguments().getString(URL).equals(
 								ConstantValues.GETFAVORITESEXAMPAPERLIST)) {
-							JSONObject jsonObject=json.getJSONArray("result").getJSONObject(0);
-							String count=jsonObject.getString("count");
-							JSONArray jsonArray=jsonObject.getJSONArray("exampaperlist");
-							List<DoneExamPaper> paperInfos = DoneExamPaper.formList_GetFavorites(jsonArray);
+							JSONObject jsonObject = json.getJSONArray("result")
+									.getJSONObject(0);
+							String count = jsonObject.getString("count");
+							JSONArray jsonArray = jsonObject
+									.getJSONArray("exampaperlist");
+							List<DoneExamPaper> paperInfos = DoneExamPaper
+									.formList_GetFavorites(jsonArray);
 							if (paperInfos != null && !paperInfos.isEmpty()) {
 								adapter = new DoneExamPaperListAdapter(
 										getActivity(), paperInfos);
@@ -213,16 +217,19 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 					// 判断
 					if (json.isNull("error")) {
 						// 返回正常
-						List<DoneExamPaper> lists=null;
+						List<DoneExamPaper> lists = null;
 						if (getArguments().getString(URL).equals(
 								ConstantValues.GETMYPASTEXAMLIST)) {
-						 lists = DoneExamPaper.formList(json);
-						 }else if(getArguments().getString(URL).equals(
-									ConstantValues.GETFAVORITESEXAMPAPERLIST)){
-								JSONObject jsonObject=json.getJSONArray("result").getJSONObject(0);
-								JSONArray jsonArray=jsonObject.getJSONArray("exampaperlist");
-								lists = DoneExamPaper.formList_GetFavorites(jsonArray);
-						 }
+							lists = DoneExamPaper.formList(json);
+						} else if (getArguments().getString(URL).equals(
+								ConstantValues.GETFAVORITESEXAMPAPERLIST)) {
+							JSONObject jsonObject = json.getJSONArray("result")
+									.getJSONObject(0);
+							JSONArray jsonArray = jsonObject
+									.getJSONArray("exampaperlist");
+							lists = DoneExamPaper
+									.formList_GetFavorites(jsonArray);
+						}
 						if (lists != null
 								&& !lists.isEmpty()
 								&& lists.size() == ConstantValues.DEFAULYPAGESIZE) {
@@ -251,29 +258,29 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 		}
 	};
 
-@Override
-public void onItemClick(AdapterView<?> parent, View view, int position,
-		long id) {
-	DoneExamPaper info = adapter.getList().get(position);
-//	if(info!=null){
-//		Fragment newFragment = ExamDetailFragment.newInstance(info);
-//		addFragmentToStack(newFragment, R.id.simple_fragment);
-//	}
-	Fragment newFragment = ExamDetailFragment.newInstance(info.getName(),info.getSubjectid());
-	addFragmentToStack(newFragment, android.R.id.content);
-}  
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		DoneExamPaper info = adapter.getList().get(position);
+		// if(info!=null){
+		// Fragment newFragment = ExamDetailFragment.newInstance(info);
+		// addFragmentToStack(newFragment, R.id.simple_fragment);
+		// }
+		Fragment newFragment = ExamDetailFragment.newInstance(info.getName(),
+				info.getSubjectid());
+		addFragmentToStack(newFragment, android.R.id.content);
+	}
 
-
-private void addFragmentToStack(Fragment newFragment, int layoutid) {
-	FragmentTransaction ft = getActivity().getSupportFragmentManager()
-			.beginTransaction();
-	ft.setCustomAnimations(R.anim.slide_right_in, R.anim.slide_left_out,
-			R.anim.slide_left_in, R.anim.slide_right_out);
-	ft.replace(layoutid, newFragment);
-	ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-	ft.addToBackStack(null);
-	ft.commit();
-}
+	private void addFragmentToStack(Fragment newFragment, int layoutid) {
+		FragmentTransaction ft = getActivity().getSupportFragmentManager()
+				.beginTransaction();
+		ft.setCustomAnimations(R.anim.slide_right_in, R.anim.slide_left_out,
+				R.anim.slide_left_in, R.anim.slide_right_out);
+		ft.replace(layoutid, newFragment);
+		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+		ft.addToBackStack(null);
+		ft.commit();
+	}
 
 	@Override
 	public void onClick(View v) {

@@ -477,7 +477,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 				img.setLayoutParams(params);
 				img.setImageResource(R.drawable.list_line);
 				ck.setButtonDrawable(R.drawable.eg_checkbox);
-				ck.setText(ALPHABET[i]);
+				ck.setText(ALPHABET[i]+"");
 				mulitiple_chose_group.addView(ck);
 				mulitiple_chose_group.addView(img);
 				check_list.add(ck);
