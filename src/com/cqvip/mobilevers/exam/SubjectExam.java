@@ -23,7 +23,7 @@ public class SubjectExam implements Serializable{
 	private static final long serialVersionUID = 7033662467805212114L;
 	private String subjectTypeName;//大题名称
 	private int questionNum;//题目数量
-	private int scorePerQuestion;//每小题分数
+	private double scorePerQuestion;//每小题分数
 	private int totalScore;//题目总分
 	private Subject[] exam3List;//大题下包含的小题
 	
@@ -43,7 +43,7 @@ public class SubjectExam implements Serializable{
 		this.questionNum = questionNum;
 	}
 
-	public int getScorePerQuestion() {
+	public double getScorePerQuestion() {
 		return scorePerQuestion;
 	}
 
@@ -69,7 +69,7 @@ public class SubjectExam implements Serializable{
 
 	public SubjectExam(JSONObject json)throws JSONException, IOException, XmlPullParserException{
 		totalScore = json.getInt("_totalScore");
-		int tmp = json.getInt("_scorePerQuestion");
+		double tmp = json.getInt("_scorePerQuestion");
 		scorePerQuestion = Math.abs(tmp);
 		questionNum = json.getInt("_questionNum");
 		subjectTypeName = json.getString("_subjectTypeName");
@@ -81,7 +81,7 @@ public class SubjectExam implements Serializable{
 		}
 	}
 
-	private Subject getSubjecFormXml(JSONObject json,String subjectTypeName,int scorePerQuestion) throws IOException, XmlPullParserException, JSONException {
+	private Subject getSubjecFormXml(JSONObject json,String subjectTypeName,double scorePerQuestion) throws IOException, XmlPullParserException, JSONException {
 		String  xml = json.getString("_subXmlString");
 		//System.out.println(xml);
 		PullParseXML pullParse = new PullParseXML();

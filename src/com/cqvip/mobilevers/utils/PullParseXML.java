@@ -27,7 +27,7 @@ public class PullParseXML {
 	public PullParseXML() {
 		super();
 	}
-	public  Subject parseXml(String xml,String subjectTypeName,int scorePerQuestion) throws IOException, XmlPullParserException {
+	public  Subject parseXml(String xml,String subjectTypeName,double scorePerQuestion) throws IOException, XmlPullParserException {
 		Subject sub = null;
 		XmlPullParser xmlParse = Xml.newPullParser();
 		if(!TextUtils.isEmpty(xml)){
@@ -39,7 +39,7 @@ public class PullParseXML {
 		return sub;
 	}
 	
-	public Subject ShowAllSubjectQuestion(XmlPullParser xmlParse,String subjectTypeName,int scorePerQuestion)throws IOException, XmlPullParserException {
+	public Subject ShowAllSubjectQuestion(XmlPullParser xmlParse,String subjectTypeName,double scorePerQuestion)throws IOException, XmlPullParserException {
 		String type = null;
 		ArrayList<Question> questions = new ArrayList<Question>();
 		ArrayList<Question> allquestion = new ArrayList<Question>();

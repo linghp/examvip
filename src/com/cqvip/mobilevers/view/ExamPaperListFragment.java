@@ -247,7 +247,7 @@ public class ExamPaperListFragment extends BaseFragment implements OnItemClickLi
 			long id) {
 		PaperInfo info = adapter.getList().get(position);
 		if(info!=null){
-			Fragment newFragment = ExamDetailFragment.newInstance(info);
+			Fragment newFragment = ExamDetailFragment.newInstance(info.getName(),info.getSubjectid());
 			addFragmentToStack(newFragment, R.id.simple_fragment);
 		}
 	}  

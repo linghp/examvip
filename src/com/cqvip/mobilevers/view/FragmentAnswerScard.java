@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,13 +59,14 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 	private int[][]  donelists ;//做过的题目
 	private int[][]  rightlists ;//做过正确的题目
 	private int[][]  wronglists ;//做过的错误题目
-	private SparseArray<ArrayList<SimpleAnswer>> clientAnswers;
+	private SparseArray<SimpleAnswer> clientAnswers;
 	
 	private boolean isHandleOver;
 	private boolean isShowRightWrong;
 	
 	private TextView tv_handleover;
 	private TextView txt_card_tips;
+	private ImageView img_back;
 	private Map<String,String> gparams;
 	private BaseExamInfo baseExamInfo;
 	
@@ -135,6 +137,8 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 		mListView = (ListView) view.findViewById(R.id.listview);
 		tv_handleover = (TextView) view.findViewById(R.id.tv_hanle_examover);
 		txt_card_tips = (TextView) view.findViewById(R.id.txt_card_tips);
+		img_back = (ImageView) view.findViewById(R.id.img_back);
+		img_back.setOnClickListener(this);
 		Bundle bundle = getArguments();
 		TwoDimensionArray tmpTow= ((TwoDimensionArray)bundle.getSerializable(NUM_TAG));
 		donelists = tmpTow.getAllss();
@@ -269,7 +273,8 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 			 //clientAnswers,发送数据到服务器
 			sendResultToServer();
 			//跳转
-			
+		case R.id.img_back:
+			getFragmentManager().popBackStack();
 			break;
 
 		default:
@@ -282,18 +287,12 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 	 * @return
 	 */
 	private String formResult(
-			SparseArray<ArrayList<SimpleAnswer>> answers) {
+			SparseArray<SimpleAnswer> answers) {
 		StringBuilder builder = new StringBuilder();
 		for(int i=0;i<answers.size();i++){
-			ArrayList<SimpleAnswer> perAnswer =  answers.get(i);
-			String mAnswer;
-			SimpleAnswer firstAnswer = perAnswer.get(0);
-			if(perAnswer.size()>1){
-			  mAnswer = getAnswer(perAnswer);
-			}else{
-			  mAnswer = firstAnswer.getAnswer();
-			}
-			int score = firstAnswer.getScore();
+			SimpleAnswer firstAnswer = answers.get(i);
+			String mAnswer = firstAnswer.getAnswer();
+			double score = firstAnswer.getScore();
 			String questionId = firstAnswer.getId();
 			StringBuilder mbuilder = new StringBuilder();
 			mbuilder.append(questionId);
@@ -343,6 +342,8 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 		requestVolley(gparams, ConstantValues.SERVER_URL + ConstantValues.SAVEEXAMANSWER,
 				backlistener, Method.POST);
 		}else{
+			if(customProgressDialog!=null&&customProgressDialog.isShowing())
+				customProgressDialog.dismiss();
 			Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_LONG).show();
 		}
 		
@@ -403,19 +404,19 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 				e.printStackTrace();
 			}
 			
+		 } else {
+				Toast.makeText(getActivity(), "交卷失败",
+				Toast.LENGTH_LONG).show();
+			}
 			getFragmentManager().popBackStack();
 			ResultFragment newFragment = ResultFragment.newInstance(baseExamInfo,examDoneInfo);
 			((ExamActivity)getActivity()).addFragmentToStack(newFragment,R.id.exam_fl);
-		 } else {
-//				Toast.makeText(getActivity(), "无数据",
-//						Toast.LENGTH_LONG).show();
-			}
 		}
 	};
-	private int getTotalScore(SparseArray<ArrayList<SimpleAnswer>> answers) {
+	private int getTotalScore(SparseArray<SimpleAnswer> answers) {
 		int total = 0 ;
 		for(int i=0;i<answers.size();i++){
-			SimpleAnswer perAnswer =  answers.get(i).get(0);
+			SimpleAnswer perAnswer =  answers.get(i);
 			total+= perAnswer.getScore();
 		}
 		return total;

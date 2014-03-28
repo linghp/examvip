@@ -204,7 +204,7 @@ public class ExamClassfyActivity extends BaseFragmentActivity implements ExamPap
 	@Override
 	public void onItemNextSelected(PaperInfo info) {
 		if(info!=null){
-		Fragment newFragment = ExamDetailFragment.newInstance(info);
+		Fragment newFragment = ExamDetailFragment.newInstance(info.getName(),info.getSubjectid());
 		this.addFragmentToStack(newFragment, R.id.itemlist_fl);
 		}else{
 			return;

@@ -24,13 +24,13 @@ public class Question implements Serializable{
 	private  Content sub_Title; //子题标题
 	private String sebexam_Title;//大题标题
 	private String  sub_Type;//subject类型
-	int perscore;//每一题分数
+	double perscore;//每一题分数
 	
 
 	public Question(String id, String type, Content title,
 			ArrayList<Content> option, Solution solution, int itemCount,
 			Content sub_Title, String sebexam_Title, String sub_Type,
-			int perscore) {
+			double perscore) {
 		super();
 		this.id = id;
 		this.type = type;
@@ -96,7 +96,7 @@ public String getId() {
 	}
 
 
-	public int getPerscore() {
+	public double getPerscore() {
 		return perscore;
 	}
 

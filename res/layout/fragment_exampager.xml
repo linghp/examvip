@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:orientation="vertical" >
   <TextView
                         android:id="@+id/txt_viewtitle"
@@ -32,7 +33,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical" >
-  					<TextView
+                  <TextView
                         android:id="@+id/txt_subject_title"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -41,13 +42,12 @@
                         android:padding="5.0dip"
                         android:visibility="gone"
                         android:text="" />
-                  
 
                     <com.cqvip.mobilevers.widget.ImageTextView
                         android:id="@+id/txt_exam_title"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text=""
+                      	 android:background="@color/grey_onexam_title"
                         android:textColor="@color/black"
                         android:textSize="17.0sp" />
 
@@ -141,6 +141,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="top|left"
                             android:text="答案："
                             android:textColor="@color/black" />
 
@@ -164,6 +165,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="top|left"
                             android:text="解析："
                             android:textColor="@color/black" />
 
@@ -171,6 +173,7 @@
                             android:id="@+id/anser_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:background="@color/yellow_onexam_anwerdesc"
                             android:text=""
                             android:textColor="@color/black"
                             android:visibility="visible" />

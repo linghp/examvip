@@ -3,67 +3,76 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/white"
-    android:clickable="true"
-    android:orientation="vertical" >
-
-    <include
+    android:orientation="vertical" 
+    android:clickable="true" >
+    
+     <include 
         android:id="@+id/title"
         android:layout_width="fill_parent"
         android:layout_height="48dp"
         layout="@layout/title_next" />
+     
+           <ScrollView
+                android:id="@+id/scrollView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="10dp" >
-
-        <TextView
-            android:id="@+id/txt_p_title"
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text=""
-            android:textColor="@color/black"
-            android:textSize="20.0sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+           
+            android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp" >
 
-        <TextView
-            android:layout_width="wrap_content"
+     
+          
+
+            <TextView
+                android:id="@+id/txt_p_title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text=""
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="20.0sp" />
+       
+
+
+
+     <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="分类："
-            android:textColor="@color/color_dark_grey"
-            android:textSize="16.0sp" />
-
-        <TextView
-            android:id="@+id/txt_p_tag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textColor="@color/color_dark_grey"
-            android:textSize="14.0sp" />
-    </LinearLayout>
-
-    <ImageView
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:orientation="horizontal" >
+    		<TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="分类："
+                    android:textColor="@color/color_dark_grey"
+                    android:textSize="16.0sp" />
+            <TextView
+                android:id="@+id/txt_p_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/color_dark_grey"
+                android:textSize="14.0sp" />
+       </LinearLayout>
+     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/list_line" />
-
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp" >
+        android:padding="10dp"
+        android:orientation="vertical" >
+
+       
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -74,8 +83,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
-                android:orientation="horizontal"
-                android:paddingTop="10dp" >
+                android:paddingTop="10dp"
+                android:orientation="horizontal" >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -97,15 +106,16 @@
                     android:layout_height="wrap_content"
                     android:text="年"
                     android:textColor="@color/black"
-                    android:textSize="16.0sp" />
+                    android:textSize="16.0sp"
+                    />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
-                android:orientation="horizontal"
-                android:paddingTop="10dp" >
+                android:paddingTop="10dp"
+                android:orientation="horizontal" >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -124,6 +134,7 @@
             </LinearLayout>
         </LinearLayout>
 
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -133,8 +144,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
-                android:orientation="horizontal"
-                android:paddingTop="10dp" >
+                        android:paddingTop="10dp"
+                android:orientation="horizontal" >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -156,8 +167,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
-                android:orientation="horizontal"
-                android:paddingTop="10dp" >
+                        android:paddingTop="10dp"
+                android:orientation="horizontal" >
 
                 <TextView
                     android:layout_width="73.0dip"
@@ -176,6 +187,7 @@
             </LinearLayout>
         </LinearLayout>
 
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -185,8 +197,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
-                android:orientation="horizontal"
-                android:paddingTop="10dp" >
+                        android:paddingTop="10dp"
+                android:orientation="horizontal" >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -203,13 +215,12 @@
                     android:textColor="@color/black"
                     android:textSize="16.0sp" />
             </LinearLayout>
-
-            <LinearLayout
+             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
-                android:orientation="horizontal"
-                android:visibility="gone" >
+                android:visibility="gone"
+                android:orientation="horizontal" >
 
                 <TextView
                     android:layout_width="73.0dip"
@@ -226,11 +237,15 @@
                     android:textColor="@color/black"
                     android:textSize="16.0sp" />
             </LinearLayout>
+            
+            
         </LinearLayout>
 
         <View
             android:layout_width="wrap_content"
             android:layout_height="10.0dip" />
+
+
     </LinearLayout>
 
     <View
@@ -245,8 +260,9 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical" 
         android:gravity="center"
-        android:orientation="vertical" >
+        >
 
         <TextView
             android:id="@+id/pdetail"
@@ -264,15 +280,14 @@
             android:id="@+id/btn_exam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/btn_style_red"
-            android:gravity="center"
+           	android:gravity="center"
+            android:text="开始考试"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:text="开始考试"
+            android:background="@drawable/btn_style_red"
             android:textColor="@color/white"
             android:textSize="16.0sp" />
-
-        <View
+                <View
             android:layout_width="wrap_content"
             android:layout_height="10.0dip" />
     </LinearLayout>
@@ -282,7 +297,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/list_line" />
 
-    <RelativeLayout
+    <RelativeLayout 
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:gravity="bottom"
@@ -301,7 +316,7 @@
             android:text="收    藏"
             android:gravity="center"
             android:textSize="20sp" />
-
     </RelativeLayout>
-
+     </LinearLayout>
+  </ScrollView>
 </LinearLayout>

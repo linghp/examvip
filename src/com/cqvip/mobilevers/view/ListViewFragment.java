@@ -191,7 +191,7 @@ public class ListViewFragment extends BaseListFragment implements OnItemClickLis
 		PaperInfo info = adapter.getList().get(position);
 		if(info!=null){
 		//((FragmentExamActivity)getActivity()).onItemNextSelected(info);
-			Fragment newFragment = ExamDetailFragment.newInstance(info);
+			Fragment newFragment = ExamDetailFragment.newInstance(info.getName(),info.getSubjectid());
 			addFragmentToStack(newFragment, R.id.simple_fragment);
 		}
 	}

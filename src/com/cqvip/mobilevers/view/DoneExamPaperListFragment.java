@@ -27,14 +27,13 @@ import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.adapter.DoneExamPaperListAdapter;
 import com.cqvip.mobilevers.config.ConstantValues;
 import com.cqvip.mobilevers.entity.DoneExamPaper;
-import com.cqvip.mobilevers.entity.PaperInfo;
 import com.cqvip.mobilevers.http.HttpUtils;
 import com.cqvip.mobilevers.http.VersStringRequest;
 import com.cqvip.mobilevers.ui.base.BaseFragment;
 import com.cqvip.mobilevers.widget.DropDownListView;
 
 /**
- * 
+ * 我做过的试卷和我收藏的试卷
  * @author luojiang
  * 
  */
@@ -252,26 +251,29 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 		}
 	};
 
-	private void addFragmentToStack(Fragment newFragment, int layoutid) {
-		FragmentTransaction ft = getActivity().getSupportFragmentManager()
-				.beginTransaction();
-		ft.setCustomAnimations(R.anim.slide_right_in, R.anim.slide_left_out,
-				R.anim.slide_left_in, R.anim.slide_right_out);
-		ft.replace(layoutid, newFragment);
-		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-		ft.addToBackStack(null);
-		ft.commit();
-	}
+@Override
+public void onItemClick(AdapterView<?> parent, View view, int position,
+		long id) {
+	DoneExamPaper info = adapter.getList().get(position);
+//	if(info!=null){
+//		Fragment newFragment = ExamDetailFragment.newInstance(info);
+//		addFragmentToStack(newFragment, R.id.simple_fragment);
+//	}
+	Fragment newFragment = ExamDetailFragment.newInstance(info.getName(),info.getSubjectid());
+	addFragmentToStack(newFragment, android.R.id.content);
+}  
 
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position,
-			long id) {
-		// PaperInfo info = adapter.getList().get(position);
-		// if(info!=null){
-		// Fragment newFragment = ExamDetailFragment.newInstance(info);
-		// addFragmentToStack(newFragment, R.id.simple_fragment);
-		// }
-	}
+
+private void addFragmentToStack(Fragment newFragment, int layoutid) {
+	FragmentTransaction ft = getActivity().getSupportFragmentManager()
+			.beginTransaction();
+	ft.setCustomAnimations(R.anim.slide_right_in, R.anim.slide_left_out,
+			R.anim.slide_left_in, R.anim.slide_right_out);
+	ft.replace(layoutid, newFragment);
+	ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+	ft.addToBackStack(null);
+	ft.commit();
+}
 
 	@Override
 	public void onClick(View v) {

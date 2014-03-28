@@ -48,7 +48,7 @@
                 android:id="@+id/main_tab_group"
                 android:layout_width="fill_parent"
                 android:layout_height="48dp"
-                android:background="#39A6E5"
+                android:background="@color/blue_bottom_bar"
                 android:gravity="center"
                 android:orientation="horizontal"
                  >

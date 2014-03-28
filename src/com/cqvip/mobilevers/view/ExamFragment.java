@@ -60,7 +60,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
     private int position; //第几个fragment
     private int clientSingleChoose;//用户选择
     private int rightOrWrong = ConstantValues.ANSWER_UNDONG;//状态，四种做，没做，对，错
-    private int perScore;//每小题分数
+    private double perScore;//每小题分数
     
     private String type;//question type;
     private String id;//question id;
@@ -376,11 +376,15 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		if(ExamActivity.done_position[colAndRow.row][colAndRow.col]>0){
 			//用户已经做过
 			Log.i(TAG,"==========DONE=============");
-			ArrayList<SimpleAnswer> answlist = ExamActivity.clientAnswer.get(position);
-			if(answlist!=null&&!answlist.isEmpty()){
+			SimpleAnswer answlist = ExamActivity.clientAnswer.get(position);
+			if(answlist!=null){
 				//Log.i(TAG,"==========ANSWER============="+answlist.get(0));
 				//设置上选择的答案
-				check_list.get(Integer.parseInt(answlist.get(0).getAnswer())-1).setChecked(true);
+				String ans = answlist.getAnswer();
+				if(!TextUtils.isEmpty(ans)){
+				
+				check_list.get(Integer.parseInt(ans)-1).setChecked(true);
+				}
 			}
 		}
 	}
@@ -416,11 +420,17 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 	private void setPreMultiChoice() {
 		if(ExamActivity.done_position[colAndRow.row][colAndRow.col]>0){
 			//用户已经做过
-			ArrayList<SimpleAnswer> answString = ExamActivity.clientAnswer.get(position);
-			if(answString!=null&&!answString.isEmpty()){
+			SimpleAnswer answString = ExamActivity.clientAnswer.get(position);
+			if(answString!=null){
+				
+				String ans = answString.getAnswer();
 				//设置上选择的答案
-				for(int i=0;i<answString.size();i++){
-				check_list.get(Integer.parseInt(answString.get(i).getAnswer())-1).setChecked(true);
+				if(!TextUtils.isEmpty(ans)){
+					String[] ary = ans.split(",");
+					for(int i=0;i<ary.length;i++){
+						check_list.get(Integer.parseInt(ary[i])-1).setChecked(true);
+					}
+					
 				}
 			}
 		}
@@ -524,9 +534,8 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 				if(!TextUtils.isEmpty(clientanswer)){
 					rightOrWrong = ConstantValues.ANSWER_DONG;
 					setSigndone(ExamActivity.done_position);
-					ArrayList<SimpleAnswer> array = new ArrayList<SimpleAnswer>();
-					array.add(new SimpleAnswer(id, clientanswer,0));
-					ExamActivity.clientAnswer.append(position, array);
+					SimpleAnswer ans = new SimpleAnswer(id, clientanswer,0);
+					ExamActivity.clientAnswer.append(position, ans);
 				}else{
 					rightOrWrong = ConstantValues.ANSWER_UNDONG;
 					removeSignDone(ExamActivity.done_position);
@@ -540,10 +549,13 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 	private void setPreTextQuestion() {
 		if(ExamActivity.done_position[colAndRow.row][colAndRow.col]>0){
 			//用户已经做过
-			ArrayList<SimpleAnswer> answString = ExamActivity.clientAnswer.get(position);
-			if(answString!=null&&!answString.isEmpty()){
+			SimpleAnswer answString = ExamActivity.clientAnswer.get(position);
+			if(answString!=null){
 				//设置上选择的答案
-				et_client_answer.setText(answString.get(0).getAnswer());
+				String ans = answString.getAnswer();
+				if(!TextUtils.isEmpty(ans)){
+				et_client_answer.setText(ans);
+				}
 			}
 		}
 	}
@@ -572,9 +584,8 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 				if(!TextUtils.isEmpty(clientanswer)){
 					rightOrWrong = ConstantValues.ANSWER_DONG;
 					setSigndone(ExamActivity.done_position);
-					ArrayList<SimpleAnswer> array = new ArrayList<SimpleAnswer>();
-					array.add(new SimpleAnswer(id, clientanswer,0));
-					ExamActivity.clientAnswer.append(position, array);
+					SimpleAnswer ans = new SimpleAnswer(id, clientanswer,0);
+					ExamActivity.clientAnswer.append(position, ans);
 				}else{
 					rightOrWrong = ConstantValues.ANSWER_UNDONG;
 					removeSignDone(ExamActivity.done_position);
@@ -643,8 +654,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 			
 			//显示答案
 			user_answer.setText(ALPHABET[clientSingleChoose]+"");
-			ArrayList<SimpleAnswer> array = new ArrayList<SimpleAnswer>();
-			int tmpscore ;
+			double tmpscore ;
 			//显示对错
 			if(validateAnswer(clientSingleChoose)){
 			doAnswerRight();
@@ -653,9 +663,9 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 				doAnswerWrong();
 			 tmpscore = 0;
 			}
-			array.add(new SimpleAnswer(id, (clientSingleChoose+1)+"",tmpscore));
+			SimpleAnswer ans = new SimpleAnswer(id, (clientSingleChoose+1)+"",tmpscore);
 			setSigndone(ExamActivity.done_position);//记录已经做过
-			ExamActivity.clientAnswer.append(position, array);
+			ExamActivity.clientAnswer.append(position, ans);
 			
 		}else{
 			user_answer.setText("");
@@ -674,8 +684,8 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 				}
 			 if(!multiChoose.isEmpty()){
 			 user_answer.setText(formString(multiChoose));
-			 ArrayList<SimpleAnswer> array = new ArrayList<SimpleAnswer>();
-			 int score ;
+			 //ArrayList<SimpleAnswer> array = new ArrayList<SimpleAnswer>();
+			 double score ;
 			 if(validateMultiAnswer(multiChoose)){
 					doAnswerRight();
 					score = perScore;
@@ -684,10 +694,11 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 					score = 0;
 					}
 			    setSigndone(ExamActivity.done_position);
-			    for(int i=0;i<multiChoose.size();i++){
-				array.add(new SimpleAnswer(id, (multiChoose.get(i)+1)+"",score));                  
-			    }
-				ExamActivity.clientAnswer.append(position, array);
+			    String answers = formMultAnswer(multiChoose);
+			    SimpleAnswer ans = new SimpleAnswer(id, answers,score);                  
+			    
+			    
+				ExamActivity.clientAnswer.append(position, ans);
 			 }else{
 				 removeSignDone(ExamActivity.done_position);
 				 ExamActivity.clientAnswer.append(position, null);
@@ -696,6 +707,19 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 				 tx_rightwrong.setText("");
 			 }
 		 }
+	}
+
+
+	private String formMultAnswer(ArrayList<Integer> multiChoose2) {
+		StringBuilder builder = new StringBuilder();
+		for(int i=0;i<multiChoose2.size();i++){
+			
+			builder.append((multiChoose2.get(i)+1)+"");
+			if(i!=multiChoose2.size()-1){
+				builder.append(",");
+			}
+		}
+		return builder.toString();
 	}
 
 
