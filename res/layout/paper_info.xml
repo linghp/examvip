@@ -3,67 +3,67 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/white"
-    android:orientation="vertical" 
-    android:clickable="true" >
-    
-     <include 
+    android:clickable="true"
+    android:orientation="vertical" >
+
+    <include
         android:id="@+id/title"
         android:layout_width="fill_parent"
         android:layout_height="48dp"
         layout="@layout/title_next" />
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="10dp"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/txt_p_title"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:text=""
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="20.0sp" />
-        </LinearLayout>
-
-
-
-     <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="10dp"
-            android:orientation="horizontal" >
-    		<TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="分类："
-                    android:textColor="@color/color_dark_grey"
-                    android:textSize="16.0sp" />
-            <TextView
-                android:id="@+id/txt_p_tag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="@color/color_dark_grey"
-                android:textSize="14.0sp" />
-       </LinearLayout>
-     <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/list_line" />
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:orientation="vertical" >
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="10dp" >
 
-       
+        <TextView
+            android:id="@+id/txt_p_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="20.0sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="分类："
+            android:textColor="@color/color_dark_grey"
+            android:textSize="16.0sp" />
+
+        <TextView
+            android:id="@+id/txt_p_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/color_dark_grey"
+            android:textSize="14.0sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/list_line" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp" >
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -74,8 +74,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
-                android:paddingTop="10dp"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:paddingTop="10dp" >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -97,16 +97,15 @@
                     android:layout_height="wrap_content"
                     android:text="年"
                     android:textColor="@color/black"
-                    android:textSize="16.0sp"
-                    />
+                    android:textSize="16.0sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
-                android:paddingTop="10dp"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:paddingTop="10dp" >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -125,7 +124,6 @@
             </LinearLayout>
         </LinearLayout>
 
-
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -135,8 +133,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
-                        android:paddingTop="10dp"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:paddingTop="10dp" >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -158,8 +156,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
-                        android:paddingTop="10dp"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:paddingTop="10dp" >
 
                 <TextView
                     android:layout_width="73.0dip"
@@ -178,7 +176,6 @@
             </LinearLayout>
         </LinearLayout>
 
-
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -188,8 +185,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
-                        android:paddingTop="10dp"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:paddingTop="10dp" >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -206,12 +203,13 @@
                     android:textColor="@color/black"
                     android:textSize="16.0sp" />
             </LinearLayout>
-             <LinearLayout
+
+            <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
-                android:visibility="gone"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:visibility="gone" >
 
                 <TextView
                     android:layout_width="73.0dip"
@@ -228,15 +226,11 @@
                     android:textColor="@color/black"
                     android:textSize="16.0sp" />
             </LinearLayout>
-            
-            
         </LinearLayout>
 
         <View
             android:layout_width="wrap_content"
             android:layout_height="10.0dip" />
-
-
     </LinearLayout>
 
     <View
@@ -251,9 +245,8 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" 
         android:gravity="center"
-        >
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/pdetail"
@@ -271,14 +264,15 @@
             android:id="@+id/btn_exam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-           	android:gravity="center"
-            android:text="开始考试"
+            android:background="@drawable/btn_style_red"
+            android:gravity="center"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:background="@drawable/btn_style_red"
+            android:text="开始考试"
             android:textColor="@color/white"
             android:textSize="16.0sp" />
-                <View
+
+        <View
             android:layout_width="wrap_content"
             android:layout_height="10.0dip" />
     </LinearLayout>
@@ -288,24 +282,26 @@
         android:layout_height="wrap_content"
         android:background="@drawable/list_line" />
 
-    <RelativeLayout 
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:gravity="bottom"
         android:orientation="horizontal" >
 
-        <TextView 
- 			       android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="收    藏"
-        android:textSize="20sp"
-       android:padding="10dp"
-       android:drawableLeft="@drawable/ic_menu_download"
-       android:layout_centerVertical="true"
-                   
-            />
+        <TextView
+            android:id="@+id/favorite_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/oneclassfy_allpaper"
+            android:drawableLeft="@drawable/sc2"
+            android:padding="10dp"
+            android:text="收    藏"
+            android:gravity="center"
+            android:textSize="20sp" />
+
     </RelativeLayout>
 
 </LinearLayout>

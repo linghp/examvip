@@ -8,6 +8,7 @@ import java.util.Map;
 import org.json.JSONObject;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +16,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,11 +32,12 @@ import com.cqvip.mobilevers.http.VersStringRequest;
 import com.cqvip.mobilevers.ui.ExamActivity;
 import com.cqvip.mobilevers.ui.base.BaseFragment;
 import com.cqvip.mobilevers.utils.DateUtil;
+import com.cqvip.mobilevers.utils.Utils;
 
 public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 
 	private static final String DETAL_INFO = "detail";
-	private TextView  tTitle,tTag,tyear,tadddate,ttotal,tscroe,ttime,tsize;
+	private TextView  tTitle,tTag,tyear,tadddate,ttotal,tscroe,ttime,tsize,favorite_tv;
 	private String subjectid;
 	private Map<String, String> gparams;
 	private TextView tv_title;
@@ -69,6 +70,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 //		img_back.setOnClickListener(this);
 		PaperInfo info = (PaperInfo) getArguments().getSerializable(DETAL_INFO);
 		subjectid = info.getSubjectid();
+		Log.i("paperid", subjectid);
 		String title = info.getName();
 		getDataFromNet(subjectid);
 		
@@ -86,6 +88,8 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 		ttotal = (TextView) view.findViewById(R.id.txt_p_total);
 		tscroe = (TextView) view.findViewById(R.id.txt_p_score);
 		ttime = (TextView) view.findViewById(R.id.txt_p_time);
+		favorite_tv =(TextView) view.findViewById(R.id.favorite_tv);
+		favorite_tv.setOnClickListener(this);
 //		tsize = (TextView) view.findViewById(R.id.txt_p_size);
 //			
 //		tyear.setText(info.getPulishyear());
@@ -175,8 +179,8 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.img_back:
-			 //  getFragmentManager().popBackStack();
+		case R.id.favorite_tv:
+			 toFavorite();
 			break;
 		case R.id.btn_exam:
 			String url = ConstantValues.SERVER_URL + ConstantValues.GETEXAM_ADDR;
@@ -186,6 +190,21 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 		}
 		
 	}
+
+	private void toFavorite() {
+		String userid=null;
+		if((userid=Utils.checkUserid(getActivity()))==null){
+			return;
+		}
+		customProgressDialog.show();
+		String url = ConstantValues.SERVER_URL + ConstantValues.ADDFAVORITESEXAMPAPER;
+		gparams = new HashMap<String, String>();
+		gparams.put("userId", userid);
+		gparams.put("examPaperId", subjectid);
+		requestVolley(url, back_favorite_ls, Method.POST);
+	}
+
+
 
 	private void getData(String url, String examPaperId) {
 		getDataFromNet(url, examPaperId);
@@ -263,7 +282,41 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 		}
 	};
 		
-	  
+	private Listener<String> back_favorite_ls = new Listener<String>() {
+
+		@Override
+		public void onResponse(String response) {
+			if (customProgressDialog != null
+					&& customProgressDialog.isShowing())
+				customProgressDialog.dismiss();
+			// 解析结果
+			if (response != null) {
+				try {
+					JSONObject json = new JSONObject(response);
+	                boolean isfavorite=json.getBoolean("status");
+	               if(isfavorite){
+	            	   Toast.makeText(getActivity(), getActivity().getString(R.string.favorite_success), Toast.LENGTH_SHORT).show();
+	            	   favorite_tv_drawable();
+	               }else{
+	            	   Toast.makeText(getActivity(), "已收藏", Toast.LENGTH_SHORT).show();
+	               }
+				} catch (Exception e) {
+					e.printStackTrace();
+					Toast.makeText(getActivity(), getActivity().getString(R.string.favorite_fail), Toast.LENGTH_SHORT).show();
+				}
+			} else {
+				Toast.makeText(getActivity(), getActivity().getString(R.string.favorite_fail), Toast.LENGTH_SHORT).show();
+			}
+		}
+	};
+	
+	private void favorite_tv_drawable(){
+		Drawable drawable= getResources().getDrawable(R.drawable.sc1);
+		/// 这一步必须要做,否则不会显示.
+		drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+		favorite_tv.setCompoundDrawables(drawable,null,null,null);
+	}
+	
 	 @Override
 	public void onDestroyView() {
 		 Log.i("ExamDetailFragment", "onDestroyView");

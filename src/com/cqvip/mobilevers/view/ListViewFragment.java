@@ -26,7 +26,11 @@ import com.cqvip.mobilevers.entity.PaperInfo;
 import com.cqvip.mobilevers.http.HttpUtils;
 import com.cqvip.mobilevers.http.VersStringRequest;
 import com.cqvip.mobilevers.widget.DropDownListView;
-
+/**
+ * 某类的所有试卷列表（item右边按钮点击）
+ * @author ling
+ *
+ */
 public class ListViewFragment extends BaseListFragment implements OnItemClickListener{
 
 	private static final String EXAMTYPEID= "examtypeid";

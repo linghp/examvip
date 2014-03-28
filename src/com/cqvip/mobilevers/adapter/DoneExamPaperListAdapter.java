@@ -52,7 +52,7 @@ private Context	context;;
 			title.setText(mList.get(position).getName());
 			year.setText("试卷年份："+mList.get(position).getAdddate());
 			addtime.setVisibility(View.GONE);
-			
+			//parent.getTag();
 		}else{
 			v = convertView;
 		}
