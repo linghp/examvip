@@ -428,6 +428,15 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		}
 	};
 
+	private class ColAndRow{
+		int row;//行
+		int col;//列
+		public ColAndRow(int row,int col){
+			this.col = col;
+			this.row = row;
+		}
+	}
+
 	private Listener<String> back_favorite_ls = new Listener<String>() {
 
 		@Override
@@ -507,16 +516,6 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		drawable.setBounds(0, 0, drawable.getMinimumWidth(),
 				drawable.getMinimumHeight());
 		favorite_tv.setCompoundDrawables(drawable, null, null, null);
-	}
-
-	private class ColAndRow {
-		int row;// 行
-		int col;// 列
-
-		public ColAndRow(int row, int col) {
-			this.col = col;
-			this.row = row;
-		}
 	}
 
 	@Override

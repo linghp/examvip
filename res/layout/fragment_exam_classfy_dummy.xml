@@ -13,4 +13,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
     </com.cqvip.mobilevers.widget.DropDownListView>
+    
+  <RelativeLayout
+        android:id="@+id/noresult_rl"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerInParent="true"
+        android:visibility="gone" >
+
+        <ImageView
+            android:id="@+id/noresult_img"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/grey" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/noresult_img"
+            android:gravity="center"
+            android:text="该分类下暂无相关试题"
+            android:textColor="@android:color/darker_gray" />
+    </RelativeLayout>
+ 
 </RelativeLayout>

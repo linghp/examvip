@@ -1,44 +1,23 @@
 package com.cqvip.mobilevers.ui;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.Request.Method;
-import com.android.volley.Response.Listener;
 import com.cqvip.mobilevers.MyApplication;
 import com.cqvip.mobilevers.R;
-import com.cqvip.mobilevers.adapter.ExamPaperAdapter;
 import com.cqvip.mobilevers.config.ConstantValues;
-import com.cqvip.mobilevers.db.OneLevelTypeDao;
-import com.cqvip.mobilevers.db.User;
 import com.cqvip.mobilevers.db.UserDao;
-import com.cqvip.mobilevers.entity.Paper;
-import com.cqvip.mobilevers.entity.PaperInfo;
-import com.cqvip.mobilevers.http.HttpUtils;
-import com.cqvip.mobilevers.http.VersStringRequest;
 import com.cqvip.mobilevers.ui.base.BaseMainFragmentActivity;
 import com.cqvip.mobilevers.utils.Utils;
-import com.cqvip.mobilevers.view.AboutFragment;
 import com.cqvip.mobilevers.view.DoneExamPaperListFragment;
 import com.cqvip.mobilevers.view.LoginFragment;
 
@@ -153,6 +132,6 @@ public class FragmentMineActivity extends BaseMainFragmentActivity {
 
 	public void logoutUI() {
 		hellotome.setText(getString(R.string.hellotome));
-		login_btn.setText("登陆");
+		login_btn.setText("登陆");	
 	}
 }
