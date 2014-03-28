@@ -404,13 +404,13 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 				e.printStackTrace();
 			}
 			
-			getFragmentManager().popBackStack();
+		 } else {
+				Toast.makeText(getActivity(), "交卷失败",
+				Toast.LENGTH_LONG).show();
+			}
+			((ExamActivity)getActivity()).getSupportFragmentManager().popBackStack();
 			ResultFragment newFragment = ResultFragment.newInstance(baseExamInfo,examDoneInfo);
 			((ExamActivity)getActivity()).addFragmentToStack(newFragment,R.id.exam_fl);
-		 } else {
-//				Toast.makeText(getActivity(), "无数据",
-//						Toast.LENGTH_LONG).show();
-			}
 		}
 	};
 	private int getTotalScore(SparseArray<SimpleAnswer> answers) {

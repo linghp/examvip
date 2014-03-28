@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cqvip.mobilevers.R;
@@ -19,7 +21,7 @@ import com.cqvip.mobilevers.ui.ExamActivity;
  *
  */
 
-public class ResultFragment extends Fragment{
+public class ResultFragment extends Fragment implements OnClickListener{
 	
 	private static final String BASEINFO = "base";
 	private static final String SCORE = "score";
@@ -33,6 +35,7 @@ public class ResultFragment extends Fragment{
 	private TextView tx_testresult_percent;
 	private BaseExamInfo baseExamInfo;
 	private ExamDoneInfo examDoneInfo;
+	private ImageView img_back;
 	
 	 public static ResultFragment newInstance(BaseExamInfo baseInfo,ExamDoneInfo doneInfo) {
 		 ResultFragment f = new ResultFragment();
@@ -45,16 +48,6 @@ public class ResultFragment extends Fragment{
 	        return f;
 	    }
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -65,7 +58,8 @@ public class ResultFragment extends Fragment{
 		baseExamInfo = (BaseExamInfo) bundle.getSerializable(BASEINFO);
 		examDoneInfo = (ExamDoneInfo) bundle.getSerializable(SCORE);
 		
-		
+		img_back = (ImageView) view.findViewById(R.id.img_back);
+		img_back.setOnClickListener(this);
 		tx_testresult_tiltle = (TextView) view.findViewById(R.id.tx_testresult_tiltle);
 		tx_testresult_score = (TextView) view.findViewById(R.id.tx_testresult_score);
 		tx_testresult_totalscore = (TextView) view.findViewById(R.id.tx_testresult_totalscore);
@@ -136,6 +130,33 @@ public class ResultFragment extends Fragment{
 	private String getStandrad(int hour, int minTotal, int second) {
 		String time = hour+"小时"+minTotal+"分"+second+"秒";
 		return time;
+	}
+
+
+
+
+
+
+
+
+
+
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.img_back:
+			
+			((ExamActivity)getActivity()).getSupportFragmentManager().popBackStack();
+			getActivity().finish();
+			
+			
+			break;
+
+		default:
+			break;
+		}
+		
 	}
 
 }

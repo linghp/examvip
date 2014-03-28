@@ -214,8 +214,6 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 		    	 String url = ConstantValues.SERVER_URL + ConstantValues.GETPASTEXAMINFO;
 		    	 getData(url, subjectid,userId);
 		     }
-			
-			
 		default:
 			break;
 		}
@@ -315,14 +313,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 							dimension = new TwoDimensionArray(all_position, done_position, right_position,wrong_position,clientAnswer);
 							
 						}
-						
-						Log.i("ExamDetailFragment","dimen"+dimension);
 						if (exam != null) {
-							
-							 for(int i=0;i<clientAnswer.size();i++){
-								 Log.i("ExamDetailFragment","answer:"+clientAnswer.get(i));
-								 }
-							
 							Intent intent=new Intent(getActivity(),ExamActivity.class);
 							Bundle bundle = new Bundle();
 							bundle.putSerializable("exam", exam);

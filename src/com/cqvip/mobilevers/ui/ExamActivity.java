@@ -29,6 +29,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.entity.TwoDimensionArray;
@@ -447,6 +448,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 			mfragment.viewAnswer();
 			break;
 		case R.id.tv_exam_handle:
+			if(!isShowAnswer){
 			isHandleOver = true;
 			//交卷
 			TwoDimensionArray resultArray = new TwoDimensionArray(done_position,right_position,wrong_position,clientAnswer);
@@ -462,6 +464,9 @@ public class ExamActivity extends BaseFragmentActivity implements
 				handler.removeMessages(msg.what);
 			} catch (Exception e) {
 				e.printStackTrace();
+			}
+			}else{
+				Toast.makeText(context, "您已完成交卷", Toast.LENGTH_SHORT).show();
 			}
 			break;
 
