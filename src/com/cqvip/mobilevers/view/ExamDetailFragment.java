@@ -214,8 +214,6 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener{
 		    	 String url = ConstantValues.SERVER_URL + ConstantValues.GETPASTEXAMINFO;
 		    	 getData(url, subjectid,userId);
 		     }
-			
-			
 		default:
 			break;
 		}

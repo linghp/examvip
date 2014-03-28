@@ -10,8 +10,13 @@
   			android:layout_width="fill_parent"
   			android:layout_height="48dp"
   			android:id="@+id/title" 
-  			android:background="@drawable/title_bar"
+  			android:background="@color/f_title_bg"
   			android:gravity="center_vertical"  >  
+  			
+        
+        
+        
+        
 			<TextView  
  			    android:layout_width="wrap_content"  
         		android:layout_height="wrap_content" 
@@ -21,62 +26,34 @@
 				android:textColor="@android:color/white"
 			    />
 		</RelativeLayout>
+
+	<RelativeLayout
+	    android:id="@+id/rl_up"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:layout_below="@+id/title"
+	    android:background="@drawable/icon_result_bg" >
+    
   <TextView
         android:id="@+id/tx_testresult_tiltle"
-        android:padding="5dp"
+        android:layout_marginTop="5dp"
+        android:padding="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_below="@+id/title"
         android:layout_centerHorizontal="true"
-        android:textSize="20sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         android:text="国家公务员考试" />
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-<!--     <Button -->
-<!--         android:id="@+id/btn_socre" -->
-<!--         android:layout_width="match_parent" -->
-<!--         android:layout_height="wrap_content" -->
-<!--         android:text="主观题打分" /> -->
 
-<!--     <Button -->
-<!--         android:id="@+id/btn_card" -->
-<!--         android:layout_width="match_parent" -->
-<!--         android:layout_height="wrap_content" -->
-<!--         android:text="查看答题卡" /> -->
+    
 
-<!--     <Button -->
-<!--         android:id="@+id/btn_anwer" -->
-<!--         android:layout_width="match_parent" -->
-<!--         android:layout_height="wrap_content" -->
-<!--         android:text="查看时间答案" /> -->
-
-  <ImageView
-      android:id="@+id/img_line"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_below="@+id/tx_testresult_tiltle"
-      android:layout_centerHorizontal="true"
-      android:src="@drawable/list_line" />
 
   <TextView
       android:id="@+id/tx_testresult_score"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_below="@+id/img_line"
+      android:layout_below="@+id/tx_testresult_tiltle"
       android:layout_centerHorizontal="true"
       android:textSize="22sp"
       android:textStyle="bold"
@@ -84,6 +61,7 @@
 
   <TextView
       android:id="@+id/tx_testresult_totalscore"
+      android:layout_marginTop="10dp"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_below="@+id/tx_testresult_score"
@@ -96,13 +74,13 @@
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       android:layout_below="@+id/tx_testresult_totalscore"
-      android:padding="20dp"
+      android:padding="30dp"
       >
   <TextView
       android:id="@+id/tx_testresult_time"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_alignParentLeft="true"
+      android:layout_centerHorizontal="true"
       android:textColor="@color/red"
       android:text="考试用时：1小时23分26秒" />
 
@@ -110,7 +88,7 @@
       android:id="@+id/tx_testresult_totalcount"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
-      android:layout_alignParentLeft="true"
+	  android:layout_centerHorizontal="true"
       android:layout_below="@+id/tx_testresult_time"
       android:textColor="@color/red"
       android:text="题目总数：共135道（主观题35道，客观题100道）" />
@@ -118,19 +96,24 @@
       android:id="@+id/tx_testresult_percent"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_alignParentLeft="true"
+      android:layout_centerHorizontal="true"
        android:layout_below="@+id/tx_testresult_totalcount"
       android:textColor="@color/red"
       android:text="正确率：70%（答对70道，答错30道）" />
   </RelativeLayout> 
-
+ 
+ 
+ 
   <Button
       android:id="@+id/btn_view_desc"
+      android:layout_margin="30dp"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_alignParentLeft="true"
-      android:layout_below="@+id/rl_resultinfo"
+      android:layout_below="@id/rl_resultinfo"
       android:layout_marginTop="22dp"
+      android:background="@drawable/btn_style_blue"
       android:text="查看答案及解析" />
 
+</RelativeLayout>	
 </RelativeLayout>
