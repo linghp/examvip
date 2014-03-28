@@ -39,7 +39,7 @@ public class ExamPaperListFragment extends BaseFragment implements OnItemClickLi
     private ExamPaperAdapter adapter; 
     private int page;
    	private NextCallbacks mCallbacks = sDummyCallbacks;
-	
+   	private View noresult_rl;
 	public interface NextCallbacks {
 		/**
 		 * Callback for when an item has been selected.
@@ -90,6 +90,7 @@ public class ExamPaperListFragment extends BaseFragment implements OnItemClickLi
 		listview = (DropDownListView) rootView
 				.findViewById(R.id.lst_exampaper);
 		listview.setOnItemClickListener(this);
+		noresult_rl=rootView.findViewById(R.id.noresult_rl);
 		Bundle bundle = getArguments();
 		final int type = bundle.getInt(ARG_NUMBER);
 		final String subjectId = bundle.getString(ARG_ID);
@@ -171,11 +172,25 @@ public class ExamPaperListFragment extends BaseFragment implements OnItemClickLi
 				if(json.isNull("error")){
 					//返回正常
 					Paper p = Paper.parserJsonData(json);
-					List<PaperInfo> reallists = p.getReal();
-					if(reallists!=null&&!reallists.isEmpty())
-					adapter = new ExamPaperAdapter(getActivity(), reallists);
-					listview.setAdapter(adapter);
-
+					List<PaperInfo> lists = p.getReal();
+				
+					
+					if(lists!=null&&!lists.isEmpty()){
+						listview.setVisibility(View.VISIBLE);
+						noresult_rl.setVisibility(View.GONE);
+						adapter = new ExamPaperAdapter(getActivity(), lists);
+						if(lists.size()<ConstantValues.DEFAULYPAGESIZE){
+							listview.setHasMore(false);
+							listview.setAdapter(adapter);
+							listview.onBottomComplete();
+						}else{
+							listview.setHasMore(true);
+							listview.setAdapter(adapter);
+						}
+						}else{
+							listview.setVisibility(View.GONE);
+							noresult_rl.setVisibility(View.VISIBLE);
+						}		
 				}else {
 					//登陆错误
 					//TODO

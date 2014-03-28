@@ -25,6 +25,7 @@ import com.android.volley.Request.Method;
 import com.android.volley.Response.Listener;
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.adapter.DoneExamPaperListAdapter;
+import com.cqvip.mobilevers.adapter.ExamPaperAdapter;
 import com.cqvip.mobilevers.config.ConstantValues;
 import com.cqvip.mobilevers.entity.DoneExamPaper;
 import com.cqvip.mobilevers.http.HttpUtils;
@@ -50,6 +51,7 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 	private Map<String, String> gparams;
 	private int page;
 	private DoneExamPaperListAdapter adapter;
+	private View noresult_rl;
 
 	public static DoneExamPaperListFragment newInstance(String userid,
 			String title, String url) {
@@ -89,6 +91,8 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 			}
 
 		});
+		noresult_rl=view.findViewById(R.id.noresult_rl);
+		
 		return view;
 
 	}
@@ -167,13 +171,23 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 								ConstantValues.GETMYPASTEXAMLIST)) {
 							List<DoneExamPaper> reallists = DoneExamPaper
 									.formList(json);
-							Log.i("DoneExamPaperListFragment",
-									reallists.toString());
 							if (reallists != null && !reallists.isEmpty()) {
+								listview.setVisibility(View.VISIBLE);
+								noresult_rl.setVisibility(View.GONE);
 								adapter = new DoneExamPaperListAdapter(
 										getActivity(), reallists);
 								listview.setTag(DONEEXAMPAPERLIST_TAG);
-								listview.setAdapter(adapter);
+								if(reallists.size()<ConstantValues.DEFAULYPAGESIZE){
+									listview.setHasMore(false);
+									listview.setAdapter(adapter);
+									listview.onBottomComplete();
+								}else{
+									listview.setHasMore(true);
+									listview.setAdapter(adapter);
+								}
+							}else{
+								listview.setVisibility(View.GONE);
+								noresult_rl.setVisibility(View.VISIBLE);
 							}
 						} else if (getArguments().getString(URL).equals(
 								ConstantValues.GETFAVORITESEXAMPAPERLIST)) {
@@ -185,8 +199,18 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 								adapter = new DoneExamPaperListAdapter(
 										getActivity(), paperInfos);
 								listview.setTag(FAVORITEEXAMPAPERLIST_TAG);
-								listview.setAdapter(adapter);
+									if(paperInfos.size()<ConstantValues.DEFAULYPAGESIZE){
+										listview.setHasMore(false);
+										listview.setAdapter(adapter);
+										listview.onBottomComplete();
+									}else{
+										listview.setHasMore(true);
+										listview.setAdapter(adapter);
+									}
 							}
+						}else{
+							listview.setVisibility(View.GONE);
+							noresult_rl.setVisibility(View.VISIBLE);
 						}
 					} else {
 						// 登陆错误

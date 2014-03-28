@@ -152,10 +152,10 @@ public class SearchExamFragment extends BaseFragment implements
 					//Toast.makeText(getActivity(), count + "", 1).show();
 					if (count != 0) {
 						listview.setVisibility(View.VISIBLE);
+						noresult_rl.setVisibility(View.GONE);
 						totalsearch_tv.setVisibility(View.VISIBLE);
 						String temp="搜索到与 \"<font face=\"arial\" color=\"red\">"+key+"</font>\"  相关的试卷 <font face=\"arial\" color=\"red\">"+count+"</font> 个";
 						totalsearch_tv.setText(Html.fromHtml(temp));
-						noresult_rl.setVisibility(View.GONE);
 						// 判断
 						if (json.isNull("error")) {
 							// 返回正常
@@ -164,7 +164,14 @@ public class SearchExamFragment extends BaseFragment implements
 							if (reallists != null && !reallists.isEmpty())
 								adapter = new ExamPaperAdapter(getActivity(),
 										reallists);
-							listview.setAdapter(adapter);
+							if(reallists.size()<ConstantValues.DEFAULYPAGESIZE){
+								listview.setHasMore(false);
+								listview.setAdapter(adapter);
+								listview.onBottomComplete();
+							}else{
+								listview.setHasMore(true);
+								listview.setAdapter(adapter);
+							}
 						} else {
 							// 登陆错误
 							// TODO
@@ -173,8 +180,8 @@ public class SearchExamFragment extends BaseFragment implements
 						adapter = new ExamPaperAdapter(getActivity(),
 								new ArrayList<PaperInfo>());
 						listview.setAdapter(adapter);
-						listview.setVisibility(View.GONE);
 						totalsearch_tv.setVisibility(View.GONE);
+						listview.setVisibility(View.GONE);
 						noresult_rl.setVisibility(View.VISIBLE);
 					}
 				} catch (JSONException e) {
