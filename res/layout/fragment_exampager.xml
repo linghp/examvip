@@ -177,7 +177,7 @@
                             android:layout_height="wrap_content"
                             android:padding="2dp"
                             android:textSize="16sp"
-                            android:text="阿斯顿发，阿斯顿发"
+                            android:text=""
                             android:textColor="@color/black"
                             android:visibility="visible" />
                     </LinearLayout>
