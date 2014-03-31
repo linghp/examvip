@@ -57,6 +57,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/preference_item"
             android:clickable="true"
+            android:onClick="update"
             android:gravity="center_vertical" >
 
             <TextView

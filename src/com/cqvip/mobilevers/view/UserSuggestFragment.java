@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 public class UserSuggestFragment extends Fragment{
 
@@ -15,6 +16,8 @@ public class UserSuggestFragment extends Fragment{
 			Bundle savedInstanceState) {
 
 		View v = inflater.inflate(R.layout.more_usersuggest, null);
+		TextView tv = (TextView) v.findViewById(R.id.tv_show_title);
+		tv.setText("用户反馈");
 		
 		
 		return v;

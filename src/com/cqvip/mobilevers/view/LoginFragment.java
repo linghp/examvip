@@ -3,16 +3,22 @@ package com.cqvip.mobilevers.view;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.android.volley.Request.Method;
@@ -26,7 +32,7 @@ import com.cqvip.mobilevers.http.VersStringRequest;
 import com.cqvip.mobilevers.ui.FragmentMineActivity;
 import com.cqvip.mobilevers.ui.base.BaseFragment;
 
-public class LoginFragment extends BaseFragment {
+public class LoginFragment extends BaseFragment implements OnEditorActionListener {
 	private EditText name_et;
 	private EditText password_et;
 	private UserDao userDao;
@@ -49,6 +55,7 @@ public class LoginFragment extends BaseFragment {
 	private void initview(View v) {
 		name_et = (EditText) v.findViewById(R.id.et_username);
 		password_et = (EditText) v.findViewById(R.id.et_password);
+		password_et.setOnEditorActionListener(this);
 		
 		v.findViewById(R.id.txtbtn_login).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -126,4 +133,22 @@ public class LoginFragment extends BaseFragment {
 			}
 		}
 	};
+	@Override
+	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+		switch (actionId) {
+		case EditorInfo.IME_ACTION_NEXT:
+			//隐藏键盘
+			InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+			if (imm.isActive()) {
+				imm.hideSoftInputFromWindow(password_et.getWindowToken(), 0);
+			}
+			break;
+
+		default:
+			break;
+		}
+		return false;
+	}
+	
+
 }
