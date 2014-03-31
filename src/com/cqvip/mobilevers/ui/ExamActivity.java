@@ -387,11 +387,11 @@ public class ExamActivity extends BaseFragmentActivity implements
 	public void onPageSelected(int position) {
 		Log.i(TAG, "onPageSelected_position:" + position);
 		currentpage = position;
-		if (position == 0) {
-			isLeftFragment = true;
-		} else {
-			isLeftFragment = false;
-		}
+//		if (position == 0) {
+//			isLeftFragment = true;
+//		} else {
+//			isLeftFragment = false;
+//		}
 		isOnshowing = false;
 		tips_viewSubTitle.setText(getResources().getString(R.string.btn_show_subtitle));
 		tv_item_count.setText((position+1)+"|"+clientShowCount);
@@ -498,12 +498,6 @@ public class ExamActivity extends BaseFragmentActivity implements
 		int position = Integer.parseInt(id)-1;
 		mPager.setCurrentItem(position);
 	}
-	@Override
-	public void onBackStackChanged() {
-		super.onBackStackChanged();
-				
-	}
-
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {

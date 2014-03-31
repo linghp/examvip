@@ -101,6 +101,7 @@ public class BClassfyFragment extends BaseListFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		((FragmentExamActivity)getActivity()).tag=TAG;
 		if (reuseView()) {
 			return view;
 		}
