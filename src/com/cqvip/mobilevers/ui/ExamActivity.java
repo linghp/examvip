@@ -182,7 +182,8 @@ public class ExamActivity extends BaseFragmentActivity implements
 		paperScore = exam.getScore();
 		paperTime = exam.getExamTime();
 		baseExamInfo = new BaseExamInfo(paperId,paperTime, paperName, paperScore,clientShowCount);
-		
+	
+		tv_item_count.setText(1+"|"+clientShowCount);
 	}
 	
 

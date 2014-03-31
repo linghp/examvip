@@ -4,7 +4,13 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
+
+import android.util.Log;
+
+import com.cqvip.mobilevers.config.ConstantValues;
 
 public class DateUtil {
 
@@ -41,4 +47,19 @@ public class DateUtil {
 			return mlists;
 		}
 	 
+		public static String formPicUrl(String time, String subId, String attachId, String orgName){
+			long mTime = Long.parseLong(time.replace("/Date(", "").replace(")/", "").substring(0, 13));
+			TimeZone zone=TimeZone.getTimeZone("GMT+0800");
+			  Calendar c=Calendar.getInstance(zone);
+			  c.setTimeInMillis(mTime);
+			  Date date=c.getTime();
+			  String year = date.getYear()+1900+"";
+			  String moth = (date.getMonth() + 1 < 10 ? (date.getMonth() + 1) : date.getMonth() + 1)+"";
+			  String day =  (date.getDate() < 10 ? date.getDate() : date.getDate()) +"";
+			  String name = orgName.substring(orgName.lastIndexOf("."),orgName.length());
+			  String resutl = ConstantValues.PICURL+"\\"+year+"\\"+moth+"\\"+day+"\\"+subId+"\\"+attachId+name;
+			  Log.i("formPicUrl","result:"+resutl);
+			return resutl;
+		}
+		
 }

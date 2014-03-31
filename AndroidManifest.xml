@@ -43,10 +43,6 @@
             android:name="com.cqvip.mobilevers.ui.ExamActivity"
             android:label="@string/title_activity_test_exam" >
         </activity>
-        <activity
-            android:name="com.cqvip.mobilevers.ui.LoginActivity"
-            android:label="@string/title_activity_login" >
-        </activity>
     </application>
 
 </manifest>

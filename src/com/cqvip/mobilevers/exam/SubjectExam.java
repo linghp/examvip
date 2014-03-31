@@ -3,11 +3,14 @@ package com.cqvip.mobilevers.exam;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Date;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParserException;
+
+import android.util.Log;
 
 import com.cqvip.mobilevers.utils.PullParseXML;
 
@@ -83,9 +86,12 @@ public class SubjectExam implements Serializable{
 
 	private Subject getSubjecFormXml(JSONObject json,String subjectTypeName,double scorePerQuestion) throws IOException, XmlPullParserException, JSONException {
 		String  xml = json.getString("_subXmlString");
+		String createdate = json.getString("_createTime");
+		String 	subId = json.getString("_id").trim();
+		Log.i("Subject","Subject:"+createdate+"subid"+subId);
 		//System.out.println(xml);
 		PullParseXML pullParse = new PullParseXML();
-		Subject sub = pullParse.parseXml(xml,subjectTypeName,scorePerQuestion);
+		Subject sub = pullParse.parseXml(xml,subjectTypeName,scorePerQuestion,createdate,subId);
 		return sub;
 	}
 

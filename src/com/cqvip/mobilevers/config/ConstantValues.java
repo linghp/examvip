@@ -30,6 +30,9 @@ public class ConstantValues {
 	public static final String DBNAME="MobileVers.db";
 	
 	
+	public static final String PICURL="http://vers.cqvip.com/UI/AttachFilePick.aspx?path=\\ExamPaperRes";
+	
+	
 	public static final String HTMLTAG="{{*HTML*}}";
 	
 	
