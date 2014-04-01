@@ -46,6 +46,8 @@ public class ExamClassfyFragment extends BaseFragment implements OnClickListener
 		private TextView tv_title;
 		//private ImageView img_back;
 		
+		public static final String TAG="ExamClassfyFragment";
+		
 		
 		public static ExamClassfyFragment newInstance(String num, String title) {
 			ExamClassfyFragment f = new ExamClassfyFragment();
@@ -62,6 +64,8 @@ public class ExamClassfyFragment extends BaseFragment implements OnClickListener
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+			Log.i(TAG, "onCreateView");
+			((FragmentExamActivity)getActivity()).tag=TAG;
 			if (reuseView()) {
 				if(mposition==1){
 					((RadioButton) rg_nav_content.getChildAt(0))
