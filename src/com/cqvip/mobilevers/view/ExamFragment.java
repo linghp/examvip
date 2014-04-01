@@ -144,6 +144,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		Content answer = solution.getAnswer();
 		Content answerdesc = solution.getAnswerDesc();
 		type = question.getType();
+		Log.i("EXAM","answer:"+answer+"\ntype"+type);
 		id = question.getId();
 		perScore = question.getPerscore();
 		//Log.i("EXAM","id:"+id+"type:"+type);

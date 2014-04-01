@@ -85,11 +85,11 @@ public class ExamClassfyActivity extends BaseFragmentActivity implements ExamPap
 						((RadioButton) rg_nav_content.getChildAt(position))
 								.performClick();
 					}
-					if (position == 0) {
-						isLeftFragment = true;
-					} else {
-						isLeftFragment = false;
-					}
+//					if (position == 0) {
+//						isLeftFragment = true;
+//					} else {
+//						isLeftFragment = false;
+//					}
 				}
 			});
 	

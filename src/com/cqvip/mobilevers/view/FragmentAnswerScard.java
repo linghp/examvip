@@ -338,7 +338,9 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 		gparams = new HashMap<String, String>();
 		gparams.put("userId", userId);
 		gparams.put("examPaperId", baseExamInfo.getId());
+		Log.i(TAG,"examPaperId:"+baseExamInfo.getId());
 		gparams.put("userAnswer", result);
+		Log.i(TAG,"userAnswer:"+result);
 		requestVolley(gparams, ConstantValues.SERVER_URL + ConstantValues.SAVEEXAMANSWER,
 				backlistener, Method.POST);
 		}else{
@@ -380,6 +382,7 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 			if(customProgressDialog!=null&&customProgressDialog.isShowing())
 			customProgressDialog.dismiss();
 			//解析结果
+			Log.i(TAG, "============:"+response);
 			if (response != null) {
 			try {
 				JSONObject json = new JSONObject(response);
@@ -408,11 +411,11 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 				Toast.makeText(getActivity(), "交卷失败",
 				Toast.LENGTH_LONG).show();
 			}
-			if(((ExamActivity)getActivity()).getSupportFragmentManager().getBackStackEntryCount()>0){
-			((ExamActivity)getActivity()).getSupportFragmentManager().popBackStack();
+			if(FragmentAnswerScard.this.getActivity().getSupportFragmentManager()!=null){
+				FragmentAnswerScard.this.getActivity().getSupportFragmentManager().popBackStack();
 			}
 			ResultFragment newFragment = ResultFragment.newInstance(baseExamInfo,examDoneInfo);
-			((ExamActivity)getActivity()).addFragmentToStack(newFragment,R.id.exam_fl);
+			((ExamActivity)FragmentAnswerScard.this.getActivity()).addFragmentToStack(newFragment,R.id.exam_fl);
 		}
 	};
 	private double getTotalScore(SparseArray<SimpleAnswer> answers) {
