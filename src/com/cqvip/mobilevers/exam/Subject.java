@@ -22,9 +22,20 @@ public class Subject implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -8623714460809516006L;
-	String type;// 类型
-	Content title;// 标题
-	ArrayList<Question> question;// 问题和答案以及解析
+	
+	private String creattime;
+	private String id;
+	public String getCreattime() {
+		return creattime;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	private String type;// 类型
+	private Content title;// 标题
+	private ArrayList<Question> question;// 问题和答案以及解析
 
 	public String getType() {
 		return type;
