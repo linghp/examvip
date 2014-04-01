@@ -39,6 +39,7 @@ import com.cqvip.mobilevers.http.VersStringRequest;
 import com.cqvip.mobilevers.ui.ExamActivity;
 import com.cqvip.mobilevers.ui.FragmentExamActivity;
 import com.cqvip.mobilevers.ui.base.BaseFragment;
+import com.cqvip.mobilevers.ui.base.BaseMainFragmentActivity;
 import com.cqvip.mobilevers.utils.DateUtil;
 import com.cqvip.mobilevers.utils.Utils;
 
@@ -78,7 +79,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		((FragmentExamActivity)getActivity()).tag=TAG;
+		((BaseMainFragmentActivity)getActivity()).tag=TAG;
 		if (reuseView()) {
 			return view;
 		}

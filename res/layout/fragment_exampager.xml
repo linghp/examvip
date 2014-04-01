@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@android:color/transparent"
     android:orientation="vertical" >
   <TextView
                         android:id="@+id/txt_viewtitle"
@@ -38,7 +38,6 @@
                         android:id="@+id/txt_subject_title"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
                         android:textSize="18sp"
                         android:padding="5.0dip"
                         android:visibility="gone"
@@ -49,7 +48,6 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                       	 android:background="@color/grey_onexam_title"
-                        android:textColor="@color/black"
                         android:textSize="17.0sp" />
 
                     <ImageView
@@ -64,7 +62,6 @@
                         android:layout_height="200dp"
                         android:gravity="left|top"
                         android:hint="请写下您的答案"
-                        android:textColor="@color/black"
                          />
                  
 
@@ -89,13 +86,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="您的答案:"
-                            android:textColor="@color/black" />
+                             />
 
                         <TextView
                             android:id="@+id/user_answer"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/black" />
+                             />
 
 
                         <TextView
@@ -103,7 +100,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
 							android:paddingLeft="30dp"
-                            android:textColor="@color/black" 
                             android:text=""
                              />
 
@@ -122,14 +118,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="该题分值:"
-                            android:textColor="@color/black" />
+                             />
                         
                          <TextView
                             android:id="@+id/tx_perscore"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text=""
-                            android:textColor="@color/black" />
+                            />
                         </LinearLayout>
                     <LinearLayout
                         android:id="@+id/decision2"
@@ -144,14 +140,14 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="top|left"
                             android:text="答案："
-                            android:textColor="@color/black" />
+                             />
 
                         <com.cqvip.mobilevers.widget.ImageTextView
                             android:id="@+id/correct_answer"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text=""
-                            android:textColor="@color/black" />
+                             />
                     </LinearLayout>
 
                     <LinearLayout
@@ -161,15 +157,15 @@
                         android:layout_marginBottom="30.0dip"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
-                        android:background="@color/yellow_onexam_anwerdesc"
+                        android:background="?attr/bg_answer_color"
                         android:visibility="visible" >
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="top|left"
-                            android:text="解析："
-                            android:textColor="@color/black" />
+                            android:text="@string/exam_answerdesc_tips"
+                             />
 
                         <com.cqvip.mobilevers.widget.ImageTextView
                             android:id="@+id/anser_desc"
@@ -178,7 +174,6 @@
                             android:padding="2dp"
                             android:textSize="16sp"
                             android:text=""
-                            android:textColor="@color/black"
                             android:visibility="visible" />
                     </LinearLayout>
                 </LinearLayout>
@@ -196,7 +191,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="一下材料说明"
-                        android:textColor="@color/black"
                         android:visibility="visible" />
                 </LinearLayout>
             </LinearLayout>

@@ -169,8 +169,8 @@ public class ExamActivity extends BaseFragmentActivity implements
 			done_position[i] = new int[subjectExams_array[i].getQuestionNum()];
 			right_position[i] = new int[subjectExams_array[i].getQuestionNum()];
 			wrong_position[i] = new int[subjectExams_array[i].getQuestionNum()];
-			clientAnswer = new SeriSqareArray<SimpleAnswer>();
 		}
+		clientAnswer = new SeriSqareArray<SimpleAnswer>();
 		}
 		
 		

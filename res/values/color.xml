@@ -36,6 +36,7 @@
      <color name="blue_bottom_bar_press">#39A6E5</color>
      
      <color name="grey_onexam_title">#d9e6f0</color>
+     <color name="grey_answer">#858585</color>
      <color name="yellow_onexam_anwerdesc">#faebb9</color>
      <color name="yellow_onexam_time">#ffff00</color>
 
