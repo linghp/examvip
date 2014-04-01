@@ -678,7 +678,6 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 					clientSingleChoose = i;
 				}
 			}
-			
 			//显示答案
 			if(isJudgeType){
 				user_answer.setText(TRUEFALSE[clientSingleChoose]+"");
