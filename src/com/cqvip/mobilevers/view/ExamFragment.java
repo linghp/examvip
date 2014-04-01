@@ -6,6 +6,7 @@ import java.util.Map;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -24,6 +25,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
@@ -36,6 +38,7 @@ import com.cqvip.mobilevers.exam.SimpleAnswer;
 import com.cqvip.mobilevers.exam.Solution;
 import com.cqvip.mobilevers.ui.ExamActivity;
 import com.cqvip.mobilevers.utils.SubjectType;
+import com.cqvip.mobilevers.utils.Utils;
 import com.cqvip.mobilevers.widget.ImageTextCheckBox;
 import com.cqvip.mobilevers.widget.ImageTextView;
 
@@ -44,6 +47,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 	private static String TAG = "ExamFragment";
 	private static final char[]  ALPHABET = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T'};
 	private static final String[] TRUEFALSE = {"正确","错误"};
+	private static final int itemtop_bottom=10;
 	
 	private LinearLayout decision,decision2,decision3,decision4; //答案
     private TextView user_answer;
@@ -378,12 +382,14 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		isMultiCheck = false;
 		for(int i=0;i<alloption.size();i++){
 			ImageTextCheckBox ck = new ImageTextCheckBox(getActivity());
+			commonStyle(ck);
 			//ck.setOnClickListener(this);
 			ck.setOnCheckedChangeListener(this);
 			ImageView img = new ImageView(getActivity());
 			LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
 			img.setLayoutParams(params);
 			img.setImageResource(R.drawable.list_line);
+			img.setScaleType(ScaleType.FIT_XY);
 			ck.setButtonDrawable(R.drawable.eg_radio_big);
 			ck.setText(ALPHABET[i]+"、",alloption.get(i));
 			mulitiple_chose_group.addView(ck);
@@ -393,6 +399,17 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		
 		setPreSingChoice();
 		
+	}
+
+
+	/**
+	 * @param ck
+	 */
+	private void commonStyle(ImageTextCheckBox ck) {
+		ck.setPadding(0, Utils.dip2px(getActivity(),itemtop_bottom), 0, Utils.dip2px(getActivity(),itemtop_bottom));
+		if(ExamActivity.isnight){
+		ck.setTextColor(getResources().getColor(R.color.white));
+		}
 	}
 	/**
 	 * fragment回收后，设置用户已经答过的答案
@@ -423,11 +440,12 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		isMultiCheck = true;
 		for(int i=0;i<alloption.size();i++){
 			ImageTextCheckBox ck = new ImageTextCheckBox(getActivity());
-			//ck.setOnClickListener(this);
+			commonStyle(ck);
 			ck.setOnCheckedChangeListener(this);
 			ImageView img = new ImageView(getActivity());
 			LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
 			img.setLayoutParams(params);
+			img.setScaleType(ScaleType.FIT_XY);
 			img.setImageResource(R.drawable.list_line);
 			ck.setButtonDrawable(R.drawable.eg_checkbox);
 			ck.setText(ALPHABET[i]+"、",alloption.get(i));
@@ -472,9 +490,11 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 				ImageTextCheckBox ck = new ImageTextCheckBox(getActivity());
 				//ck.setOnClickListener(this);
 				ck.setOnCheckedChangeListener(this);
+				commonStyle(ck);
 				ImageView img = new ImageView(getActivity());
 				LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
 				img.setLayoutParams(params);
+				img.setScaleType(ScaleType.FIT_XY);
 				img.setImageResource(R.drawable.list_line);
 				ck.setButtonDrawable(R.drawable.eg_radio_big);
 				ck.setText(ALPHABET[i]+"");
@@ -497,10 +517,12 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		 for(int i=0;i<options;i++){
 				ImageTextCheckBox ck = new ImageTextCheckBox(getActivity());
 				//ck.setOnClickListener(this);
+				commonStyle(ck);
 				ck.setOnCheckedChangeListener(this);
 				ImageView img = new ImageView(getActivity());
 				LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
 				img.setLayoutParams(params);
+				img.setScaleType(ScaleType.FIT_XY);
 				img.setImageResource(R.drawable.list_line);
 				ck.setButtonDrawable(R.drawable.eg_checkbox);
 				ck.setText(ALPHABET[i]+"");
@@ -522,9 +544,11 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 			for(int i=0;i<2;i++){
 				ImageTextCheckBox ck = new ImageTextCheckBox(getActivity());
 				ck.setOnCheckedChangeListener(this);
+				commonStyle(ck);
 				ImageView img = new ImageView(getActivity());
 				LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
 				img.setLayoutParams(params);
+				img.setScaleType(ScaleType.FIT_XY);
 				img.setImageResource(R.drawable.list_line);
 				ck.setButtonDrawable(R.drawable.eg_radio_big);
 				ck.setText(TRUEFALSE[i]);
@@ -696,13 +720,14 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 			SimpleAnswer ans = new SimpleAnswer(id, (clientSingleChoose+1)+"",tmpscore);
 			setSigndone(ExamActivity.done_position);//记录已经做过
 			ExamActivity.clientAnswer.append(position, ans);
-			
+			Log.i(TAG, "=======674======="+position);
 		}else{
 			user_answer.setText("");
 			tx_rightwrong.setText("");
 			rightOrWrong = ConstantValues.ANSWER_UNDONG;
 			removeSignDone(ExamActivity.done_position);
 			ExamActivity.clientAnswer.append(position, null);
+			Log.i(TAG, "=======681======="+position);
 		}	
 		 }else{
 			 //多选

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -78,6 +79,7 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 	
 	private ExamDoneInfo examDoneInfo;//耗时
 	
+	private ExamActivity activity;
 	/**
 	 * 返回试题
 	 * @param num
@@ -129,7 +131,12 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 		return f;
 	}
 	
-	
+	@Override
+	public void onAttach(Activity activity) {
+		// TODO Auto-generated method stub
+		super.onAttach(activity);
+		this.activity=(ExamActivity)activity;
+	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -289,8 +296,11 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 	private String formResult(
 			SparseArray<SimpleAnswer> answers) {
 		StringBuilder builder = new StringBuilder();
+		int key=0;
 		for(int i=0;i<answers.size();i++){
-			SimpleAnswer firstAnswer = answers.get(i);
+			key = answers.keyAt(i);
+			SimpleAnswer firstAnswer = answers.get(key);
+			if(firstAnswer!=null){
 			String mAnswer = firstAnswer.getAnswer();
 			double score = firstAnswer.getScore();
 			String questionId = firstAnswer.getId();
@@ -302,7 +312,9 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 			mbuilder.append(score+"");
 			mbuilder.append("<!%!%!%>");
 			builder.append(mbuilder.toString());
+			}
 		}
+		Log.i(TAG, "formResult.builder:"+builder.toString());
 		return builder.toString();
 	}
 	
@@ -390,14 +402,15 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 				if(json.isNull("error")){
 					//返回正常
 				boolean  res = 	json.getBoolean("status");
+				if(activity!=null){
 					if(res){
-					Toast.makeText(getActivity(), "交卷成功",
+					Toast.makeText(activity, "交卷成功",
 							Toast.LENGTH_LONG).show();
 					}else{
-						Toast.makeText(getActivity(), "交卷失败",
+						Toast.makeText(activity, "交卷失败",
 								Toast.LENGTH_LONG).show();
 					}
-					
+				}	
 					
 				}else {
 					//登陆错误
@@ -411,11 +424,11 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 				Toast.makeText(getActivity(), "交卷失败",
 				Toast.LENGTH_LONG).show();
 			}
-			if(FragmentAnswerScard.this.getActivity().getSupportFragmentManager()!=null){
-				FragmentAnswerScard.this.getActivity().getSupportFragmentManager().popBackStack();
+			if(activity!=null){
+				activity.getSupportFragmentManager().popBackStack();
+				ResultFragment newFragment = ResultFragment.newInstance(baseExamInfo,examDoneInfo);
+				activity.addFragmentToStack(newFragment,R.id.exam_fl);
 			}
-			ResultFragment newFragment = ResultFragment.newInstance(baseExamInfo,examDoneInfo);
-			((ExamActivity)FragmentAnswerScard.this.getActivity()).addFragmentToStack(newFragment,R.id.exam_fl);
 		}
 	};
 	private double getTotalScore(SparseArray<SimpleAnswer> answers) {
@@ -426,6 +439,7 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 			total+= perAnswer.getScore();
 			}
 		}
+		Log.i(TAG, "getTotalScore:"+total);
 		return total;
 	}  
 }

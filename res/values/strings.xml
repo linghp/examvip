@@ -49,4 +49,5 @@
     <string name="about_title">VERS维普考试资源系统</string>
     <string name="about_version">android v1.1.0</string>
     <string name="about_own">维普资讯公司版权所有</string>
+    <string name="exam_answerdesc_tips">解析：</string>
 </resources>
