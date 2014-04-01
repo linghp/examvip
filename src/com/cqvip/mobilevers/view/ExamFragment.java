@@ -17,6 +17,7 @@ import android.text.SpannedString;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,6 +72,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
    
     private boolean isMultiCheck = false;//是否多选
     private boolean isTextType = false;//是否客观题
+    private boolean isJudgeType = false;//是否是判断题
     
     private ArrayList<Question> Question_list=new ArrayList<Question>(); // 所有question
     private ArrayList<ImageTextCheckBox> check_list;//选项
@@ -236,6 +238,8 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		}else{
 			if(isTextType){//填空，问答
 			tv_answer.setText(answer);
+			}else if(isJudgeType){//判断
+				tv_answer.setText(formTrueFasle(answer));
 			}else{
 				//选择
 			tv_answer.setText(formABC(answer));	
@@ -265,6 +269,19 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 	}
 	
 	
+	private String formTrueFasle(Content answer) {
+		String str = answer.getContent().trim();
+		if(!str.equals("UNKNOWN")&&!str.equals("-1")){
+			if(str.equals("TRUE")){
+				return TRUEFALSE[0];
+			}else{
+				return TRUEFALSE[1];
+			}
+		}
+		return "";
+	}
+
+
 	private Spanned formSubTitle(String text) {
 		String htmlTag = ConstantValues.HTMLTAG;
 	if(	text != null && text.startsWith(htmlTag)){
@@ -284,16 +301,25 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 	private String formABC(Content answer) {
 		String str = answer.getContent().trim();
 		StringBuilder builder = new StringBuilder();
+		if(!str.equals("UNKNOWN")){
+			Log.i(TAG,"====================="+str);
 		String[] array = str.split(",");
 		int mLength = array.length;
 		if(mLength>0){
 			for(int i=0;i<array.length;i++){
-			int choice = Integer.parseInt(array[i].trim());
+			int choice =Integer.parseInt(array[i].trim());
+			if(choice>0){
 			builder.append(ALPHABET[choice-1]);
 				if(i!=mLength-1){
 					builder.append(",");
 				}
+			}else{
+				return "";
 			}
+			}
+		}
+		}else{
+			return "";
 		}
 		return builder.toString();
 	}
@@ -379,7 +405,10 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 	 * @param ck
 	 */
 	private void commonStyle(ImageTextCheckBox ck) {
-		ck.setPadding(0, Utils.dip2px(getActivity(),itemtop_bottom), 0, Utils.dip2px(getActivity(),itemtop_bottom));
+		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,Utils.dip2px(getActivity(),48));
+		ck.setLayoutParams(params);
+		ck.setGravity(Gravity.CENTER_VERTICAL);
+		//ck.setPadding(0, Utils.dip2px(getActivity(),itemtop_bottom), 0, Utils.dip2px(getActivity(),itemtop_bottom));
 		if(ExamActivity.isnight){
 		ck.setTextColor(getResources().getColor(R.color.white));
 		}
@@ -508,6 +537,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		 * @param题 xmlParse
 		 */
 	private void ShowJudgementQuestion() {
+		isJudgeType = true;
 		check_list = new ArrayList<ImageTextCheckBox>();
 			isMultiCheck = false;
 			for(int i=0;i<2;i++){
@@ -670,9 +700,12 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 					clientSingleChoose = i;
 				}
 			}
-			
 			//显示答案
+			if(isJudgeType){
+				user_answer.setText(TRUEFALSE[clientSingleChoose]+"");
+			}else{
 			user_answer.setText(ALPHABET[clientSingleChoose]+"");
+			}
 			double tmpscore ;
 			//显示对错
 			if(validateAnswer(clientSingleChoose)){
@@ -790,6 +823,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 	}
 	
 	private boolean validateMultiAnswer(ArrayList<Integer> multiChoose2) {
+		if(realAnswer!=null){
 		StringBuilder builder = new StringBuilder();
 		for(int i=0;i<multiChoose2.size();i++){
 			int k = multiChoose2.get(i);
@@ -800,15 +834,19 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		}
 		String result = builder.toString();
 		return realAnswer.equals(result);
+		}else{
+			return false;
+		}
 	}
 	private boolean validateAnswer(int clientSingleChoose2) {
 		if(realAnswer!=null){
-			int answer = Integer.parseInt(realAnswer);
-			if((clientSingleChoose2+1) == answer){
-				return true;
+			if(isJudgeType){
+				return clientSingleChoose2==0;
 			}
+		   return realAnswer.equals((clientSingleChoose2+1)+"");
+		}else{
+			return false;
 		}
-		return false;
 	}
 	/**
 	 * 多选答案

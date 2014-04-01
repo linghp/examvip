@@ -17,6 +17,7 @@
         		android:text="维普考试资源系统"
         		android:gravity="center"
         		android:layout_centerInParent="true"
+        		android:singleLine="true"
         		android:textSize="22sp"
         		android:drawableLeft="@drawable/title_logo"		
 				android:textColor="#ffffff" /> 

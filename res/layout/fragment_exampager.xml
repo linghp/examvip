@@ -127,6 +127,12 @@
                             android:text=""
                             />
                         </LinearLayout>
+                        
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/list_line" />
                     <LinearLayout
                         android:id="@+id/decision2"
                         android:layout_width="fill_parent"

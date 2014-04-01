@@ -27,19 +27,19 @@ public class PullParseXML {
 	public PullParseXML() {
 		super();
 	}
-	public  Subject parseXml(String xml,String subjectTypeName,double scorePerQuestion) throws IOException, XmlPullParserException {
+	public  Subject parseXml(String xml,String subjectTypeName,double scorePerQuestion,String createtime,String subid) throws IOException, XmlPullParserException {
 		Subject sub = null;
 		XmlPullParser xmlParse = Xml.newPullParser();
 		if(!TextUtils.isEmpty(xml)){
 		InputStream in = new ByteArrayInputStream(xml.getBytes("utf-8"));
 		xmlParse.setInput(in, "utf-8");
 		xmlParse.nextTag();
-		sub = ShowAllSubjectQuestion(xmlParse,subjectTypeName,scorePerQuestion);
+		sub = ShowAllSubjectQuestion(xmlParse,subjectTypeName,scorePerQuestion,createtime,subid);
 		}
 		return sub;
 	}
 	
-	public Subject ShowAllSubjectQuestion(XmlPullParser xmlParse,String subjectTypeName,double scorePerQuestion)throws IOException, XmlPullParserException {
+	public Subject ShowAllSubjectQuestion(XmlPullParser xmlParse,String subjectTypeName,double scorePerQuestion,String createdate,String subid)throws IOException, XmlPullParserException {
 		String type = null;
 		ArrayList<Question> questions = new ArrayList<Question>();
 		ArrayList<Question> allquestion = new ArrayList<Question>();
@@ -64,14 +64,17 @@ public class PullParseXML {
 	        }else if(name.equals("Attach")){
 	        	//读取图片
 	        	isTitleContainPic = true;
-	        	String pic = readText(xmlParse);
-	        	pics.add(pic);
+	        	
+	        	String attachId = xmlParse.getAttributeValue(null, "ID");
+	        	String orgName = readText(xmlParse);
+	        	String picurl = DateUtil.formPicUrl(createdate, subid, attachId, orgName);
+	        	pics.add(picurl);
 	        } else if(name.equals("Question")){
 	        	//读取问题
 	        	if(count!=null){
-	        	question = 	readQuestion(xmlParse,count);
+	        	question = 	readQuestion(xmlParse,count,createdate,subid);
 	        	}else{
-	        	question = readQuestion(xmlParse);
+	        	question = readQuestion(xmlParse,createdate,subid);
 	        	}
 	        	questions.add(question);
 	        }else{
@@ -100,7 +103,7 @@ public class PullParseXML {
 	 * @throws IOException
 	 * @throws XmlPullParserException
 	 */
-    private Question readQuestion(XmlPullParser xmlParse) throws IOException, XmlPullParserException {
+    private Question readQuestion(XmlPullParser xmlParse,String createdate, String subid) throws IOException, XmlPullParserException {
     	String type = null;
     	Solution s = null ;
     	String id = null;
@@ -120,7 +123,7 @@ public class PullParseXML {
 	        String name = xmlParse.getName();
 	        if (name.equals("Item")) {
 	        	//读取item 内容
-	        	Content item = readAnswer(xmlParse, "Item");
+	        	Content item = readAnswer(xmlParse, "Item",createdate,subid);
 	        	lists.add(item);
 	        }else if(name.equals("Content")){
 	        	title = readText(xmlParse);
@@ -129,11 +132,13 @@ public class PullParseXML {
 	        	itemCount = Integer.parseInt(count);
 	        }else if(name.equals("Solution")){
 	        	//读取解析
-	        	s = readSolution(xmlParse);
+	        	s = readSolution(xmlParse,createdate,subid);
 	        }else if(name.equals("Attach")){
 	        	isContainPic = true;
-				String tpimg = readText(xmlParse);
-				imgs.add(tpimg);
+	        	String attachId = xmlParse.getAttributeValue(null, "ID");
+	        	String orgName = readText(xmlParse);
+	        	String picurl = DateUtil.formPicUrl(createdate, subid, attachId, orgName);
+				imgs.add(picurl);
 	        }else{
 	        	skip(xmlParse);
 	        }
@@ -147,11 +152,13 @@ public class PullParseXML {
     /**
 	 * 读取Question
 	 * @param xmlParse
+     * @param subid 
+     * @param createdate 
 	 * @return Question 
 	 * @throws IOException
 	 * @throws XmlPullParserException
 	 */
-    private Question readQuestion(XmlPullParser xmlParse,String sub_count) throws IOException, XmlPullParserException {
+    private Question readQuestion(XmlPullParser xmlParse,String sub_count, String createdate, String subid) throws IOException, XmlPullParserException {
     	String type = null;
     	Solution s = null ;
     	String id = null;
@@ -171,7 +178,7 @@ public class PullParseXML {
 	        String name = xmlParse.getName();
 	        if (name.equals("Item")) {
 	        	//读取item 内容
-	        	Content item = readAnswer(xmlParse, "Item");
+	        	Content item = readAnswer(xmlParse, "Item",createdate,subid);
 	        	lists.add(item);
 	        }else if(name.equals("Content")){
 	        	title = readText(xmlParse);
@@ -180,11 +187,13 @@ public class PullParseXML {
 	        	itemCount = Integer.parseInt(count);
 	        }else if(name.equals("Solution")){
 	        	//读取解析
-	        	s = readSolution(xmlParse);
+	        	s = readSolution(xmlParse,createdate,subid);
 	        }else if(name.equals("Attach")){
 	        	isContainPic = true;
-				String tpimg = readText(xmlParse);
-				imgs.add(tpimg);
+	        	String attachId = xmlParse.getAttributeValue(null, "ID");
+	        	String orgName = readText(xmlParse);
+	        	String picurl = DateUtil.formPicUrl(createdate, subid, attachId, orgName);
+				imgs.add(picurl);
 	        }else{
 	        	skip(xmlParse);
 	        }
@@ -204,7 +213,7 @@ public class PullParseXML {
 	 * @throws IOException
 	 * @throws XmlPullParserException
 	 */
-	private Solution readSolution(XmlPullParser xmlParse)throws IOException, XmlPullParserException {
+	private Solution readSolution(XmlPullParser xmlParse,String createdate, String subid)throws IOException, XmlPullParserException {
 
 		
 		xmlParse.require(XmlPullParser.START_TAG, ns, "Solution");
@@ -217,10 +226,10 @@ public class PullParseXML {
 	        String name = xmlParse.getName();
 	        if (name.equals("Answer")) {
 	        	//读取答案
-	        	answer = readAnswer(xmlParse,"Answer");
+	        	answer = readAnswer(xmlParse,"Answer",createdate,subid);
 	        } else if(name.equals("AnswerDesc")){
 	        	//读取解析
-	        	answerDesc = readAnswer(xmlParse,"AnswerDesc");
+	        	answerDesc = readAnswer(xmlParse,"AnswerDesc",createdate,subid);
 	        }else{
 	        	skip(xmlParse);
 	        }
@@ -238,7 +247,7 @@ public class PullParseXML {
 	 * @throws IOException
 	 * @throws XmlPullParserException
 	 */
-	private Content readAnswer(XmlPullParser xmlParse,String tag)throws IOException, XmlPullParserException {
+	private Content readAnswer(XmlPullParser xmlParse,String tag,String createdate, String subid)throws IOException, XmlPullParserException {
 		boolean isContainPic = false;
 		ArrayList<String> imgs = new ArrayList<String>();
 		String content = null;
@@ -255,8 +264,10 @@ public class PullParseXML {
 		        } else if(name.equals("Attach")){
 		        	//读取解析
 		        	isContainPic = true;
-					String tpimg = readText(xmlParse);
-					imgs.add(tpimg);
+		        	String attachId = xmlParse.getAttributeValue(null, "ID");
+		        	String orgName = readText(xmlParse);
+		        	String picurl = DateUtil.formPicUrl(createdate, subid, attachId, orgName);
+					imgs.add(picurl);
 		        }else{
 		        	skip(xmlParse);
 		        }
