@@ -73,12 +73,7 @@ public class SubjectExam implements Serializable{
 	public SubjectExam(JSONObject json)throws JSONException, IOException, XmlPullParserException{
 		totalScore = json.getInt("_totalScore");
 		double tmp = json.getInt("_scorePerQuestion");
-		double tmp2 = json.getInt("_scorePerSubject");
-		if(tmp>0){
-			scorePerQuestion = tmp;
-		}else{
-			scorePerQuestion = tmp2;
-		}
+		scorePerQuestion = Math.abs(tmp);
 		questionNum = json.getInt("_questionNum");
 		subjectTypeName = json.getString("_subjectTypeName");
 		JSONArray array = json.getJSONArray("_epsubInfo");
@@ -100,7 +95,6 @@ public class SubjectExam implements Serializable{
 		return sub;
 	}
 
-	
 	
 	@Override
 	public String toString() {
