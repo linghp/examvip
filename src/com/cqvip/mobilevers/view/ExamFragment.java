@@ -17,7 +17,6 @@ import android.text.SpannedString;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +25,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
@@ -389,6 +389,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 			LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
 			img.setLayoutParams(params);
 			img.setImageResource(R.drawable.list_line);
+			img.setScaleType(ScaleType.FIT_XY);
 			ck.setButtonDrawable(R.drawable.eg_radio_big);
 			ck.setText(ALPHABET[i]+"、",alloption.get(i));
 			mulitiple_chose_group.addView(ck);
@@ -405,10 +406,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 	 * @param ck
 	 */
 	private void commonStyle(ImageTextCheckBox ck) {
-		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,Utils.dip2px(getActivity(),48));
-		ck.setLayoutParams(params);
-		ck.setGravity(Gravity.CENTER_VERTICAL);
-		//ck.setPadding(0, Utils.dip2px(getActivity(),itemtop_bottom), 0, Utils.dip2px(getActivity(),itemtop_bottom));
+		ck.setPadding(0, Utils.dip2px(getActivity(),itemtop_bottom), 0, Utils.dip2px(getActivity(),itemtop_bottom));
 		if(ExamActivity.isnight){
 		ck.setTextColor(getResources().getColor(R.color.white));
 		}
@@ -447,6 +445,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 			ImageView img = new ImageView(getActivity());
 			LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
 			img.setLayoutParams(params);
+			img.setScaleType(ScaleType.FIT_XY);
 			img.setImageResource(R.drawable.list_line);
 			ck.setButtonDrawable(R.drawable.eg_checkbox);
 			ck.setText(ALPHABET[i]+"、",alloption.get(i));
@@ -495,6 +494,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 				ImageView img = new ImageView(getActivity());
 				LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
 				img.setLayoutParams(params);
+				img.setScaleType(ScaleType.FIT_XY);
 				img.setImageResource(R.drawable.list_line);
 				ck.setButtonDrawable(R.drawable.eg_radio_big);
 				ck.setText(ALPHABET[i]+"");
@@ -522,6 +522,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 				ImageView img = new ImageView(getActivity());
 				LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
 				img.setLayoutParams(params);
+				img.setScaleType(ScaleType.FIT_XY);
 				img.setImageResource(R.drawable.list_line);
 				ck.setButtonDrawable(R.drawable.eg_checkbox);
 				ck.setText(ALPHABET[i]+"");
@@ -547,6 +548,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 				ImageView img = new ImageView(getActivity());
 				LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
 				img.setLayoutParams(params);
+				img.setScaleType(ScaleType.FIT_XY);
 				img.setImageResource(R.drawable.list_line);
 				ck.setButtonDrawable(R.drawable.eg_radio_big);
 				ck.setText(TRUEFALSE[i]);

@@ -439,6 +439,7 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 			total+= perAnswer.getScore();
 			}
 		}
+		Log.i(TAG, "getTotalScore:"+total);
 		return total;
 	}  
 }
