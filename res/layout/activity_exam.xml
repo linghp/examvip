@@ -14,7 +14,7 @@
             android:id="@+id/top_rl"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
-            android:background="@color/f_title_bg"
+            android:background="?attr/bg_examtitle_color"
             android:gravity="center_vertical"
             android:orientation="horizontal" >
 
@@ -38,7 +38,7 @@
                     android:layout_height="wrap_content"
                     android:drawableTop="@drawable/icon_exam_title"
                     android:text="查看题干"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/examtop_fontsize" />
             </LinearLayout>
 
@@ -55,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:drawableTop="@drawable/icon_exam_answer"
                     android:text="查看答案"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/examtop_fontsize" />
             </LinearLayout>
 
@@ -72,19 +72,24 @@
                     android:layout_height="wrap_content"
                     android:drawableTop="@drawable/icon_exam_card"
                     android:text="答题卡"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/examtop_fontsize" />
             </LinearLayout>
 
-            
-             <TextView
-                android:id="@+id/tv_item_count"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-                android:layout_weight="0.5"
-                android:textColor="@android:color/white"
-                android:text="" />
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/tv_item_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/white" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -92,13 +97,14 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="horizontal" >
+
                 <TextView
                     android:id="@+id/tv_exam_handle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableTop="@drawable/icon_exam_handle"
                     android:text="交卷"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/examtop_fontsize" >
                 </TextView>
             </LinearLayout>
@@ -115,7 +121,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:background="@color/blue_bottom_bar" >
+            android:background="?attr/bg_exambottom_color" >
 
             <ImageView
                 android:id="@+id/goto_back"

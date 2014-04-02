@@ -406,9 +406,9 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 	 * @param ck
 	 */
 	private void commonStyle(ImageTextCheckBox ck) {
-		ck.setPadding(0, Utils.dip2px(getActivity(),itemtop_bottom), 0, Utils.dip2px(getActivity(),itemtop_bottom));
+		ck.setPadding(Utils.dip2px(getActivity(),5), Utils.dip2px(getActivity(),itemtop_bottom), 0, Utils.dip2px(getActivity(),itemtop_bottom));
 		if(ExamActivity.isnight){
-		ck.setTextColor(getResources().getColor(R.color.white));
+		ck.setTextColor(getResources().getColor(R.color.examnightcolor));
 		}
 	}
 	/**
