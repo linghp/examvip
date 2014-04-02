@@ -34,6 +34,7 @@ public class SubjectExam implements Serializable{
 		return subjectTypeName;
 	} 
 
+	
 	public void setSubjectTypeName(String subjectTypeName) {
 		this.subjectTypeName = subjectTypeName;
 	}
