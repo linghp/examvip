@@ -95,7 +95,6 @@ public class SubjectExam implements Serializable{
 		return sub;
 	}
 
-	
 	@Override
 	public String toString() {
 		return "SubjectExam [subjectTypeName=" + subjectTypeName
