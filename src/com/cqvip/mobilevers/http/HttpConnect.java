@@ -9,44 +9,81 @@ import java.net.URL;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpVersion;
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.params.HttpProtocolParams;
+import org.apache.http.protocol.HTTP;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 
+import com.cqvip.mobilevers.config.ConstantValues;
 import com.cqvip.mobilevers.utils.StreamTools;
 
 public class HttpConnect {
-	public static String getNews(String url,List<? extends NameValuePair> parameters) {
-		System.out.println("=======HttpConnect============"+url);
-		//StringBuilder sb = new StringBuilder();
+	
+	private static HttpClient client;
+	private HttpConnect(){
+		
+	}
+	/**
+	 * 获取网络图片
+	 * @param url
+	 * @param parameters
+	 * @return
+	 */
+	public static InputStream getImgformNet(String url,List<? extends NameValuePair> parameters) {
 		HttpClient client = new DefaultHttpClient();
 		String path = null;
+		InputStream in = null;
 		try {
-			path = url;
+		path = url;
 		HttpGet get = new HttpGet(path);
-
 		HttpResponse  response = client.execute(get);
 		StatusLine stateline =response.getStatusLine();
 		if(stateline.getStatusCode()==200){
-			InputStream in = response.getEntity().getContent();
-			String str = StreamTools.readInputStream(in);
-			System.out.println("reuslt"+str);
-			return str;
+			in = response.getEntity().getContent();
+			return in;
 		}else{
-			return null;
+			return in;
 		}
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		return null;
 	}
+	
+	
+	private static synchronized HttpClient getHttpclient() {
+		if(client == null){
+		HttpParams params = new BasicHttpParams();
+		HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
+		HttpProtocolParams.setContentCharset(params, HTTP.UTF_8);
+		SchemeRegistry registry = new SchemeRegistry();
+		registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+		ClientConnectionManager ccm = new ThreadSafeClientConnManager(params, registry);
+		HttpConnectionParams.setConnectionTimeout(params, ConstantValues.CONNECTION_TIMEOUT);
+		HttpConnectionParams.setSoTimeout(params, ConstantValues.SOCKET_TIMEOUT);
+		 client = new DefaultHttpClient(ccm, params);
+		
+		}
+		return client;
+		
+	}
+	
 	
 	/**
 	 * 获取图片资源

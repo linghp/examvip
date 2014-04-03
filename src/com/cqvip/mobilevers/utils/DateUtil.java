@@ -57,8 +57,7 @@ public class DateUtil {
 			  String moth = (date.getMonth() + 1 < 10 ? (date.getMonth() + 1) : date.getMonth() + 1)+"";
 			  String day =  (date.getDate() < 10 ? date.getDate() : date.getDate()) +"";
 			  String name = orgName.substring(orgName.lastIndexOf("."),orgName.length());
-			  String resutl = ConstantValues.PICURL+"\\"+year+"\\"+moth+"\\"+day+"\\"+subId+"\\"+attachId+name;
-			  Log.i("formPicUrl","result:"+resutl);
+			  String resutl = ConstantValues.PICURL+"/"+year+"/"+moth+"/"+day+"/"+subId+"/"+attachId+name;
 			return resutl;
 		}
 		

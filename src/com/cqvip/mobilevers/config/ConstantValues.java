@@ -1,5 +1,7 @@
 package com.cqvip.mobilevers.config;
 
+import org.apache.http.params.HttpConnectionParams;
+
 public class ConstantValues {
 	public static final String aurl="http://192.168.20.214:8080/web/AServlet";
 	public static final String burl="http://192.168.20.214:8080/web/BServlet";
@@ -30,7 +32,7 @@ public class ConstantValues {
 	public static final String DBNAME="MobileVers.db";
 	
 	
-	public static final String PICURL="http://vers.cqvip.com/UI/AttachFilePick.aspx?path=\\ExamPaperRes";
+	public static final String PICURL="http://vers.cqvip.com/UI/AttachFilePick.aspx?path=/ExamPaperRes";
 	
 	
 	public static final String HTMLTAG="{{*HTML*}}";
@@ -58,5 +60,10 @@ public class ConstantValues {
 	public static final int ANSWER_DONG = 1;
 	public static final int ANSWER_RIGHT = 2;
 	public static final int ANSWER_WRONG = 3;
+	
+	
+	public static final int CONNECTION_TIMEOUT = 30000;
+	public static final int SOCKET_TIMEOUT = 30000;
+	public static final int DEFAULTCHOICESCOUNT = 4;
 	
 }

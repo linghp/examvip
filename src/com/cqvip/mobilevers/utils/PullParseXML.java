@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.Xml;
 
+import com.cqvip.mobilevers.config.ConstantValues;
 import com.cqvip.mobilevers.exam.Content;
 import com.cqvip.mobilevers.exam.Question;
 import com.cqvip.mobilevers.exam.Solution;
@@ -145,6 +146,10 @@ public class PullParseXML {
 	    } 
 	    if(title!=null||!imgs.isEmpty()){
 	    	content = new Content(imgs, title, isContainPic);
+	    }
+	    //如果subject和question中都不含有选项个数，那么设置默认4个选项
+	    if(itemCount == 0){
+	    	itemCount = ConstantValues.DEFAULTCHOICESCOUNT;
 	    }
 	    
 	    return new Question(id,type,content,lists,s,itemCount);
