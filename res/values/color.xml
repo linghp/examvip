@@ -3,6 +3,7 @@
 
     <color name="red">#ffff6600</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="examnightcolor">#9F9F9E</color>
     <color name="black">#FF000000</color>
     <color name="divider_color">#a9a9a9</color>
     <color name="green_light">#FF7C953C</color>
@@ -32,11 +33,13 @@
     <color name="examtop_fontcolor">#000</color>
      <color name="fontclcor">#ffffffff</color>
      <color name="f_title_bg">#2B488A</color>
+     <color name="f_title_bg_night">#121E3B</color>
      <color name="blue_bottom_bar">#39A6E5</color>
+     <color name="blue_bottom_bar_night">#093049</color>
      <color name="blue_bottom_bar_press">#39A6E5</color>
      
      <color name="grey_onexam_title">#d9e6f0</color>
-     <color name="grey_answer">#858585</color>
+     <color name="grey_answer">#171717</color>
      <color name="yellow_onexam_anwerdesc">#faebb9</color>
      <color name="yellow_onexam_time">#ffff00</color>
 

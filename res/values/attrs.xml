@@ -3,6 +3,8 @@
     <attr name="bg_color" format="color" />
     <attr name="text_color" format="color" />
     <attr name="bg_answer_color" format="color" />
+    <attr name="bg_exambottom_color" format="color" />
+    <attr name="bg_examtitle_color" format="color" />
     <declare-styleable name="drop_down_list_attr">
         <attr name="isDropDownStyle" format="boolean" />
         <attr name="isOnBottomStyle" format="boolean" />
