@@ -64,6 +64,6 @@ public class ConstantValues {
 	
 	public static final int CONNECTION_TIMEOUT = 30000;
 	public static final int SOCKET_TIMEOUT = 30000;
-	public static final int DEFAULTCHOICESCOUNT = 4;
+	public static final int DEFAULTCHOICESCOUNT = 4;//默认选项个数
 	
 }

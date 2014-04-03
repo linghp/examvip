@@ -1,6 +1,10 @@
 package com.cqvip.mobilevers.widget;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,7 +22,6 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ImageSpan;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.cqvip.mobilevers.R;
@@ -89,6 +92,7 @@ public class ImageTextView extends TextView {
 			while (picMatcher.find()) {
 				int start = picMatcher.start();
 				int end = picMatcher.end();
+				try {
 					int[] array = new int[] { start, end };
 					new AsyncTask<Object, Void, Drawable>() {
 
@@ -165,6 +169,10 @@ public class ImageTextView extends TextView {
 							textView1.setText(builder);
 						}
 					}.execute(imgs.get(i++), style, textView, array);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		} else if (text != null && text.startsWith("{{*HTML*}}")) {
 			// 是否是HTML格式的
@@ -203,6 +211,7 @@ public class ImageTextView extends TextView {
 			while (picMatcher.find()) {
 				int start = picMatcher.start();
 				int end = picMatcher.end();
+				try {
 					int[] array = new int[] { start, end };
 					new AsyncTask<Object, Void, Drawable>() {
 
@@ -250,7 +259,9 @@ public class ImageTextView extends TextView {
 						}
 
 					}.execute(imgs.get(i++), style, textView, array);
-				
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		} else if (text != null && text.startsWith("{{*HTML*}}")) {
 			// 是否是HTML格式的
