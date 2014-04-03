@@ -1,23 +1,17 @@
 package com.cqvip.mobilevers.view;
 
 import java.util.ArrayList;
-import java.util.Map;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.res.Configuration;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.Html;
-import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.SpannedString;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +32,6 @@ import com.cqvip.mobilevers.exam.SimpleAnswer;
 import com.cqvip.mobilevers.exam.Solution;
 import com.cqvip.mobilevers.ui.ExamActivity;
 import com.cqvip.mobilevers.utils.SubjectType;
-import com.cqvip.mobilevers.utils.Utils;
 import com.cqvip.mobilevers.widget.ImageTextCheckBox;
 import com.cqvip.mobilevers.widget.ImageTextView;
 
@@ -47,7 +40,6 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 	private static String TAG = "ExamFragment";
 	private static final char[]  ALPHABET = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T'};
 	private static final String[] TRUEFALSE = {"正确","错误"};
-	private static final int itemtop_bottom=10;
 	
 	private LinearLayout decision,decision2,decision3,decision4; //答案
     private TextView user_answer;
@@ -82,6 +74,8 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
     private Content contentTitle;  //标题内容
     private ColAndRow colAndRow;//position坐标
 	
+	private LayoutInflater cur_inflater;
+	
 //    @Override
 //    public void onAttach(Activity activity) {
 //    	Log.i("ExamFragment", "================onAttach==============");
@@ -112,6 +106,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		cur_inflater = inflater;
 		View v = inflater.inflate(R.layout.fragment_exampager, container,false);
 		position = getArguments().getInt(NUM_TAG);//fragment位置，及第几个Question
 		Log.i("ExamFragment", "onCreateView"+position);
@@ -381,16 +376,9 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		check_list = new ArrayList<ImageTextCheckBox>();
 		isMultiCheck = false;
 		for(int i=0;i<alloption.size();i++){
-			ImageTextCheckBox ck = new ImageTextCheckBox(getActivity());
-			commonStyle(ck);
-			//ck.setOnClickListener(this);
-			ck.setOnCheckedChangeListener(this);
+			ImageTextCheckBox ck = (ImageTextCheckBox) cur_inflater.inflate(R.layout.mycheckbox, null);
 			ImageView img = new ImageView(getActivity());
-			LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
-			img.setLayoutParams(params);
-			img.setImageResource(R.drawable.list_line);
-			img.setScaleType(ScaleType.FIT_XY);
-			ck.setButtonDrawable(R.drawable.eg_radio_big);
+			commonStyle(i, R.drawable.eg_radio_big, ck, img);
 			ck.setText(ALPHABET[i]+"、",alloption.get(i));
 			mulitiple_chose_group.addView(ck);
 			mulitiple_chose_group.addView(img);
@@ -403,10 +391,19 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 
 
 	/**
+	 * 五个方法的共同部分提取
+	 * @param i
+	 * @param drawableid
 	 * @param ck
+	 * @param img
 	 */
-	private void commonStyle(ImageTextCheckBox ck) {
-		ck.setPadding(Utils.dip2px(getActivity(),5), Utils.dip2px(getActivity(),itemtop_bottom), 0, Utils.dip2px(getActivity(),itemtop_bottom));
+	private void commonStyle(int i, int drawableid,ImageTextCheckBox ck,ImageView img) {
+		ck.setOnCheckedChangeListener(this);
+		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
+		img.setLayoutParams(params);
+		img.setImageResource(R.drawable.list_line);
+		img.setScaleType(ScaleType.FIT_XY);
+		ck.setButtonDrawable(drawableid);
 		if(ExamActivity.isnight){
 		ck.setTextColor(getResources().getColor(R.color.examnightcolor));
 		}
@@ -439,15 +436,9 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		check_list = new ArrayList<ImageTextCheckBox>();
 		isMultiCheck = true;
 		for(int i=0;i<alloption.size();i++){
-			ImageTextCheckBox ck = new ImageTextCheckBox(getActivity());
-			commonStyle(ck);
-			ck.setOnCheckedChangeListener(this);
+			ImageTextCheckBox ck = (ImageTextCheckBox) cur_inflater.inflate(R.layout.mycheckbox, null);
 			ImageView img = new ImageView(getActivity());
-			LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
-			img.setLayoutParams(params);
-			img.setScaleType(ScaleType.FIT_XY);
-			img.setImageResource(R.drawable.list_line);
-			ck.setButtonDrawable(R.drawable.eg_checkbox);
+			commonStyle(i, R.drawable.eg_checkbox, ck, img);
 			ck.setText(ALPHABET[i]+"、",alloption.get(i));
 			mulitiple_chose_group.addView(ck);
 			mulitiple_chose_group.addView(img);
@@ -487,16 +478,9 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 			check_list = new ArrayList<ImageTextCheckBox>();
 			isMultiCheck = false;
 			for(int i=0;i<options;i++){
-				ImageTextCheckBox ck = new ImageTextCheckBox(getActivity());
-				//ck.setOnClickListener(this);
-				ck.setOnCheckedChangeListener(this);
-				commonStyle(ck);
+				ImageTextCheckBox ck = (ImageTextCheckBox) cur_inflater.inflate(R.layout.mycheckbox, null);
 				ImageView img = new ImageView(getActivity());
-				LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
-				img.setLayoutParams(params);
-				img.setScaleType(ScaleType.FIT_XY);
-				img.setImageResource(R.drawable.list_line);
-				ck.setButtonDrawable(R.drawable.eg_radio_big);
+				commonStyle(i, R.drawable.eg_radio_big, ck, img);
 				ck.setText(ALPHABET[i]+"");
 				mulitiple_chose_group.addView(ck);
 				mulitiple_chose_group.addView(img);
@@ -515,16 +499,9 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		 check_list = new ArrayList<ImageTextCheckBox>();
 		 isMultiCheck = true;
 		 for(int i=0;i<options;i++){
-				ImageTextCheckBox ck = new ImageTextCheckBox(getActivity());
-				//ck.setOnClickListener(this);
-				commonStyle(ck);
-				ck.setOnCheckedChangeListener(this);
+				ImageTextCheckBox ck = (ImageTextCheckBox) cur_inflater.inflate(R.layout.mycheckbox, null);
 				ImageView img = new ImageView(getActivity());
-				LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
-				img.setLayoutParams(params);
-				img.setScaleType(ScaleType.FIT_XY);
-				img.setImageResource(R.drawable.list_line);
-				ck.setButtonDrawable(R.drawable.eg_checkbox);
+				commonStyle(i, R.drawable.eg_checkbox, ck, img);
 				ck.setText(ALPHABET[i]+"");
 				mulitiple_chose_group.addView(ck);
 				mulitiple_chose_group.addView(img);
@@ -533,7 +510,9 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		 setPreMultiChoice();
 	}
 	 
-	 /**
+
+
+	/**
 		 * 解析判断
 		 * @param题 xmlParse
 		 */
@@ -542,15 +521,9 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 		check_list = new ArrayList<ImageTextCheckBox>();
 			isMultiCheck = false;
 			for(int i=0;i<2;i++){
-				ImageTextCheckBox ck = new ImageTextCheckBox(getActivity());
-				ck.setOnCheckedChangeListener(this);
-				commonStyle(ck);
+				ImageTextCheckBox ck = (ImageTextCheckBox) cur_inflater.inflate(R.layout.mycheckbox, null);
 				ImageView img = new ImageView(getActivity());
-				LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
-				img.setLayoutParams(params);
-				img.setScaleType(ScaleType.FIT_XY);
-				img.setImageResource(R.drawable.list_line);
-				ck.setButtonDrawable(R.drawable.eg_radio_big);
+				commonStyle(i, R.drawable.eg_radio_big, ck, img);
 				ck.setText(TRUEFALSE[i]);
 				mulitiple_chose_group.addView(ck);
 				mulitiple_chose_group.addView(img);
@@ -560,6 +533,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 			setPreSingChoice();
 		}
 	
+
 	/**
 	 * 解析填空
 	 * @param xmlParse

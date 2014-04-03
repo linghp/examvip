@@ -58,6 +58,13 @@ public class ImageTextCheckBox  extends CheckBox{
 		// TODO Auto-generated method stub
 		setOutlineText(this, text, isContainpic, imgs);
 	}
+	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		// TODO Auto-generated method stub
+		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+		
+	}
+	
 	
 	public void setOutlineText(TextView textView, String text,
 			boolean isContainpic, ArrayList<String> imgs) {
