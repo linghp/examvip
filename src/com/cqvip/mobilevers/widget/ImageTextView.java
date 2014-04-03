@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.exam.Content;
+import com.cqvip.mobilevers.http.HttpConnect;
 
 public class ImageTextView extends TextView {
 
@@ -78,10 +79,9 @@ public class ImageTextView extends TextView {
 				int length = text.length();
 				String trimHtml = text.substring("{{*HTML*}}".length(), length);
 				Spanned picText = Html.fromHtml(trimHtml);
-				spannable = new SpannableString(picText);
-
+				spannable = checkPic(picText+"",imgs);
 			} else {
-				spannable = new SpannableString(text);
+				spannable = checkPic(text,imgs);
 			}
 			// 1、使用这则表达式替换图片
 			SpannableStringBuilder style = new SpannableStringBuilder(spannable);
@@ -107,39 +107,44 @@ public class ImageTextView extends TextView {
 							builder = (SpannableStringBuilder) params[1];
 							textView1 = (TextView) params[2];
 							indexs = (int[]) params[3];
-
-							URL myFileUrl = null;
 							Bitmap bitmap = null;
 							InputStream is = null;
-							HttpURLConnection conn = null;
-							try {
-								myFileUrl = new URL(path);
-							} catch (MalformedURLException e) {
-								e.printStackTrace();
+							is = HttpConnect.getImgformNet(path, null);
+							if(is!=null){
+							bitmap = BitmapFactory.decodeStream(is);
 							}
-							try {
-								conn = (HttpURLConnection) myFileUrl
-										.openConnection();
-								conn.setDoInput(true);
-								conn.connect();
-								is = conn.getInputStream();
-								bitmap = BitmapFactory.decodeStream(is);
-								is.close();
-							} catch (IOException e) {
-								e.printStackTrace();
-							} finally {
-								try {
-									if (is != null) {
-										is.close();
-									}
-									if (conn != null) {
-										conn.disconnect();
-									}
-								} catch (IOException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-							}
+//							URL myFileUrl = null;
+//							Bitmap bitmap = null;
+//							InputStream is = null;
+//							HttpURLConnection conn = null;
+//							try {
+//								myFileUrl = new URL(path);
+//							} catch (MalformedURLException e) {
+//								e.printStackTrace();
+//							}
+//							try {
+//								conn = (HttpURLConnection) myFileUrl
+//										.openConnection();
+//								conn.setDoInput(true);
+//								conn.connect();
+//								is = conn.getInputStream();
+//								bitmap = BitmapFactory.decodeStream(is);
+//								is.close();
+//							} catch (IOException e) {
+//								e.printStackTrace();
+//							} finally {
+//								try {
+//									if (is != null) {
+//										is.close();
+//									}
+//									if (conn != null) {
+//										conn.disconnect();
+//									}
+//								} catch (IOException e) {
+//									// TODO Auto-generated catch block
+//									e.printStackTrace();
+//								}
+//							}
 							return new BitmapDrawable(bitmap);
 						}
 
@@ -190,14 +195,16 @@ public class ImageTextView extends TextView {
 				int length = text.length();
 				String trimHtml = text.substring("{{*HTML*}}".length(), length);
 				Spanned picText = Html.fromHtml(trimHtml);
-				spannable = new SpannableString(tips + picText);
+				spannable =	checkPic(tips + picText,imgs);
 			} else {
 				text = tips + text;
-				spannable = new SpannableString(text);
+				spannable =	checkPic(text,imgs);
 			}
 			SpannableStringBuilder style = new SpannableStringBuilder(spannable);
 
 			Matcher picMatcher = PIC_PATTERN.matcher(spannable);
+			
+		
 			// 匹配图片
 			int i = 0;
 			int j = 0;
@@ -220,37 +227,11 @@ public class ImageTextView extends TextView {
 							textView1 = (TextView) params[2];
 							indexs = (int[]) params[3];
 
-							URL myFileUrl = null;
 							Bitmap bitmap = null;
 							InputStream is = null;
-							HttpURLConnection conn = null;
-							try {
-								myFileUrl = new URL(path);
-							} catch (MalformedURLException e) {
-								e.printStackTrace();
-							}
-							try {
-								conn = (HttpURLConnection) myFileUrl
-										.openConnection();
-								conn.setDoInput(true);
-								conn.connect();
-								is = conn.getInputStream();
-								bitmap = BitmapFactory.decodeStream(is);
-								is.close();
-							} catch (IOException e) {
-								e.printStackTrace();
-							} finally {
-								try {
-									if (is != null) {
-										is.close();
-									}
-									if (conn != null) {
-										conn.disconnect();
-									}
-								} catch (IOException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
+							is = HttpConnect.getImgformNet(path, null);
+							if(is!=null){
+							bitmap = BitmapFactory.decodeStream(is);
 							}
 							return new BitmapDrawable(bitmap);
 						}
@@ -290,5 +271,19 @@ public class ImageTextView extends TextView {
 		} else {// 不是html格式，不是图片
 			textView.setText(tips + (text != null ? text : ""));
 		}
+	}
+
+	private SpannableString checkPic(String picText, ArrayList<String> imgs) {
+		Matcher picMatcher = PIC_PATTERN.matcher(picText);
+		if(!picMatcher.find()){
+				StringBuilder builder = new StringBuilder(picText);
+				for(int i=0;i<imgs.size();i++){
+					builder.append("[*]");
+				}
+				return new SpannableString(builder.toString());
+			}else{
+				return new SpannableString(picText);
+			}
+		
 	}
 }
