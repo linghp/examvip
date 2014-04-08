@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.exam.Content;
 import com.cqvip.mobilevers.http.HttpConnect;
+import com.cqvip.mobilevers.ui.MainActivity;
 
 import android.R.integer;
 import android.content.Context;
@@ -108,9 +109,15 @@ public class ImageTextCheckBox  extends CheckBox{
 
 							Bitmap bitmap = null;
 							InputStream is = null;
+							if(MainActivity.imgCache.getBitmapFromMemCache(path)!=null){
+								bitmap = MainActivity.imgCache.getBitmapFromMemCache(path).getBitmap();
+							}else if(MainActivity.imgCache.getBitmapFromDiskCache(path)!=null){
+								bitmap = MainActivity.imgCache.getBitmapFromDiskCache(path);
+							}else{//从网络获取
 							is = HttpConnect.getImgformNet(path, null);
 							if(is!=null){
 							bitmap = BitmapFactory.decodeStream(is);
+							}
 							}
 							return new BitmapDrawable(bitmap);
 						}
@@ -122,6 +129,8 @@ public class ImageTextCheckBox  extends CheckBox{
 								Bitmap bitmap = BitmapFactory.decodeResource(
 										getResources(), R.drawable.eg_fail);
 								result = new BitmapDrawable(bitmap);
+							}else{
+								MainActivity.imgCache.addBitmapToCache(path,  ((BitmapDrawable)result));
 							}
 							result.setBounds(0, 0,
 									result.getIntrinsicWidth() * 2,
@@ -196,9 +205,15 @@ public class ImageTextCheckBox  extends CheckBox{
 
 							Bitmap bitmap = null;
 							InputStream is = null;
+							if(MainActivity.imgCache.getBitmapFromMemCache(path)!=null){
+								bitmap = MainActivity.imgCache.getBitmapFromMemCache(path).getBitmap();
+							}else if(MainActivity.imgCache.getBitmapFromDiskCache(path)!=null){
+								bitmap = MainActivity.imgCache.getBitmapFromDiskCache(path);
+							}else{//从网络获取
 							is = HttpConnect.getImgformNet(path, null);
 							if(is!=null){
 							bitmap = BitmapFactory.decodeStream(is);
+							}
 							}
 							return new BitmapDrawable(bitmap);
 						}
@@ -210,8 +225,9 @@ public class ImageTextCheckBox  extends CheckBox{
 								Bitmap bitmap = BitmapFactory.decodeResource(
 										getResources(), R.drawable.eg_fail);
 								result = new BitmapDrawable(bitmap);
+							}else{
+								MainActivity.imgCache.addBitmapToCache(path,  ((BitmapDrawable)result));
 							}
-
 							result.setBounds(0, 0,
 									result.getIntrinsicWidth() * 2,
 									result.getIntrinsicHeight() * 2);

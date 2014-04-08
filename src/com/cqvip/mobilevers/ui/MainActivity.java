@@ -2,19 +2,18 @@ package com.cqvip.mobilevers.ui;
 
 
 import android.app.TabActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.KeyEvent;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cqvip.mobilevers.R;
+import com.cqvip.mobilevers.imgcache.ImageCache;
 
 /**
  * 主菜单
@@ -26,10 +25,21 @@ public class MainActivity extends TabActivity {
 	private TextView main_tab_new_message;
 	private TextView menuTitle;
 	private ImageButton ib;
+	   private static final String IMAGE_CACHE_DIR = "images";
+	    private static final String EXTRA_IMAGE = "mextra_image";
+	    public static  ImageCache.ImageCacheParams cacheParams;
+		public static ImageCache imgCache;	
+	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.fragment_tabs_fragment);
+		Context context = this;
+		cacheParams  =  new ImageCache.ImageCacheParams(this, IMAGE_CACHE_DIR);
+        cacheParams.setMemCacheSizePercent(0.125f); // Set memory cache to 25% of app memory
+		imgCache = ImageCache.getInstance(context,cacheParams);
+		
+		
         tabHost= this.getTabHost();
         TabHost.TabSpec spec;
         Intent intent;
@@ -78,6 +88,10 @@ public class MainActivity extends TabActivity {
 		});
 	}	
 	
+	public ImageCache getImgCache() {
+		return imgCache;
+	}
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
