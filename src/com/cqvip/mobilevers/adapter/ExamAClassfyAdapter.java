@@ -9,14 +9,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.adapter.base.AdapterBase;
 import com.cqvip.mobilevers.db.OneLevelType;
-import com.cqvip.mobilevers.ui.base.BaseFragment;
 import com.cqvip.mobilevers.view.BaseListFragment;
-import com.cqvip.mobilevers.view.ListViewFragment;
+import com.cqvip.mobilevers.view.ExamClassfyFragment;
 
 public class ExamAClassfyAdapter extends AdapterBase<OneLevelType> implements OnClickListener {
 
@@ -69,7 +67,7 @@ public class ExamAClassfyAdapter extends AdapterBase<OneLevelType> implements On
 	@Override
 	public void onClick(View v) {
 		OneLevelType oneLevelType=(OneLevelType)v.getTag();
-		baseListFragment.addFragmentToStack(ListViewFragment.newInstance(oneLevelType.getExamtypeid()+"",oneLevelType.getTitle()),R.id.simple_fragment);
+		baseListFragment.addFragmentToStack(ExamClassfyFragment.newInstance(oneLevelType.getExamtypeid()+"",oneLevelType.getTitle()),R.id.simple_fragment);
 		//Toast.makeText(context, "click"+v.getTag(), 1).show();
 	}
 

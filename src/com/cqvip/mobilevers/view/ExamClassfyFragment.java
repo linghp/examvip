@@ -182,7 +182,7 @@ public class ExamClassfyFragment extends BaseFragment implements OnClickListener
 			public SectionsPagerAdapter(FragmentManager fm) {
 				super(fm);
 			}
-			
+			//fragment下次进来是空白，因为没有销毁，不执行生命周期方法，所以保存fragment的引用在destroy时销毁。
 			private SparseArray<ExamPaperListFragment> mPageReferenceMap = new SparseArray<ExamPaperListFragment>();
 
 			@Override

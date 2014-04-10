@@ -7,17 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.adapter.base.AdapterBase;
-import com.cqvip.mobilevers.db.OneLevelType;
 import com.cqvip.mobilevers.db.TwoLevelType;
-import com.cqvip.mobilevers.entity.ExamInfo;
 import com.cqvip.mobilevers.view.BaseListFragment;
-import com.cqvip.mobilevers.view.ListViewFragment;
+import com.cqvip.mobilevers.view.ExamClassfyFragment;
 
 public class ExamBClassfyAdapter extends AdapterBase<TwoLevelType> implements OnClickListener{
 
@@ -58,7 +54,7 @@ public class ExamBClassfyAdapter extends AdapterBase<TwoLevelType> implements On
 	@Override
 	public void onClick(View v) {
 		TwoLevelType twoLevelType=(TwoLevelType)v.getTag();
-		baseListFragment.addFragmentToStack(ListViewFragment.newInstance(twoLevelType.getExamtypeid()+"",twoLevelType.getTitle()),R.id.simple_fragment);
+		baseListFragment.addFragmentToStack(ExamClassfyFragment.newInstance(twoLevelType.getExamtypeid()+"",twoLevelType.getTitle()),R.id.simple_fragment);
 		//Toast.makeText(context, "click"+v.getTag(), 1).show();
 	}
 
