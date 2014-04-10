@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.exam.Content;
 import com.cqvip.mobilevers.http.HttpConnect;
+import com.cqvip.mobilevers.ui.MainActivity;
 
 public class ImageTextView extends TextView {
 
@@ -109,9 +110,17 @@ public class ImageTextView extends TextView {
 							indexs = (int[]) params[3];
 							Bitmap bitmap = null;
 							InputStream is = null;
+							
+							if(MainActivity.imgCache.getBitmapFromMemCache(path)!=null){
+								bitmap = MainActivity.imgCache.getBitmapFromMemCache(path).getBitmap();
+							}else if(MainActivity.imgCache.getBitmapFromDiskCache(path)!=null){
+								bitmap = MainActivity.imgCache.getBitmapFromDiskCache(path);
+							}else{//从网络获取
+							
 							is = HttpConnect.getImgformNet(path, null);
 							if(is!=null){
 							bitmap = BitmapFactory.decodeStream(is);
+							}
 							}
 //							URL myFileUrl = null;
 //							Bitmap bitmap = null;
@@ -155,6 +164,8 @@ public class ImageTextView extends TextView {
 								Bitmap bitmap = BitmapFactory.decodeResource(
 										getResources(), R.drawable.eg_fail);
 								result = new BitmapDrawable(bitmap);
+							}else{
+								MainActivity.imgCache.addBitmapToCache(path,  ((BitmapDrawable)result));
 							}
 							result.setBounds(0, 0,
 									result.getIntrinsicWidth() * 2,
@@ -226,12 +237,19 @@ public class ImageTextView extends TextView {
 							builder = (SpannableStringBuilder) params[1];
 							textView1 = (TextView) params[2];
 							indexs = (int[]) params[3];
+							
 
 							Bitmap bitmap = null;
 							InputStream is = null;
+							if(MainActivity.imgCache.getBitmapFromMemCache(path)!=null){
+								bitmap = MainActivity.imgCache.getBitmapFromMemCache(path).getBitmap();
+							}else if(MainActivity.imgCache.getBitmapFromDiskCache(path)!=null){
+								bitmap = MainActivity.imgCache.getBitmapFromDiskCache(path);
+							}else{//从网络获取
 							is = HttpConnect.getImgformNet(path, null);
 							if(is!=null){
 							bitmap = BitmapFactory.decodeStream(is);
+							}
 							}
 							return new BitmapDrawable(bitmap);
 						}
@@ -243,8 +261,9 @@ public class ImageTextView extends TextView {
 								Bitmap bitmap = BitmapFactory.decodeResource(
 										getResources(), R.drawable.eg_fail);
 								result = new BitmapDrawable(bitmap);
+							}else{
+								MainActivity.imgCache.addBitmapToCache(path,  ((BitmapDrawable)result));
 							}
-
 							result.setBounds(0, 0,
 									result.getIntrinsicWidth() * 2,
 									result.getIntrinsicHeight() * 2);

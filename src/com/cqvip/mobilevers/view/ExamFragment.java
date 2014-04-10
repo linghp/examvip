@@ -200,6 +200,7 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 				contentTitle = sub_title;//获取到子题材料内容
 				page_title.setVisibility(View.VISIBLE);
 				page_title.setText(" 查看材料>>");
+				itvTitle.setText(contentTitle);
 				tv_title.setText((position+1)+"、",question_title);
 				ShowAnyQuestionCollSubject(question);
 				
@@ -215,7 +216,6 @@ public class ExamFragment extends Fragment implements  OnCheckedChangeListener{
 				ll_main.setVisibility(View.GONE);
 				ll_title.setVisibility(View.VISIBLE);
 				page_title.setText("返回>>");
-				itvTitle.setText(contentTitle);
 				}else{
 				page_title.setText("查看材料>>");
 				ll_main.setVisibility(View.VISIBLE);
