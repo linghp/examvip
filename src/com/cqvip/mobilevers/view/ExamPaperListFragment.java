@@ -39,7 +39,7 @@ public class ExamPaperListFragment extends BaseFragment implements OnItemClickLi
     private ExamPaperAdapter adapter; 
     private int page;
    	private NextCallbacks mCallbacks = sDummyCallbacks;
-   	private View noresult_rl;
+   	private View noresult_rl,loading_probar;
 	public interface NextCallbacks {
 		/**
 		 * Callback for when an item has been selected.
@@ -91,6 +91,8 @@ public class ExamPaperListFragment extends BaseFragment implements OnItemClickLi
 				.findViewById(R.id.lst_exampaper);
 		listview.setOnItemClickListener(this);
 		noresult_rl=rootView.findViewById(R.id.noresult_rl);
+		loading_probar=rootView.findViewById(R.id.loading_probar);
+		loading_probar.setVisibility(View.VISIBLE);
 		Bundle bundle = getArguments();
 		final int type = bundle.getInt(ARG_NUMBER);
 		final String subjectId = bundle.getString(ARG_ID);
@@ -178,6 +180,7 @@ public class ExamPaperListFragment extends BaseFragment implements OnItemClickLi
 					if(lists!=null&&!lists.isEmpty()){
 						listview.setVisibility(View.VISIBLE);
 						noresult_rl.setVisibility(View.GONE);
+						loading_probar.setVisibility(View.GONE);
 						adapter = new ExamPaperAdapter(getActivity(), lists);
 						if(lists.size()<ConstantValues.DEFAULYPAGESIZE){
 							listview.setHasMore(false);
@@ -190,6 +193,7 @@ public class ExamPaperListFragment extends BaseFragment implements OnItemClickLi
 						}else{
 							listview.setVisibility(View.GONE);
 							noresult_rl.setVisibility(View.VISIBLE);
+							loading_probar.setVisibility(View.GONE);
 						}		
 				}else {
 					//登陆错误

@@ -2,19 +2,18 @@
     xmlns:dlistView="http://schemas.android.com/apk/res/com.cqvip.mobilevers"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-    
- <com.cqvip.mobilevers.widget.DropDownListView
+    android:layout_height="match_parent" >
+
+    <com.cqvip.mobilevers.widget.DropDownListView
         android:id="@+id/lst_exampaper"
-        android:isScrollContainer="false"
-         dlistView:isOnBottomStyle="true"
-        dlistView:isAutoLoadOnBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:isScrollContainer="false"
+        dlistView:isAutoLoadOnBottom="true"
+        dlistView:isOnBottomStyle="true" >
     </com.cqvip.mobilevers.widget.DropDownListView>
-    
-  <RelativeLayout
+
+    <RelativeLayout
         android:id="@+id/noresult_rl"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -35,5 +34,14 @@
             android:text="该分类下暂无相关试题"
             android:textColor="@android:color/darker_gray" />
     </RelativeLayout>
- 
+
+    <ProgressBar android:id="@+id/loading_probar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" 
+        android:visibility="gone"
+        >
+    </ProgressBar>
+
 </RelativeLayout>
