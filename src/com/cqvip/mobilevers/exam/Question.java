@@ -24,7 +24,7 @@ public class Question implements Serializable{
 	private  Content sub_Title; //子题标题
 	private String sebexam_Title;//大题标题
 	private String  sub_Type;//subject类型
-	double perscore;//每一题分数
+	private double perscore;//每一题分数
 	
 
 	public Question(String id, String type, Content title,
