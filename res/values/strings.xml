@@ -27,6 +27,8 @@
     <string name="switch_off">关</string>
     <string name="alert_dialog_cancel">取消</string>
     <string name="alert_dialog_confirm">确定</string>
+    <string name="alert_dialog_save">保存</string>
+    <string name="alert_dialog_unsave">不保存</string>
     <string name="tips_right">√恭喜您，答对了</string>
     <string name="tips_wrong">×对不起，答错了</string>
     <string name="btn_show_subtitle">查看题干</string>

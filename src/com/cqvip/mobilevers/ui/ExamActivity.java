@@ -2,13 +2,18 @@ package com.cqvip.mobilevers.ui;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -31,7 +36,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request.Method;
+import com.android.volley.Response.Listener;
 import com.cqvip.mobilevers.R;
+import com.cqvip.mobilevers.config.ConstantValues;
 import com.cqvip.mobilevers.entity.TwoDimensionArray;
 import com.cqvip.mobilevers.exam.BaseExamInfo;
 import com.cqvip.mobilevers.exam.Exam;
@@ -40,10 +48,14 @@ import com.cqvip.mobilevers.exam.SeriSqareArray;
 import com.cqvip.mobilevers.exam.SimpleAnswer;
 import com.cqvip.mobilevers.exam.Subject;
 import com.cqvip.mobilevers.exam.SubjectExam;
+import com.cqvip.mobilevers.http.HttpUtils;
+import com.cqvip.mobilevers.http.VersStringRequest;
 import com.cqvip.mobilevers.ui.base.BaseFragmentActivity;
+import com.cqvip.mobilevers.utils.AnswerUtils;
 import com.cqvip.mobilevers.utils.DateUtil;
 import com.cqvip.mobilevers.view.ExamFragment;
 import com.cqvip.mobilevers.view.FragmentAnswerScard;
+import com.cqvip.mobilevers.view.ResultFragment;
 
 public class ExamActivity extends BaseFragmentActivity implements
 		OnPageChangeListener, OnClickListener{
@@ -89,12 +101,14 @@ public class ExamActivity extends BaseFragmentActivity implements
 	private boolean isHandleOver = false;
 	private boolean isRightWrong = false;
 	private boolean isOnshowing = false;
+	private Map<String,String> gparams;
 	
 	public ArrayList<Integer> cardCount_List=new ArrayList<Integer>();//答题卡题目
 	
 	
 	public static SeriSqareArray<SimpleAnswer> clientAnswer;
 	private TwoDimensionArray dimension;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +128,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 		Bundle intent = getIntent().getBundleExtra("bundle");
 		exam = (Exam) intent.getSerializable("exam");
 		dimension = (TwoDimensionArray) intent.getSerializable("dimen");
+		int finalpostion = getIntent().getIntExtra("final", 0);
 		//clientAnswer =  intent.getSparseParcelableArray("answer");
 		mAdapter = new MyAdapter(getSupportFragmentManager(), context);
 //		examPaperId=getIntent().getStringExtra(ConstantValues.EXAMPAPERID);
@@ -184,6 +199,8 @@ public class ExamActivity extends BaseFragmentActivity implements
 		baseExamInfo = new BaseExamInfo(paperId,paperTime, paperName, paperScore,clientShowCount);
 	
 		tv_item_count.setText(1+"|"+clientShowCount);
+		
+		mPager.setCurrentItem(finalpostion);
 	}
 	
 
@@ -410,21 +427,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 		case R.id.img_back://返回
 			//是否退出考试
 			if(!isShowAnswer){
-		Dialog dialog =	new AlertDialog.Builder(this)
-            .setTitle("退出考试")
-            .setMessage("你还未交卷，确定要退出考试")
-            .setPositiveButton(R.string.alert_dialog_confirm, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    finish();
-                }
-            })
-            .setNegativeButton(R.string.alert_dialog_cancel, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                   dialog.dismiss();
-                }
-            })
-            .create();
-			dialog.show();
+				showDialog();
 			}else{
 				finish();
 			}
@@ -506,36 +509,121 @@ public class ExamActivity extends BaseFragmentActivity implements
 		if(!isShowAnswer){
 		if(keyCode==KeyEvent.KEYCODE_BACK){
 			
-			Dialog dialog =	new AlertDialog.Builder(this)
-            .setTitle("退出考试")
-            .setMessage("你还未交卷，确定要退出考试")
-            .setPositiveButton(R.string.alert_dialog_confirm, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-
-                    finish();
-                    
-                    //保存用户答案
-                    
-                    //clientAnswer;
-                    
-                    
-                    
-                    
-                }
-            })
-            .setNegativeButton(R.string.alert_dialog_cancel, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                   dialog.dismiss();
-                }
-            })
-            .create();
-			dialog.show();
+			showDialog();
 		}
 		}
 		return super.onKeyDown(keyCode, event);
 		
 		
 	}
+
+
+	private void showDialog() {
+		Dialog dialog =	new AlertDialog.Builder(ExamActivity.this)
+		.setTitle("退出考试")
+		.setMessage("你还未交卷，确定要退出考试")
+		.setPositiveButton(R.string.alert_dialog_confirm, new DialogInterface.OnClickListener() {
+		    public void onClick(DialogInterface dialog, int whichButton) {
+		    	dialog.dismiss();
+		    	Dialog mdialog =	new AlertDialog.Builder(ExamActivity.this)
+		        .setTitle(" 保存当前进度")
+		        .setMessage("是否保存当前进度?")
+		        .setPositiveButton(R.string.alert_dialog_save, new DialogInterface.OnClickListener() {
+		            public void onClick(DialogInterface dialog, int whichButton) {
+		            	//交卷接口
+		            	sendAnswerToServer();
+		            	finish();
+		            }
+
+		        })
+		        .setNegativeButton(R.string.alert_dialog_unsave, new DialogInterface.OnClickListener() {
+		            public void onClick(DialogInterface dialog, int whichButton) {
+		               dialog.dismiss();
+		               finish();
+		            }
+		        })
+		        .create();
+				mdialog.show();
+		    }
+		})
+		.setNegativeButton(R.string.alert_dialog_cancel, new DialogInterface.OnClickListener() {
+		    public void onClick(DialogInterface dialog, int whichButton) {
+		       dialog.dismiss();
+		    }
+		})
+		.create();
+		dialog.show();
+	}
+	
+
+	private void sendAnswerToServer() {
+		customProgressDialog.show();
+		String result = AnswerUtils.formResult(clientAnswer);
+		 SharedPreferences localUsers =	getSharedPreferences("mobilevers",MODE_PRIVATE);
+			String userId = localUsers.getString("userid", "0");
+			if(!userId.equals("0")){
+			gparams = new HashMap<String, String>();
+			gparams.put("userId", userId);
+			gparams.put("examPaperId", baseExamInfo.getId());
+			gparams.put("userAnswer", result);
+			gparams.put("isEnd", ConstantValues.DOINGISEND+"");
+			Log.i(TAG,"userAnswer:"+result);
+			requestVolley(gparams, ConstantValues.SERVER_URL + ConstantValues.SAVEEXAMANSWER,
+					backlistener, Method.POST);
+			}else{
+				if(customProgressDialog!=null&&customProgressDialog.isShowing())
+					customProgressDialog.dismiss();
+				Toast.makeText(context, "请先登录", Toast.LENGTH_LONG).show();
+			}
+		
+	}
+	private void requestVolley(final Map<String, String> gparams, String url,
+			Listener<String> listener, int post) {
+		VersStringRequest mys = new VersStringRequest(post, url, listener, volleyErrorListener) {
+			protected Map<String, String> getParams()
+					throws com.android.volley.AuthFailureError {
+				return gparams;
+			};
+		};
+		mys.setRetryPolicy(HttpUtils.setTimeout());
+		mQueue.add(mys);
+
+	}
+	private  Listener<String> backlistener = new Listener<String>() {
+		@Override
+		public void onResponse(String response) {
+			if(customProgressDialog!=null&&customProgressDialog.isShowing())
+			customProgressDialog.dismiss();
+			//解析结果
+			if (response != null) {
+			try {
+				JSONObject json = new JSONObject(response);
+				//判断
+				if(json.isNull("error")){
+					//返回正常
+				boolean  res = 	json.getBoolean("status");
+				
+					if(res){
+					Toast.makeText(context, "保存成功",
+							Toast.LENGTH_SHORT).show();
+					}else{
+						Toast.makeText(context, "保存失败",
+								Toast.LENGTH_SHORT).show();
+					}
+					
+				}else {
+					//错误
+					//TODO
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		 } else {
+				Toast.makeText(context, "保存失败",Toast.LENGTH_LONG).show();
+			}
+		}
+	};
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
@@ -544,4 +632,5 @@ public class ExamActivity extends BaseFragmentActivity implements
 		handler.removeCallbacksAndMessages(null);//handler发送消息没有回收也可能会导致内存溢,so do it。
 	}
 
+	
 }

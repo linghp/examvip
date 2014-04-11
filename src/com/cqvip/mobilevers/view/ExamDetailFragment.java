@@ -62,7 +62,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 	private TwoDimensionArray dimension = null;
 	private SeriSqareArray<SimpleAnswer> clientAnswer;
 	public final static String TAG="ExamDetailFragment";
-
+	private int finalposition = 0;
 	// private ImageView img_back;
 
 	public static ExamDetailFragment newInstance(String name, String id) {
@@ -360,6 +360,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 							bundle.putSerializable("dimen", dimension);
 							bundle.putString("id", subjectid);
 							intent.putExtra("bundle", bundle);
+							intent.putExtra("final", finalposition);
 							startActivity(intent);
 						}
 					} else {
@@ -429,6 +430,15 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 						}
 					}
 				}
+			}
+			SimpleAnswer finalans = answers[answers.length-1];
+			
+				String an_id = finalans.getId();
+				for (int j = 0; j < question_list.size(); j++) {
+					String ques_id = question_list.get(j).getId();
+					if (an_id.equals(ques_id)) {//
+					    finalposition = j;
+					}
 			}
 		}
 	};

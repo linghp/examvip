@@ -35,7 +35,7 @@ public class MainActivity extends TabActivity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.fragment_tabs_fragment);
 		Context context = this;
-		cacheParams  =  new ImageCache.ImageCacheParams(this, IMAGE_CACHE_DIR);
+		cacheParams  =  new ImageCache.ImageCacheParams(context, IMAGE_CACHE_DIR);
         cacheParams.setMemCacheSizePercent(0.125f); // Set memory cache to 25% of app memory
 		imgCache = ImageCache.getInstance(context,cacheParams);
 		
