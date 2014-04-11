@@ -35,13 +35,15 @@
             android:textColor="@android:color/darker_gray" />
     </RelativeLayout>
 
-    <ProgressBar android:id="@+id/loading_probar"
-        style="?android:attr/progressBarStyleLarge"
+    <ProgressBar
+        android:id="@+id/loading_probar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true" 
-        android:visibility="gone"
-        >
+        android:layout_centerInParent="true"
+        android:indeterminateBehavior="repeat"
+        android:indeterminateDrawable="@drawable/progressbar"
+        android:indeterminateOnly="true"
+        android:visibility="gone" >
     </ProgressBar>
 
 </RelativeLayout>
