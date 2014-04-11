@@ -27,6 +27,7 @@ public class ConstantValues {
 	public static final String ADDFAVORITESEXAMPAPER="Service1.asmx/AddFavoritesExamPaper";
 	public static final String DELETEFAVORITESEXAMPAPER="Service1.asmx/DeleteFavoritesExamPaper";
 	public static final String GETFAVORITESEXAMPAPERLIST="Service1.asmx/GetFavoritesExamPaperList";
+	public static final String GetUserCurrExamPaperList="Service1.asmx/GetUserCurrExamPaperList";
 	
 	
 	public static final String DBNAME="MobileVers.db";
@@ -45,6 +46,10 @@ public class ConstantValues {
 	public static final int GETNEXTPAGE = 2;//下一页
 	public static final int DEFAULYPAGESIZE = 15;//默认一次去15条
 	public static final int DEFAULSEVERVALUE = -1;//默认参数
+	public static final int DEFAULSTATUSINFO = 1;//默认 获取我正在考的试卷，
+	
+	public static final int DOINGISEND = 1;//默认 获取我正在考的试卷，
+	public static final int DEFAULTISEND = -1;//默认 获取我正在考的试卷，
 	
 	public static final int toutiao_id=1;
 	public static final int yule_id=2;
@@ -65,5 +70,9 @@ public class ConstantValues {
 	public static final int CONNECTION_TIMEOUT = 30000;
 	public static final int SOCKET_TIMEOUT = 30000;
 	public static final int DEFAULTCHOICESCOUNT = 4;//默认选项个数
+	
+	public static final int DONG_PAPER = 1;
+	public static final int DOING_PAPER = 2;
+	public static final int FAVORITE_PAPER = 3;
 	
 }

@@ -61,8 +61,20 @@ public class FragmentMineActivity extends BaseMainFragmentActivity {
 		if((userid=Utils.checkUserid(this))==null){
 			return;
 		}
-       DoneExamPaperListFragment newFragment = DoneExamPaperListFragment.newInstance(userid, getString(R.string.DoneExamPaper), ConstantValues.GETMYPASTEXAMLIST);
+       DoneExamPaperListFragment newFragment = DoneExamPaperListFragment.newInstance(userid, getString(R.string.DoneExamPaper), ConstantValues.GETMYPASTEXAMLIST,ConstantValues.DONG_PAPER);
        addFragmentToStack(newFragment, android.R.id.content);
+	}	
+	/**
+	 * 我正在做的试卷
+	 * @param view
+	 */
+	public void mydoingexam(View view){
+		String userid=null;
+		if((userid=Utils.checkUserid(this))==null){
+			return;
+		}
+		DoneExamPaperListFragment newFragment = DoneExamPaperListFragment.newInstance(userid, getString(R.string.DoingExamPaper), ConstantValues.GetUserCurrExamPaperList,ConstantValues.DOING_PAPER);
+		addFragmentToStack(newFragment, android.R.id.content);
 	}	
 	
 	/**
@@ -74,7 +86,7 @@ public class FragmentMineActivity extends BaseMainFragmentActivity {
 		if((userid=Utils.checkUserid(this))==null){
 			return;
 		}
-       DoneExamPaperListFragment newFragment = DoneExamPaperListFragment.newInstance(userid,getString(R.string.favoriteExamPaper),ConstantValues.GETFAVORITESEXAMPAPERLIST);
+       DoneExamPaperListFragment newFragment = DoneExamPaperListFragment.newInstance(userid,getString(R.string.favoriteExamPaper),ConstantValues.GETFAVORITESEXAMPAPERLIST,ConstantValues.FAVORITE_PAPER);
        addFragmentToStack(newFragment, android.R.id.content);
 	}	
 	

@@ -10,18 +10,18 @@ import android.widget.TextView;
 
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.adapter.base.AdapterBase;
-import com.cqvip.mobilevers.entity.DoneExamPaper;
+import com.cqvip.mobilevers.entity.DoingExamPaper;
 
 /**
  * 做过的试卷列表
  * @author luojiang
  *
  */
-public class DoneExamPaperListAdapter extends AdapterBase<DoneExamPaper>{
+public class DoingExamPaperListAdapter extends AdapterBase<DoingExamPaper>{
 
 private Context	context;;
 	
-	public DoneExamPaperListAdapter (Context context,List<DoneExamPaper> lists) {
+	public DoingExamPaperListAdapter (Context context,List<DoingExamPaper> lists) {
 		this.context = context;
 		this.mList = lists;
 	}
@@ -31,7 +31,7 @@ private Context	context;;
 	 * 
 	 * @param moreStatus
 	 */
-	public void addMoreData(List<DoneExamPaper> moreStatus) {
+	public void addMoreData(List<DoingExamPaper> moreStatus) {
 		this.mList.addAll(moreStatus);// 把新数据增加到原有集合
 		this.notifyDataSetChanged();
 	}
@@ -53,8 +53,8 @@ private Context	context;;
 		year = (TextView) v.findViewById(R.id.txt_paper_year);
 		addtime = (TextView) v.findViewById(R.id.txt_paper_adddate);
 		
-		title.setText(mList.get(position).getName());
-		year.setText("时间："+mList.get(position).getAdddate());
+		title.setText(mList.get(position).getExampapername());
+		year.setText("时间："+mList.get(position).getCreatetime());
 		addtime.setVisibility(View.GONE);
 		
 		return v;

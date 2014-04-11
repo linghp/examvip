@@ -93,7 +93,7 @@ public class SubjectExam implements Serializable{
 		String  xml = json.getString("_subXmlString");
 		String createdate = json.getString("_createTime");
 		String 	subId = json.getString("_id").trim();
-		Log.i("Subject","Subject:"+createdate+"subid"+subId);
+		//Log.i("Subject","Subject:"+createdate+"subid"+subId);
 		//System.out.println(xml);
 		PullParseXML pullParse = new PullParseXML();
 		Subject sub = pullParse.parseXml(xml,subjectTypeName,scorePerQuestion,createdate,subId);

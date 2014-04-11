@@ -24,9 +24,11 @@ import android.widget.TextView;
 import com.android.volley.Request.Method;
 import com.android.volley.Response.Listener;
 import com.cqvip.mobilevers.R;
+import com.cqvip.mobilevers.adapter.DoingExamPaperListAdapter;
 import com.cqvip.mobilevers.adapter.DoneExamPaperListAdapter;
 import com.cqvip.mobilevers.adapter.ExamPaperAdapter;
 import com.cqvip.mobilevers.config.ConstantValues;
+import com.cqvip.mobilevers.entity.DoingExamPaper;
 import com.cqvip.mobilevers.entity.DoneExamPaper;
 import com.cqvip.mobilevers.http.HttpUtils;
 import com.cqvip.mobilevers.http.VersStringRequest;
@@ -34,7 +36,7 @@ import com.cqvip.mobilevers.ui.base.BaseFragment;
 import com.cqvip.mobilevers.widget.DropDownListView;
 
 /**
- * 我做过的试卷和我收藏的试卷
+ * 我正在做的/我做过的试卷/和我收藏的试卷
  * 
  * @author luojiang
  * 
@@ -44,18 +46,22 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 	private static final String USERID = "userid";
 	private static final String TITLE = "title";
 	private static final String URL = "url";
+	private static final String TYPE = "type";
 	public static final String DONEEXAMPAPERLIST_TAG = "doneexampaperlist";
 	public static final String FAVORITEEXAMPAPERLIST_TAG = "favoriteexampaperlist";
+	public static final String DOINGEXAMPAPERLIST_TAG = "doingexampaperlist";
 	private TextView tv_title;
 	// private ImageView img_back;
 	private DropDownListView listview;
 	private Map<String, String> gparams;
 	private int page;
 	private DoneExamPaperListAdapter adapter;
+	private DoingExamPaperListAdapter doing_adapter;
 	private View noresult_rl;
+	private int type;
 
 	public static DoneExamPaperListFragment newInstance(String userid,
-			String title, String url) {
+			String title, String url, int type) {
 		DoneExamPaperListFragment f = new DoneExamPaperListFragment();
 
 		// Supply num input as an argument.
@@ -63,6 +69,7 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 		args.putString(USERID, userid);
 		args.putString(TITLE, title);
 		args.putString(URL, url);
+		args.putInt(TYPE, type);
 		f.setArguments(args);
 		return f;
 	}
@@ -75,6 +82,7 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 		}
 		view = inflater.inflate(R.layout.fragment_done_paperlist, container,
 				false);
+		type = getArguments().getInt(TYPE);
 		listview = (DropDownListView) view.findViewById(R.id.list_donepaper);
 		listview.setOnItemClickListener(this);
 		// img_back = (ImageView) view.findViewById(R.id.img_back);
@@ -92,8 +100,8 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 			}
 
 		});
-		noresult_rl=view.findViewById(R.id.noresult_rl);
-		
+		noresult_rl = view.findViewById(R.id.noresult_rl);
+
 		return view;
 
 	}
@@ -119,25 +127,31 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 		} else {
 			listner = backlistenerMore;
 		}
-
-		// gparams.put("userId", userId);
-		gparams.put("userId", getArguments().getString(USERID));
-		gparams.put("type", ConstantValues.DEFAULSEVERVALUE + "");
-		if (getArguments().getString(URL).equals(
-				ConstantValues.GETMYPASTEXAMLIST)) {
-			gparams.put("kClassId", ConstantValues.DEFAULSEVERVALUE + "");
-		}
 		gparams.put("page", page + "");
 		gparams.put("pageSize", ConstantValues.DEFAULYPAGESIZE + "");
 
+		switch (type) {
+		case ConstantValues.DOING_PAPER:
+			gparams.put("userId", getArguments().getString(USERID));
+			gparams.put("statusInfo", ConstantValues.DEFAULSTATUSINFO + "");
+			break;
+		case ConstantValues.DONG_PAPER:
+			gparams.put("userId", getArguments().getString(USERID));
+			gparams.put("type", ConstantValues.DEFAULSEVERVALUE + "");
+			gparams.put("kClassId", ConstantValues.DEFAULSEVERVALUE + "");
+
+			break;
+		case ConstantValues.FAVORITE_PAPER:
+			gparams.put("userId", getArguments().getString(USERID));
+			gparams.put("type", ConstantValues.DEFAULSEVERVALUE + "");
+			break;
+
+		default:
+			break;
+		}
+
 		requestVolley(gparams, ConstantValues.SERVER_URL
 				+ getArguments().getString(URL), listner, Method.POST);
-		// requestVolley(gparams, ConstantValues.SERVER_URL +
-		// ConstantValues.GETMYPASTEXAMLIST,
-		// listner, Method.POST);
-		// }else{
-		// //TODO
-		// }
 	}
 
 	private void requestVolley(final Map<String, String> gparams, String url,
@@ -167,31 +181,19 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 					// 判断
 					if (json.isNull("error")) {
 						// 返回正常
-						// Paper p = Paper.parserJsonData(json);
-						if (getArguments().getString(URL).equals(
-								ConstantValues.GETMYPASTEXAMLIST)) {
-							List<DoneExamPaper> reallists = DoneExamPaper
+						switch (type) {
+						case ConstantValues.DOING_PAPER:
+							List<DoingExamPaper> reallists = DoingExamPaper
 									.formList(json);
-							if (reallists != null && !reallists.isEmpty()) {
-								listview.setVisibility(View.VISIBLE);
-								noresult_rl.setVisibility(View.GONE);
-								adapter = new DoneExamPaperListAdapter(
-										getActivity(), reallists);
-								listview.setTag(DONEEXAMPAPERLIST_TAG);
-								if(reallists.size()<ConstantValues.DEFAULYPAGESIZE){
-									listview.setHasMore(false);
-									listview.setAdapter(adapter);
-									listview.onBottomComplete();
-								}else{
-									listview.setHasMore(true);
-									listview.setAdapter(adapter);
-								}
-							}else{
-								listview.setVisibility(View.GONE);
-								noresult_rl.setVisibility(View.VISIBLE);
-							}
-						} else if (getArguments().getString(URL).equals(
-								ConstantValues.GETFAVORITESEXAMPAPERLIST)) {
+							setDoingList(reallists);
+
+							break;
+						case ConstantValues.DONG_PAPER:
+							List<DoneExamPaper> done_lists = DoneExamPaper
+									.formList(json);
+							setDoneList(done_lists);
+							break;
+						case ConstantValues.FAVORITE_PAPER:
 							JSONObject jsonObject = json.getJSONArray("result")
 									.getJSONObject(0);
 							String count = jsonObject.getString("count");
@@ -199,25 +201,15 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 									.getJSONArray("exampaperlist");
 							List<DoneExamPaper> paperInfos = DoneExamPaper
 									.formList_GetFavorites(jsonArray);
-							if (paperInfos != null && !paperInfos.isEmpty()) {
-								adapter = new DoneExamPaperListAdapter(
-										getActivity(), paperInfos);
-								listview.setTag(FAVORITEEXAMPAPERLIST_TAG);
-									if(paperInfos.size()<ConstantValues.DEFAULYPAGESIZE){
-										listview.setHasMore(false);
-										listview.setAdapter(adapter);
-										listview.onBottomComplete();
-									}else{
-										listview.setHasMore(true);
-										listview.setAdapter(adapter);
-									}
-							}
-						}else{
-							listview.setVisibility(View.GONE);
-							noresult_rl.setVisibility(View.VISIBLE);
+							setFavoriteList(paperInfos);
+							break;
+
+						default:
+							break;
 						}
 					} else {
-						// 登陆错误
+						// 返回错误
+						// TODO
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -227,7 +219,9 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 				// Toast.LENGTH_LONG).show();
 			}
 		}
+
 	};
+
 	private Listener<String> backlistenerMore = new Listener<String>() {
 		@Override
 		public void onResponse(String response) {
@@ -240,32 +234,24 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 					JSONObject json = new JSONObject(response);
 					// 判断
 					if (json.isNull("error")) {
-						// 返回正常
-						List<DoneExamPaper> lists = null;
-						if (getArguments().getString(URL).equals(
-								ConstantValues.GETMYPASTEXAMLIST)) {
-							lists = DoneExamPaper.formList(json);
-						} else if (getArguments().getString(URL).equals(
-								ConstantValues.GETFAVORITESEXAMPAPERLIST)) {
-							JSONObject jsonObject = json.getJSONArray("result")
-									.getJSONObject(0);
-							JSONArray jsonArray = jsonObject
-									.getJSONArray("exampaperlist");
-							lists = DoneExamPaper
-									.formList_GetFavorites(jsonArray);
-						}
-						if (lists != null
-								&& !lists.isEmpty()
-								&& lists.size() == ConstantValues.DEFAULYPAGESIZE) {
-							adapter.addMoreData(lists);
-							listview.onBottomComplete();
-						} else if (lists != null && lists.size() > 0) {
-							adapter.addMoreData(lists);
-							listview.setHasMore(false);
-							listview.onBottomComplete();
-						} else {
-							listview.setHasMore(false);
-							listview.onBottomComplete();
+						switch (type) {
+						case ConstantValues.DOING_PAPER:
+							List<DoneExamPaper>  lists = DoneExamPaper.formList(json);
+							setMoreList(lists);
+							break;
+						case ConstantValues.DONG_PAPER:
+							List<DoingExamPaper> reallists = DoingExamPaper.formList(json);
+							setMoreDoingList(reallists);
+							break;
+						case ConstantValues.FAVORITE_PAPER:
+							JSONObject jsonObject = json.getJSONArray("result").getJSONObject(0);
+							JSONArray jsonArray = jsonObject.getJSONArray("exampaperlist");
+							List<DoneExamPaper> favorlists = DoneExamPaper.formList_GetFavorites(jsonArray);
+							setMoreList(favorlists);
+							break;
+
+						default:
+							break;
 						}
 
 					} else {
@@ -280,19 +266,118 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 				// Toast.LENGTH_LONG).show();
 			}
 		}
-	};
 
+		private void setMoreDoingList(List<DoingExamPaper> lists) {
+			if (lists != null
+					&& !lists.isEmpty()
+					&& lists.size() == ConstantValues.DEFAULYPAGESIZE) {
+				doing_adapter.addMoreData(lists);
+				listview.onBottomComplete();
+			} else if (lists != null && lists.size() > 0) {
+				doing_adapter.addMoreData(lists);
+				listview.setHasMore(false);
+				listview.onBottomComplete();
+			} else {
+				listview.setHasMore(false);
+				listview.onBottomComplete();
+			}
+		}
+
+		private void setMoreList(List<DoneExamPaper> lists) {
+			if (lists != null
+					&& !lists.isEmpty()
+					&& lists.size() == ConstantValues.DEFAULYPAGESIZE) {
+				adapter.addMoreData(lists);
+				listview.onBottomComplete();
+			} else if (lists != null && lists.size() > 0) {
+				adapter.addMoreData(lists);
+				listview.setHasMore(false);
+				listview.onBottomComplete();
+			} else {
+				listview.setHasMore(false);
+				listview.onBottomComplete();
+			}
+		}
+	};
+	private void setFavoriteList(List<DoneExamPaper> paperInfos) {
+		if (paperInfos != null && !paperInfos.isEmpty()) {
+			adapter = new DoneExamPaperListAdapter(
+					getActivity(), paperInfos);
+			listview.setTag(FAVORITEEXAMPAPERLIST_TAG);
+			if (paperInfos.size() < ConstantValues.DEFAULYPAGESIZE) {
+				listview.setHasMore(false);
+				listview.setAdapter(adapter);
+				listview.onBottomComplete();
+			} else {
+				listview.setHasMore(true);
+				listview.setAdapter(adapter);
+			}
+		} else {
+			listview.setVisibility(View.GONE);
+			noresult_rl.setVisibility(View.VISIBLE);
+		}
+	}
+	
+	private void setDoneList(List<DoneExamPaper> done_lists) {
+		if (done_lists != null && !done_lists.isEmpty()) {
+			listview.setVisibility(View.VISIBLE);
+			noresult_rl.setVisibility(View.GONE);
+			adapter = new DoneExamPaperListAdapter(
+					getActivity(), done_lists);
+			listview.setTag(DONEEXAMPAPERLIST_TAG);
+			if (done_lists.size() < ConstantValues.DEFAULYPAGESIZE) {
+				listview.setHasMore(false);
+				listview.setAdapter(adapter);
+				listview.onBottomComplete();
+			} else {
+				listview.setHasMore(true);
+				listview.setAdapter(adapter);
+			}
+		} else {
+			listview.setVisibility(View.GONE);
+			noresult_rl.setVisibility(View.VISIBLE);
+		}
+	}
+	
+	private void setDoingList(List<DoingExamPaper> reallists) {
+		if (reallists != null && !reallists.isEmpty()) {
+			listview.setVisibility(View.VISIBLE);
+			noresult_rl.setVisibility(View.GONE);
+			doing_adapter = new DoingExamPaperListAdapter(
+					getActivity(), reallists);
+			listview.setTag(DONEEXAMPAPERLIST_TAG);
+			if (reallists.size() < ConstantValues.DEFAULYPAGESIZE) {
+				listview.setHasMore(false);
+				listview.setAdapter(doing_adapter);
+				listview.onBottomComplete();
+			} else {
+				listview.setHasMore(true);
+				listview.setAdapter(doing_adapter);
+			}
+		} else {
+			listview.setVisibility(View.GONE);
+			noresult_rl.setVisibility(View.VISIBLE);
+		}
+	}
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		DoneExamPaper info = adapter.getList().get(position);
-		// if(info!=null){
-		// Fragment newFragment = ExamDetailFragment.newInstance(info);
-		// addFragmentToStack(newFragment, R.id.simple_fragment);
-		// }
-		Fragment newFragment = ExamDetailFragment.newInstance(info.getName(),
-				info.getSubjectid());
-		addFragmentToStack(newFragment, android.R.id.content);
+		switch (type) {
+		case ConstantValues.DOING_PAPER:
+			DoingExamPaper doingExam = doing_adapter.getList().get(position);
+			Fragment doingFragment = ExamDetailFragment.newInstance(doingExam.getExampapername(),
+					doingExam.getExampaperid());
+			addFragmentToStack(doingFragment, android.R.id.content);
+			break;
+
+		default:
+			DoneExamPaper info = adapter.getList().get(position);
+			Fragment newFragment = ExamDetailFragment.newInstance(info.getName(),
+					info.getSubjectid());
+			addFragmentToStack(newFragment, android.R.id.content);
+			break;
+		}
+		
 	}
 
 	private void addFragmentToStack(Fragment newFragment, int layoutid) {

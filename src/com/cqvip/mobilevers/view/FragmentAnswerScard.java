@@ -36,6 +36,7 @@ import com.cqvip.mobilevers.http.HttpUtils;
 import com.cqvip.mobilevers.http.VersStringRequest;
 import com.cqvip.mobilevers.ui.ExamActivity;
 import com.cqvip.mobilevers.ui.base.BaseFragment;
+import com.cqvip.mobilevers.utils.AnswerUtils;
 
 /**
  * 答题卡类
@@ -288,35 +289,7 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 			break;
 		}
 	}
-	/**
-	 * 组织答案
-	 * @param clientAnswers2
-	 * @return
-	 */
-	private String formResult(
-			SparseArray<SimpleAnswer> answers) {
-		StringBuilder builder = new StringBuilder();
-		int key=0;
-		for(int i=0;i<answers.size();i++){
-			key = answers.keyAt(i);
-			SimpleAnswer firstAnswer = answers.get(key);
-			if(firstAnswer!=null){
-			String mAnswer = firstAnswer.getAnswer();
-			double score = firstAnswer.getScore();
-			String questionId = firstAnswer.getId();
-			StringBuilder mbuilder = new StringBuilder();
-			mbuilder.append(questionId);
-			mbuilder.append("<*%*%*%>");
-			mbuilder.append(mAnswer);
-			mbuilder.append("<*%*%*%>");
-			mbuilder.append(score+"");
-			mbuilder.append("<!%!%!%>");
-			builder.append(mbuilder.toString());
-			}
-		}
-		Log.i(TAG, "formResult.builder:"+builder.toString());
-		return builder.toString();
-	}
+	
 	
 	/**
 	 * 组装答案，样式如1,2,3,4 
@@ -341,8 +314,8 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 		doneCount = getCount(donelists);
 		clientGetScore = getTotalScore(clientAnswers);//算出分数 
 		examDoneInfo = new ExamDoneInfo(rightCount, wrongCount, doneCount, clientGetScore, useTime);
-		String result = formResult(clientAnswers);
-		Log.i(TAG,"result:"+result);
+		String result = AnswerUtils.formResult(clientAnswers);
+		//Log.i(TAG,"result:"+result);
 		
 		 SharedPreferences localUsers =	getActivity().getSharedPreferences("mobilevers", getActivity().MODE_PRIVATE);
 		String userId = localUsers.getString("userid", "0");
@@ -350,8 +323,9 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 		gparams = new HashMap<String, String>();
 		gparams.put("userId", userId);
 		gparams.put("examPaperId", baseExamInfo.getId());
-		Log.i(TAG,"examPaperId:"+baseExamInfo.getId());
+		//Log.i(TAG,"examPaperId:"+baseExamInfo.getId());
 		gparams.put("userAnswer", result);
+		gparams.put("isEnd", ConstantValues.DEFAULTISEND+"");
 		Log.i(TAG,"userAnswer:"+result);
 		requestVolley(gparams, ConstantValues.SERVER_URL + ConstantValues.SAVEEXAMANSWER,
 				backlistener, Method.POST);

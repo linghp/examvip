@@ -6,6 +6,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cqvip.mobilevers.R;
@@ -32,37 +33,35 @@ private Context	context;;
 	}
 	
 	
+	private static class ViewHolder{
+		private TextView title;
+		private TextView year;
+		private TextView addtime;
+	}
+	
 	@Override
 	protected View getExView(int position, View convertView, ViewGroup parent) {
-		TextView title = null;
-		TextView year = null;
-		TextView addtime = null;
-		View v;
+		ViewHolder holder = null;
 		if(convertView==null){
-			 v = LayoutInflater.from(context).inflate(R.layout.item_paper, null);
-			title = (TextView) v.findViewById(R.id.txt_paper_title);
-			year = (TextView) v.findViewById(R.id.txt_paper_year);
-			addtime = (TextView) v.findViewById(R.id.txt_paper_adddate);
-			
-			title.setText(mList.get(position).getName());
-			year.setText("试卷年份："+mList.get(position).getPulishyear());
-			addtime.setText("更新时间："+mList.get(position).getAdddate());
-			
+			holder = new ViewHolder();
+				convertView = LayoutInflater.from(context).inflate(R.layout.item_paper, null);
+				convertView.setTag(holder);
 		}else{
-			v = convertView;
+			holder = (ViewHolder) convertView.getTag();
 		}
+		holder.title = (TextView) convertView.findViewById(R.id.txt_paper_title);
+		holder.year = (TextView) convertView.findViewById(R.id.txt_paper_year);
+		holder.addtime = (TextView) convertView.findViewById(R.id.txt_paper_adddate);
+		holder.title.setText(mList.get(position).getName());
+		holder.year.setText("试卷年份："+mList.get(position).getPulishyear());
+		holder.addtime.setText("更新时间："+mList.get(position).getAdddate());
 		
-		return v;
+		return convertView;
 	}
-	
-
 	@Override
 	protected void onReachBottom() {
-		// TODO Auto-generated method stub
+		
 		
 	}
-
-	
-	
 	
 }

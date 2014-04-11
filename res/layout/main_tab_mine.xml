@@ -66,6 +66,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/preference_item"
             android:clickable="true"
+            android:onClick="mydoingexam"
             android:gravity="center_vertical" >
 
             <TextView
