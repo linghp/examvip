@@ -38,7 +38,7 @@ public class PaperInfo implements Serializable {
 		score = json.getInt("score");
 		kclassName = json.getString("kclassname");
 		pulishyear = json.getString("year");
-		adddate = json.getString("createtime");
+		adddate = json.getString("updatetime");
 	}
 
 	public String getSubjectid() {

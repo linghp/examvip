@@ -50,7 +50,7 @@ public class SubjectExam implements Serializable{
 		return scorePerQuestion;
 	}
 
-	public void setScorePerQuestion(int scorePerQuestion) {
+	public void setScorePerQuestion(double scorePerQuestion) {
 		this.scorePerQuestion = scorePerQuestion;
 	}
 
@@ -72,8 +72,8 @@ public class SubjectExam implements Serializable{
 
 	public SubjectExam(JSONObject json)throws JSONException, IOException, XmlPullParserException{
 		totalScore = json.getInt("_totalScore");
-		double tmp = json.getInt("_scorePerQuestion");
-		double tmp2 = json.getInt("_scorePerSubject");
+		double tmp = json.getDouble("_scorePerQuestion");
+		double tmp2 = json.getDouble("_scorePerSubject");
 		if(tmp>0){
 			scorePerQuestion = tmp;
 		}else{
