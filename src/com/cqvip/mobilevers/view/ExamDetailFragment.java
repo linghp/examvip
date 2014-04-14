@@ -119,6 +119,9 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		// tscroe.setText(info.getScore()+"");
 		// ttime.setText(info.getSpenttime());
 		// tsize.setText(info.getSize()/1024+"KB");
+		
+		
+		
 
 		return view;
 	}
@@ -127,9 +130,9 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		customProgressDialog.show();
 		gparams = new HashMap<String, String>();
 		// 获取用户的userID
-
+		String userid = Utils.checkUserid(getActivity());
+		gparams.put("userId", userid);
 		gparams.put(ConstantValues.EXAMPAPERID, subjectid);
-
 		requestVolley(gparams, ConstantValues.SERVER_URL
 				+ ConstantValues.GET_DETAIL_PAPERINFO, backlistener,
 				Method.POST);
@@ -189,7 +192,10 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 			tscroe.setText(paper.getScore() + "分");
 			ttime.setText(paper.getExampapertime() + "分钟");
 			tTag.setText(getString(paper.getTag_title()));
-
+			if(paper.isFavor()){
+				favorite_tv_drawable(R.drawable.sc2);
+			}
+			
 		}
 
 		private String getString(ArrayList<TagInfo> tag_title) {

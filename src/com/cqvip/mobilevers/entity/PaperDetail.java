@@ -16,6 +16,7 @@ public class PaperDetail {
         private int exampapertime;
         private String  year;
         private String updatetime;
+        private boolean isFavor;
         private ArrayList<TagInfo> tag_title;
 
         
@@ -84,6 +85,7 @@ public class PaperDetail {
         	year = json.getString("year");
         	type = json.getInt("type");
         	updatetime = json.getString("updatetime");
+        	isFavor = json.getBoolean("isfavorites");
             JSONArray  array = json.getJSONArray("kclass");
             int len = array.length();
             if(len>0){
@@ -103,14 +105,14 @@ public class PaperDetail {
 					+ score + ", type=" + type + ", questioncount="
 					+ questioncount + ", exampapertime=" + exampapertime
 					+ ", year=" + year + ", updatetime=" + updatetime
-					+ ", tag_title=" + tag_title + "]";
+					+ ", isFavor=" + isFavor + ", tag_title=" + tag_title + "]";
 		}
 
 
 
 		public PaperDetail(String id, String name, int score, int type,
 				int questioncount, int exampapertime, String year,
-				String updatetime, ArrayList<TagInfo> tag_title) {
+				String updatetime, boolean isFavor, ArrayList<TagInfo> tag_title) {
 			super();
 			this.id = id;
 			this.name = name;
@@ -120,9 +122,19 @@ public class PaperDetail {
 			this.exampapertime = exampapertime;
 			this.year = year;
 			this.updatetime = updatetime;
+			this.isFavor = isFavor;
 			this.tag_title = tag_title;
 		}
 
+
+
+		public boolean isFavor() {
+			return isFavor;
+		}
+
+
+
+	
 
 
 		
