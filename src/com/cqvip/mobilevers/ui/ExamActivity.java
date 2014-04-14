@@ -629,6 +629,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		isShowAnswer = false;
+		handler.removeCallbacksAndMessages(null);//handler发送消息没有回收也可能会导致内存溢,so do it。
 	}
 
 	
