@@ -37,7 +37,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableTop="@drawable/icon_exam_title"
-                    android:text="查看题干"
+                    android:text="@string/btn_show_subtitle"
                     android:textColor="@color/white"
                     android:textSize="@dimen/examtop_fontsize" />
             </LinearLayout>
@@ -54,7 +54,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableTop="@drawable/icon_exam_answer"
-                    android:text="查看答案"
+                    android:text="@string/show_answer"
                     android:textColor="@color/white"
                     android:textSize="@dimen/examtop_fontsize" />
             </LinearLayout>

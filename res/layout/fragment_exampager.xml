@@ -20,12 +20,12 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
 
-        <ScrollView
+        <ScrollView android:id="@+id/scrollview"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none" >
 
-            <LinearLayout
+            <LinearLayout android:id="@+id/sv_inner_ll"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
@@ -147,7 +147,7 @@
                         android:background="?attr/bg_answer_color"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
-                        android:visibility="visible" >
+                        android:visibility="visible">
 
                         <TextView
                             android:layout_width="wrap_content"
