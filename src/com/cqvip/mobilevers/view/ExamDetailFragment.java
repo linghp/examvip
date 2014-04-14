@@ -9,6 +9,7 @@ import java.util.Map;
 import org.json.JSONObject;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -130,7 +131,9 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		customProgressDialog.show();
 		gparams = new HashMap<String, String>();
 		// 获取用户的userID
-		String userid = Utils.checkUserid(getActivity());
+		SharedPreferences localUsers = getActivity().getSharedPreferences(
+				"mobilevers", getActivity().MODE_PRIVATE);
+		String userid = localUsers.getString("userid", "0");
 		gparams.put("userId", userid);
 		gparams.put(ConstantValues.EXAMPAPERID, subjectid);
 		requestVolley(gparams, ConstantValues.SERVER_URL
