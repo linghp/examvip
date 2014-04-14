@@ -62,15 +62,5 @@ public class FragmentSearchActivity extends BaseMainFragmentActivity {
 		}
 	}
 	
-	@Override
-	protected void onPause() {
-		Log.i("FragmentSearchActivity", "onPause");
-		super.onPause();
-	}
 	
-	@Override
-	protected void onStop() {
-		Log.i("FragmentSearchActivity", "onStop");
-		super.onStop();
-	}
 }

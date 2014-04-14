@@ -64,7 +64,6 @@ public class ExamClassfyFragment extends BaseFragment implements OnClickListener
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-			Log.i(TAG, "onCreateView");
 			((FragmentExamActivity)getActivity()).tag=TAG;
 			if (reuseView()) {
 				if(mposition==1){
@@ -92,7 +91,6 @@ public class ExamClassfyFragment extends BaseFragment implements OnClickListener
 				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 					@Override
 					public void onPageSelected(int position) {
-						Log.i("ExamClassfyActivity", "onPageSelected");
 						mposition = position;
 						if (rg_nav_content != null
 								&& rg_nav_content.getChildCount() > position) {
@@ -212,7 +210,6 @@ public class ExamClassfyFragment extends BaseFragment implements OnClickListener
 					Object object) {
 				super.destroyItem(container, position, object);
 				 mPageReferenceMap.remove(position);
-				Log.i("SectionsPagerAdapter","=======destroyItem=================");
 			}
 
 			public ExamPaperListFragment getFragment(int key) {

@@ -267,7 +267,7 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 		int columnnumber=getResources().getInteger(R.integer.answergridviewcolumnnumber);
 		int gridviewcolumnall =dip2px(getResources().getDimension(R.dimen.answergridviewhorionspace))*(columnnumber-1);
 		gridviewcolumnwidth=(screenWidth-answerlistviewpaddingall-gridviewcolumnall)/columnnumber;
-		Log.i(TAG + " gridviewcolumnwidth", "answerlistviewpaddingall:"+answerlistviewpaddingall+" gridviewcolumnall:"+gridviewcolumnall+" gridviewcolumnwidth:"+gridviewcolumnwidth);
+		//Log.i(TAG + " gridviewcolumnwidth", "answerlistviewpaddingall:"+answerlistviewpaddingall+" gridviewcolumnall:"+gridviewcolumnall+" gridviewcolumnwidth:"+gridviewcolumnwidth);
 	}
 	
     public int dip2px(float dpValue) {  
@@ -326,7 +326,7 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 		//Log.i(TAG,"examPaperId:"+baseExamInfo.getId());
 		gparams.put("userAnswer", result);
 		gparams.put("isEnd", ConstantValues.DEFAULTISEND+"");
-		Log.i(TAG,"userAnswer:"+result);
+		//Log.i(TAG,"userAnswer:"+result);
 		requestVolley(gparams, ConstantValues.SERVER_URL + ConstantValues.SAVEEXAMANSWER,
 				backlistener, Method.POST);
 		}else{
@@ -368,7 +368,7 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 			if(customProgressDialog!=null&&customProgressDialog.isShowing())
 			customProgressDialog.dismiss();
 			//解析结果
-			Log.i(TAG, "============:"+response);
+			//Log.i(TAG, "============:"+response);
 			if (response != null) {
 			try {
 				JSONObject json = new JSONObject(response);
@@ -413,7 +413,7 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 			total+= perAnswer.getScore();
 			}
 		}
-		Log.i(TAG, "getTotalScore:"+total);
+		//Log.i(TAG, "getTotalScore:"+total);
 		return total;
 	}  
 }

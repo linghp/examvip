@@ -157,8 +157,8 @@ public class BClassfyFragment extends BaseListFragment implements
 							cursor.getString(4),cursor.getInt(5)==0?false:true,
 									cursor.getInt(6)==0?false:true,
 							cursor.getInt(7));
-					Log.i("BClassfyFragment", twoLevelType.toString());
-					Log.i("BClassfyFragment_haschildren", cursor.getInt(5) + "");
+					//Log.i("BClassfyFragment", twoLevelType.toString());
+					//Log.i("BClassfyFragment_haschildren", cursor.getInt(5) + "");
 
 					tempList.add(twoLevelType);
 					cursor.moveToNext();

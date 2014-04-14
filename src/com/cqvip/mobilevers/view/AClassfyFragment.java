@@ -74,7 +74,7 @@ public class AClassfyFragment extends BaseListFragment implements
 		if (reuseView()) {
 			return view;
 		}
-		Log.i(TAG, "onCreateView");
+	//	Log.i(TAG, "onCreateView");
 		view = inflater.inflate(R.layout.main_atab_exam, null);
 		listview = (ListView) view
 				.findViewById(R.id.lst_next_classy);
@@ -173,7 +173,7 @@ public class AClassfyFragment extends BaseListFragment implements
 					OneLevelType oneLevelType = new OneLevelType(
 							cursor.getLong(0), cursor.getInt(1),cursor.getInt(2),
 							cursor.getString(3), cursor.getInt(4)==0?false:true);
-					Log.i("AClassfyFragment", oneLevelType.toString());
+					//Log.i("AClassfyFragment", oneLevelType.toString());
 					tempList.add(oneLevelType);
 					cursor.moveToNext();
 				}
