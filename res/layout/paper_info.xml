@@ -89,7 +89,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="试题年份:"
+                    android:text="试卷年份:"
                     android:textColor="@color/black"
                     android:textSize="16.0sp" />
 
@@ -281,7 +281,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
            	android:gravity="center"
-            android:text="开始考试"
+            android:text="开始做题"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:background="@drawable/btn_style_yellow"
