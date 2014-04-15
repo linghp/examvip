@@ -1,6 +1,10 @@
 package com.cqvip.mobilevers.ui;
 
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +17,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.cqvip.mobilevers.R;
+import com.cqvip.mobilevers.entity.ExamInfo;
 import com.cqvip.mobilevers.imgcache.ImageCache;
 
 /**
@@ -86,6 +91,7 @@ public class MainActivity extends TabActivity {
 				}
 			}
 		});
+        
 	}	
 	
 	public ImageCache getImgCache() {
