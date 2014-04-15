@@ -54,7 +54,6 @@ public class SearchExamFragment extends BaseFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		Log.i("SearchExamFragment", "onCreateView");
 		if (reuseView()) {
 			return view;
 		}
@@ -85,7 +84,7 @@ public class SearchExamFragment extends BaseFragment implements
 				customProgressDialog.show();
 				page = 1;
 				getData(key, page, ConstantValues.GETFIRSTPAGE);
-				Log.i("SearchExamFragment_onEditorAction", "onEditorAction");
+				//Log.i("SearchExamFragment_onEditorAction", "onEditorAction");
 				return true;
 			}
 		});
@@ -96,8 +95,8 @@ public class SearchExamFragment extends BaseFragment implements
 			@Override
 			public void onClick(View v) {
 				getData(key, ++page, ConstantValues.GETNEXTPAGE);
-				Log.i("SearchExamFragment_setOnBottomListener",
-						"setOnBottomListener");
+				//Log.i("SearchExamFragment_setOnBottomListener",
+				//		"setOnBottomListener");
 				page++;
 			}
 
@@ -211,7 +210,7 @@ public class SearchExamFragment extends BaseFragment implements
 						if (lists != null
 								&& !lists.isEmpty()
 								&& lists.size() == ConstantValues.DEFAULYPAGESIZE) {
-							System.out.println(lists.toString());
+							//System.out.println(lists.toString());
 							adapter.addMoreData(lists);
 							listview.onBottomComplete();
 						} else if (lists != null && lists.size() > 0) {
@@ -259,58 +258,5 @@ public class SearchExamFragment extends BaseFragment implements
 		}
 	}
 
-	@Override
-	public void onAttach(Activity activity) {
-		Log.i("SearchExamFragment", "onAttach");
-		super.onAttach(activity);
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		Log.i("SearchExamFragment", "onCreate");
-		super.onCreate(savedInstanceState);
-	}
-
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		Log.i("SearchExamFragment", "onActivityCreated");
-		super.onActivityCreated(savedInstanceState);
-	}
-
-	@Override
-	public void onStart() {
-		Log.i("SearchExamFragment", "onStart");
-		super.onStart();
-	}
-
-	@Override
-	public void onResume() {
-		Log.i("SearchExamFragment", "onResume");
-		super.onResume();
-	}
-
-	@Override
-	public void onPause() {
-		Log.i("SearchExamFragment", "onPause");
-		super.onPause();
-	}
-
-	@Override
-	public void onStop() {
-		Log.i("SearchExamFragment", "onStop");
-		super.onStop();
-	}
-
-	@Override
-	public void onDestroyView() {
-		Log.i("SearchExamFragment", "onDestroyView");
-		super.onDestroyView();
-	}
-
-	@Override
-	public void onDestroy() {
-		Log.i("SearchExamFragment", "onDestroy");
-		super.onDestroy();
-	}
 
 }

@@ -40,7 +40,6 @@ public class LoginFragment extends BaseFragment implements OnEditorActionListene
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		Log.i("SearchExamFragment", "onCreateView");
 		if (reuseView()) {
 			return view;
 		}

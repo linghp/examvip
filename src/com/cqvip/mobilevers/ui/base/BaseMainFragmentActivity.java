@@ -37,7 +37,7 @@ OnBackStackChangedListener{
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (fManager.getBackStackEntryCount() <= 0) {
-			Log.i(TAG, "onKeyDown");
+//			Log.i(TAG, "onKeyDown");
 			if (keyCode == KeyEvent.KEYCODE_BACK) {
 				exitApp();
 				return false;
@@ -86,7 +86,7 @@ OnBackStackChangedListener{
 //					"velocityY" + velocityY + "--velocityX" + velocityX
 //							+ "  y/x" + (e2.getY() - e1.getY())
 //							/ (e2.getX() - e1.getX()));
-			Log.i("onFling", isLeftFragment+"");
+//			Log.i("onFling", isLeftFragment+"");
 			if (isLeftFragment
 					&& Math.abs(velocityX) > minVelocitx
 					&& Math.abs(velocityX) > 1.5 * Math.abs(velocityY)
@@ -116,7 +116,7 @@ OnBackStackChangedListener{
 	 */
 	@Override
 	public void onBackStackChanged() {
-		Log.i(TAG, "onBackStackChanged--isLeftFragment:"+isLeftFragment);
+//		Log.i(TAG, "onBackStackChanged--isLeftFragment:"+isLeftFragment);
 		if (tag.equals(ExamDetailFragment.TAG)) {
 			if (isLeftFragment) {
 

@@ -114,9 +114,9 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 		View v = inflater
 				.inflate(R.layout.fragment_exampager, container, false);
 		position = getArguments().getInt(NUM_TAG);// fragment位置，及第几个Question
-		Log.i("ExamFragment", "onCreateView" + position);
+		//Log.i("ExamFragment", "onCreateView" + position);
 		colAndRow = getItemPosition(position);
-		Log.i(TAG, "row,col" + colAndRow.row + "," + colAndRow.col);
+		//Log.i(TAG, "row,col" + colAndRow.row + "," + colAndRow.col);
 		Question_list = ((ExamActivity) getActivity()).getQuestion_list();
 		ll_main = (LinearLayout) v.findViewById(R.id.ll_main);
 		ll_title = (LinearLayout) v.findViewById(R.id.ll_title);
@@ -155,7 +155,7 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 		Content answer = solution.getAnswer();
 		Content answerdesc = solution.getAnswerDesc();
 		type = question.getType();
-		Log.i("EXAM", "answer:" + answer + "\ntype" + type);
+		//Log.i("EXAM", "answer:" + answer + "\ntype" + type);
 		id = question.getId();
 		perScore = question.getPerscore();
 		// Log.i("EXAM","id:"+id+"type:"+type);
@@ -302,7 +302,7 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 		String str = answer.getContent().trim();
 		StringBuilder builder = new StringBuilder();
 		if (!str.equals("UNKNOWN")) {
-			Log.i(TAG, "=====================" + str);
+			//Log.i(TAG, "=====================" + str);
 			String[] array = str.split(",");
 			int mLength = array.length;
 			if (mLength > 0) {
@@ -435,7 +435,6 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 		// 判断是否已经答过
 		if (ExamActivity.done_position[colAndRow.row][colAndRow.col] > 0) {
 			// 用户已经做过
-			Log.i(TAG, "==========DONE=============");
 			SimpleAnswer answlist = ExamActivity.clientAnswer.get(position);
 			if (answlist != null) {
 				// Log.i(TAG,"==========ANSWER============="+answlist.get(0));
@@ -760,14 +759,14 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 						(clientSingleChoose + 1) + "", tmpscore);
 				setSigndone(ExamActivity.done_position);// 记录已经做过
 				ExamActivity.clientAnswer.append(position, ans);
-				Log.i(TAG, "=======674=======" + position);
+				//Log.i(TAG, "=======674=======" + position);
 			} else {
 				user_answer.setText("");
 				tx_rightwrong.setText("");
 				rightOrWrong = ConstantValues.ANSWER_UNDONG;
 				removeSignDone(ExamActivity.done_position);
 				ExamActivity.clientAnswer.append(position, null);
-				Log.i(TAG, "=======681=======" + position);
+				//Log.i(TAG, "=======681=======" + position);
 			}
 		} else {
 			// 多选

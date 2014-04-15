@@ -57,6 +57,11 @@ import com.cqvip.mobilevers.view.ExamFragment;
 import com.cqvip.mobilevers.view.FragmentAnswerScard;
 import com.cqvip.mobilevers.view.ResultFragment;
 
+/**
+ * 考试界面
+ * @author luojiang
+ *
+ */
 public class ExamActivity extends BaseFragmentActivity implements
 		OnPageChangeListener, OnClickListener {
 
@@ -166,14 +171,14 @@ public class ExamActivity extends BaseFragmentActivity implements
 			right_position = dimension.getRightss();
 			wrong_position = dimension.getWrongss();
 			clientAnswer = dimension.getClientAnswers();
-
-			Log.i(TAG, "don" + Arrays.toString(all_position));
-			Log.i(TAG, "right" + Arrays.toString(right_position));
-			Log.i(TAG, Arrays.toString(wrong_position));
-			for (int i = 0; i < clientAnswer.size(); i++) {
-				Log.i(TAG, "answer:" + clientAnswer.get(i));
-				System.out.println(clientAnswer.get(i));
-			}
+//
+//			Log.i(TAG, "don" + Arrays.toString(all_position));
+//			Log.i(TAG, "right" + Arrays.toString(right_position));
+//			Log.i(TAG, Arrays.toString(wrong_position));
+//			for (int i = 0; i < clientAnswer.size(); i++) {
+////				Log.i(TAG, "answer:" + clientAnswer.get(i));
+//				System.out.println(clientAnswer.get(i));
+//			}
 		} else {
 			all_position = DateUtil.initDoubleDimensionalData(cardCount_List);
 
@@ -377,23 +382,6 @@ public class ExamActivity extends BaseFragmentActivity implements
 
 	}
 
-	@Override
-	protected void onResume() {
-		Log.i(TAG, "onResume");
-		super.onResume();
-	}
-
-	@Override
-	protected void onPause() {
-		Log.i(TAG, "onPause");
-		super.onPause();
-	}
-
-	@Override
-	protected void onStop() {
-		Log.i(TAG, "onStop");
-		super.onStop();
-	}
 
 	@Override
 	public void onPageScrolled(int position, float positionOffset,
@@ -403,7 +391,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 
 	@Override
 	public void onPageSelected(int position) {
-		Log.i(TAG, "onPageSelected_position:" + position);
+		//Log.i(TAG, "onPageSelected_position:" + position);
 		currentpage = position;
 		// if (position == 0) {
 		// isLeftFragment = true;
@@ -598,7 +586,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 			gparams.put("examPaperId", baseExamInfo.getId());
 			gparams.put("userAnswer", result);
 			gparams.put("isEnd", ConstantValues.DOINGISEND + "");
-			Log.i(TAG, "userAnswer:" + result);
+			//Log.i(TAG, "userAnswer:" + result);
 			requestVolley(gparams, ConstantValues.SERVER_URL
 					+ ConstantValues.SAVEEXAMANSWER, backlistener, Method.POST);
 		} else {

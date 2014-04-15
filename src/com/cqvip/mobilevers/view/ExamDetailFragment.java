@@ -92,7 +92,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		// img_back.setOnClickListener(this);
 
 		subjectid = getArguments().getString(DETAL_ID);
-		Log.i(TAG, subjectid);
+		//Log.i(TAG, subjectid);
 		String title = getArguments().getString(DETAL_NAME);
 		getDataFromNet(subjectid);
 
@@ -542,21 +542,4 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		favorite_tv.setCompoundDrawables(drawable, null, null, null);
 	}
 
-	@Override
-	public void onDestroyView() {
-		Log.i("ExamDetailFragment", "onDestroyView");
-		super.onDestroyView();
-	}
-
-	@Override
-	public void onDestroy() {
-		Log.i("ExamDetailFragment", "onDestroy");
-		super.onDestroy();
-	}
-
-	@Override
-	public void onDetach() {
-		Log.i("ExamDetailFragment", "onDetach");
-		super.onDetach();
-	}
 }

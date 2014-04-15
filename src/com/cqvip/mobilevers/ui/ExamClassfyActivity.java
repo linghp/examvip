@@ -78,7 +78,7 @@ public class ExamClassfyActivity extends BaseFragmentActivity implements ExamPap
 			.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 				@Override
 				public void onPageSelected(int position) {
-					Log.i("ExamClassfyActivity", "onPageSelected");
+//					Log.i("ExamClassfyActivity", "onPageSelected");
 					ExamClassfyActivity.this.position=position;
 					if (rg_nav_content != null
 							&& rg_nav_content.getChildCount() > position) {
@@ -93,8 +93,7 @@ public class ExamClassfyActivity extends BaseFragmentActivity implements ExamPap
 				}
 			});
 	
-	rg_nav_content
-	.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+	rg_nav_content.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 		@Override
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
 			if (rg_nav_content.getChildAt(checkedId) != null) {
@@ -153,11 +152,7 @@ public class ExamClassfyActivity extends BaseFragmentActivity implements ExamPap
 		mSectionsPagerAdapter = new SectionsPagerAdapter(
 				getSupportFragmentManager());
 
-		
-		
 		mViewPager.setAdapter(mSectionsPagerAdapter);
-		
-		
 	}
 
 	private void initNavigationHSV() {
@@ -209,6 +204,6 @@ public class ExamClassfyActivity extends BaseFragmentActivity implements ExamPap
 		}else{
 			return;
 		}
-		
 	}
 }
+

@@ -91,7 +91,7 @@ public class AnswerscardListViewAdapter extends BaseAdapter {
 					String id = tv.getText().toString();
 					//Toast.makeText(mContext, tv.getText(), 1).show();
 					fm.popBackStack();
-					Log.i("select",id+"");
+//					Log.i("select",id+"");
 					((ExamActivity)mContext).updateView(id);
 					
 				}

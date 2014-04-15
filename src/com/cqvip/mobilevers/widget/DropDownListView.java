@@ -419,14 +419,14 @@ public class DropDownListView extends ListView implements OnScrollListener {
                     if (headerLayout.getBottom() >= headerOriginalHeight + headerReleaseMinDistance
                         || headerLayout.getTop() >= 0) {
                         setHeaderStatusReleaseToLoad();
-                        Log.i("onScroll","Status"+","+"setHeaderStatusReleaseToLoad");
+                       // Log.i("onScroll","Status"+","+"setHeaderStatusReleaseToLoad");
                     } else if (headerLayout.getBottom() < headerOriginalHeight + headerReleaseMinDistance) {
                         setHeaderStatusDropDownToLoad();
-                        Log.i("onScroll","Status"+","+"setHeaderStatusDropDownToLoad");
+                       // Log.i("onScroll","Status"+","+"setHeaderStatusDropDownToLoad");
                     }
                 } else {
                     setHeaderStatusClickToLoad();
-                    Log.i("onScroll","Status"+","+"setHeaderStatusClickToLoad");
+                   // Log.i("onScroll","Status"+","+"setHeaderStatusClickToLoad");
                 }
             } else if (currentScrollState == SCROLL_STATE_FLING && firstVisibleItem == 0
                        && currentHeaderStatus != HEADER_STATUS_LOADING) {
@@ -435,7 +435,7 @@ public class DropDownListView extends ListView implements OnScrollListener {
                  * first item(header layout) is visible and header status is not HEADER_STATUS_LOADING, then hide first
                  * item, set second item visible and set hasReachedTop true.
                  */
-            	Log.i("onScroll","hasReachedTop"+","+"false");
+            	//Log.i("onScroll","hasReachedTop"+","+"false");
                 setSecondPositionVisible();
                 hasReachedTop = true;
             } else if (currentScrollState == SCROLL_STATE_FLING && hasReachedTop) {
@@ -444,10 +444,10 @@ public class DropDownListView extends ListView implements OnScrollListener {
                  * hasReachedTop is true(it's because flick back), then hide first item, set second item visible.
                  */
                 setSecondPositionVisible();
-                Log.i("onScroll","hasReachedTop"+","+"true");
+               // Log.i("onScroll","hasReachedTop"+","+"true");
             }
-            Log.i("onScroll","firstVisibleItem"+firstVisibleItem+",visibleItemCount"+visibleItemCount
-            		+",totalItemCount"+totalItemCount);
+           // Log.i("onScroll","firstVisibleItem"+firstVisibleItem+",visibleItemCount"+visibleItemCount
+          //  		+",totalItemCount"+totalItemCount);
             
         }
 
@@ -557,7 +557,7 @@ public class DropDownListView extends ListView implements OnScrollListener {
      */
     public void onBottom() {
         if (isOnBottomStyle && !isOnBottomLoading) {
-        	System.out.println("==============onBottom==============");
+        //	System.out.println("==============onBottom==============");
             isOnBottomLoading = true;
             onBottomBegin();
             footerButton.performClick();
@@ -601,7 +601,7 @@ public class DropDownListView extends ListView implements OnScrollListener {
      */
     public void setSecondPositionVisible() {
         if (getAdapter() != null && getAdapter().getCount() > 0 && getFirstVisiblePosition() == 0) {
-        	 Log.i("onScroll","setSelection(1);");
+        	// Log.i("onScroll","setSelection(1);");
         	setSelection(1);
         }
     }
@@ -869,7 +869,7 @@ public class DropDownListView extends ListView implements OnScrollListener {
             headerText.setText(headerLoadingText);
 
             currentHeaderStatus = HEADER_STATUS_LOADING;
-            Log.i("onScroll","setSelection(0);");
+          //  Log.i("onScroll","setSelection(0);");
             setSelection(0);
         }
     }

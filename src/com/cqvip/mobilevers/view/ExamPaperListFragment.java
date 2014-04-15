@@ -70,20 +70,12 @@ public class ExamPaperListFragment extends BaseFragment implements OnItemClickLi
     }
 
 	
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-    	// TODO Auto-generated method stub
-    	super.onSaveInstanceState(outState);
-    	Log.i("ExamPaperListFragment","========onSaveInstanceState==========");
-    }
 
     
     
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
-		Log.i("ExamPaperListFragment","========onCreateView==========");
 		
 		View rootView = inflater.inflate(
 				R.layout.fragment_exam_classfy_dummy, container, false);

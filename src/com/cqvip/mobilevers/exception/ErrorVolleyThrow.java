@@ -24,7 +24,7 @@ public class ErrorVolleyThrow implements ErrorListener{
 		
 				if(dialog!=null&&dialog.isShowing()){
 					dialog.dismiss();
-				Log.i("onErrorResponse", "dialog.dismiss()");
+//				Log.i("onErrorResponse", "dialog.dismiss()");
 				}
 				
 				String info = VolleyErrorHelper.getMessage(arg0, context);
