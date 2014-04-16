@@ -17,14 +17,13 @@
         android:indeterminate="true"
         android:visibility="gone" />
 
-<!--     <ImageView -->
-<!--         android:id="@+id/drop_down_list_header_image" -->
-<!--         android:layout_width="wrap_content" -->
-<!--         android:layout_height="wrap_content" -->
-<!--         android:layout_toLeftOf="@+id/drop_down_list_header_default_text_layout" -->
-<!--         android:contentDescription="@string/image_content" -->
-<!--         android:src="@drawable/drop_down_list_arrow" -->
-<!--         android:visibility="gone" /> -->
+    <ImageView
+        android:id="@+id/drop_down_list_header_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/drop_down_list_header_default_text_layout"
+        android:src="@drawable/drop_down_list_arrow"
+        android:visibility="gone" />
 
     <RelativeLayout
         android:id="@+id/drop_down_list_header_default_text_layout"

@@ -134,16 +134,16 @@ public class FragmentMineActivity extends BaseMainFragmentActivity {
 		// if (user != null) {
 		SharedPreferences localUsers = getSharedPreferences("mobilevers",
 				MODE_PRIVATE);
-		String username = localUsers.getString("username", "0");
+		String username = localUsers.getString("realname", "0");
 		hellotome = (TextView) findViewById(R.id.hellotome);
 		login_btn = (Button) findViewById(R.id.login_btn);
-		hellotome.setText("您好！" + username);
+		hellotome.setText(username+",您好！");
 		login_btn.setText("注销");
 		islogin = true;
 	}
 
 	public void logoutUI() {
-		hellotome.setText(getString(R.string.hellotome));
-		login_btn.setText("登陆");	
+		hellotome.setText(getString(R.string.tips_unlogin));
+		login_btn.setText(getString(R.string.btn_login));	
 	}
 }

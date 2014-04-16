@@ -20,6 +20,8 @@
         android:id="@+id/list_donepaper"
         android:isScrollContainer="false"
         android:scrollbars="none"
+        android:drawSelectorOnTop="false"
+        dlistView:isDropDownStyle="true"
          dlistView:isOnBottomStyle="true"
         dlistView:isAutoLoadOnBottom="true"
         android:layout_width="match_parent"

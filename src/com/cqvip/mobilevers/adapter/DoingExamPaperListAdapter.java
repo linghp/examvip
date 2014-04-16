@@ -36,28 +36,34 @@ private Context	context;;
 		this.notifyDataSetChanged();
 	}
 	
+	private static class ViewHolder{
+		private TextView title;
+		private TextView year;
+		private TextView addtime;
+	}
+	
 	
 	@Override
 	protected View getExView(int position, View convertView, ViewGroup parent) {
-		TextView title = null;
-		TextView year = null;
-		TextView addtime = null;
-		View v;
+		
+		ViewHolder holder = null;
 		if(convertView==null){
-			 v = LayoutInflater.from(context).inflate(R.layout.item_paper, null);
-			//parent.getTag();
+			holder = new ViewHolder();
+				convertView = LayoutInflater.from(context).inflate(R.layout.item_paper, null);
+				convertView.setTag(holder);
 		}else{
-			v = convertView;
+			holder = (ViewHolder) convertView.getTag();
 		}
-		title = (TextView) v.findViewById(R.id.txt_paper_title);
-		year = (TextView) v.findViewById(R.id.txt_paper_year);
-		addtime = (TextView) v.findViewById(R.id.txt_paper_adddate);
+	
+		holder.title = (TextView) convertView.findViewById(R.id.txt_paper_title);
+		holder.year = (TextView) convertView.findViewById(R.id.txt_paper_year);
+		holder.addtime = (TextView) convertView.findViewById(R.id.txt_paper_adddate);
+
+		holder.title.setText(mList.get(position).getExampapername());
+		holder.year.setText("时间："+mList.get(position).getCreatetime());
+		holder.addtime.setVisibility(View.GONE);
 		
-		title.setText(mList.get(position).getExampapername());
-		year.setText("时间："+mList.get(position).getCreatetime());
-		addtime.setVisibility(View.GONE);
-		
-		return v;
+		return convertView;
 	}
 	
 

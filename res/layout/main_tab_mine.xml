@@ -21,12 +21,15 @@
             android:textSize="22sp" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/hellotome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hellotome"
-        android:textSize="18sp" android:layout_margin="4dp"/>
+	    <TextView
+	        android:id="@+id/hellotome"
+	        android:layout_width="fill_parent"
+	        android:gravity="center"
+	        android:layout_height="wrap_content"
+	        android:text="@string/tips_unlogin"
+	        android:textStyle="bold"
+	        android:textColor="@android:color/black"
+	        android:textSize="18sp" android:layout_margin="4dp"/>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -45,7 +48,7 @@
                 android:id="@+id/tv_done_paper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_menu_download"
+                android:drawableLeft="@drawable/icon_device_access_time"
                 android:gravity="center_vertical"
                 android:padding="8dp"
                 android:text="@string/DoneExamPaper"
@@ -73,7 +76,7 @@
                 android:id="@+id/tv_doing_paper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_menu_download"
+                android:drawableLeft="@drawable/icon_content_edit"
                 android:gravity="center_vertical"
                 android:padding="8dp"
                 android:text="@string/DoingExamPaper"
@@ -101,7 +104,7 @@
                 android:id="@+id/tv_favorite_paper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_menu_download"
+                android:drawableLeft="@drawable/icon_rating_important"
                 android:gravity="center_vertical"
                 android:padding="8dp"
                 android:text="@string/favoriteExamPaper"
@@ -129,7 +132,7 @@
             android:gravity="center"
             android:onClick="exitorlogin"
             android:padding="4dp"
-            android:text="登录"
+            android:text="@string/btn_login"
             android:textColor="#fff"
             android:textSize="18sp" />
     </LinearLayout>

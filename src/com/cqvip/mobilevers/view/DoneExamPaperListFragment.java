@@ -1,18 +1,20 @@
 package com.cqvip.mobilevers.view;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,7 +28,6 @@ import com.android.volley.Response.Listener;
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.adapter.DoingExamPaperListAdapter;
 import com.cqvip.mobilevers.adapter.DoneExamPaperListAdapter;
-import com.cqvip.mobilevers.adapter.ExamPaperAdapter;
 import com.cqvip.mobilevers.config.ConstantValues;
 import com.cqvip.mobilevers.entity.DoingExamPaper;
 import com.cqvip.mobilevers.entity.DoneExamPaper;
@@ -59,6 +60,7 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 	private DoingExamPaperListAdapter doing_adapter;
 	private View noresult_rl;
 	private int type;
+	private boolean isFresh = false;//是否是更新
 
 	public static DoneExamPaperListFragment newInstance(String userid,
 			String title, String url, int type) {
@@ -89,6 +91,7 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 		tv_title = (TextView) view.findViewById(R.id.tv_show_title);
 		// img_back.setOnClickListener(this);
 		tv_title.setText(getArguments().getString(TITLE));
+		isFresh = false;
 		page = 1;
 		getData(page, ConstantValues.GETFIRSTPAGE);
 		listview.setOnBottomListener(new View.OnClickListener() {
@@ -100,6 +103,17 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 			}
 
 		});
+		
+		listview.setOnDropDownListener(new DropDownListView.OnDropDownListener() {
+			
+			@Override
+			public void onDropDown() {
+				isFresh = true;
+				page = 1;
+				getData(page, ConstantValues.GETFIRSTPAGE);
+			}
+		});
+		
 		noresult_rl = view.findViewById(R.id.noresult_rl);
 
 		return view;
@@ -236,12 +250,12 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 					if (json.isNull("error")) {
 						switch (type) {
 						case ConstantValues.DOING_PAPER:
-							List<DoneExamPaper>  lists = DoneExamPaper.formList(json);
-							setMoreList(lists);
-							break;
-						case ConstantValues.DONG_PAPER:
 							List<DoingExamPaper> reallists = DoingExamPaper.formList(json);
 							setMoreDoingList(reallists);
+							break;
+						case ConstantValues.DONG_PAPER:
+							List<DoneExamPaper>  lists = DoneExamPaper.formList(json);
+							setMoreList(lists);
 							break;
 						case ConstantValues.FAVORITE_PAPER:
 							JSONObject jsonObject = json.getJSONArray("result").getJSONObject(0);
@@ -303,7 +317,11 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 		if (paperInfos != null && !paperInfos.isEmpty()) {
 			adapter = new DoneExamPaperListAdapter(
 					getActivity(), paperInfos);
-			listview.setTag(FAVORITEEXAMPAPERLIST_TAG);
+			if(isFresh){
+				SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm:ss");
+				listview.setAdapter(adapter);
+                listview.onDropDownComplete(getString(R.string.update_at) + dateFormat.format(new Date()));
+			}else{
 			if (paperInfos.size() < ConstantValues.DEFAULYPAGESIZE) {
 				listview.setHasMore(false);
 				listview.setAdapter(adapter);
@@ -311,6 +329,7 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 			} else {
 				listview.setHasMore(true);
 				listview.setAdapter(adapter);
+			}
 			}
 		} else {
 			listview.setVisibility(View.GONE);
@@ -324,7 +343,11 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 			noresult_rl.setVisibility(View.GONE);
 			adapter = new DoneExamPaperListAdapter(
 					getActivity(), done_lists);
-			listview.setTag(DONEEXAMPAPERLIST_TAG);
+			if(isFresh){
+				SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm:ss");
+				listview.setAdapter(adapter);
+                listview.onDropDownComplete(getString(R.string.update_at) + dateFormat.format(new Date()));
+			}else{
 			if (done_lists.size() < ConstantValues.DEFAULYPAGESIZE) {
 				listview.setHasMore(false);
 				listview.setAdapter(adapter);
@@ -332,6 +355,7 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 			} else {
 				listview.setHasMore(true);
 				listview.setAdapter(adapter);
+			}
 			}
 		} else {
 			listview.setVisibility(View.GONE);
@@ -345,7 +369,12 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 			noresult_rl.setVisibility(View.GONE);
 			doing_adapter = new DoingExamPaperListAdapter(
 					getActivity(), reallists);
-			listview.setTag(DONEEXAMPAPERLIST_TAG);
+			if(isFresh){
+				SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm:ss");
+				listview.setAdapter(doing_adapter);
+                listview.onDropDownComplete(getString(R.string.update_at) + dateFormat.format(new Date()));
+			}else{
+			
 			if (reallists.size() < ConstantValues.DEFAULYPAGESIZE) {
 				listview.setHasMore(false);
 				listview.setAdapter(doing_adapter);
@@ -353,6 +382,7 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 			} else {
 				listview.setHasMore(true);
 				listview.setAdapter(doing_adapter);
+			}
 			}
 		} else {
 			listview.setVisibility(View.GONE);
@@ -403,5 +433,4 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 			break;
 		}
 	}
-
 }

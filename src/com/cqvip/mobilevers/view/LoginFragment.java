@@ -115,19 +115,20 @@ public class LoginFragment extends BaseFragment implements OnEditorActionListene
                    userDao.insert(user);
    			    SharedPreferences localUsers = getActivity().getSharedPreferences("mobilevers", getActivity().MODE_PRIVATE);
    				Editor editor = localUsers.edit();
-   				editor.putString("username", user.getName());
+   				editor.putString("username", user.getUsername());
+   				editor.putString("realname", user.getRealname());
    				editor.putString("userid", user.getUserid());
    				editor.commit();
 						Log.i("database", "存储成功"+user.getUserid());
-						Toast.makeText(getActivity(), "登陆成功", 0).show();
+						Toast.makeText(getActivity(), getString(R.string.tips_login_sucess), 0).show();
 					getFragmentManager().popBackStack();
 					((FragmentMineActivity)getActivity()).loginUI();
 				} else {
 					// 提示登陆失败
-					Toast.makeText(getActivity(), "登陆失败", 0).show();
+					Toast.makeText(getActivity(), getString(R.string.tips_login_fail), 0).show();
 				}
 			} catch (Exception e) {
-				Toast.makeText(getActivity(), "登陆失败", 0).show();
+				Toast.makeText(getActivity(), getString(R.string.tips_login_fail), 0).show();
 				return;
 			}
 		}

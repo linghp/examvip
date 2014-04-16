@@ -12,7 +12,7 @@
     <string name="generic_server_down">服务器无响应</string>
     <string name="need_pwd">请输入密码</string>
     <string name="need_username">请输入用户名</string>
-    <string name="hellotome">亲！你还未登陆，请登录。</string>
+    <string name="hellotome">您还未登录，请登录之后使用</string>
     <string name="no_internet">无网络连接</string>
     <string name="generic_error">连接错误</string>
     <string name="drop_down_list_header_default_text">点击可以刷新&#8230;</string>
@@ -31,6 +31,9 @@
     <string name="alert_dialog_unsave">不保存</string>
     <string name="tips_right">√恭喜您，答对了</string>
     <string name="tips_wrong">×对不起，答错了</string>
+    <string name="tips_unlogin">您还未登录，请登录之后使用</string>
+    <string name="tips_login_sucess">登录成功</string>
+    <string name="tips_login_fail">登录失败</string>
     <string name="btn_show_subtitle">查看题干</string>
     <string name="btn_hide_subtitle">隐藏题干</string>
     <string name="show_answer">查看答案</string>
@@ -50,5 +53,8 @@
     <string name="about_own">维普资讯公司版权所有</string>
     <string name="exam_answerdesc_tips">解析：</string>
     <string name="title_activity_welcome">WelcomeActivity</string>
+    <string name="btn_login">登录</string>
+    <string name="usernam">登录名 :</string>
+    <string name="update_at">更新时间 :</string>
 
 </resources>

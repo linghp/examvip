@@ -16,7 +16,8 @@ public class User {
 
     private Long id;
     private String userid;
-    private String name;
+    private String username;
+    private String realname;
     private Integer testscorecount;
     private Integer favoritescount;
 
@@ -30,10 +31,11 @@ public class User {
         this.id = id;
     }
 
-    public User(Long id, String userid, String name, Integer testscorecount, Integer favoritescount) {
+    public User(Long id, String userid, String username, String realname, Integer testscorecount, Integer favoritescount) {
         this.id = id;
         this.userid = userid;
-        this.name = name;
+        this.username = username;
+        this.realname = realname;
         this.testscorecount = testscorecount;
         this.favoritescount = favoritescount;
     }
@@ -54,12 +56,20 @@ public class User {
         this.userid = userid;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getRealname() {
+        return realname;
+    }
+
+    public void setRealname(String realname) {
+        this.realname = realname;
     }
 
     public Integer getTestscorecount() {
@@ -79,20 +89,14 @@ public class User {
     }
 
     // KEEP METHODS - put your custom methods here
-    @Override
-	public String toString() {
-		return "user [id=" + id + ", userid=" + userid + ", name=" + name
-				+ ", testscorecount=" + testscorecount + ", favoritescount="
-				+ favoritescount + "]";
-	}
-    
 	public static User parserJsonData(String data){
 		User user=new User();
 		try{
 			JSONObject js = new JSONObject(data);
 			JSONObject userinfo= js.getJSONObject("userinfo");
 			user.setUserid(userinfo.getString("userid").trim());
-			user.setName(userinfo.getString("name"));
+			user.setUsername(userinfo.getString("name").trim());
+			user.setRealname(userinfo.getString("realname").trim());
 			user.setTestscorecount(userinfo.getInt("testscorecount"));
 			user.setFavoritescount(userinfo.getInt("favoritescount"));
 			return user;
