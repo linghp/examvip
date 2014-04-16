@@ -50,7 +50,7 @@
     <string name="about_time">值班时间：9:00-17:00（国家法定工作日）</string>
     <string name="about_title">VERS维普考试资源系统</string>
     <string name="about_version">android v1.1.0</string>
-    <string name="about_own">维普资讯公司版权所有</string>
+    <string name="about_own">重庆维普资讯有限公司 版权所有</string>
     <string name="exam_answerdesc_tips">解析：</string>
     <string name="title_activity_welcome">WelcomeActivity</string>
     <string name="btn_login">登录</string>

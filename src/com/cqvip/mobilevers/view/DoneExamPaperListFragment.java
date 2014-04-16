@@ -394,14 +394,14 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 			long id) {
 		switch (type) {
 		case ConstantValues.DOING_PAPER:
-			DoingExamPaper doingExam = doing_adapter.getList().get(position);
+			DoingExamPaper doingExam = doing_adapter.getList().get(position-1);
 			Fragment doingFragment = ExamDetailFragment.newInstance(doingExam.getExampapername(),
 					doingExam.getExampaperid());
 			addFragmentToStack(doingFragment, android.R.id.content);
 			break;
 
 		default:
-			DoneExamPaper info = adapter.getList().get(position);
+			DoneExamPaper info = adapter.getList().get(position-1);
 			Fragment newFragment = ExamDetailFragment.newInstance(info.getName(),
 					info.getSubjectid());
 			addFragmentToStack(newFragment, android.R.id.content);

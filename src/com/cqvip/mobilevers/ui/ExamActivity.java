@@ -59,8 +59,9 @@ import com.cqvip.mobilevers.view.ResultFragment;
 
 /**
  * 考试界面
+ * 
  * @author luojiang
- *
+ * 
  */
 public class ExamActivity extends BaseFragmentActivity implements
 		OnPageChangeListener, OnClickListener {
@@ -80,7 +81,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 	private Message msg = null;
 	private int secondTotal;
 	private TextView time_tv;
-	private TextView tips_viewSubTitle,showAnswer;
+	private TextView tips_viewSubTitle, showAnswer, handpaper;
 	private ImageView tv_back;
 
 	// private String examPaperId;
@@ -95,7 +96,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 	private int paperTime;
 	private BaseExamInfo baseExamInfo;
 	public static int clientScore = 0;// 用户得分
-	public static boolean isShowAnswer = false;//是否交卷了
+	public static boolean isShowAnswer = false;// 是否交卷了
 	public ArrayList<Subject> subjects_list = new ArrayList<Subject>(); // 所有subject
 	public ArrayList<Question> Question_list = new ArrayList<Question>(); // 所有question
 
@@ -105,8 +106,8 @@ public class ExamActivity extends BaseFragmentActivity implements
 	public static int[][] wrong_position;// 统计错误题目
 	private boolean isHandleOver = false;
 	private boolean isRightWrong = false;
-	private boolean isOnshowing_subtitle = false;//是否已经显示题干
-	private boolean isOnshowing_answer = false;//是否已经显示答案
+	private boolean isOnshowing_subtitle = false;// 是否已经显示题干
+	private boolean isOnshowing_answer = false;// 是否已经显示答案
 	private Map<String, String> gparams;
 
 	public ArrayList<Integer> cardCount_List = new ArrayList<Integer>();// 答题卡题目
@@ -115,6 +116,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 	private TwoDimensionArray dimension;
 
 	private final static String FRGMENT_TAG = "answercard";
+	public final static String FRGMENT_HANDEDPAPER = "HANDEDPAPER";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -171,14 +173,15 @@ public class ExamActivity extends BaseFragmentActivity implements
 			right_position = dimension.getRightss();
 			wrong_position = dimension.getWrongss();
 			clientAnswer = dimension.getClientAnswers();
-//
-//			Log.i(TAG, "don" + Arrays.toString(all_position));
-//			Log.i(TAG, "right" + Arrays.toString(right_position));
-//			Log.i(TAG, Arrays.toString(wrong_position));
-//			for (int i = 0; i < clientAnswer.size(); i++) {
-////				Log.i(TAG, "answer:" + clientAnswer.get(i));
-//				System.out.println(clientAnswer.get(i));
-//			}
+			//
+			// Log.i(TAG, "don" + Arrays.toString(all_position));
+			// Log.i(TAG, "right" + Arrays.toString(right_position));
+			// Log.i(TAG, Arrays.toString(wrong_position));
+			 for (int i = 0; i < clientAnswer.size(); i++) {
+				 if(clientAnswer.get(i)!=null)
+			  Log.i(TAG, "answer:" + clientAnswer.get(i));
+			 //System.out.println(clientAnswer.get(i));
+			 }
 		} else {
 			all_position = DateUtil.initDoubleDimensionalData(cardCount_List);
 
@@ -298,9 +301,9 @@ public class ExamActivity extends BaseFragmentActivity implements
 		// mPager.setOffscreenPageLimit(5);
 		TextView answercard = (TextView) findViewById(R.id.tv_show_card);
 		answercard.setOnClickListener(this);
-	    showAnswer = (TextView) findViewById(R.id.tv_show_anwer);
+		showAnswer = (TextView) findViewById(R.id.tv_show_anwer);
 		showAnswer.setOnClickListener(this);
-		TextView handpaper = (TextView) findViewById(R.id.tv_exam_handle);
+		handpaper = (TextView) findViewById(R.id.tv_exam_handle);
 		handpaper.setOnClickListener(this);
 
 		time_tv = (TextView) findViewById(R.id.time_tv);
@@ -382,7 +385,6 @@ public class ExamActivity extends BaseFragmentActivity implements
 
 	}
 
-
 	@Override
 	public void onPageScrolled(int position, float positionOffset,
 			int positionOffsetPixels) {
@@ -391,7 +393,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 
 	@Override
 	public void onPageSelected(int position) {
-		//Log.i(TAG, "onPageSelected_position:" + position);
+		// Log.i(TAG, "onPageSelected_position:" + position);
 		currentpage = position;
 		// if (position == 0) {
 		// isLeftFragment = true;
@@ -399,9 +401,10 @@ public class ExamActivity extends BaseFragmentActivity implements
 		// isLeftFragment = false;
 		// }
 		isOnshowing_subtitle = false;
-		isOnshowing_answer=false;
-		tips_viewSubTitle.setText(getResources().getString(
+		isOnshowing_answer = false;
+		tips_viewSubTitle.setText(getString(
 				R.string.btn_show_subtitle));
+		showAnswer.setText(getString(R.string.show_answer));
 		tv_item_count.setText((position + 1) + "|" + clientShowCount);
 	}
 
@@ -429,27 +432,25 @@ public class ExamActivity extends BaseFragmentActivity implements
 		case R.id.tv_show_subtitle:
 			ExamFragment fragment = mAdapter.getFragment(currentpage);
 			if (isOnshowing_subtitle) {
-				tips_viewSubTitle.setText(getString(
-						R.string.btn_show_subtitle));
+				tips_viewSubTitle
+						.setText(getString(R.string.btn_show_subtitle));
 				fragment.hideSubjectTitle();
 				isOnshowing_subtitle = false;
 			} else {
 				fragment.showSubjectTitle();
-				tips_viewSubTitle.setText(getString(
-						R.string.btn_hide_subtitle));
+				tips_viewSubTitle
+						.setText(getString(R.string.btn_hide_subtitle));
 				isOnshowing_subtitle = true;
 			}
 			break;
 		case R.id.tv_show_anwer:
 			ExamFragment mfragment = mAdapter.getFragment(currentpage);
 			if (isOnshowing_answer) {
-				showAnswer.setText(getString(
-						R.string.show_answer));
+				showAnswer.setText(getString(R.string.show_answer));
 				mfragment.hideAnswer();
 				isOnshowing_answer = false;
 			} else {
-				showAnswer.setText(getString(
-						R.string.hide_answer));
+				showAnswer.setText(getString(R.string.hide_answer));
 				mfragment.viewAnswer();
 				isOnshowing_answer = true;
 			}
@@ -464,7 +465,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 				Fragment resultFragment = FragmentAnswerScard.newInstance(
 						resultArray, context, isHandleOver, isRightWrong,
 						secondTotal);
-				addFragmentToStack(resultFragment, R.id.exam_fl);
+				addFragmentToStack(resultFragment, R.id.exam_fl, FRGMENT_TAG);
 				try {
 					task.cancel();
 					task = null;
@@ -490,37 +491,48 @@ public class ExamActivity extends BaseFragmentActivity implements
 				right_position, wrong_position);
 		Fragment newFragment = FragmentAnswerScard.newInstance(dimensionArray,
 				context, isHandleOver, isRightWrong);
-		addFragmentToStack(newFragment, R.id.exam_fl);
+		addFragmentToStack(newFragment, R.id.exam_fl, FRGMENT_TAG);
 	}
 
-	public void addFragmentToStack(Fragment newFragment, int layoutid) {
+	public void addFragmentToStack(Fragment newFragment, int layoutid,
+			String tag) {
 		FragmentTransaction ft = fManager.beginTransaction();
 		ft.setCustomAnimations(R.anim.slide_up_in, R.anim.blank, R.anim.blank,
 				R.anim.slide_up_out);
-		ft.replace(layoutid, newFragment, FRGMENT_TAG);
+		ft.replace(layoutid, newFragment, tag);
 		// ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 		ft.addToBackStack(null);
 		ft.commit();
 	}
 
 	public void updateView(String id) {
+		if (id.endsWith("lookansweranalysis")) {
+			id = "1";
+			showAnswer.setVisibility(View.GONE);
+			handpaper.setVisibility(View.GONE);
+			time_tv.setVisibility(View.GONE);
+		}
 		int position = Integer.parseInt(id) - 1;
 		mPager.setCurrentItem(position);
 	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-		if (!isShowAnswer) {
-			if (keyCode == KeyEvent.KEYCODE_BACK) {
-				if (fManager.findFragmentByTag(FRGMENT_TAG) != null) {
-					fManager.popBackStack();
-					return true;
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			if (!isShowAnswer) {
+				if (keyCode == KeyEvent.KEYCODE_BACK) {
+					if (fManager.findFragmentByTag(FRGMENT_TAG) != null) {
+						fManager.popBackStack();
+						return true;
+					}
+					showDialog();
 				}
-				showDialog();
+			} else if (fManager.findFragmentByTag(FRGMENT_TAG) != null) {
+				fManager.popBackStack();// 查看答案与解析：交卷之后，查看答案与解析，打开答题板之后，点手机上的返回键，也应该是收起答题板，而不是退出试卷。
+				return true;
+			} else {
+				finish();
 			}
-		}else{
-			finish();
 		}
 		return super.onKeyDown(keyCode, event);
 
@@ -547,9 +559,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 															int whichButton) {
 														// 交卷接口
 														sendAnswerToServer();
-														finish();
 													}
-
 												})
 										.setNegativeButton(
 												R.string.alert_dialog_unsave,
@@ -586,7 +596,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 			gparams.put("examPaperId", baseExamInfo.getId());
 			gparams.put("userAnswer", result);
 			gparams.put("isEnd", ConstantValues.DOINGISEND + "");
-			//Log.i(TAG, "userAnswer:" + result);
+			// Log.i(TAG, "userAnswer:" + result);
 			requestVolley(gparams, ConstantValues.SERVER_URL
 					+ ConstantValues.SAVEEXAMANSWER, backlistener, Method.POST);
 		} else {
@@ -618,6 +628,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 			if (customProgressDialog != null
 					&& customProgressDialog.isShowing())
 				customProgressDialog.dismiss();
+			finish();
 			// 解析结果
 			if (response != null) {
 				try {

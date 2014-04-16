@@ -74,38 +74,34 @@
       android:textColor="@color/red"
       android:text="（试卷总分135分）" />
 
- <RelativeLayout
-      android:id="@+id/rl_resultinfo"
+ <LinearLayout android:id="@+id/ll_resultinfo"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       android:layout_below="@+id/tx_testresult_totalscore"
       android:padding="30dp"
+      android:orientation="vertical"
+      android:gravity="center"
       >
   <TextView
       android:id="@+id/tx_testresult_time"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_centerHorizontal="true"
       android:textColor="@color/red"
       android:text="考试用时：1小时23分26秒" />
 
   <TextView
       android:id="@+id/tx_testresult_totalcount"
-      android:layout_width="fill_parent"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-	  android:layout_centerHorizontal="true"
-      android:layout_below="@+id/tx_testresult_time"
       android:textColor="@color/red"
-      android:text="题目总数：共135道（主观题35道，客观题100道）" />
+      android:text="题目总数：共135道（）" />
   <TextView
       android:id="@+id/tx_testresult_percent"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_centerHorizontal="true"
-       android:layout_below="@+id/tx_testresult_totalcount"
       android:textColor="@color/red"
       android:text="正确率：70%（答对70道，答错30道）" />
-  </RelativeLayout> 
+  </LinearLayout> 
  
  
  
@@ -115,7 +111,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_alignParentLeft="true"
-      android:layout_below="@id/rl_resultinfo"
+      android:layout_below="@id/ll_resultinfo"
       android:layout_marginTop="22dp"
       android:background="@drawable/btn_style_blue"
       android:text="查看答案及解析" />
