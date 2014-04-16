@@ -401,7 +401,7 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 			if(activity!=null){
 				activity.getSupportFragmentManager().popBackStack();
 				ResultFragment newFragment = ResultFragment.newInstance(baseExamInfo,examDoneInfo);
-				activity.addFragmentToStack(newFragment,R.id.exam_fl);
+				activity.addFragmentToStack(newFragment,R.id.exam_fl,activity.FRGMENT_HANDEDPAPER);
 			}
 		}
 	};
@@ -411,6 +411,7 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 			SimpleAnswer perAnswer =  answers.get(i);
 			if(perAnswer!=null){
 			total+= perAnswer.getScore();
+			Log.i(TAG, "getScore:"+perAnswer.getScore());
 			}
 		}
 		//Log.i(TAG, "getTotalScore:"+total);
