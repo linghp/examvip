@@ -84,7 +84,7 @@ public class ResultFragment extends Fragment implements OnClickListener {
 		tx_testresult_tiltle.setText(baseExamInfo.getName());
 		tx_testresult_score.setText("您的得分：" + examDoneInfo.getScore());
 		tx_testresult_totalscore.setText("试卷总分" + baseExamInfo.getScore());
-		tx_testresult_time.setText("考试用时："
+		tx_testresult_time.setText("做卷时间："
 				+ formTime(examDoneInfo.getUseTime()));
 		tx_testresult_totalcount.setText("试题总数：共"
 				+ baseExamInfo.getAllItemCount() + "道，" + "已做"
@@ -101,7 +101,7 @@ public class ResultFragment extends Fragment implements OnClickListener {
 			@Override
 			public void onClick(View v) {
 				getFragmentManager().popBackStack();
-				((ExamActivity) getActivity()).updateView(1 + "");
+				((ExamActivity) getActivity()).updateView(1 + "lookansweranalysis");
 			}
 		});
 

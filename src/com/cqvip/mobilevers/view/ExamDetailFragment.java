@@ -136,6 +136,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		String userid = localUsers.getString("userid", "0");
 		gparams.put("userId", userid);
 		gparams.put(ConstantValues.EXAMPAPERID, subjectid);
+		Log.i(TAG, "subjectid:"+subjectid);
 		requestVolley(gparams, ConstantValues.SERVER_URL
 				+ ConstantValues.GET_DETAIL_PAPERINFO, backlistener,
 				Method.POST);

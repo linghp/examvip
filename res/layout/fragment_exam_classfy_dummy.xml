@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/noresult_img"
             android:gravity="center"
-            android:text="该分类下暂无相关试题"
+            android:text="该分类下暂无相关试卷"
             android:textColor="@android:color/darker_gray" />
     </RelativeLayout>
 
