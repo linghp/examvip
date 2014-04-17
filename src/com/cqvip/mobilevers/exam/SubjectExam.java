@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParserException;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.cqvip.mobilevers.utils.PullParseXML;
@@ -91,6 +92,9 @@ public class SubjectExam implements Serializable{
 
 	private Subject getSubjecFormXml(JSONObject json,String subjectTypeName,double scorePerQuestion) throws IOException, XmlPullParserException, JSONException {
 		String  xml = json.getString("_subXmlString");
+		if(TextUtils.isEmpty(xml)){
+			questionNum=0;
+		}
 		String createdate = json.getString("_createTime");
 		String 	subId = json.getString("_id").trim();
 		//Log.i("Subject","Subject:"+createdate+"subid"+subId);

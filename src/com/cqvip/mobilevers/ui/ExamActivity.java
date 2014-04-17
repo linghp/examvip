@@ -511,6 +511,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 			showAnswer.setVisibility(View.GONE);
 			handpaper.setVisibility(View.GONE);
 			time_tv.setVisibility(View.GONE);
+			mAdapter.notifyDataSetChanged();
 		}
 		int position = Integer.parseInt(id) - 1;
 		mPager.setCurrentItem(position);
