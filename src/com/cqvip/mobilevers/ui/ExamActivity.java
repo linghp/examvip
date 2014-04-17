@@ -177,11 +177,11 @@ public class ExamActivity extends BaseFragmentActivity implements
 			// Log.i(TAG, "don" + Arrays.toString(all_position));
 			// Log.i(TAG, "right" + Arrays.toString(right_position));
 			// Log.i(TAG, Arrays.toString(wrong_position));
-			 for (int i = 0; i < clientAnswer.size(); i++) {
-				 if(clientAnswer.get(i)!=null)
-			  Log.i(TAG, "answer:" + clientAnswer.get(i));
-			 //System.out.println(clientAnswer.get(i));
-			 }
+			for (int i = 0; i < clientAnswer.size(); i++) {
+				if (clientAnswer.get(i) != null)
+					Log.i(TAG, "answer:" + clientAnswer.get(i));
+				// System.out.println(clientAnswer.get(i));
+			}
 		} else {
 			all_position = DateUtil.initDoubleDimensionalData(cardCount_List);
 
@@ -402,8 +402,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 		// }
 		isOnshowing_subtitle = false;
 		isOnshowing_answer = false;
-		tips_viewSubTitle.setText(getString(
-				R.string.btn_show_subtitle));
+		tips_viewSubTitle.setText(getString(R.string.btn_show_subtitle));
 		showAnswer.setText(getString(R.string.show_answer));
 		tv_item_count.setText((position + 1) + "|" + clientShowCount);
 	}
@@ -466,16 +465,6 @@ public class ExamActivity extends BaseFragmentActivity implements
 						resultArray, context, isHandleOver, isRightWrong,
 						secondTotal);
 				addFragmentToStack(resultFragment, R.id.exam_fl, FRGMENT_TAG);
-				try {
-					task.cancel();
-					task = null;
-					timer.cancel();
-					timer.purge();
-					timer = null;
-					handler.removeMessages(msg.what);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
 			} else {
 				Toast.makeText(context, "您已完成交卷", Toast.LENGTH_SHORT).show();
 			}
@@ -515,6 +504,19 @@ public class ExamActivity extends BaseFragmentActivity implements
 		}
 		int position = Integer.parseInt(id) - 1;
 		mPager.setCurrentItem(position);
+	}
+
+	public void cancelTime() {
+		try {
+			task.cancel();
+			task = null;
+			timer.cancel();
+			timer.purge();
+			timer = null;
+			handler.removeMessages(msg.what);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

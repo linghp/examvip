@@ -34,6 +34,7 @@
     <string name="tips_unlogin">您还未登录，请登录之后使用</string>
     <string name="tips_login_sucess">登录成功</string>
     <string name="tips_login_fail">登录失败</string>
+    <string name="tips_login_fail_detail">登录失败,请检查用户名或密码</string>
     <string name="btn_show_subtitle">查看题干</string>
     <string name="btn_hide_subtitle">隐藏题干</string>
     <string name="show_answer">查看答案</string>

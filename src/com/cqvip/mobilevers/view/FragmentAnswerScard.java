@@ -280,6 +280,7 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 		case R.id.tv_hanle_examover:
 			 //clientAnswers,发送数据到服务器
 			sendResultToServer();
+			((ExamActivity) getActivity()).cancelTime();
 			//跳转
 		case R.id.img_back:
 			getFragmentManager().popBackStack();

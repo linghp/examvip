@@ -20,12 +20,14 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
 
-        <ScrollView android:id="@+id/scrollview"
+        <ScrollView
+            android:id="@+id/scrollview"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none" >
 
-            <LinearLayout android:id="@+id/sv_inner_ll"
+            <LinearLayout
+                android:id="@+id/sv_inner_ll"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
@@ -40,16 +42,25 @@
                         android:id="@+id/txt_subject_title"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:padding="5.0dip"
+                        android:padding="1dp"
                         android:text=""
                         android:textSize="18sp"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/iv_subtitle_bottomline"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="2dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/list_line"
                         android:visibility="gone" />
 
                     <com.cqvip.mobilevers.widget.ImageTextView
                         android:id="@+id/txt_exam_title"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/grey_onexam_title"
+                        android:padding="1dp"
                         android:textSize="17.0sp" />
 
                     <ImageView
@@ -147,7 +158,7 @@
                         android:background="?attr/bg_answer_color"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
-                        android:visibility="visible">
+                        android:visibility="visible" >
 
                         <TextView
                             android:layout_width="wrap_content"
