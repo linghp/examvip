@@ -114,8 +114,8 @@ public class ExamActivity extends BaseFragmentActivity implements
 	private int examStatus ;//显示答案还是接着做
 	public ArrayList<Integer> cardCount_List = new ArrayList<Integer>();// 答题卡题目
 
-	public static SeriSqareArray<SimpleAnswer> clientAnswer; 
 	public static HashMap<Integer,Integer> viewAnswers; 
+	public static SeriSqareArray<SimpleAnswer> clientAnswer; 
 	private TwoDimensionArray dimension;
 
 	private final static String FRGMENT_TAG = "answercard";
