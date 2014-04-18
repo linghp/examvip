@@ -878,7 +878,7 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 			for (int i = 0; i < multiChoose2.size(); i++) {
 				int k = multiChoose2.get(i);
 				builder.append((k + 1) + "");
-				if (i != multiChoose2.size()) {
+				if (i != multiChoose2.size()-1) {
 					builder.append(",");
 				}
 			}
