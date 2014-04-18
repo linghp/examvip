@@ -39,7 +39,7 @@ import com.cqvip.mobilevers.widget.ImageTextView;
 
 public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 	private static final String NUM_TAG = "num";
-	private static String TAG = "ExamFragment";
+	private static final String TAG = "ExamFragment";
 	private static final char[] ALPHABET = { 'A', 'B', 'C', 'D', 'E', 'F', 'G',
 			'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T' };
 	private static final String[] TRUEFALSE = { "正确", "错误" };
@@ -53,10 +53,11 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 	private LinearLayout ll_main;// 试题主体
 	private LinearLayout ll_title;// 材料
 	private LinearLayout mulitiple_chose_group;// 选项
-	private ImageTextView itvTitle; // 标题
+	private ImageTextView itvTitle; // 材料
 	private EditText et_client_answer;// 输入框
 	private ScrollView scrollView;
 	private LinearLayout sv_inner_ll;
+	private ImageView iv_subtitle_bottomline;
 
 	private int position; // 第几个fragment
 	private int clientSingleChoose;// 用户选择
@@ -122,6 +123,7 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 		ll_title = (LinearLayout) v.findViewById(R.id.ll_title);
 		page_title = (TextView) v.findViewById(R.id.txt_viewtitle);
 		subject_title = (TextView) v.findViewById(R.id.txt_subject_title);
+		iv_subtitle_bottomline=(ImageView) v.findViewById(R.id.iv_subtitle_bottomline);
 		et_client_answer = (EditText) v.findViewById(R.id.et_answer);
 		user_answer = (TextView) v.findViewById(R.id.user_answer);
 		tx_perscore = (TextView) v.findViewById(R.id.tx_perscore);// 分值
@@ -138,7 +140,7 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 		et_client_answer.setVisibility(View.GONE);
 
 		itvTitle = (ImageTextView) v.findViewById(R.id.sub_title);
-		ImageTextView tv_title = (ImageTextView) v
+		ImageTextView tv_title = (ImageTextView) v//标题
 				.findViewById(R.id.txt_exam_title);
 		ImageTextView tv_answer = (ImageTextView) v
 				.findViewById(R.id.correct_answer);
@@ -210,6 +212,7 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 			page_title.setVisibility(View.VISIBLE);
 			page_title.setText(" 查看材料>>");
 			itvTitle.setText(contentTitle);
+			Log.i(TAG, contentTitle.getContent());
 			tv_title.setText((position + 1) + "、", question_title);
 			ShowAnyQuestionCollSubject(question);
 
@@ -248,8 +251,8 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 			}
 		}
 		tv_answerdesc.setText(answerdesc);
-		tv_title.setBackgroundDrawable(getResources().getDrawable(
-				android.R.drawable.gallery_thumb));
+//		tv_title.setBackgroundDrawable(getResources().getDrawable(
+//				android.R.drawable.gallery_thumb));
 		if (ExamActivity.isShowAnswer) {
 			if (!isTextType) {
 				decision.setVisibility(View.VISIBLE);
@@ -979,11 +982,13 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 
 	public void showSubjectTitle() {
 		subject_title.setVisibility(View.VISIBLE);
+		iv_subtitle_bottomline.setVisibility(View.VISIBLE);
 		scrollView.scrollTo(0, 0);
 	}
 
 	public void hideSubjectTitle() {
 		subject_title.setVisibility(View.GONE);
+		iv_subtitle_bottomline.setVisibility(View.GONE);
 	}
 
 }
