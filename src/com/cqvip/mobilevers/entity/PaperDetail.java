@@ -21,7 +21,63 @@ public class PaperDetail {
         private int testquestionNum;
         private double testscore;
         
+		public PaperDetail() {
+		super();
+		// TODO Auto-generated constructor stub
+	    }
         
+		public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public void setQuestioncount(int questioncount) {
+		this.questioncount = questioncount;
+	}
+
+	public void setExampapertime(int exampapertime) {
+		this.exampapertime = exampapertime;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
+
+	public void setUpdatetime(String updatetime) {
+		this.updatetime = updatetime;
+	}
+
+	public void setFavor(boolean isFavor) {
+		this.isFavor = isFavor;
+	}
+
+	public void setTeststatus(int teststatus) {
+		this.teststatus = teststatus;
+	}
+
+	public void setTestquestionNum(int testquestionNum) {
+		this.testquestionNum = testquestionNum;
+	}
+
+	public void setTestscore(double testscore) {
+		this.testscore = testscore;
+	}
+
+	public void setTag_title(ArrayList<TagInfo> tag_title) {
+		this.tag_title = tag_title;
+	}
+		
         public int getTeststatus() {
 			return teststatus;
 		}

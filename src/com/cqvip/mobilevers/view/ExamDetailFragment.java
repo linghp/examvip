@@ -50,6 +50,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 	private static final String DETAL_ID = "id";
 	private TextView tTitle, tTag, tyear, tadddate, ttotal, tscroe, ttime,
 			tsize, favorite_tv;
+	private View ll_testscore;
 	private TextView tTestscore,tTestprogress;
 	private Button btn_continue,btn_begin;
 	private String subjectid;
@@ -70,6 +71,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 	private boolean isConinue = false;//是否重做
 	// private ImageView img_back;
 	
+	PaperDetail paper;
 	static final private int GET_CODE = 0;
 
 	public static ExamDetailFragment newInstance(String name, String id) {
@@ -118,6 +120,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		tscroe = (TextView) view.findViewById(R.id.txt_p_score);
 		ttime = (TextView) view.findViewById(R.id.txt_p_time);
 		favorite_tv = (TextView) view.findViewById(R.id.favorite_tv);
+		ll_testscore=view.findViewById(R.id.ll_testscore);
 		favorite_tv.setOnClickListener(this);
 		// tsize = (TextView) view.findViewById(R.id.txt_p_size);
 		//
@@ -185,10 +188,11 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 			if (response != null) {
 				try {
 					JSONObject json = new JSONObject(response);
+					Log.i(TAG, response);
 					// 判断
 					if (json.isNull("error")) {
 						// 返回正常
-						PaperDetail paper = new PaperDetail(json);
+						paper = new PaperDetail(json);
 						setView(paper);
 
 					} else {
@@ -215,6 +219,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 				favorite_tv_drawable(R.drawable.sc2);
 			}
 			status = paper.getTeststatus();
+			Log.i(TAG, "status"+status);
 			switch (status) {
 			case ConstantValues.ITESTSTATUS_UNDO:
 				//没有做
@@ -233,31 +238,6 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 			
 			
 		}
-		private void setUndoView(PaperDetail paper) {
-			btn_continue.setVisibility(View.GONE);
-			btn_begin.setText("开始做题");
-			tTestprogress.setVisibility(View.GONE);
-			tTestscore.setVisibility(View.GONE);
-		}
-		private void setDoneView(PaperDetail paper) {
-			btn_continue.setText("查看答案");
-			btn_begin.setText("重新做题");
-			btn_continue.setVisibility(View.VISIBLE);
-			tTestprogress.setVisibility(View.VISIBLE);
-			tTestscore.setVisibility(View.VISIBLE);
-			tTestprogress.setText("做卷进度："+paper.getTestquestionNum()+"|"+paper.getQuestioncount());
-			tTestscore.setText("得分："+paper.getTestscore());
-			
-		}
-
-		private void setDoingView(PaperDetail paper) {
-			btn_continue.setText("继续做题");
-			btn_begin.setText("重新做题");
-			btn_continue.setVisibility(View.VISIBLE);
-			tTestprogress.setVisibility(View.VISIBLE);
-			tTestscore.setVisibility(View.GONE);
-			tTestprogress.setText("做卷进度："+paper.getTestquestionNum()+"|"+paper.getQuestioncount());
-		}
 
 		private String getString(ArrayList<TagInfo> tag_title) {
 			StringBuilder bulBuilder = new StringBuilder();
@@ -272,35 +252,54 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		}
 	};
 
+	private void setUndoView(PaperDetail paper) {
+		btn_continue.setVisibility(View.GONE);
+		btn_begin.setText("开始做题");
+		tTestprogress.setVisibility(View.GONE);
+		ll_testscore.setVisibility(View.GONE);
+		//tTestscore.setVisibility(View.GONE);
+	}
+	private void setDoneView(PaperDetail paper) {
+		btn_continue.setText("查看答案");
+		btn_begin.setText("重新做题");
+		btn_continue.setVisibility(View.VISIBLE);
+		tTestprogress.setVisibility(View.VISIBLE);
+		ll_testscore.setVisibility(View.VISIBLE);
+		tTestprogress.setText("做卷进度："+paper.getTestquestionNum()+"|"+paper.getQuestioncount());
+		tTestscore.setText("得分："+paper.getTestscore());
+		
+	}
+
+	private void setDoingView(PaperDetail paper) {
+		btn_continue.setText("继续做题");
+		btn_begin.setText("重新做题");
+		btn_continue.setVisibility(View.VISIBLE);
+		tTestprogress.setVisibility(View.VISIBLE);
+		ll_testscore.setVisibility(View.GONE);
+		tTestprogress.setText("做卷进度："+paper.getTestquestionNum()+"|"+paper.getQuestioncount());
+	}
+
+	
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // You can use the requestCode to select between multiple child
-        // activities you may have started.  Here there is only one thing
-        // we launch.
         if (requestCode == GET_CODE) {
-
-            // We will be adding to our text.;
-
-            // This is a standard resultCode that is sent back if the
-            // activity doesn't supply an explicit result.  It will also
-            // be returned if the activity failed to launch.
             if (resultCode == getActivity().RESULT_CANCELED) {
-               // text.append("(cancelled)");
-Log.i(TAG, "cancelled");
-            // Our protocol with the sending activity is that it will send
-            // text in 'data' as its result.
+          Log.i(TAG, "cancelled");
             } else {
             	Log.i(TAG, "data:"+data);
-            	//tv_islogin.setText(data.getStringExtra("clientGetScore"));
-//                text.append("(okay ");
-//                text.append(Integer.toString(resultCode));
-//                text.append(") ");
-//                if (data != null) {
-//                    text.append(data.getAction());
-//                }
+            	if(data!=null){
+            		double clientGetScore=data.getDoubleExtra("clientGetScore", -1);
+            		int doneCount=data.getIntExtra("doneCount", 0);
+            		if(clientGetScore!=-1){
+            			paper.setTestscore(clientGetScore);
+            			paper.setTestquestionNum(doneCount);
+            			setDoneView(paper);
+            		}else{
+            			paper.setTestquestionNum(doneCount);
+            			setDoingView(paper);
+            		}
+            	}
             }
-
-           // text.append("\n");
         }
     }
 	
