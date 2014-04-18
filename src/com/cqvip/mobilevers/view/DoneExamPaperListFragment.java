@@ -208,8 +208,7 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 					// 判断
 					if (json.isNull("error")) {
 						// 返回正常
-					boolean flag =	json.getBoolean("status");
-						if(flag){
+					
 						
 						switch (type) {
 						case ConstantValues.DOING_PAPER:
@@ -236,10 +235,6 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 
 						default:
 							break;
-						}
-						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.tips_del_sucess), Toast.LENGTH_SHORT).show();
-						}else{
-							Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.tips_del_fail), Toast.LENGTH_SHORT).show();
 						}
 					} else {
 						// 返回错误
@@ -269,6 +264,8 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 					// 判断
 					if (json.isNull("error")) {
 						// 返回正常
+						boolean flag =	json.getBoolean("status");
+						if(flag){
 						switch (type) {
 						case ConstantValues.DOING_PAPER:
 							doingLists.remove(removeDoingExam);
@@ -286,6 +283,11 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 						default:
 							break;
 						}
+							Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.tips_del_sucess), Toast.LENGTH_SHORT).show();
+						}else{
+							Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.tips_del_fail), Toast.LENGTH_SHORT).show();
+						}
+						
 					} else {
 						// 返回错误
 						// TODO

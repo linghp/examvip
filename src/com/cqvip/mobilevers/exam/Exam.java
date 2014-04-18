@@ -33,6 +33,9 @@ public class Exam implements Serializable{
 	public SimpleAnswer[] getAnswerlists() {
 		return answerlists;
 	}
+	public void setAnswerlists(SimpleAnswer[] answerlists) {
+		this.answerlists = answerlists;
+	}
 	public int getExamTime() {
 		return examTime;
 	}

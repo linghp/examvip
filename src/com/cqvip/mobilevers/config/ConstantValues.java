@@ -74,5 +74,9 @@ public class ConstantValues {
 	public static final int DONG_PAPER = 1;
 	public static final int DOING_PAPER = 2;
 	public static final int FAVORITE_PAPER = 3;
+	/**接口定义teststatus*/
+	public static final int ITESTSTATUS_UNDO = 0;//没做
+	public static final int ITESTSTATUS_DOING = 1;//正在做
+	public static final int ITESTSTATUS_DONE = 2;//做过
 	
 }
