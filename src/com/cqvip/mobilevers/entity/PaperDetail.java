@@ -17,7 +17,30 @@ public class PaperDetail {
         private String  year;
         private String updatetime;
         private boolean isFavor;
-        private ArrayList<TagInfo> tag_title;
+        private int teststatus;
+        private int testquestionNum;
+        private double testscore;
+        
+        
+        public int getTeststatus() {
+			return teststatus;
+		}
+
+
+
+		public int getTestquestionNum() {
+			return testquestionNum;
+		}
+
+
+
+		public double getTestscore() {
+			return testscore;
+		}
+
+
+
+		private ArrayList<TagInfo> tag_title;
 
         
         
@@ -86,6 +109,9 @@ public class PaperDetail {
         	type = json.getInt("type");
         	updatetime = json.getString("updatetime");
         	isFavor = json.getBoolean("isfavorites");
+        	teststatus = json.getInt("teststatus");
+        	testquestionNum = json.getInt("testquestionNum");
+        	testscore = json.getDouble("testquestionNum");
             JSONArray  array = json.getJSONArray("kclass");
             int len = array.length();
             if(len>0){
@@ -97,15 +123,15 @@ public class PaperDetail {
             }
         }
 
-
-
 		@Override
 		public String toString() {
 			return "PaperDetail [id=" + id + ", name=" + name + ", score="
 					+ score + ", type=" + type + ", questioncount="
 					+ questioncount + ", exampapertime=" + exampapertime
 					+ ", year=" + year + ", updatetime=" + updatetime
-					+ ", isFavor=" + isFavor + ", tag_title=" + tag_title + "]";
+					+ ", isFavor=" + isFavor + ", teststatus=" + teststatus
+					+ ", testquestionNum=" + testquestionNum + ", testscore="
+					+ testscore + ", tag_title=" + tag_title + "]";
 		}
 
 

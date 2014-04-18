@@ -1,6 +1,5 @@
 package com.cqvip.mobilevers.config;
 
-import org.apache.http.params.HttpConnectionParams;
 
 public class ConstantValues {
 	public static final String aurl="http://192.168.20.214:8080/web/AServlet";
@@ -28,6 +27,7 @@ public class ConstantValues {
 	public static final String DELETEFAVORITESEXAMPAPER="Service1.asmx/DeleteFavoritesExamPaper";
 	public static final String GETFAVORITESEXAMPAPERLIST="Service1.asmx/GetFavoritesExamPaperList";
 	public static final String GetUserCurrExamPaperList="Service1.asmx/GetUserCurrExamPaperList";
+	public static final String DeleteUserTestScore="Service1.asmx/DeleteUserTestScore";
 	
 	
 	public static final String DBNAME="MobileVers.db";
@@ -74,5 +74,11 @@ public class ConstantValues {
 	public static final int DONG_PAPER = 1;
 	public static final int DOING_PAPER = 2;
 	public static final int FAVORITE_PAPER = 3;
+	/**接口定义teststatus*/
+	public static final int ITESTSTATUS_UNDO = 0;//没做
+	public static final int ITESTSTATUS_DOING = 1;//正在做
+	public static final int ITESTSTATUS_DONE = 2;//做过
+	public static final int SHOWFAVOR = 1;
+	public static final int SHOWDONEEXAM = 2;
 	
 }

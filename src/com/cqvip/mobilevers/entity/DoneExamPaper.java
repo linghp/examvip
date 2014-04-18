@@ -26,6 +26,7 @@ public class DoneExamPaper implements Serializable {
 	private int score;// 总分
 	private int clientScore;// 用户得分
 	private String subjectid;
+	private String testscoreid;
 	private String name;
 	private String kclassName;
 	private String kclassid;
@@ -33,6 +34,7 @@ public class DoneExamPaper implements Serializable {
 
 	public DoneExamPaper(JSONObject json) throws JSONException {
 		subjectid = json.getString("exampaperid");
+		testscoreid = json.getString("testscoreid");
 		name = json.getString("exampapername");
 		clientScore = json.getInt("testscore");
 		kclassName = json.getString("kclassname");
@@ -79,6 +81,14 @@ public class DoneExamPaper implements Serializable {
 
 	public String getAdddate() {
 		return adddate;
+	}
+
+	public String getTestscoreid() {
+		return testscoreid;
+	}
+
+	public void setTestscoreid(String testscoreid) {
+		this.testscoreid = testscoreid;
 	}
 
 	protected static int getInt(String key, JSONObject json)

@@ -6,10 +6,12 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.adapter.base.AdapterBase;
+import com.cqvip.mobilevers.config.ConstantValues;
 import com.cqvip.mobilevers.entity.DoneExamPaper;
 
 /**
@@ -20,10 +22,11 @@ import com.cqvip.mobilevers.entity.DoneExamPaper;
 public class DoneExamPaperListAdapter extends AdapterBase<DoneExamPaper>{
 
 private Context	context;;
-	
-	public DoneExamPaperListAdapter (Context context,List<DoneExamPaper> lists) {
+private int type;	
+	public DoneExamPaperListAdapter (Context context,List<DoneExamPaper> lists,int type) {
 		this.context = context;
 		this.mList = lists;
+		this.type = type;
 	}
 	
 	/**
@@ -40,13 +43,14 @@ private Context	context;;
 		private TextView title;
 		private TextView year;
 		private TextView addtime;
+		private ImageView del;
 	}
 	@Override
 	protected View getExView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder = null;
 		if(convertView==null){
 			holder = new ViewHolder();
-				convertView = LayoutInflater.from(context).inflate(R.layout.item_paper, null);
+				convertView = LayoutInflater.from(context).inflate(R.layout.item_paper_del, null);
 				convertView.setTag(holder);
 		}else{
 			holder = (ViewHolder) convertView.getTag();
@@ -55,11 +59,15 @@ private Context	context;;
 		holder.title = (TextView) convertView.findViewById(R.id.txt_paper_title);
 		holder.year = (TextView) convertView.findViewById(R.id.txt_paper_year);
 		holder.addtime = (TextView) convertView.findViewById(R.id.txt_paper_adddate);
+		holder.del = (ImageView) convertView.findViewById(R.id.img_del);
 
 		holder.title.setText(mList.get(position).getName());
 		holder.year.setText("时间："+mList.get(position).getAdddate());
-		holder.addtime.setVisibility(View.GONE);
-		
+		if(type == ConstantValues.SHOWFAVOR){
+			holder.addtime.setVisibility(View.GONE);
+		}else{
+		holder.addtime.setText("分数："+mList.get(position).getClientScore());
+		}
 		return convertView;
 	}
 	
