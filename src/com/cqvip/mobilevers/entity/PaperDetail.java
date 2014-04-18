@@ -167,7 +167,7 @@ public class PaperDetail {
         	isFavor = json.getBoolean("isfavorites");
         	teststatus = json.getInt("teststatus");
         	testquestionNum = json.getInt("testquestionNum");
-        	testscore = json.getDouble("testquestionNum");
+        	testscore = json.getInt("testquestionNum");
             JSONArray  array = json.getJSONArray("kclass");
             int len = array.length();
             if(len>0){

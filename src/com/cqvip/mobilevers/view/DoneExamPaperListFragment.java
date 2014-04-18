@@ -497,7 +497,7 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 											break;
 										case ConstantValues.FAVORITE_PAPER:
 											removeDoneExam = adapter.getList().get(position-1);
-											delFavorPaper(removeDoneExam.getTestscoreid());
+											delFavorPaper(removeDoneExam.getSubjectid());
 											break;
 
 										default:

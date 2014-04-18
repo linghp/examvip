@@ -109,7 +109,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 	private boolean isOnshowing_subtitle = false;// 是否已经显示题干
 	private boolean isOnshowing_answer = false;// 是否已经显示答案
 	private Map<String, String> gparams;
-
+	private int examStatus ;//显示答案还是接着做
 	public ArrayList<Integer> cardCount_List = new ArrayList<Integer>();// 答题卡题目
 
 	public static SeriSqareArray<SimpleAnswer> clientAnswer;
@@ -137,10 +137,15 @@ public class ExamActivity extends BaseFragmentActivity implements
 		exam = (Exam) intent.getSerializable("exam");
 		dimension = (TwoDimensionArray) intent.getSerializable("dimen");
 		int finalpostion = getIntent().getIntExtra("final", 0);
+		examStatus = getIntent().getIntExtra("status", 0);
 		// clientAnswer = intent.getSparseParcelableArray("answer");
 		mAdapter = new MyAdapter(getSupportFragmentManager(), context);
 		// examPaperId=getIntent().getStringExtra(ConstantValues.EXAMPAPERID);
 		// Log.i(TAG, examPaperId);
+		if(examStatus>ConstantValues.ITESTSTATUS_DOING){
+			isOnshowing_answer = true;
+			isShowAnswer = true;
+		}
 		initView();
 		init();
 		startCountTime();
@@ -212,6 +217,10 @@ public class ExamActivity extends BaseFragmentActivity implements
 		tv_item_count.setText(1 + "|" + clientShowCount);
 
 		mPager.setCurrentItem(finalpostion);
+		if(isOnshowing_answer){
+			
+		}
+		
 	}
 
 	public int[][] getAll_position() {
@@ -306,6 +315,8 @@ public class ExamActivity extends BaseFragmentActivity implements
 		handpaper = (TextView) findViewById(R.id.tv_exam_handle);
 		handpaper.setOnClickListener(this);
 
+		
+		
 		time_tv = (TextView) findViewById(R.id.time_tv);
 		tv_item_count = (TextView) findViewById(R.id.tv_item_count);
 
@@ -323,6 +334,11 @@ public class ExamActivity extends BaseFragmentActivity implements
 					mPager.setCurrentItem(++currentpage);
 			}
 		});
+		if(isShowAnswer){
+			showAnswer.setVisibility(View.GONE);
+			handpaper.setVisibility(View.GONE);
+			time_tv.setVisibility(View.GONE);
+		}
 	}
 
 	@Override
