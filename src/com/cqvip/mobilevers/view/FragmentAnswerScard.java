@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -381,6 +382,7 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 					if(res){
 					Toast.makeText(activity, "交卷成功",
 							Toast.LENGTH_LONG).show();
+					activity.setResult(activity.RESULT_OK, (new Intent()).putExtra("clientGetScore", clientGetScore+""));
 					}else{
 						Toast.makeText(activity, "交卷失败",
 								Toast.LENGTH_LONG).show();

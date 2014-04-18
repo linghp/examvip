@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Editable;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -65,6 +66,8 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 	public final static String TAG="ExamDetailFragment";
 	private int finalposition = 0;
 	// private ImageView img_back;
+	
+	static final private int GET_CODE = 0;
 
 	public static ExamDetailFragment newInstance(String name, String id) {
 		ExamDetailFragment f = new ExamDetailFragment();
@@ -127,6 +130,14 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		return view;
 	}
 
+	public void updateview(boolean islogin){
+//		if(islogin){
+//		tv_islogin.setText("已登陆");
+//		}else{
+//			tv_islogin.setText("没登陆");
+//		}
+	}
+	
 	private void getDataFromNet(String subjectid) {
 		customProgressDialog.show();
 		gparams = new HashMap<String, String>();
@@ -215,6 +226,38 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		}
 	};
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // You can use the requestCode to select between multiple child
+        // activities you may have started.  Here there is only one thing
+        // we launch.
+        if (requestCode == GET_CODE) {
+
+            // We will be adding to our text.;
+
+            // This is a standard resultCode that is sent back if the
+            // activity doesn't supply an explicit result.  It will also
+            // be returned if the activity failed to launch.
+            if (resultCode == getActivity().RESULT_CANCELED) {
+               // text.append("(cancelled)");
+Log.i(TAG, "cancelled");
+            // Our protocol with the sending activity is that it will send
+            // text in 'data' as its result.
+            } else {
+            	Log.i(TAG, "data:"+data);
+            	//tv_islogin.setText(data.getStringExtra("clientGetScore"));
+//                text.append("(okay ");
+//                text.append(Integer.toString(resultCode));
+//                text.append(") ");
+//                if (data != null) {
+//                    text.append(data.getAction());
+//                }
+            }
+
+           // text.append("\n");
+        }
+    }
+	
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -371,7 +414,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 							bundle.putString("id", subjectid);
 							intent.putExtra("bundle", bundle);
 							intent.putExtra("final", finalposition);
-							startActivity(intent);
+							 startActivityForResult(intent, GET_CODE);
 						}
 					} else {
 						// 登陆错误

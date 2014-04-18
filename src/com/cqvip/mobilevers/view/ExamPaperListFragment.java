@@ -242,12 +242,12 @@ public class ExamPaperListFragment extends BaseFragment implements OnItemClickLi
 	};
 	
 	
-	private void addFragmentToStack(Fragment newFragment, int layoutid) {
+	private void addFragmentToStack(Fragment newFragment, int layoutid,String tag) {
 		FragmentTransaction ft = getActivity().getSupportFragmentManager()
 				.beginTransaction();
 		ft.setCustomAnimations(R.anim.slide_right_in, R.anim.slide_left_out,
 				R.anim.slide_left_in, R.anim.slide_right_out);
-		ft.replace(layoutid, newFragment);
+		ft.replace(layoutid, newFragment,tag);
 		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 		ft.addToBackStack(null);
 		ft.commit();
@@ -259,7 +259,7 @@ public class ExamPaperListFragment extends BaseFragment implements OnItemClickLi
 		PaperInfo info = adapter.getList().get(position);
 		if(info!=null){
 			Fragment newFragment = ExamDetailFragment.newInstance(info.getName(),info.getSubjectid());
-			addFragmentToStack(newFragment, R.id.simple_fragment);
+			addFragmentToStack(newFragment, R.id.simple_fragment,ExamDetailFragment.TAG);
 		}
 	}  
 }
