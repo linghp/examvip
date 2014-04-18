@@ -4,14 +4,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.os.AsyncTask;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -21,7 +22,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request.Method;
 import com.android.volley.Response.Listener;
@@ -33,6 +36,7 @@ import com.cqvip.mobilevers.entity.DoingExamPaper;
 import com.cqvip.mobilevers.entity.DoneExamPaper;
 import com.cqvip.mobilevers.http.HttpUtils;
 import com.cqvip.mobilevers.http.VersStringRequest;
+import com.cqvip.mobilevers.ui.ExamActivity;
 import com.cqvip.mobilevers.ui.base.BaseFragment;
 import com.cqvip.mobilevers.widget.DropDownListView;
 
@@ -62,6 +66,14 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 	private int type;
 	private boolean isFresh = false;//是否是更新
 
+	private List<DoingExamPaper> doingLists;//doing数据源
+	private List<DoneExamPaper> doneLists;//done数据源
+	private List<DoneExamPaper> favorLists;//favor数据源
+	
+	private DoingExamPaper removeDoingExam;//记录删除对象
+	private DoneExamPaper removeDoneExam;//记录删除对象
+	
+	
 	public static DoneExamPaperListFragment newInstance(String userid,
 			String title, String url, int type) {
 		DoneExamPaperListFragment f = new DoneExamPaperListFragment();
@@ -181,6 +193,7 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 		mQueue.add(mys);
 
 	}
+	
 
 	private Listener<String> backlistener = new Listener<String>() {
 		@Override
@@ -195,17 +208,20 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 					// 判断
 					if (json.isNull("error")) {
 						// 返回正常
+					boolean flag =	json.getBoolean("status");
+						if(flag){
+						
 						switch (type) {
 						case ConstantValues.DOING_PAPER:
-							List<DoingExamPaper> reallists = DoingExamPaper
+							doingLists  = DoingExamPaper
 									.formList(json);
-							setDoingList(reallists);
+							setDoingList(doingLists );
 
 							break;
 						case ConstantValues.DONG_PAPER:
-							List<DoneExamPaper> done_lists = DoneExamPaper
+							doneLists  = DoneExamPaper
 									.formList(json);
-							setDoneList(done_lists);
+							setDoneList(doneLists );
 							break;
 						case ConstantValues.FAVORITE_PAPER:
 							JSONObject jsonObject = json.getJSONArray("result")
@@ -213,9 +229,58 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 							String count = jsonObject.getString("count");
 							JSONArray jsonArray = jsonObject
 									.getJSONArray("exampaperlist");
-							List<DoneExamPaper> paperInfos = DoneExamPaper
+							favorLists  = DoneExamPaper
 									.formList_GetFavorites(jsonArray);
-							setFavoriteList(paperInfos);
+							setFavoriteList(favorLists );
+							break;
+
+						default:
+							break;
+						}
+						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.tips_del_sucess), Toast.LENGTH_SHORT).show();
+						}else{
+							Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.tips_del_fail), Toast.LENGTH_SHORT).show();
+						}
+					} else {
+						// 返回错误
+						// TODO
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			} else {
+				// Toast.makeText(getActivity(), "无数据",
+				// Toast.LENGTH_LONG).show();
+			}
+		}
+
+	};
+	private Listener<String> dellistener = new Listener<String>() {
+		@Override
+		public void onResponse(String response) {
+			if (customProgressDialog != null
+					&& customProgressDialog.isShowing())
+				customProgressDialog.dismiss();
+			// 解析结果
+			System.out.println(response);
+			if (response != null) {
+				try {
+					JSONObject json = new JSONObject(response);
+					// 判断
+					if (json.isNull("error")) {
+						// 返回正常
+						switch (type) {
+						case ConstantValues.DOING_PAPER:
+							doingLists.remove(removeDoingExam);
+							doing_adapter.notifyDataSetChanged();
+							break;
+						case ConstantValues.DONG_PAPER:
+							doneLists.remove(removeDoneExam);
+							adapter.notifyDataSetChanged();
+							break;
+						case ConstantValues.FAVORITE_PAPER:
+							favorLists.remove(removeDoneExam);
+							adapter.notifyDataSetChanged();
 							break;
 
 						default:
@@ -280,6 +345,8 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 				// Toast.LENGTH_LONG).show();
 			}
 		}
+		
+		
 
 		private void setMoreDoingList(List<DoingExamPaper> lists) {
 			if (lists != null
@@ -390,8 +457,96 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 		}
 	}
 	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position,
+	public void onItemClick(AdapterView<?> parent, View view, final int position,
 			long id) {
+		
+		ImageView img = (ImageView) view.findViewById(R.id.img_del);
+		img.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				
+				
+				Dialog mdialog = new AlertDialog.Builder(
+						getActivity())
+						.setTitle("确定删除")
+						.setMessage("是否删除当前选中项?")
+						.setPositiveButton(
+								R.string.alert_dialog_confirm,
+								new DialogInterface.OnClickListener() {
+									public void onClick(
+											DialogInterface dialog,
+											int whichButton) {
+										//删除操作
+										switch (type) {
+										case ConstantValues.DOING_PAPER:
+											removeDoingExam = doing_adapter.getList().get(position-1);
+										
+										  delDoingPaper(removeDoingExam.getId());
+											
+											break;
+										case ConstantValues.DONG_PAPER:
+											removeDoneExam = adapter.getList().get(position-1);
+											delDonePaper(removeDoneExam.getTestscoreid());
+											
+											break;
+										case ConstantValues.FAVORITE_PAPER:
+											removeDoneExam = adapter.getList().get(position-1);
+											delFavorPaper(removeDoneExam.getTestscoreid());
+											break;
+
+										default:
+											break;
+										}
+										
+										
+										
+									}
+
+									private void delFavorPaper(String subjectid) {
+										customProgressDialog.show();
+										gparams = new HashMap<String, String>();
+										String userid = getArguments().getString(USERID);
+										gparams.put("userId",userid);
+										gparams.put("examPaperId",subjectid);
+										requestVolley(gparams, ConstantValues.SERVER_URL
+												+ ConstantValues.DELETEFAVORITESEXAMPAPER, dellistener, Method.POST);
+										
+									}
+
+									private void delDonePaper(String subjectid) {
+										customProgressDialog.show();
+										gparams = new HashMap<String, String>();
+										gparams.put("id",subjectid);
+										requestVolley(gparams, ConstantValues.SERVER_URL
+												+ ConstantValues.DeleteUserTestScore, dellistener, Method.POST);
+										
+										
+									}
+
+									private void delDoingPaper(String subjectid) {
+										customProgressDialog.show();
+										gparams = new HashMap<String, String>();
+										gparams.put("id",subjectid);
+										requestVolley(gparams, ConstantValues.SERVER_URL
+												+ ConstantValues.DeleteUserTestScore, dellistener, Method.POST);
+									}
+								})
+						.setNegativeButton(
+								R.string.alert_dialog_cancel,
+								new DialogInterface.OnClickListener() {
+									public void onClick(
+											DialogInterface dialog,
+											int whichButton) {
+										dialog.dismiss();
+									}
+								}).create();
+				mdialog.show();
+				
+			}
+		});
+		
 		switch (type) {
 		case ConstantValues.DOING_PAPER:
 			DoingExamPaper doingExam = doing_adapter.getList().get(position-1);

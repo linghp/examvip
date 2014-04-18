@@ -28,6 +28,7 @@ public class ConstantValues {
 	public static final String DELETEFAVORITESEXAMPAPER="Service1.asmx/DeleteFavoritesExamPaper";
 	public static final String GETFAVORITESEXAMPAPERLIST="Service1.asmx/GetFavoritesExamPaperList";
 	public static final String GetUserCurrExamPaperList="Service1.asmx/GetUserCurrExamPaperList";
+	public static final String DeleteUserTestScore="Service1.asmx/DeleteUserTestScore";
 	
 	
 	public static final String DBNAME="MobileVers.db";

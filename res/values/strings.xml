@@ -56,5 +56,8 @@
     <string name="btn_login">登录</string>
     <string name="usernam">登录名 :</string>
     <string name="update_at">更新时间 :</string>
+    
+    <string name="tips_del_sucess">删除成功</string>
+    <string name="tips_del_fail">删除失败</string>
 
 </resources>
