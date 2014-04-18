@@ -62,7 +62,7 @@ public class FragmentMineActivity extends BaseMainFragmentActivity {
 		if((userid=Utils.checkUserid(this))==null){
 			return;
 		}
-       DoneExamPaperListFragment newFragment = DoneExamPaperListFragment.newInstance(userid, getString(R.string.DoneExamPaper), ConstantValues.GETMYPASTEXAMLIST,ConstantValues.DONG_PAPER);
+       DoneExamPaperListFragment newFragment = DoneExamPaperListFragment.newInstance(userid, getString(R.string.DoneExamPaper), ConstantValues.GetUserCurrExamPaperList,ConstantValues.DONG_PAPER);
        addFragmentToStack(newFragment, android.R.id.content);
 	}	
 	/**

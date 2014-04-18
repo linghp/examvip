@@ -163,8 +163,7 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 			break;
 		case ConstantValues.DONG_PAPER:
 			gparams.put("userId", getArguments().getString(USERID));
-			gparams.put("type", ConstantValues.DEFAULSEVERVALUE + "");
-			gparams.put("kClassId", ConstantValues.DEFAULSEVERVALUE + "");
+			gparams.put("statusInfo", ConstantValues.STATUSINFO_DONE + "");
 
 			break;
 		case ConstantValues.FAVORITE_PAPER:

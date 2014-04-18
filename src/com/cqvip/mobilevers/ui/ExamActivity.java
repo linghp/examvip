@@ -415,7 +415,9 @@ public class ExamActivity extends BaseFragmentActivity implements
 		isOnshowing_subtitle = false;
 		isOnshowing_answer = false;
 		tips_viewSubTitle.setText(getString(R.string.btn_show_subtitle));
+		
 		showAnswer.setText(getString(R.string.show_answer));
+		
 		tv_item_count.setText((position + 1) + "|" + clientShowCount);
 	}
 

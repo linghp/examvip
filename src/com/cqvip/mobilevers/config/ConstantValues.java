@@ -47,6 +47,7 @@ public class ConstantValues {
 	public static final int DEFAULYPAGESIZE = 15;//默认一次去15条
 	public static final int DEFAULSEVERVALUE = -1;//默认参数
 	public static final int DEFAULSTATUSINFO = 1;//默认 获取我正在考的试卷，
+	public static final int STATUSINFO_DONE = 2;//默认 获取我正在考的试卷，
 	
 	public static final int DOINGISEND = 1;//默认 获取我正在考的试卷，
 	public static final int DEFAULTISEND = -1;//默认 获取我正在考的试卷，
