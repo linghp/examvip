@@ -109,7 +109,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 	private boolean isOnshowing_subtitle = false;// 是否已经显示题干
 	private boolean isOnshowing_answer = false;// 是否已经显示答案
 	private Map<String, String> gparams;
-
+	private int examStatus ;//显示答案还是接着做
 	public ArrayList<Integer> cardCount_List = new ArrayList<Integer>();// 答题卡题目
 
 	public static SeriSqareArray<SimpleAnswer> clientAnswer;

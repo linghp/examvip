@@ -33,10 +33,10 @@ public class DoingExamPaper implements Serializable{
     public DoingExamPaper(JSONObject json) throws JSONException {
 		id = json.getString("id").trim();
 		userid = json.getString("userid").trim();
-		exampaperid = json.getString("exampaperid").trim();
+		exampaperid = json.getString("exampaperid");
 		exampapername = json.getString("exampapername").trim();
 		kclassid = json.getInt("kclassid");
-		createtime = json.getString("createtime").trim();
+		createtime = json.getString("exittime").trim();
    	}
     
     

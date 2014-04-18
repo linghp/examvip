@@ -26,7 +26,7 @@ public class ErrorVolleyThrow implements ErrorListener{
 					dialog.dismiss();
 //				Log.i("onErrorResponse", "dialog.dismiss()");
 				}
-				
+				System.out.println(arg0.toString());
 				String info = VolleyErrorHelper.getMessage(arg0, context);
 				
 					Toast.makeText(context, info, Toast.LENGTH_SHORT).show();
