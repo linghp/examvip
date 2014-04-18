@@ -408,7 +408,6 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 			noresult_rl.setVisibility(View.VISIBLE);
 		}
 	}
-	
 	private void setDoneList(List<DoneExamPaper> done_lists) {
 		if (done_lists != null && !done_lists.isEmpty()) {
 			listview.setVisibility(View.VISIBLE);
