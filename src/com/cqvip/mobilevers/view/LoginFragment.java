@@ -125,9 +125,10 @@ public class LoginFragment extends BaseFragment implements OnEditorActionListene
 					((FragmentMineActivity)getActivity()).loginUI();
 				} else {
 					// 提示登陆失败
-					Toast.makeText(getActivity(), getString(R.string.tips_login_fail), 0).show();
+					Toast.makeText(getActivity(), getString(R.string.tips_login_fail_detail), 0).show();
 				}
 			} catch (Exception e) {
+			Log.w("LoginFragment", e.getMessage());
 				Toast.makeText(getActivity(), getString(R.string.tips_login_fail), 0).show();
 				return;
 			}

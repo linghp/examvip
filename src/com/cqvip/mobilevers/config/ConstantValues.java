@@ -1,6 +1,5 @@
 package com.cqvip.mobilevers.config;
 
-import org.apache.http.params.HttpConnectionParams;
 
 public class ConstantValues {
 	public static final String aurl="http://192.168.20.214:8080/web/AServlet";
