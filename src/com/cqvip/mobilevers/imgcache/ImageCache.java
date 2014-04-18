@@ -647,13 +647,15 @@ public class ImageCache {
      */
     @TargetApi(12)
     public static int getBitmapSize(BitmapDrawable value) {
-        Bitmap bitmap = value.getBitmap();
-
+       Bitmap bitmap = value.getBitmap();
+    if(bitmap!=null){
         if (Utils.hasHoneycombMR1()) {
             return bitmap.getByteCount();
         }
         // Pre HC-MR1
         return bitmap.getRowBytes() * bitmap.getHeight();
+    }
+    return 0;
     }
 
     /**

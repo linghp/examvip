@@ -19,6 +19,7 @@ import com.cqvip.mobilevers.db.UserDao;
 import com.cqvip.mobilevers.ui.base.BaseMainFragmentActivity;
 import com.cqvip.mobilevers.utils.Utils;
 import com.cqvip.mobilevers.view.DoneExamPaperListFragment;
+import com.cqvip.mobilevers.view.ExamDetailFragment;
 import com.cqvip.mobilevers.view.LoginFragment;
 
 /**
@@ -140,10 +141,23 @@ public class FragmentMineActivity extends BaseMainFragmentActivity {
 		hellotome.setText(username+",您好！");
 		login_btn.setText("注销");
 		islogin = true;
+		sync_updateview(true);
+	}
+
+	/**
+	 * 
+	 */
+	private void sync_updateview(boolean b) {
+		FragmentExamActivity fragmentExamActivity=(FragmentExamActivity) ((MainActivity)getParent()).getLocalActivityManager().getActivity("题库");
+		ExamDetailFragment examDetailFragment=(ExamDetailFragment) fragmentExamActivity.fManager.findFragmentByTag(ExamDetailFragment.TAG);
+		if(examDetailFragment!=null){
+			examDetailFragment.updateview(b);
+		}
 	}
 
 	public void logoutUI() {
 		hellotome.setText(getString(R.string.tips_unlogin));
 		login_btn.setText(getString(R.string.btn_login));	
+		sync_updateview(false);
 	}
 }

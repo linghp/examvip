@@ -29,7 +29,7 @@ import android.widget.Toast;
 public class BaseFragmentActivity extends FragmentActivity {
 
 	private static final String TAG = "BaseFragmentActivity";
-	protected FragmentManager fManager;
+	public FragmentManager fManager;
 	
 	protected RequestQueue mQueue;
 	protected ErrorVolleyThrow volleyErrorListener;
