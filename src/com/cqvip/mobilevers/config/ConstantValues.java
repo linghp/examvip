@@ -78,5 +78,7 @@ public class ConstantValues {
 	public static final int ITESTSTATUS_UNDO = 0;//没做
 	public static final int ITESTSTATUS_DOING = 1;//正在做
 	public static final int ITESTSTATUS_DONE = 2;//做过
+	public static final int SHOWFAVOR = 1;
+	public static final int SHOWDONEEXAM = 2;
 	
 }

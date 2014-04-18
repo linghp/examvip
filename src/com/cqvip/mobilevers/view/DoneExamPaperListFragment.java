@@ -175,7 +175,8 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 		default:
 			break;
 		}
-
+		System.out.println( getArguments().getString(URL));
+		System.out.println(getArguments().getString(USERID));
 		requestVolley(gparams, ConstantValues.SERVER_URL
 				+ getArguments().getString(URL), listner, Method.POST);
 	}
@@ -214,12 +215,14 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 						case ConstantValues.DOING_PAPER:
 							doingLists  = DoingExamPaper
 									.formList(json);
+							System.out.println(doingLists);
 							setDoingList(doingLists );
 
 							break;
 						case ConstantValues.DONG_PAPER:
 							doneLists  = DoneExamPaper
 									.formList(json);
+							System.out.println(doneLists);
 							setDoneList(doneLists );
 							break;
 						case ConstantValues.FAVORITE_PAPER:
@@ -385,7 +388,7 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 	private void setFavoriteList(List<DoneExamPaper> paperInfos) {
 		if (paperInfos != null && !paperInfos.isEmpty()) {
 			adapter = new DoneExamPaperListAdapter(
-					getActivity(), paperInfos);
+					getActivity(), paperInfos,ConstantValues.SHOWFAVOR);
 			if(isFresh){
 				SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm:ss");
 				listview.setAdapter(adapter);
@@ -411,7 +414,7 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 			listview.setVisibility(View.VISIBLE);
 			noresult_rl.setVisibility(View.GONE);
 			adapter = new DoneExamPaperListAdapter(
-					getActivity(), done_lists);
+					getActivity(), done_lists,ConstantValues.SHOWDONEEXAM);
 			if(isFresh){
 				SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm:ss");
 				listview.setAdapter(adapter);
