@@ -382,7 +382,7 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 					if(res){
 					Toast.makeText(activity, "交卷成功",
 							Toast.LENGTH_LONG).show();
-					activity.setResult(activity.RESULT_OK, (new Intent()).putExtra("clientGetScore", clientGetScore+""));
+					activity.setResult(activity.RESULT_OK, (new Intent()).putExtra("clientGetScore", clientGetScore).putExtra("doneCount", doneCount));
 					}else{
 						Toast.makeText(activity, "交卷失败",
 								Toast.LENGTH_LONG).show();
