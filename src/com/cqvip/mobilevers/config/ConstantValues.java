@@ -81,5 +81,6 @@ public class ConstantValues {
 	public static final int ITESTSTATUS_DONE = 2;//做过
 	public static final int SHOWFAVOR = 1;
 	public static final int SHOWDONEEXAM = 2;
+	public static final int SHOWDOING = 3;
 	
 }

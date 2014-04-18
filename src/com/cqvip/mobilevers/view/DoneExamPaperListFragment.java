@@ -67,11 +67,12 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 	private boolean isFresh = false;//是否是更新
 
 	private List<DoingExamPaper> doingLists;//doing数据源
-	private List<DoneExamPaper> doneLists;//done数据源
+	private List<DoingExamPaper> doneLists;//done数据源
 	private List<DoneExamPaper> favorLists;//favor数据源
 	
 	private DoingExamPaper removeDoingExam;//记录删除对象
-	private DoneExamPaper removeDoneExam;//记录删除对象
+	private DoingExamPaper removeDoneExam;//记录删除对象
+	private DoneExamPaper removeFavorExam;//记录删除对象
 	
 	
 	public static DoneExamPaperListFragment newInstance(String userid,
@@ -219,7 +220,7 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 
 							break;
 						case ConstantValues.DONG_PAPER:
-							doneLists  = DoneExamPaper
+							doneLists  = DoingExamPaper
 									.formList(json);
 							System.out.println(doneLists);
 							setDoneList(doneLists );
@@ -275,10 +276,10 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 							break;
 						case ConstantValues.DONG_PAPER:
 							doneLists.remove(removeDoneExam);
-							adapter.notifyDataSetChanged();
+							doing_adapter.notifyDataSetChanged();
 							break;
 						case ConstantValues.FAVORITE_PAPER:
-							favorLists.remove(removeDoneExam);
+							favorLists.remove(removeFavorExam);
 							adapter.notifyDataSetChanged();
 							break;
 
@@ -323,8 +324,8 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 							setMoreDoingList(reallists);
 							break;
 						case ConstantValues.DONG_PAPER:
-							List<DoneExamPaper>  lists = DoneExamPaper.formList(json);
-							setMoreList(lists);
+							List<DoingExamPaper>  lists = DoingExamPaper.formList(json);
+							setMoreDoingList(lists);
 							break;
 						case ConstantValues.FAVORITE_PAPER:
 							JSONObject jsonObject = json.getJSONArray("result").getJSONObject(0);
@@ -407,24 +408,24 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 			noresult_rl.setVisibility(View.VISIBLE);
 		}
 	}
-	private void setDoneList(List<DoneExamPaper> done_lists) {
+	private void setDoneList(List<DoingExamPaper> done_lists) {
 		if (done_lists != null && !done_lists.isEmpty()) {
 			listview.setVisibility(View.VISIBLE);
 			noresult_rl.setVisibility(View.GONE);
-			adapter = new DoneExamPaperListAdapter(
+			doing_adapter = new DoingExamPaperListAdapter(
 					getActivity(), done_lists,ConstantValues.SHOWDONEEXAM);
 			if(isFresh){
 				SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm:ss");
-				listview.setAdapter(adapter);
+				listview.setAdapter(doing_adapter);
                 listview.onDropDownComplete(getString(R.string.update_at) + dateFormat.format(new Date()));
 			}else{
 			if (done_lists.size() < ConstantValues.DEFAULYPAGESIZE) {
 				listview.setHasMore(false);
-				listview.setAdapter(adapter);
+				listview.setAdapter(doing_adapter);
 				listview.onBottomComplete();
 			} else {
 				listview.setHasMore(true);
-				listview.setAdapter(adapter);
+				listview.setAdapter(doing_adapter);
 			}
 			}
 		} else {
@@ -438,7 +439,7 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 			listview.setVisibility(View.VISIBLE);
 			noresult_rl.setVisibility(View.GONE);
 			doing_adapter = new DoingExamPaperListAdapter(
-					getActivity(), reallists);
+					getActivity(), reallists,ConstantValues.SHOWDOING);
 			if(isFresh){
 				SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm:ss");
 				listview.setAdapter(doing_adapter);
@@ -490,13 +491,13 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 											
 											break;
 										case ConstantValues.DONG_PAPER:
-											removeDoneExam = adapter.getList().get(position-1);
-											delDonePaper(removeDoneExam.getTestscoreid());
+											removeDoneExam = doing_adapter.getList().get(position-1);
+											delDonePaper(removeDoneExam.getId());
 											
 											break;
 										case ConstantValues.FAVORITE_PAPER:
-											removeDoneExam = adapter.getList().get(position-1);
-											delFavorPaper(removeDoneExam.getSubjectid());
+											removeFavorExam = adapter.getList().get(position-1);
+											delFavorPaper(removeFavorExam.getSubjectid());
 											break;
 
 										default:
@@ -551,18 +552,20 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 		});
 		
 		switch (type) {
-		case ConstantValues.DOING_PAPER:
-			DoingExamPaper doingExam = doing_adapter.getList().get(position-1);
-			Fragment doingFragment = ExamDetailFragment.newInstance(doingExam.getExampapername(),
-					doingExam.getExampaperid());
-			addFragmentToStack(doingFragment, android.R.id.content);
-			break;
-
-		default:
+		case ConstantValues.FAVORITE_PAPER:
+			
 			DoneExamPaper info = adapter.getList().get(position-1);
 			Fragment newFragment = ExamDetailFragment.newInstance(info.getName(),
 					info.getSubjectid());
 			addFragmentToStack(newFragment, android.R.id.content);
+			break;
+
+		default:
+			
+			DoingExamPaper doingExam = doing_adapter.getList().get(position-1);
+			Fragment doingFragment = ExamDetailFragment.newInstance(doingExam.getExampapername(),
+					doingExam.getExampaperid());
+			addFragmentToStack(doingFragment, android.R.id.content);
 			break;
 		}
 		

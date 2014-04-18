@@ -28,6 +28,8 @@ public class DoingExamPaper implements Serializable{
 	private String exampapername;
 	private int kclassid;
 	private String createtime;
+	private double score;
+	
 	
 	
     public DoingExamPaper(JSONObject json) throws JSONException {
@@ -37,11 +39,18 @@ public class DoingExamPaper implements Serializable{
 		exampapername = json.getString("exampapername").trim();
 		kclassid = json.getInt("kclassid");
 		createtime = json.getString("exittime").trim();
+		score = json.getDouble("score");
    	}
     
     
     	   
-    /**
+    public double getScore() {
+		return score;
+	}
+
+
+
+	/**
      * 	   
      * @param array
      * @return

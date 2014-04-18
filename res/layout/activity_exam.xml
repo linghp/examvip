@@ -43,6 +43,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_show_answer"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -92,6 +93,7 @@
             </LinearLayout>
 
             <LinearLayout
+                 android:id="@+id/ll_exam_handle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

@@ -264,11 +264,13 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 				decision3.setVisibility(View.VISIBLE);
 				decision4.setVisibility(View.VISIBLE);
 			}
+			((ExamActivity)getActivity()).viewAnswers.put(position,1);
 		} else {
 			decision.setVisibility(View.GONE);
 			decision2.setVisibility(View.GONE);
 			decision3.setVisibility(View.GONE);
 			decision4.setVisibility(View.GONE);
+			((ExamActivity)getActivity()).viewAnswers.put(position,0);
 		}
 		return v;
 	}
@@ -669,8 +671,10 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 		}
 		if (decision2.getVisibility() == View.GONE) {
 			decision2.setVisibility(View.VISIBLE);
+			((ExamActivity)getActivity()).viewAnswers.put(position, 1);
 		} else {
 			decision2.setVisibility(View.GONE);
+			((ExamActivity)getActivity()).viewAnswers.put(position,0);
 		}
 		if (decision3.getVisibility() == View.GONE) {
 			decision3.setVisibility(View.VISIBLE);
@@ -687,6 +691,7 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 	}
 
 	public void hideAnswer(){
+		((ExamActivity)getActivity()).viewAnswers.put(position,0);
 		decision.setVisibility(View.GONE);
 		decision2.setVisibility(View.GONE);
 		decision3.setVisibility(View.GONE);
@@ -878,7 +883,7 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 			for (int i = 0; i < multiChoose2.size(); i++) {
 				int k = multiChoose2.get(i);
 				builder.append((k + 1) + "");
-				if (i != multiChoose2.size()) {
+				if (i != multiChoose2.size()-1) {
 					builder.append(",");
 				}
 			}
