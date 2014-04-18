@@ -36,5 +36,18 @@ public class AnswerUtils {
 		return builder.toString();
 	}
 	
+	public static  int getItemNum(
+			SparseArray<SimpleAnswer> answers) {
+		int num = 0;
+		int key=0;
+		for(int i=0;i<answers.size();i++){
+			key = answers.keyAt(i);
+			SimpleAnswer firstAnswer = answers.get(key);
+			if(firstAnswer!=null){
+				num++;
+			}
+		}
+		return num;
+	}
 	
 }

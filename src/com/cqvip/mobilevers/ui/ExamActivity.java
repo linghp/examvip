@@ -13,6 +13,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -645,7 +646,6 @@ public class ExamActivity extends BaseFragmentActivity implements
 			if (customProgressDialog != null
 					&& customProgressDialog.isShowing())
 				customProgressDialog.dismiss();
-			finish();
 			// 解析结果
 			if (response != null) {
 				try {
@@ -658,6 +658,8 @@ public class ExamActivity extends BaseFragmentActivity implements
 						if (res) {
 							Toast.makeText(context, "保存成功", Toast.LENGTH_SHORT)
 									.show();
+							setResult(RESULT_OK, (new Intent()).putExtra("doneCount", AnswerUtils.getItemNum(clientAnswer)));
+							finish();
 						} else {
 							Toast.makeText(context, "保存失败", Toast.LENGTH_SHORT)
 									.show();

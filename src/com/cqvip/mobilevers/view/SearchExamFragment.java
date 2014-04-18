@@ -153,7 +153,7 @@ public class SearchExamFragment extends BaseFragment implements
 						listview.setVisibility(View.VISIBLE);
 						noresult_rl.setVisibility(View.GONE);
 						totalsearch_tv.setVisibility(View.VISIBLE);
-						String temp="搜索到与 \"<font face=\"arial\" color=\"red\">"+key+"</font>\"  相关的试卷 <font face=\"arial\" color=\"red\">"+count+"</font> 卷";
+						String temp="搜索到与 \"<font face=\"arial\" color=\"red\">"+key+"</font>\"  相关的试卷 <font face=\"arial\" color=\"red\">"+count+"</font> 套";
 						totalsearch_tv.setText(Html.fromHtml(temp));
 						// 判断
 						if (json.isNull("error")) {

@@ -284,9 +284,6 @@
         android:gravity="center"
         >
 
-        
-      
-
         <Button
             android:id="@+id/btn_exam_continue"
             android:layout_width="wrap_content"
@@ -295,7 +292,7 @@
             android:text="继续做题"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:layout_margin="30dp"
+            android:layout_margin="20dp"
             android:visibility="gone"
             android:background="@drawable/btn_style_yellow"
             android:textColor="@color/white"
@@ -308,7 +305,7 @@
             android:text="开始做题"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:layout_margin="30dp"
+            android:layout_margin="20dp"
             android:background="@drawable/btn_style_yellow"
             android:textColor="@color/white"
             android:textSize="16.0sp" />

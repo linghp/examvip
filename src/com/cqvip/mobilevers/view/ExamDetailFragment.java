@@ -138,11 +138,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 	}
 
 	public void updateview(boolean islogin){
-//		if(islogin){
-//		tv_islogin.setText("已登陆");
-//		}else{
-//			tv_islogin.setText("没登陆");
-//		}
+		getDataFromNet(subjectid);
 	}
 	
 	private void getDataFromNet(String subjectid) {
@@ -286,7 +282,6 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
             if (resultCode == getActivity().RESULT_CANCELED) {
           Log.i(TAG, "cancelled");
             } else {
-            	Log.i(TAG, "data:"+data);
             	if(data!=null){
             		double clientGetScore=data.getDoubleExtra("clientGetScore", -1);
             		int doneCount=data.getIntExtra("doneCount", 0);
@@ -294,9 +289,11 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
             			paper.setTestscore(clientGetScore);
             			paper.setTestquestionNum(doneCount);
             			setDoneView(paper);
+            			Log.i(TAG, "clientGetScore:"+clientGetScore);
             		}else{
             			paper.setTestquestionNum(doneCount);
             			setDoingView(paper);
+            			Log.i(TAG, "doneCount:"+doneCount);
             		}
             	}
             }
