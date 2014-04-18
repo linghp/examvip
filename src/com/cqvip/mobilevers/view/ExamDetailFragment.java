@@ -50,6 +50,8 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 	private static final String DETAL_ID = "id";
 	private TextView tTitle, tTag, tyear, tadddate, ttotal, tscroe, ttime,
 			tsize, favorite_tv;
+	private TextView tTestscore,tTestprogress;
+	private Button btn_continue,btn_begin;
 	private String subjectid;
 	private Map<String, String> gparams;
 	private TextView tv_title;
@@ -64,6 +66,8 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 	private SeriSqareArray<SimpleAnswer> clientAnswer;
 	public final static String TAG="ExamDetailFragment";
 	private int finalposition = 0;
+	private int status = 0;
+	private boolean isConinue = false;//是否重做
 	// private ImageView img_back;
 
 	public static ExamDetailFragment newInstance(String name, String id) {
@@ -95,13 +99,14 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		//Log.i(TAG, subjectid);
 		String title = getArguments().getString(DETAL_NAME);
 		getDataFromNet(subjectid);
-
-		View startExam_btn = (Button) view.findViewById(R.id.btn_exam);
-		startExam_btn.setOnClickListener(this);
-
 		// 访问网络
 		// if(HttpUtils.isMobileDataEnable(context))
-
+		tTestscore = (TextView) view.findViewById(R.id.txt_paper_testscore);
+		tTestprogress= (TextView) view.findViewById(R.id.txt_paper_testprogress);
+		btn_begin = (Button) view.findViewById(R.id.btn_exam_begin);
+		btn_continue = (Button) view.findViewById(R.id.btn_exam_continue);
+		btn_begin.setOnClickListener(this);
+		btn_continue.setOnClickListener(this);
 		tTitle = (TextView) view.findViewById(R.id.txt_p_title);
 		tTitle.setText(title);
 		tTag = (TextView) view.findViewById(R.id.txt_p_tag);
@@ -199,6 +204,48 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 			if(paper.isFavor()){
 				favorite_tv_drawable(R.drawable.sc2);
 			}
+			status = paper.getTeststatus();
+			switch (status) {
+			case ConstantValues.ITESTSTATUS_UNDO:
+				//没有做
+				setUndoView(paper);
+				break;
+			case ConstantValues.ITESTSTATUS_DOING:
+				//正在做
+				setDoingView(paper);
+				break;
+
+			default:
+				//已经做过的
+				setDoneView(paper);
+				break;
+			}
+			
+			
+		}
+		private void setUndoView(PaperDetail paper) {
+			btn_continue.setVisibility(View.GONE);
+			btn_begin.setText("开始做题");
+			tTestprogress.setVisibility(View.GONE);
+			tTestscore.setVisibility(View.GONE);
+		}
+		private void setDoneView(PaperDetail paper) {
+			btn_continue.setText("查看答案");
+			btn_begin.setText("重新做题");
+			btn_continue.setVisibility(View.VISIBLE);
+			tTestprogress.setVisibility(View.VISIBLE);
+			tTestscore.setVisibility(View.VISIBLE);
+			tTestprogress.setText("做卷进度："+paper.getTestquestionNum()+"|"+paper.getQuestioncount());
+			tTestscore.setText("得分："+paper.getTestscore());
+			
+		}
+
+		private void setDoingView(PaperDetail paper) {
+			btn_continue.setText("继续做题");
+			btn_begin.setText("重新做题");
+			btn_continue.setVisibility(View.VISIBLE);
+			tTestprogress.setVisibility(View.VISIBLE);
+			tTestscore.setVisibility(View.GONE);
 			
 		}
 
@@ -217,12 +264,21 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 
 	@Override
 	public void onClick(View v) {
+		String userid = null;
 		switch (v.getId()) {
 		case R.id.favorite_tv:
 			toFavorite();
 			break;
-		case R.id.btn_exam:
-			String userid = null;
+		case R.id.btn_exam_begin:
+			isConinue = false;
+			if ((userid = Utils.checkUserid(getActivity())) != null) {
+				String url = ConstantValues.SERVER_URL
+						+ ConstantValues.GETPASTEXAMINFO;
+				getData(url, subjectid, userid);
+			}
+			break;
+		case R.id.btn_exam_continue:
+			isConinue = true;
 			if ((userid = Utils.checkUserid(getActivity())) != null) {
 				String url = ConstantValues.SERVER_URL
 						+ ConstantValues.GETPASTEXAMINFO;
@@ -234,6 +290,8 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		}
 
 	}
+
+	
 
 	private void toFavorite() {
 		String userid = null;
@@ -362,6 +420,10 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 									wrong_position, clientAnswer);
 
 						}
+						if(!isConinue){
+							dimension = null;
+						}
+						
 						if (exam != null) {
 							Intent intent = new Intent(getActivity(),
 									ExamActivity.class);
@@ -371,6 +433,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 							bundle.putString("id", subjectid);
 							intent.putExtra("bundle", bundle);
 							intent.putExtra("final", finalposition);
+							intent.putExtra("status", status);
 							startActivity(intent);
 						}
 					} else {
