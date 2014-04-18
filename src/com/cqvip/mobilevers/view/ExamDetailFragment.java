@@ -471,10 +471,11 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 							}
 							bundle.putString("id", subjectid);
 							intent.putExtra("bundle", bundle);
-							intent.putExtra("final", finalposition);
 							if(isConinue){
+								intent.putExtra("final", finalposition);
 								intent.putExtra("status", status);
 							}else{
+								intent.putExtra("final", 0);
 								intent.putExtra("status", 0);
 							}
 							 startActivityForResult(intent, GET_CODE);

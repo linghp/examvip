@@ -216,11 +216,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 				paperScore, clientShowCount);
 
 		tv_item_count.setText(1 + "|" + clientShowCount);
-
 		mPager.setCurrentItem(finalpostion);
-		if(isOnshowing_answer){
-			
-		}
 		
 	}
 
