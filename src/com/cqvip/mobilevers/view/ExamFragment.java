@@ -33,6 +33,7 @@ import com.cqvip.mobilevers.exam.Question;
 import com.cqvip.mobilevers.exam.SimpleAnswer;
 import com.cqvip.mobilevers.exam.Solution;
 import com.cqvip.mobilevers.ui.ExamActivity;
+import com.cqvip.mobilevers.utils.DateUtil;
 import com.cqvip.mobilevers.utils.SubjectType;
 import com.cqvip.mobilevers.widget.ImageTextCheckBox;
 import com.cqvip.mobilevers.widget.ImageTextView;
@@ -171,9 +172,14 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 		// perScore = question.get
 		// 答案，用于比较
 		realAnswer = solution.getAnswer().getContent();
-		// 显示答题题干，判断是否有html
-		Spanned mtitle = formSubTitle(subExam_title);
+		// 显示答题题干，判断是否有html]
+		String form_subExam_title = DateUtil.formTile(subExam_title);
+		Spanned mtitle = formSubTitle(form_subExam_title);
+		if(mtitle!=null){
 		subject_title.setText(mtitle);
+		}else{
+			subject_title.setText("");
+		}
 		// Log.i("sub_type",sub_type);
 		// Log.i("Question_type",type);
 		// Log.i("sub_Title","tttt:"+sub_title.getContent());
@@ -289,12 +295,16 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 
 	private Spanned formSubTitle(String text) {
 		String htmlTag = ConstantValues.HTMLTAG;
-		if (text != null && text.startsWith(htmlTag)) {
-			String result = text.substring(htmlTag.length(), text.length());
-			return Html.fromHtml(result);
-		} else {
-			return new SpannedString(text);
+		if (!TextUtils.isEmpty(text) ){
+			
+			if(text.startsWith(htmlTag)) {
+				String result = text.substring(htmlTag.length(), text.length());
+				return Html.fromHtml(result);
+			} else {
+				return new SpannedString(text);
 		}
+		}
+		return null;
 	}
 
 	/**
@@ -825,10 +835,16 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 
 	private void doAnswerWrong() {
 		rightOrWrong = ConstantValues.ANSWER_WRONG;
+		if(realAnswer!=null){
 		tx_rightwrong.setTextColor(getResources().getColor(R.color.red));
 		tx_rightwrong.setText(getResources().getString(R.string.tips_wrong));
 		setSignWrongdone(ExamActivity.right_position,
 				ExamActivity.wrong_position);
+		}else{
+		tx_rightwrong.setText(getResources().getString(R.string.tips_noanswer));
+		setSignRightdone(ExamActivity.right_position,
+				ExamActivity.wrong_position);
+		}
 	}
 
 	private void doAnswerRight() {

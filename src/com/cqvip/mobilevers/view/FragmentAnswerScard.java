@@ -327,8 +327,8 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 		gparams.put("examPaperId", baseExamInfo.getId());
 		//Log.i(TAG,"examPaperId:"+baseExamInfo.getId());
 		gparams.put("userAnswer", result);
-		gparams.put("isEnd", ConstantValues.DEFAULTISEND+"");
-		//Log.i(TAG,"userAnswer:"+result);
+		gparams.put("isEnd", ConstantValues.END_HANDLEEXAM+"");
+		//Log.i(TAG,"userId"+userId+",examPaperId"+baseExamInfo.getId()+",userAnswer:"+result+",isEnd"+ConstantValues.END_HANDLEEXAM+"");
 		requestVolley(gparams, ConstantValues.SERVER_URL + ConstantValues.SAVEEXAMANSWER,
 				backlistener, Method.POST);
 		}else{

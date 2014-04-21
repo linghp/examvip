@@ -7,7 +7,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.cqvip.mobilevers.config.ConstantValues;
@@ -61,4 +64,22 @@ public class DateUtil {
 			return resutl;
 		}
 		
+		public static String formTile(String text){
+			if(!TextUtils.isEmpty(text)){
+			String result = null;
+			Pattern PIC_PATTERN = Pattern.compile("\\{\\{+[//]?+B\\}\\}",Pattern.CASE_INSENSITIVE);
+			Matcher nameMatcher = PIC_PATTERN.matcher(text);
+			while(nameMatcher.find()){
+				int Start = nameMatcher.start();
+				int end = nameMatcher.end();
+				String tmp = text.substring(0, Start);
+				String tt = text.substring(end,text.length());
+				text = tmp+tt;
+				result= text;
+				nameMatcher = PIC_PATTERN.matcher(text);	
+			}
+			return result;
+			}
+			return text;
+		}
 }

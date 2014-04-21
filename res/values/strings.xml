@@ -31,6 +31,7 @@
     <string name="alert_dialog_unsave">不保存</string>
     <string name="tips_right">√恭喜您，答对了</string>
     <string name="tips_wrong">×对不起，答错了</string>
+    <string name="tips_noanswer">该题暂无参考答案</string>
     <string name="tips_unlogin">您还未登录，请登录之后使用</string>
     <string name="tips_login_sucess">登录成功</string>
     <string name="tips_login_fail">登录失败</string>

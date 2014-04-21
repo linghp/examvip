@@ -626,7 +626,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 			gparams.put("userId", userId);
 			gparams.put("examPaperId", baseExamInfo.getId());
 			gparams.put("userAnswer", result);
-			gparams.put("isEnd", ConstantValues.DOINGISEND + "");
+			gparams.put("isEnd", ConstantValues.END_DOINGEXAM + "");
 			// Log.i(TAG, "userAnswer:" + result);
 			requestVolley(gparams, ConstantValues.SERVER_URL
 					+ ConstantValues.SAVEEXAMANSWER, backlistener, Method.POST);

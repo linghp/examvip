@@ -49,8 +49,8 @@ public class ConstantValues {
 	public static final int DEFAULSTATUSINFO = 1;//默认 获取我正在考的试卷，
 	public static final int STATUSINFO_DONE = 2;//默认 获取我正在考的试卷，
 	
-	public static final int DOINGISEND = 1;//默认 获取我正在考的试卷，
-	public static final int DEFAULTISEND = -1;//默认 获取我正在考的试卷，
+	public static final int END_HANDLEEXAM = 1;//提交试卷，
+	public static final int END_DOINGEXAM = -1;//默认 获取我正在考的试卷，
 	
 	public static final int toutiao_id=1;
 	public static final int yule_id=2;
