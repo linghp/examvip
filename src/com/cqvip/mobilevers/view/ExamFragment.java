@@ -271,6 +271,8 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 				decision4.setVisibility(View.VISIBLE);
 			}
 			((ExamActivity)getActivity()).viewAnswers.put(position,1);
+			//设置title
+//			((ExamActivity)getActivity())
 		} else {
 			decision.setVisibility(View.GONE);
 			decision2.setVisibility(View.GONE);
@@ -669,6 +671,7 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 	}
 
 	public void viewAnswer() {
+		((ExamActivity)getActivity()).viewAnswers.put(position, 1);
 		// decision.setVisibility(View.VISIBLE);
 		// decision2.setVisibility(View.VISIBLE);
 		// decision3.setVisibility(View.VISIBLE);
@@ -681,10 +684,9 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 		}
 		if (decision2.getVisibility() == View.GONE) {
 			decision2.setVisibility(View.VISIBLE);
-			((ExamActivity)getActivity()).viewAnswers.put(position, 1);
+			
 		} else {
 			decision2.setVisibility(View.GONE);
-			((ExamActivity)getActivity()).viewAnswers.put(position,0);
 		}
 		if (decision3.getVisibility() == View.GONE) {
 			decision3.setVisibility(View.VISIBLE);
@@ -1002,12 +1004,14 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 	}
 
 	public void showSubjectTitle() {
+		((ExamActivity)getActivity()).viewAnswers.put(position,1);
 		subject_title.setVisibility(View.VISIBLE);
 		iv_subtitle_bottomline.setVisibility(View.VISIBLE);
 		scrollView.scrollTo(0, 0);
 	}
 
 	public void hideSubjectTitle() {
+		((ExamActivity)getActivity()).viewAnswers.put(position,0);
 		subject_title.setVisibility(View.GONE);
 		iv_subtitle_bottomline.setVisibility(View.GONE);
 	}

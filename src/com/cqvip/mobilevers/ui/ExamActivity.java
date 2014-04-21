@@ -114,7 +114,8 @@ public class ExamActivity extends BaseFragmentActivity implements
 	private int examStatus ;//显示答案还是接着做
 	public ArrayList<Integer> cardCount_List = new ArrayList<Integer>();// 答题卡题目
 
-	public static HashMap<Integer,Integer> viewAnswers; 
+	public static HashMap<Integer,Integer> viewAnswers; //保存查看答案状态
+	public static HashMap<Integer,Integer> viewSubTitle; //保存查看题干状态
 	public static SeriSqareArray<SimpleAnswer> clientAnswer; 
 	private TwoDimensionArray dimension;
 
@@ -208,6 +209,8 @@ public class ExamActivity extends BaseFragmentActivity implements
 			clientAnswer = new SeriSqareArray<SimpleAnswer>();
 		}
 
+		viewAnswers = new HashMap<Integer, Integer>();
+		viewSubTitle = new HashMap<Integer, Integer>();
 		mPager.setAdapter(mAdapter);
 
 		paperId = intent.getString("id");
@@ -219,7 +222,6 @@ public class ExamActivity extends BaseFragmentActivity implements
 
 		tv_item_count.setText(1 + "|" + clientShowCount);
 		
-		viewAnswers = new HashMap<Integer, Integer>();
 		
 		mPager.setCurrentItem(finalpostion);
 		
@@ -425,13 +427,20 @@ public class ExamActivity extends BaseFragmentActivity implements
 		// }
 		isOnshowing_subtitle = false;
 		isOnshowing_answer = false;
-		tips_viewSubTitle.setText(getString(R.string.btn_show_subtitle));
+		setShowAnswer();
 		//判断下是否显示答案
-		if(viewAnswers.get(position)>0){
+		if(!viewAnswers.isEmpty()&&viewAnswers.get(position)>0){
 			showAnswer.setText(getString(R.string.hide_answer));
 		}else{
 			showAnswer.setText(getString(R.string.show_answer));
 		}
+		
+		if(!viewSubTitle.isEmpty()&&viewSubTitle.get(position)>0){
+			tips_viewSubTitle.setText(getString(R.string.btn_hide_subtitle));
+		}else{
+			tips_viewSubTitle.setText(getString(R.string.btn_show_subtitle));
+		}
+		
 		tv_item_count.setText((position + 1) + "|" + clientShowCount);
 	}
 
@@ -459,8 +468,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 		case R.id.tv_show_subtitle:
 			ExamFragment fragment = mAdapter.getFragment(currentpage);
 			if (isOnshowing_subtitle) {
-				tips_viewSubTitle
-						.setText(getString(R.string.btn_show_subtitle));
+				setShowAnswer();
 				fragment.hideSubjectTitle();
 				isOnshowing_subtitle = false;
 			} else {
@@ -473,12 +481,12 @@ public class ExamActivity extends BaseFragmentActivity implements
 		case R.id.tv_show_anwer:
 			ExamFragment mfragment = mAdapter.getFragment(currentpage);
 			if (isOnshowing_answer) {
-				showAnswer.setText(getString(R.string.show_answer));
 				mfragment.hideAnswer();
+				showAnswer.setText(getString(R.string.show_answer));
 				isOnshowing_answer = false;
 			} else {
-				showAnswer.setText(getString(R.string.hide_answer));
 				mfragment.viewAnswer();
+				showAnswer.setText(getString(R.string.hide_answer));
 				isOnshowing_answer = true;
 			}
 			break;
@@ -501,6 +509,11 @@ public class ExamActivity extends BaseFragmentActivity implements
 		default:
 			break;
 		}
+	}
+
+	private void setShowAnswer() {
+		tips_viewSubTitle
+				.setText(getString(R.string.btn_show_subtitle));
 	}
 
 	public void showAnswerCard(boolean isHandleOver, boolean isRightWrong) {

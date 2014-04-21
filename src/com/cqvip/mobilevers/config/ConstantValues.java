@@ -52,6 +52,9 @@ public class ConstantValues {
 	public static final int END_HANDLEEXAM = 1;//提交试卷，
 	public static final int END_DOINGEXAM = -1;//默认 获取我正在考的试卷，
 	
+	public static final int BEGIN_RESTAR = 1;// 重做
+	public static final int BGEIN_CONTINUE = -1;//继续做，或者查看答案
+	
 	public static final int toutiao_id=1;
 	public static final int yule_id=2;
 	public static final int tiyu_id=3;
