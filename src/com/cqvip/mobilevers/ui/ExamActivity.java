@@ -84,6 +84,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 	private TextView time_tv;
 	private TextView tips_viewSubTitle, showAnswer, handpaper;
 	private ImageView tv_back;
+	private View ll_show_anwer,ll_exam_handle;
 
 	// private String examPaperId;
 	// private Map<String, String> gparams;
@@ -308,6 +309,8 @@ public class ExamActivity extends BaseFragmentActivity implements
 		TextView answercard = (TextView) findViewById(R.id.tv_show_card);
 		answercard.setOnClickListener(this);
 		showAnswer = (TextView) findViewById(R.id.tv_show_anwer);
+		ll_show_anwer= findViewById(R.id.ll_show_anwer);
+		ll_exam_handle= findViewById(R.id.ll_exam_handle);
 		showAnswer.setOnClickListener(this);
 		handpaper = (TextView) findViewById(R.id.tv_exam_handle);
 		handpaper.setOnClickListener(this);
@@ -332,8 +335,8 @@ public class ExamActivity extends BaseFragmentActivity implements
 			}
 		});
 		if(isShowAnswer){
-			showAnswer.setVisibility(View.GONE);
-			handpaper.setVisibility(View.GONE);
+            ll_show_anwer.setVisibility(View.GONE);
+            ll_exam_handle.setVisibility(View.GONE);
 			time_tv.setVisibility(View.GONE);
 		}
 	}
@@ -510,8 +513,8 @@ public class ExamActivity extends BaseFragmentActivity implements
 	public void updateView(String id) {
 		if (id.endsWith("lookansweranalysis")) {
 			id = "1";
-			showAnswer.setVisibility(View.GONE);
-			handpaper.setVisibility(View.GONE);
+			ll_show_anwer.setVisibility(View.GONE);
+			ll_exam_handle.setVisibility(View.GONE);
 			time_tv.setVisibility(View.GONE);
 			mAdapter.notifyDataSetChanged();
 		}
