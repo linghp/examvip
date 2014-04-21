@@ -313,7 +313,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 			if ((userid = Utils.checkUserid(getActivity())) != null) {
 				String url = ConstantValues.SERVER_URL
 						+ ConstantValues.GETPASTEXAMINFO;
-				getData(url, subjectid, userid);
+				getData(url, subjectid, userid,ConstantValues.BEGIN_RESTAR);
 			}
 			break;
 		case R.id.btn_exam_continue:
@@ -321,7 +321,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 			if ((userid = Utils.checkUserid(getActivity())) != null) {
 				String url = ConstantValues.SERVER_URL
 						+ ConstantValues.GETPASTEXAMINFO;
-				getData(url, subjectid, userid);
+				getData(url, subjectid, userid,ConstantValues.BGEIN_CONTINUE);
 			}
 			break;
 		default:
@@ -359,18 +359,22 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		requestVolley(url, back_deletefavorite_ls, Method.POST);
 	}
 
-	private void getData(String url, String examPaperId, String userId) {
-		getDataFromNet(url, examPaperId, userId);
+	private void getData(String url, String examPaperId, String userId,int type) {
+		getDataFromNet(url, examPaperId, userId,type);
 	}
 
-	private void getDataFromNet(String url, String examPaperId, String userId) {
+	private void getDataFromNet(String url, String examPaperId, String userId,int type) {
 
 		customProgressDialog.show();
 		gparams = new HashMap<String, String>();
 		gparams.put(ConstantValues.EXAMPAPERID, examPaperId);
-		// Log.i("EXAM",examPaperId);
-		// gparams.put("userId", userId);
 		gparams.put("userId", userId);
+		if(type==ConstantValues.BEGIN_RESTAR){
+			gparams.put("restart", ConstantValues.BEGIN_RESTAR+"");
+		}else{
+			gparams.put("restart", ConstantValues.BGEIN_CONTINUE+"");
+		}
+		
 		requestVolley(url, back_ls, Method.POST);
 	}
 
@@ -388,7 +392,6 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 			mQueue.add(mys);
 		} catch (Exception e) {
 			e.printStackTrace();
-			// onError(2);
 		}
 	}
 
