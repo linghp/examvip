@@ -259,6 +259,13 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 		tv_answerdesc.setText(answerdesc);
 //		tv_title.setBackgroundDrawable(getResources().getDrawable(
 //				android.R.drawable.gallery_thumb));
+		if((((ExamActivity)getActivity()).viewSubTitle!=null)&&checkSubTitleHasPosition()){
+			showSubjectTitle();
+		}else{
+			hideSubjectTitle();
+		}
+		
+		
 		if (ExamActivity.isShowAnswer) {
 			if (!isTextType) {
 				decision.setVisibility(View.VISIBLE);
@@ -278,9 +285,22 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 			decision2.setVisibility(View.GONE);
 			decision3.setVisibility(View.GONE);
 			decision4.setVisibility(View.GONE);
-			((ExamActivity)getActivity()).viewAnswers.put(position,0);
+			if((((ExamActivity)getActivity()).viewAnswers!=null)&&checkviewAnswerHasPosition()){
+				viewAnswer();
+			}else{
+				hideAnswer();
+			}
 		}
 		return v;
+	}
+
+	private boolean checkSubTitleHasPosition() {
+		return  ((ExamActivity)getActivity()).viewSubTitle.get(position)!=null&&((ExamActivity)getActivity()).viewSubTitle.get(position)>0;
+		
+	}
+	private boolean checkviewAnswerHasPosition() {
+		return  ((ExamActivity)getActivity()).viewAnswers.get(position)!=null&&((ExamActivity)getActivity()).viewAnswers.get(position)>0;
+		
 	}
 
 	private String formTrueFasle(Content answer) {
@@ -671,43 +691,48 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 	}
 
 	public void viewAnswer() {
-		((ExamActivity)getActivity()).viewAnswers.put(position, 1);
-		// decision.setVisibility(View.VISIBLE);
-		// decision2.setVisibility(View.VISIBLE);
-		// decision3.setVisibility(View.VISIBLE);
-		if (decision.getVisibility() == View.GONE) {
-			if (!isTextType) {
-				decision.setVisibility(View.VISIBLE);
-			}
-		} else {
+		if (!isTextType) {
+			decision.setVisibility(View.VISIBLE);
+		}else{
 			decision.setVisibility(View.GONE);
 		}
-		if (decision2.getVisibility() == View.GONE) {
-			decision2.setVisibility(View.VISIBLE);
-			
-		} else {
-			decision2.setVisibility(View.GONE);
-		}
-		if (decision3.getVisibility() == View.GONE) {
-			decision3.setVisibility(View.VISIBLE);
-		} else {
-			decision3.setVisibility(View.GONE);
-		}
-		if (decision4.getVisibility() == View.GONE) {
-			decision4.setVisibility(View.VISIBLE);
-		} else {
-			decision4.setVisibility(View.GONE);
-		}
+		 decision2.setVisibility(View.VISIBLE);
+		 decision3.setVisibility(View.VISIBLE);
+		 decision4.setVisibility(View.VISIBLE);
+		 ((ExamActivity)getActivity()).viewAnswers.put(position, 1);
+//		if (decision.getVisibility() == View.GONE) {
+//			if (!isTextType) {
+//				decision.setVisibility(View.VISIBLE);
+//			}
+//		} else {
+//			decision.setVisibility(View.GONE);
+//		}
+//		if (decision2.getVisibility() == View.GONE) {
+//			decision2.setVisibility(View.VISIBLE);
+//			
+//		} else {
+//			decision2.setVisibility(View.GONE);
+//		}
+//		if (decision3.getVisibility() == View.GONE) {
+//			decision3.setVisibility(View.VISIBLE);
+//		} else {
+//			decision3.setVisibility(View.GONE);
+//		}
+//		if (decision4.getVisibility() == View.GONE) {
+//			decision4.setVisibility(View.VISIBLE);
+//		} else {
+//			decision4.setVisibility(View.GONE);
+//		}
 
 		scrollToBottom(scrollView, sv_inner_ll);
 	}
 
 	public void hideAnswer(){
-		((ExamActivity)getActivity()).viewAnswers.put(position,0);
 		decision.setVisibility(View.GONE);
 		decision2.setVisibility(View.GONE);
 		decision3.setVisibility(View.GONE);
 		decision4.setVisibility(View.GONE);
+		((ExamActivity)getActivity()).viewAnswers.put(position,0);
 		scrollView.scrollTo(0, 0);
 	}
 	
@@ -1004,14 +1029,14 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 	}
 
 	public void showSubjectTitle() {
-		((ExamActivity)getActivity()).viewAnswers.put(position,1);
+		((ExamActivity)getActivity()).viewSubTitle.put(position,1);
 		subject_title.setVisibility(View.VISIBLE);
 		iv_subtitle_bottomline.setVisibility(View.VISIBLE);
 		scrollView.scrollTo(0, 0);
 	}
 
 	public void hideSubjectTitle() {
-		((ExamActivity)getActivity()).viewAnswers.put(position,0);
+		((ExamActivity)getActivity()).viewSubTitle.put(position,0);
 		subject_title.setVisibility(View.GONE);
 		iv_subtitle_bottomline.setVisibility(View.GONE);
 	}

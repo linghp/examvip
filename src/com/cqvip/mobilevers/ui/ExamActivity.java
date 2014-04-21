@@ -147,7 +147,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 		// examPaperId=getIntent().getStringExtra(ConstantValues.EXAMPAPERID);
 		// Log.i(TAG, examPaperId);
 		if(examStatus>ConstantValues.ITESTSTATUS_DOING){
-			isOnshowing_answer = true;
+			//isOnshowing_answer = true;
 			isShowAnswer = true;
 		}
 		initView();
@@ -429,19 +429,27 @@ public class ExamActivity extends BaseFragmentActivity implements
 		isOnshowing_answer = false;
 		setShowAnswer();
 		//判断下是否显示答案
-		if(!viewAnswers.isEmpty()&&viewAnswers.get(position)>0){
+		if(viewAnswers!=null&&checkviewAnswerHasPosition(position)){
 			showAnswer.setText(getString(R.string.hide_answer));
 		}else{
 			showAnswer.setText(getString(R.string.show_answer));
 		}
 		
-		if(!viewSubTitle.isEmpty()&&viewSubTitle.get(position)>0){
+		if(viewSubTitle!=null&&checkSubTitleHasPosition(position)){
 			tips_viewSubTitle.setText(getString(R.string.btn_hide_subtitle));
 		}else{
 			tips_viewSubTitle.setText(getString(R.string.btn_show_subtitle));
 		}
 		
 		tv_item_count.setText((position + 1) + "|" + clientShowCount);
+	}
+	private boolean checkSubTitleHasPosition(int position) {
+		return  viewSubTitle.get(position)!=null&&viewSubTitle.get(position)>0;
+		
+	}
+	private boolean checkviewAnswerHasPosition(int position) {
+		return  viewAnswers.get(position)!=null&&viewAnswers.get(position)>0;
+		
 	}
 
 	@Override
