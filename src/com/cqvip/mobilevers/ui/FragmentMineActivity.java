@@ -145,7 +145,7 @@ public class FragmentMineActivity extends BaseMainFragmentActivity {
 	}
 
 	/**
-	 * 
+	 * 同步
 	 */
 	private void sync_updateview(boolean b) {
 		FragmentExamActivity fragmentExamActivity=(FragmentExamActivity) ((MainActivity)getParent()).getLocalActivityManager().getActivity("题库");

@@ -53,7 +53,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 	private View ll_testscore;
 	private TextView tTestscore,tTestprogress;
 	private Button btn_continue,btn_begin;
-	private String subjectid;
+	public String subjectid;
 	private Map<String, String> gparams;
 	private TextView tv_title;
 	private int[][] done_position;
@@ -213,6 +213,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 			tTag.setText(getString(paper.getTag_title()));
 			if(paper.isFavor()){
 				favorite_tv_drawable(R.drawable.sc2);
+				Log.i(TAG, "isFavor");
 			}
 			status = paper.getTeststatus();
 			Log.i(TAG, "status"+status);

@@ -16,6 +16,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,6 +38,8 @@ import com.cqvip.mobilevers.entity.DoneExamPaper;
 import com.cqvip.mobilevers.http.HttpUtils;
 import com.cqvip.mobilevers.http.VersStringRequest;
 import com.cqvip.mobilevers.ui.ExamActivity;
+import com.cqvip.mobilevers.ui.FragmentExamActivity;
+import com.cqvip.mobilevers.ui.MainActivity;
 import com.cqvip.mobilevers.ui.base.BaseFragment;
 import com.cqvip.mobilevers.widget.DropDownListView;
 
@@ -273,14 +276,17 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 						case ConstantValues.DOING_PAPER:
 							doingLists.remove(removeDoingExam);
 							doing_adapter.notifyDataSetChanged();
+							sync_updateview(true, removeDoingExam.getExampaperid());
 							break;
 						case ConstantValues.DONG_PAPER:
 							doneLists.remove(removeDoneExam);
 							doing_adapter.notifyDataSetChanged();
+							sync_updateview(true, removeDoneExam.getExampaperid());
 							break;
 						case ConstantValues.FAVORITE_PAPER:
 							favorLists.remove(removeFavorExam);
 							adapter.notifyDataSetChanged();
+							sync_updateview(true, removeFavorExam.getSubjectid());
 							break;
 
 						default:
@@ -306,6 +312,18 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 
 	};
 
+	/**
+	 * 同步
+	 */
+	private void sync_updateview(boolean b,String subjectid) {
+		FragmentExamActivity fragmentExamActivity=(FragmentExamActivity) ((MainActivity)getActivity().getParent()).getLocalActivityManager().getActivity("题库");
+		ExamDetailFragment examDetailFragment=(ExamDetailFragment) fragmentExamActivity.fManager.findFragmentByTag(ExamDetailFragment.TAG);
+		if(examDetailFragment!=null&&subjectid.equals(examDetailFragment.subjectid)){
+			examDetailFragment.updateview(b);
+			Log.i("DoneExamPaperListFragment", subjectid+"----"+examDetailFragment.subjectid);
+		}
+	}
+	
 	private Listener<String> backlistenerMore = new Listener<String>() {
 		@Override
 		public void onResponse(String response) {
