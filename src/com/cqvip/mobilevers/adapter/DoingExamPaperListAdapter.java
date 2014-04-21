@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.adapter.base.AdapterBase;
+import com.cqvip.mobilevers.config.ConstantValues;
 import com.cqvip.mobilevers.entity.DoingExamPaper;
 
 /**
@@ -21,10 +22,11 @@ import com.cqvip.mobilevers.entity.DoingExamPaper;
 public class DoingExamPaperListAdapter extends AdapterBase<DoingExamPaper>{
 
 private Context	context;;
-	
-	public DoingExamPaperListAdapter (Context context,List<DoingExamPaper> lists) {
+private int status;	
+	public DoingExamPaperListAdapter (Context context,List<DoingExamPaper> lists,int status) {
 		this.context = context;
 		this.mList = lists;
+		this.status = status;
 	}
 	
 	/**
@@ -64,7 +66,11 @@ private Context	context;;
 
 		holder.title.setText(mList.get(position).getExampapername());
 		holder.year.setText("时间："+mList.get(position).getCreatetime());
-		holder.addtime.setVisibility(View.GONE);
+		if(status == ConstantValues.SHOWDOING){
+			holder.addtime.setVisibility(View.GONE);
+		}else{
+		holder.addtime.setText("分数："+mList.get(position).getScore());
+		}
 		
 		return convertView;
 	}

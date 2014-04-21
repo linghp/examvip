@@ -83,8 +83,8 @@ public class ExamActivity extends BaseFragmentActivity implements
 	private int secondTotal;
 	private TextView time_tv;
 	private TextView tips_viewSubTitle, showAnswer, handpaper;
+	private LinearLayout ll_exam_handle,ll_show_answer;
 	private ImageView tv_back;
-	private View ll_show_anwer,ll_exam_handle;
 
 	// private String examPaperId;
 	// private Map<String, String> gparams;
@@ -114,7 +114,8 @@ public class ExamActivity extends BaseFragmentActivity implements
 	private int examStatus ;//显示答案还是接着做
 	public ArrayList<Integer> cardCount_List = new ArrayList<Integer>();// 答题卡题目
 
-	public static SeriSqareArray<SimpleAnswer> clientAnswer;
+	public static HashMap<Integer,Integer> viewAnswers; 
+	public static SeriSqareArray<SimpleAnswer> clientAnswer; 
 	private TwoDimensionArray dimension;
 
 	private final static String FRGMENT_TAG = "answercard";
@@ -217,6 +218,9 @@ public class ExamActivity extends BaseFragmentActivity implements
 				paperScore, clientShowCount);
 
 		tv_item_count.setText(1 + "|" + clientShowCount);
+		
+		viewAnswers = new HashMap<Integer, Integer>();
+		
 		mPager.setCurrentItem(finalpostion);
 		
 	}
@@ -295,6 +299,9 @@ public class ExamActivity extends BaseFragmentActivity implements
 	}
 
 	private void initView() {
+		ll_exam_handle = (LinearLayout) findViewById(R.id.ll_exam_handle);
+		ll_show_answer = (LinearLayout) findViewById(R.id.ll_show_answer);
+		
 		tips_viewSubTitle = (TextView) findViewById(R.id.tv_show_subtitle);
 		tips_viewSubTitle.setText(getResources().getString(
 				R.string.btn_show_subtitle));
@@ -309,8 +316,6 @@ public class ExamActivity extends BaseFragmentActivity implements
 		TextView answercard = (TextView) findViewById(R.id.tv_show_card);
 		answercard.setOnClickListener(this);
 		showAnswer = (TextView) findViewById(R.id.tv_show_anwer);
-		ll_show_anwer= findViewById(R.id.ll_show_anwer);
-		ll_exam_handle= findViewById(R.id.ll_exam_handle);
 		showAnswer.setOnClickListener(this);
 		handpaper = (TextView) findViewById(R.id.tv_exam_handle);
 		handpaper.setOnClickListener(this);
@@ -335,8 +340,10 @@ public class ExamActivity extends BaseFragmentActivity implements
 			}
 		});
 		if(isShowAnswer){
-            ll_show_anwer.setVisibility(View.GONE);
-            ll_exam_handle.setVisibility(View.GONE);
+//			showAnswer.setVisibility(View.GONE);
+//			handpaper.setVisibility(View.GONE);
+			ll_exam_handle.setVisibility(View.GONE);
+			ll_show_answer.setVisibility(View.GONE);
 			time_tv.setVisibility(View.GONE);
 		}
 	}
@@ -419,7 +426,12 @@ public class ExamActivity extends BaseFragmentActivity implements
 		isOnshowing_subtitle = false;
 		isOnshowing_answer = false;
 		tips_viewSubTitle.setText(getString(R.string.btn_show_subtitle));
-		showAnswer.setText(getString(R.string.show_answer));
+		//判断下是否显示答案
+		if(viewAnswers.get(position)>0){
+			showAnswer.setText(getString(R.string.hide_answer));
+		}else{
+			showAnswer.setText(getString(R.string.show_answer));
+		}
 		tv_item_count.setText((position + 1) + "|" + clientShowCount);
 	}
 
@@ -513,8 +525,8 @@ public class ExamActivity extends BaseFragmentActivity implements
 	public void updateView(String id) {
 		if (id.endsWith("lookansweranalysis")) {
 			id = "1";
-			ll_show_anwer.setVisibility(View.GONE);
-			ll_exam_handle.setVisibility(View.GONE);
+			showAnswer.setVisibility(View.GONE);
+			handpaper.setVisibility(View.GONE);
 			time_tv.setVisibility(View.GONE);
 			mAdapter.notifyDataSetChanged();
 		}
@@ -614,7 +626,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 			gparams.put("userId", userId);
 			gparams.put("examPaperId", baseExamInfo.getId());
 			gparams.put("userAnswer", result);
-			gparams.put("isEnd", ConstantValues.DOINGISEND + "");
+			gparams.put("isEnd", ConstantValues.END_DOINGEXAM + "");
 			// Log.i(TAG, "userAnswer:" + result);
 			requestVolley(gparams, ConstantValues.SERVER_URL
 					+ ConstantValues.SAVEEXAMANSWER, backlistener, Method.POST);
