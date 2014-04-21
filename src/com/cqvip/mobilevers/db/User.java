@@ -16,9 +16,10 @@ public class User {
 
     private Long id;
     private String userid;
-    private String username;
+    private String name;
     private String realname;
-    private Integer testscorecount;
+    private Integer testingcount;
+    private Integer testedcount;
     private Integer favoritescount;
 
     // KEEP FIELDS - put your custom fields here
@@ -31,12 +32,13 @@ public class User {
         this.id = id;
     }
 
-    public User(Long id, String userid, String username, String realname, Integer testscorecount, Integer favoritescount) {
+    public User(Long id, String userid, String name, String realname, Integer testingcount, Integer testedcount, Integer favoritescount) {
         this.id = id;
         this.userid = userid;
-        this.username = username;
+        this.name = name;
         this.realname = realname;
-        this.testscorecount = testscorecount;
+        this.testingcount = testingcount;
+        this.testedcount = testedcount;
         this.favoritescount = favoritescount;
     }
 
@@ -56,12 +58,12 @@ public class User {
         this.userid = userid;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getRealname() {
@@ -72,12 +74,20 @@ public class User {
         this.realname = realname;
     }
 
-    public Integer getTestscorecount() {
-        return testscorecount;
+    public Integer getTestingcount() {
+        return testingcount;
     }
 
-    public void setTestscorecount(Integer testscorecount) {
-        this.testscorecount = testscorecount;
+    public void setTestingcount(Integer testingcount) {
+        this.testingcount = testingcount;
+    }
+
+    public Integer getTestedcount() {
+        return testedcount;
+    }
+
+    public void setTestedcount(Integer testedcount) {
+        this.testedcount = testedcount;
     }
 
     public Integer getFavoritescount() {
@@ -95,9 +105,10 @@ public class User {
 			JSONObject js = new JSONObject(data);
 			JSONObject userinfo= js.getJSONObject("userinfo");
 			user.setUserid(userinfo.getString("userid").trim());
-			user.setUsername(userinfo.getString("name").trim());
+			user.setName(userinfo.getString("name").trim());
 			user.setRealname(userinfo.getString("realname").trim());
-			user.setTestscorecount(userinfo.getInt("testscorecount"));
+			user.setTestingcount(userinfo.getInt("testingcount"));
+			user.setTestedcount(userinfo.getInt("testedcount"));
 			user.setFavoritescount(userinfo.getInt("favoritescount"));
 			return user;
 		}catch(Exception e){

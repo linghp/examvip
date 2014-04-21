@@ -25,10 +25,11 @@ public class UserDao extends AbstractDao<User, Long> {
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Userid = new Property(1, String.class, "userid", false, "USERID");
-        public final static Property Username = new Property(2, String.class, "username", false, "USERNAME");
+        public final static Property Name = new Property(2, String.class, "name", false, "NAME");
         public final static Property Realname = new Property(3, String.class, "realname", false, "REALNAME");
-        public final static Property Testscorecount = new Property(4, Integer.class, "testscorecount", false, "TESTSCORECOUNT");
-        public final static Property Favoritescount = new Property(5, Integer.class, "favoritescount", false, "FAVORITESCOUNT");
+        public final static Property Testingcount = new Property(4, Integer.class, "testingcount", false, "TESTINGCOUNT");
+        public final static Property Testedcount = new Property(5, Integer.class, "testedcount", false, "TESTEDCOUNT");
+        public final static Property Favoritescount = new Property(6, Integer.class, "favoritescount", false, "FAVORITESCOUNT");
     };
 
 
@@ -46,10 +47,11 @@ public class UserDao extends AbstractDao<User, Long> {
         db.execSQL("CREATE TABLE " + constraint + "'USER' (" + //
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
                 "'USERID' TEXT," + // 1: userid
-                "'USERNAME' TEXT," + // 2: username
+                "'NAME' TEXT," + // 2: name
                 "'REALNAME' TEXT," + // 3: realname
-                "'TESTSCORECOUNT' INTEGER," + // 4: testscorecount
-                "'FAVORITESCOUNT' INTEGER);"); // 5: favoritescount
+                "'TESTINGCOUNT' INTEGER," + // 4: testingcount
+                "'TESTEDCOUNT' INTEGER," + // 5: testedcount
+                "'FAVORITESCOUNT' INTEGER);"); // 6: favoritescount
     }
 
     /** Drops the underlying database table. */
@@ -73,9 +75,9 @@ public class UserDao extends AbstractDao<User, Long> {
             stmt.bindString(2, userid);
         }
  
-        String username = entity.getUsername();
-        if (username != null) {
-            stmt.bindString(3, username);
+        String name = entity.getName();
+        if (name != null) {
+            stmt.bindString(3, name);
         }
  
         String realname = entity.getRealname();
@@ -83,14 +85,19 @@ public class UserDao extends AbstractDao<User, Long> {
             stmt.bindString(4, realname);
         }
  
-        Integer testscorecount = entity.getTestscorecount();
-        if (testscorecount != null) {
-            stmt.bindLong(5, testscorecount);
+        Integer testingcount = entity.getTestingcount();
+        if (testingcount != null) {
+            stmt.bindLong(5, testingcount);
+        }
+ 
+        Integer testedcount = entity.getTestedcount();
+        if (testedcount != null) {
+            stmt.bindLong(6, testedcount);
         }
  
         Integer favoritescount = entity.getFavoritescount();
         if (favoritescount != null) {
-            stmt.bindLong(6, favoritescount);
+            stmt.bindLong(7, favoritescount);
         }
     }
 
@@ -106,10 +113,11 @@ public class UserDao extends AbstractDao<User, Long> {
         User entity = new User( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // userid
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // username
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // name
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // realname
-            cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4), // testscorecount
-            cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5) // favoritescount
+            cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4), // testingcount
+            cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5), // testedcount
+            cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6) // favoritescount
         );
         return entity;
     }
@@ -119,10 +127,11 @@ public class UserDao extends AbstractDao<User, Long> {
     public void readEntity(Cursor cursor, User entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setUserid(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setUsername(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setRealname(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setTestscorecount(cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4));
-        entity.setFavoritescount(cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5));
+        entity.setTestingcount(cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4));
+        entity.setTestedcount(cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5));
+        entity.setFavoritescount(cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6));
      }
     
     /** @inheritdoc */

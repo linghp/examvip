@@ -282,7 +282,9 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
         if (requestCode == GET_CODE) {
             if (resultCode == getActivity().RESULT_CANCELED) {
           Log.i(TAG, "cancelled");
-            } else {
+            }else if(resultCode == 5){
+            	setUndoView(paper);
+            }else {
             	if(data!=null){
             		double clientGetScore=data.getDoubleExtra("clientGetScore", -1);
             		int doneCount=data.getIntExtra("doneCount", 0);

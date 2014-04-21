@@ -115,7 +115,7 @@ public class LoginFragment extends BaseFragment implements OnEditorActionListene
                    userDao.insert(user);
    			    SharedPreferences localUsers = getActivity().getSharedPreferences("mobilevers", getActivity().MODE_PRIVATE);
    				Editor editor = localUsers.edit();
-   				editor.putString("username", user.getUsername());
+   				editor.putString("username", user.getName());
    				editor.putString("realname", user.getRealname());
    				editor.putString("userid", user.getUserid());
    				editor.commit();

@@ -620,6 +620,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 															DialogInterface dialog,
 															int whichButton) {
 														dialog.dismiss();
+														setResult(5, (new Intent()).putExtra("unsave", true));//不保存的状态（5）
 														finish();
 													}
 												}).create();
