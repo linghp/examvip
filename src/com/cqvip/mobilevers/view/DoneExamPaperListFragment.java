@@ -98,6 +98,7 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 		if (reuseView()) {
 			return view;
 		}
+		customProgressDialog.show();
 		view = inflater.inflate(R.layout.fragment_done_paperlist, container,
 				false);
 		type = getArguments().getInt(TYPE);
@@ -144,7 +145,7 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 	}
 
 	private void getDataFromNet(int page, int getWhichPage) {
-		customProgressDialog.show();
+		//customProgressDialog.show();
 		// SharedPreferences localUsers =
 		// getActivity().getSharedPreferences("mobilevers",
 		// getActivity().MODE_PRIVATE);
@@ -406,7 +407,7 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 	private void setFavoriteList(List<DoneExamPaper> paperInfos) {
 		if (paperInfos != null && !paperInfos.isEmpty()) {
 			adapter = new DoneExamPaperListAdapter(
-					getActivity(), paperInfos,ConstantValues.SHOWFAVOR);
+					getActivity(), paperInfos,ConstantValues.SHOWFAVOR,this);
 			if(isFresh){
 				SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm:ss");
 				listview.setAdapter(adapter);
@@ -431,7 +432,7 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 			listview.setVisibility(View.VISIBLE);
 			noresult_rl.setVisibility(View.GONE);
 			doing_adapter = new DoingExamPaperListAdapter(
-					getActivity(), done_lists,ConstantValues.SHOWDONEEXAM);
+					getActivity(), done_lists,ConstantValues.SHOWDONEEXAM,this);
 			if(isFresh){
 				SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm:ss");
 				listview.setAdapter(doing_adapter);
@@ -457,7 +458,7 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 			listview.setVisibility(View.VISIBLE);
 			noresult_rl.setVisibility(View.GONE);
 			doing_adapter = new DoingExamPaperListAdapter(
-					getActivity(), reallists,ConstantValues.SHOWDOING);
+					getActivity(), reallists,ConstantValues.SHOWDOING,this);
 			if(isFresh){
 				SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm:ss");
 				listview.setAdapter(doing_adapter);
@@ -481,94 +482,6 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, final int position,
 			long id) {
-		
-		ImageView img = (ImageView) view.findViewById(R.id.img_del);
-		img.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				
-				
-				
-				Dialog mdialog = new AlertDialog.Builder(
-						getActivity())
-						.setTitle("确定删除")
-						.setMessage("是否删除当前选中项?")
-						.setPositiveButton(
-								R.string.alert_dialog_confirm,
-								new DialogInterface.OnClickListener() {
-									public void onClick(
-											DialogInterface dialog,
-											int whichButton) {
-										//删除操作
-										switch (type) {
-										case ConstantValues.DOING_PAPER:
-											removeDoingExam = doing_adapter.getList().get(position-1);
-										
-										  delDoingPaper(removeDoingExam.getId());
-											
-											break;
-										case ConstantValues.DONG_PAPER:
-											removeDoneExam = doing_adapter.getList().get(position-1);
-											delDonePaper(removeDoneExam.getId());
-											
-											break;
-										case ConstantValues.FAVORITE_PAPER:
-											removeFavorExam = adapter.getList().get(position-1);
-											delFavorPaper(removeFavorExam.getSubjectid());
-											break;
-
-										default:
-											break;
-										}
-										
-										
-										
-									}
-
-									private void delFavorPaper(String subjectid) {
-										customProgressDialog.show();
-										gparams = new HashMap<String, String>();
-										String userid = getArguments().getString(USERID);
-										gparams.put("userId",userid);
-										gparams.put("examPaperId",subjectid);
-										requestVolley(gparams, ConstantValues.SERVER_URL
-												+ ConstantValues.DELETEFAVORITESEXAMPAPER, dellistener, Method.POST);
-										
-									}
-
-									private void delDonePaper(String subjectid) {
-										customProgressDialog.show();
-										gparams = new HashMap<String, String>();
-										gparams.put("id",subjectid);
-										requestVolley(gparams, ConstantValues.SERVER_URL
-												+ ConstantValues.DeleteUserTestScore, dellistener, Method.POST);
-										
-										
-									}
-
-									private void delDoingPaper(String subjectid) {
-										customProgressDialog.show();
-										gparams = new HashMap<String, String>();
-										gparams.put("id",subjectid);
-										requestVolley(gparams, ConstantValues.SERVER_URL
-												+ ConstantValues.DeleteUserTestScore, dellistener, Method.POST);
-									}
-								})
-						.setNegativeButton(
-								R.string.alert_dialog_cancel,
-								new DialogInterface.OnClickListener() {
-									public void onClick(
-											DialogInterface dialog,
-											int whichButton) {
-										dialog.dismiss();
-									}
-								}).create();
-				mdialog.show();
-				
-			}
-		});
-		
 		switch (type) {
 		case ConstantValues.FAVORITE_PAPER:
 			
@@ -602,6 +515,7 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 
 	@Override
 	public void onClick(View v) {
+		final View finalv=v;
 		switch (v.getId()) {
 		case R.id.img_back:
 			// getFragmentManager().popBackStack();
@@ -609,6 +523,82 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 			break;
 
 		default:
+			Dialog mdialog = new AlertDialog.Builder(
+					getActivity())
+					.setTitle("确定删除")
+					.setMessage("是否删除当前选中项?")
+					.setPositiveButton(
+							R.string.alert_dialog_confirm,
+							new DialogInterface.OnClickListener() {
+								public void onClick(
+										DialogInterface dialog,
+										int whichButton) {
+									//删除操作
+									switch (type) {
+									case ConstantValues.DOING_PAPER:
+										removeDoingExam = doing_adapter.getList().get(Integer.parseInt(finalv.getTag().toString()));
+									
+									  delDoingPaper(removeDoingExam.getId());
+										
+										break;
+									case ConstantValues.DONG_PAPER:
+										removeDoneExam = doing_adapter.getList().get(Integer.parseInt(finalv.getTag().toString()));
+										delDonePaper(removeDoneExam.getId());
+										
+										break;
+									case ConstantValues.FAVORITE_PAPER:
+										Log.i("DoneExamPaperListFragment", Integer.parseInt(finalv.getTag().toString())+"");
+										removeFavorExam = adapter.getList().get(Integer.parseInt(finalv.getTag().toString()));
+										delFavorPaper(removeFavorExam.getSubjectid());
+										break;
+
+									default:
+										break;
+									}
+									
+									
+									
+								}
+
+								private void delFavorPaper(String subjectid) {
+									customProgressDialog.show();
+									gparams = new HashMap<String, String>();
+									String userid = getArguments().getString(USERID);
+									gparams.put("userId",userid);
+									gparams.put("examPaperId",subjectid);
+									requestVolley(gparams, ConstantValues.SERVER_URL
+											+ ConstantValues.DELETEFAVORITESEXAMPAPER, dellistener, Method.POST);
+									
+								}
+
+								private void delDonePaper(String subjectid) {
+									customProgressDialog.show();
+									gparams = new HashMap<String, String>();
+									gparams.put("id",subjectid);
+									requestVolley(gparams, ConstantValues.SERVER_URL
+											+ ConstantValues.DeleteUserTestScore, dellistener, Method.POST);
+									
+									
+								}
+
+								private void delDoingPaper(String subjectid) {
+									customProgressDialog.show();
+									gparams = new HashMap<String, String>();
+									gparams.put("id",subjectid);
+									requestVolley(gparams, ConstantValues.SERVER_URL
+											+ ConstantValues.DeleteUserTestScore, dellistener, Method.POST);
+								}
+							})
+					.setNegativeButton(
+							R.string.alert_dialog_cancel,
+							new DialogInterface.OnClickListener() {
+								public void onClick(
+										DialogInterface dialog,
+										int whichButton) {
+									dialog.dismiss();
+								}
+							}).create();
+			mdialog.show();
 			break;
 		}
 	}

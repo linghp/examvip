@@ -6,6 +6,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,10 +22,12 @@ import com.cqvip.mobilevers.entity.DoingExamPaper;
  */
 public class DoingExamPaperListAdapter extends AdapterBase<DoingExamPaper>{
 
-private Context	context;;
+private Context	context;
+private OnClickListener onClickListener;
 private int status;	
-	public DoingExamPaperListAdapter (Context context,List<DoingExamPaper> lists,int status) {
+	public DoingExamPaperListAdapter (Context context,List<DoingExamPaper> lists,int status,OnClickListener onClickListener) {
 		this.context = context;
+		this.onClickListener=onClickListener;
 		this.mList = lists;
 		this.status = status;
 	}
@@ -54,18 +57,21 @@ private int status;
 		if(convertView==null){
 			holder = new ViewHolder();
 				convertView = LayoutInflater.from(context).inflate(R.layout.item_paper_del, null);
+				holder.title = (TextView) convertView.findViewById(R.id.txt_paper_title);
+				holder.year = (TextView) convertView.findViewById(R.id.txt_paper_year);
+				holder.addtime = (TextView) convertView.findViewById(R.id.txt_paper_adddate);
+				holder.del = (ImageView) convertView.findViewById(R.id.img_del);
 				convertView.setTag(holder);
 		}else{
 			holder = (ViewHolder) convertView.getTag();
 		}
 	
-		holder.title = (TextView) convertView.findViewById(R.id.txt_paper_title);
-		holder.year = (TextView) convertView.findViewById(R.id.txt_paper_year);
-		holder.addtime = (TextView) convertView.findViewById(R.id.txt_paper_adddate);
-		holder.del = (ImageView) convertView.findViewById(R.id.img_del);
+
 
 		holder.title.setText(mList.get(position).getExampapername());
 		holder.year.setText("时间："+mList.get(position).getCreatetime());
+		holder.del.setTag(position);
+		holder.del.setOnClickListener(onClickListener);
 		if(status == ConstantValues.SHOWDOING){
 			holder.addtime.setVisibility(View.GONE);
 		}else{
