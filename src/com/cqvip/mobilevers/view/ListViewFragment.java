@@ -159,7 +159,7 @@ public class ListViewFragment extends BaseListFragment implements OnItemClickLis
 					Paper p = Paper.parserJsonData(json);
 					List<PaperInfo> lists = p.getReal();
 					if (lists != null && !lists.isEmpty()&&lists.size()==ConstantValues.DEFAULYPAGESIZE) {
-						System.out.println(lists.toString());
+						//System.out.println(lists.toString());
 						adapter.addMoreData(lists);
 						dropDownListView.onBottomComplete();
 					} else if(lists != null &&lists.size()>0){

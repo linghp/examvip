@@ -119,7 +119,7 @@ public class LoginFragment extends BaseFragment implements OnEditorActionListene
    				editor.putString("realname", user.getRealname());
    				editor.putString("userid", user.getUserid());
    				editor.commit();
-						Log.i("database", "存储成功"+user.getUserid());
+					//	Log.i("database", "存储成功"+user.getUserid());
 						Toast.makeText(getActivity(), getString(R.string.tips_login_sucess), 0).show();
 					getFragmentManager().popBackStack();
 					((FragmentMineActivity)getActivity()).loginUI();
