@@ -15,7 +15,7 @@ public class ConstantValues {
 	public static final String LOGIN_ADDR="Service1.asmx/Login";
 	public static final String LOGINOUT_ADDR="Service1.asmx/LoginOut";
 	public static final String ADDFAVOREXAM_ADDR="";
-	public static final String GETEXAMPAPER_ADDR="Service1.asmx/GetExamPaperList";
+	public static final String GETEXAMPAPER_ADDR="Service1.asmx/GetExamPaperList2";
 	public static final String GETEXAM_ADDR="Service1.asmx/GetExamPaperInfo";
 	public static final String GetKnowledgeClassList_ADDR="Service1.asmx/GetKnowledgeClassList";
 	public static final String GET_DETAIL_PAPERINFO="Service1.asmx/GetExamPaperBaseInfo";
