@@ -100,7 +100,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		// img_back.setOnClickListener(this);
 
 		subjectid = getArguments().getString(DETAL_ID);
-		//Log.i(TAG, subjectid);
+		Log.i(TAG, subjectid);
 		String title = getArguments().getString(DETAL_NAME);
 		getDataFromNet(subjectid);
 		// 访问网络
@@ -254,6 +254,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		btn_begin.setText("开始做题");
 		tTestprogress.setVisibility(View.GONE);
 		ll_testscore.setVisibility(View.GONE);
+		status = ConstantValues.ITESTSTATUS_UNDO;
 		//tTestscore.setVisibility(View.GONE);
 	}
 	private void setDoneView(PaperDetail paper) {
@@ -264,7 +265,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		ll_testscore.setVisibility(View.VISIBLE);
 		tTestprogress.setText("做卷进度："+paper.getTestquestionNum()+"|"+paper.getQuestioncount());
 		tTestscore.setText("得分："+paper.getTestscore());
-		
+		status = ConstantValues.ITESTSTATUS_DONE;
 	}
 
 	private void setDoingView(PaperDetail paper) {
@@ -274,6 +275,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		tTestprogress.setVisibility(View.VISIBLE);
 		ll_testscore.setVisibility(View.GONE);
 		tTestprogress.setText("做卷进度："+paper.getTestquestionNum()+"|"+paper.getQuestioncount());
+		status = ConstantValues.ITESTSTATUS_DOING;
 	}
 
 	
@@ -472,17 +474,14 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 									ExamActivity.class);
 							Bundle bundle = new Bundle();
 							bundle.putSerializable("exam", exam);
-							if(isConinue){
-							bundle.putSerializable("dimen", dimension);
-							}else{
-								bundle.putSerializable("dimen", null);	
-							}
 							bundle.putString("id", subjectid);
 							intent.putExtra("bundle", bundle);
 							if(isConinue){
+								bundle.putSerializable("dimen", dimension);
 								intent.putExtra("final", finalposition);
 								intent.putExtra("status", status);
 							}else{
+								bundle.putSerializable("dimen", null);	
 								intent.putExtra("final", 0);
 								intent.putExtra("status", 0);
 							}
