@@ -470,7 +470,7 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 	 */
 	private void setPreSingChoice() {
 		// 判断是否已经答过
-		if (ExamActivity.done_position[colAndRow.row][colAndRow.col] > 0) {
+		if (colAndRow!=null&&ExamActivity.done_position[colAndRow.row][colAndRow.col] > 0) {
 			// 用户已经做过
 			SimpleAnswer answlist = ExamActivity.clientAnswer.get(position);
 			if (answlist != null) {
@@ -513,7 +513,7 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 	 * fragment回收后，设置用户已经答过的答案
 	 */
 	private void setPreMultiChoice() {
-		if (ExamActivity.done_position[colAndRow.row][colAndRow.col] > 0) {
+		if (colAndRow!=null&&ExamActivity.done_position[colAndRow.row][colAndRow.col] > 0) {
 			// 用户已经做过
 			SimpleAnswer answString = ExamActivity.clientAnswer.get(position);
 			if (answString != null) {
@@ -639,7 +639,7 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 	}
 
 	private void setPreTextQuestion() {
-		if (ExamActivity.done_position[colAndRow.row][colAndRow.col] > 0) {
+		if (colAndRow!=null&&ExamActivity.done_position[colAndRow.row][colAndRow.col] > 0) {
 			// 用户已经做过
 			SimpleAnswer answString = ExamActivity.clientAnswer.get(position);
 			if (answString != null) {

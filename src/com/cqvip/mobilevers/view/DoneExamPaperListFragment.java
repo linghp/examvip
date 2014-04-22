@@ -179,8 +179,8 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 		default:
 			break;
 		}
-		System.out.println( getArguments().getString(URL));
-		System.out.println(getArguments().getString(USERID));
+//		System.out.println( getArguments().getString(URL));
+//		System.out.println(getArguments().getString(USERID));
 		requestVolley(gparams, ConstantValues.SERVER_URL
 				+ getArguments().getString(URL), listner, Method.POST);
 	}
@@ -219,14 +219,14 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 						case ConstantValues.DOING_PAPER:
 							doingLists  = DoingExamPaper
 									.formList(json);
-							System.out.println(doingLists);
+							//System.out.println(doingLists);
 							setDoingList(doingLists );
 
 							break;
 						case ConstantValues.DONG_PAPER:
 							doneLists  = DoingExamPaper
 									.formList(json);
-							System.out.println(doneLists);
+							//System.out.println(doneLists);
 							setDoneList(doneLists );
 							break;
 						case ConstantValues.FAVORITE_PAPER:
@@ -264,7 +264,7 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 					&& customProgressDialog.isShowing())
 				customProgressDialog.dismiss();
 			// 解析结果
-			System.out.println(response);
+			//System.out.println(response);
 			if (response != null) {
 				try {
 					JSONObject json = new JSONObject(response);
@@ -321,7 +321,7 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 		ExamDetailFragment examDetailFragment=(ExamDetailFragment) fragmentExamActivity.fManager.findFragmentByTag(ExamDetailFragment.TAG);
 		if(examDetailFragment!=null&&subjectid.equals(examDetailFragment.subjectid)){
 			examDetailFragment.updateview(b);
-			Log.i("DoneExamPaperListFragment", subjectid+"----"+examDetailFragment.subjectid);
+			//Log.i("DoneExamPaperListFragment", subjectid+"----"+examDetailFragment.subjectid);
 		}
 	}
 	
