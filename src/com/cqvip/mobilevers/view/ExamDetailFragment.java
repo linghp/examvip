@@ -283,7 +283,9 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
             if (resultCode == getActivity().RESULT_CANCELED) {
           Log.i(TAG, "cancelled");
             }else if(resultCode == 5){
+            	if(!isConinue){
             	setUndoView(paper);
+            	}
             }else {
             	if(data!=null){
             		double clientGetScore=data.getDoubleExtra("clientGetScore", -1);
@@ -615,15 +617,15 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 
 		@Override
 		public void onResponse(String response) {
+			if (customProgressDialog != null
+					&& customProgressDialog.isShowing())
+				customProgressDialog.dismiss();
 			// 解析结果
 			if (response != null) {
 				try {
 					JSONObject json = new JSONObject(response);
 					boolean isfavorite = json.getBoolean("status");
 					if (isfavorite) {
-						if (customProgressDialog != null
-								&& customProgressDialog.isShowing())
-							customProgressDialog.dismiss();
 						Toast.makeText(
 								getActivity(),
 								getActivity().getString(
