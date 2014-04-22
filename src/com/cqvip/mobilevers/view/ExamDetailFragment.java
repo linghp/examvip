@@ -637,6 +637,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
+					Log.i("back_deletefavorite_ls", response);
 					Toast.makeText(getActivity(),
 							getActivity().getString(R.string.deletefavorite_fail),
 							Toast.LENGTH_SHORT).show();
