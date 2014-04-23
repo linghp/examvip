@@ -1,5 +1,6 @@
 package com.cqvip.mobilevers.utils;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -83,9 +84,9 @@ public class DateUtil {
 			}
 			return text;
 		}
-		public static String formDouble(double num){
-			DecimalFormat   df   =new   java.text.DecimalFormat("#.0");  
-			String ddd = df.format(num);
-			return ddd;
+		public static double formDouble(double num){
+			BigDecimal   b   =   new   BigDecimal(num);  
+			double   f1   =   b.setScale(1,   BigDecimal.ROUND_HALF_UP).doubleValue();
+			return f1;
 		}
 }
