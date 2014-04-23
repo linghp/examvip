@@ -12,13 +12,14 @@ import com.cqvip.mobilevers.db.OneLevelType;
 import com.cqvip.mobilevers.db.OneLevelTypeDao;
 import com.cqvip.mobilevers.ui.base.BaseMainFragmentActivity;
 import com.cqvip.mobilevers.view.AClassfyFragment;
+import com.cqvip.mobilevers.view.ExamDetailFragment.I_ExamDetail;
 
 /**
  * 考试模块
  * @author luojiang
  *
  */
-public class FragmentExamActivity extends BaseMainFragmentActivity{
+public class FragmentExamActivity extends BaseMainFragmentActivity implements I_ExamDetail{
 
 	private static final String TAG = "FragmentExamActivity";
 	public OneLevelTypeDao oneLevelTypeDao;
@@ -38,6 +39,12 @@ public class FragmentExamActivity extends BaseMainFragmentActivity{
 	private void getDB() {
 		oneLevelTypeDao=((MyApplication)getApplication()).daoSession.getOneLevelTypeDao();
 		db=((MyApplication)getApplication()).db;
+	}
+
+	@Override
+	public void delfavorite() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

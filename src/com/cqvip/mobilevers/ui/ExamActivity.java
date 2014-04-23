@@ -546,8 +546,8 @@ public class ExamActivity extends BaseFragmentActivity implements
 	public void updateView(String id) {
 		if (id.endsWith("lookansweranalysis")) {
 			id = "1";
-			showAnswer.setVisibility(View.GONE);
-			handpaper.setVisibility(View.GONE);
+			ll_exam_handle.setVisibility(View.GONE);
+			ll_show_answer.setVisibility(View.GONE);
 			time_tv.setVisibility(View.GONE);
 			mAdapter.notifyDataSetChanged();
 		}

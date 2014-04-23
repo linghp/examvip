@@ -200,7 +200,7 @@ public class ExamClassfyActivity extends BaseFragmentActivity implements ExamPap
 	public void onItemNextSelected(PaperInfo info) {
 		if(info!=null){
 		Fragment newFragment = ExamDetailFragment.newInstance(info.getName(),info.getSubjectid());
-		this.addFragmentToStack(newFragment, R.id.itemlist_fl);
+		this.addFragmentToStack(newFragment, R.id.itemlist_fl,"");
 		}else{
 			return;
 		}
