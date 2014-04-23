@@ -14,6 +14,7 @@ import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.exam.BaseExamInfo;
 import com.cqvip.mobilevers.exam.ExamDoneInfo;
 import com.cqvip.mobilevers.ui.ExamActivity;
+import com.cqvip.mobilevers.utils.DateUtil;
 
 /**
  * 交卷显示界面
@@ -82,7 +83,7 @@ public class ResultFragment extends Fragment implements OnClickListener {
 				.findViewById(R.id.tx_testresult_percent);
 
 		tx_testresult_tiltle.setText(baseExamInfo.getName());
-		tx_testresult_score.setText("您的得分：" + examDoneInfo.getScore());
+		tx_testresult_score.setText("您的得分：" + DateUtil.formDouble(examDoneInfo.getScore())+"分");
 		tx_testresult_totalscore.setText("试卷总分" + baseExamInfo.getScore());
 		tx_testresult_time.setText("做卷时间："
 				+ formTime(examDoneInfo.getUseTime()));

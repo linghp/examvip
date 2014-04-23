@@ -1,6 +1,7 @@
 package com.cqvip.mobilevers.utils;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -81,5 +82,10 @@ public class DateUtil {
 			return result;
 			}
 			return text;
+		}
+		public static String formDouble(double num){
+			DecimalFormat   df   =new   java.text.DecimalFormat("#.0");  
+			String ddd = df.format(num);
+			return ddd;
 		}
 }

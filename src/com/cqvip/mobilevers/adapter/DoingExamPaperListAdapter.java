@@ -14,6 +14,7 @@ import com.cqvip.mobilevers.R;
 import com.cqvip.mobilevers.adapter.base.AdapterBase;
 import com.cqvip.mobilevers.config.ConstantValues;
 import com.cqvip.mobilevers.entity.DoingExamPaper;
+import com.cqvip.mobilevers.utils.DateUtil;
 
 /**
  * 做过的试卷列表
@@ -75,7 +76,7 @@ private int status;
 		if(status == ConstantValues.SHOWDOING){
 			holder.addtime.setVisibility(View.GONE);
 		}else{
-		holder.addtime.setText("分数："+mList.get(position).getScore());
+		holder.addtime.setText("分数："+ DateUtil.formDouble(mList.get(position).getScore())+"分");
 		}
 		
 		return convertView;

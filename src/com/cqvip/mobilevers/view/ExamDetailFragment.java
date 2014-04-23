@@ -268,7 +268,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		if(status==ConstantValues.ITESTSTATUS_DOING){
 		tTestprogress.setText("做卷进度："+paper.getTestquestionNum()+"|"+paper.getQuestioncount());
 		}else if(status == ConstantValues.ITESTSTATUS_DONE){
-		tTestprogress.setText("得分："+paper.getTestscore());
+		tTestprogress.setText("得分："+DateUtil.formDouble(paper.getTestscore())+"分");
 		}
 	}
 
