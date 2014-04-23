@@ -504,7 +504,12 @@ public void onAttach(Activity activity) {
 							intent.putExtra("bundle", bundle);
 							if(isConinue){
 								bundle.putSerializable("dimen", dimension);
+								if(status==ConstantValues.ITESTSTATUS_DOING){
 								intent.putExtra("final", finalposition);
+								}else{
+								intent.putExtra("final", 0);
+								}
+								
 								intent.putExtra("status", status);
 							}else{
 								bundle.putSerializable("dimen", null);	
