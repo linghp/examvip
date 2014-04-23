@@ -48,9 +48,9 @@ public class BaseFragmentActivity extends FragmentActivity {
 
 
 
-	public void addFragmentToStack(Fragment newFragment, int layoutid) {
+	public void addFragmentToStack(Fragment newFragment, int layoutid,String tag) {
 		FragmentTransaction ft = fManager.beginTransaction();
-		ft.replace(layoutid, newFragment);
+		ft.replace(layoutid, newFragment,tag);
 		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 		ft.addToBackStack(null);
 		ft.commit();

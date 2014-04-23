@@ -20,6 +20,7 @@ import com.cqvip.mobilevers.ui.base.BaseMainFragmentActivity;
 import com.cqvip.mobilevers.utils.Utils;
 import com.cqvip.mobilevers.view.DoneExamPaperListFragment;
 import com.cqvip.mobilevers.view.ExamDetailFragment;
+import com.cqvip.mobilevers.view.ExamDetailFragment.I_ExamDetail;
 import com.cqvip.mobilevers.view.LoginFragment;
 
 /**
@@ -28,7 +29,7 @@ import com.cqvip.mobilevers.view.LoginFragment;
  * @author luojiang
  * 
  */
-public class FragmentMineActivity extends BaseMainFragmentActivity {
+public class FragmentMineActivity extends BaseMainFragmentActivity implements I_ExamDetail{
 
 	private static final String TAG = "FragmentMineActivity";
 	private TextView hellotome;
@@ -37,7 +38,8 @@ public class FragmentMineActivity extends BaseMainFragmentActivity {
 	private Button login_btn;
 	private boolean islogin;
 	private boolean isclick;// 防止双击
-
+	
+	public boolean isfavorite=true;
 	// private SharedPreferences localUsers;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +65,7 @@ public class FragmentMineActivity extends BaseMainFragmentActivity {
 			return;
 		}
        DoneExamPaperListFragment newFragment = DoneExamPaperListFragment.newInstance(userid, getString(R.string.DoneExamPaper), ConstantValues.GetUserCurrExamPaperList,ConstantValues.DONG_PAPER);
-       addFragmentToStack(newFragment, android.R.id.content);
+       addFragmentToStack(newFragment, android.R.id.content,DoneExamPaperListFragment.TAG);
 	}	
 	/**
 	 * 我正在做的试卷
@@ -75,7 +77,7 @@ public class FragmentMineActivity extends BaseMainFragmentActivity {
 			return;
 		}
 		DoneExamPaperListFragment newFragment = DoneExamPaperListFragment.newInstance(userid, getString(R.string.DoingExamPaper), ConstantValues.GetUserCurrExamPaperList,ConstantValues.DOING_PAPER);
-		addFragmentToStack(newFragment, android.R.id.content);
+		addFragmentToStack(newFragment, android.R.id.content,DoneExamPaperListFragment.TAG);
 	}	
 	
 	/**
@@ -88,7 +90,7 @@ public class FragmentMineActivity extends BaseMainFragmentActivity {
 			return;
 		}
        DoneExamPaperListFragment newFragment = DoneExamPaperListFragment.newInstance(userid,getString(R.string.favoriteExamPaper),ConstantValues.GETFAVORITESEXAMPAPERLIST,ConstantValues.FAVORITE_PAPER);
-       addFragmentToStack(newFragment, android.R.id.content);
+       addFragmentToStack(newFragment, android.R.id.content,DoneExamPaperListFragment.TAG);
 	}	
 	
 	private void getDB() {
@@ -122,7 +124,7 @@ public class FragmentMineActivity extends BaseMainFragmentActivity {
 				return;
 			}
 			Fragment newFragment = new LoginFragment();
-			addFragmentToStack(newFragment, android.R.id.content);
+			addFragmentToStack(newFragment, android.R.id.content,"");
 		}
 	}
 
@@ -159,5 +161,10 @@ public class FragmentMineActivity extends BaseMainFragmentActivity {
 		hellotome.setText(getString(R.string.tips_unlogin));
 		login_btn.setText(getString(R.string.btn_login));	
 		sync_updateview(false);
+	}
+
+	@Override
+	public void delfavorite() {
+		isfavorite=false;
 	}
 }

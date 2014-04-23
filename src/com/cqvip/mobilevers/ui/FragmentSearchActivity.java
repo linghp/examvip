@@ -56,7 +56,7 @@ public class FragmentSearchActivity extends BaseMainFragmentActivity {
 	public void onItemNextSelected(PaperInfo info) {
 		if(info!=null){
 		Fragment newFragment = ExamDetailFragment.newInstance(info.getName(),info.getSubjectid());
-		this.addFragmentToStack(newFragment, android.R.id.content);
+		this.addFragmentToStack(newFragment, android.R.id.content,"");
 		}else{
 			return;
 		}

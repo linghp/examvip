@@ -37,6 +37,7 @@ import com.cqvip.mobilevers.entity.DoneExamPaper;
 import com.cqvip.mobilevers.http.HttpUtils;
 import com.cqvip.mobilevers.http.VersStringRequest;
 import com.cqvip.mobilevers.ui.FragmentExamActivity;
+import com.cqvip.mobilevers.ui.FragmentMineActivity;
 import com.cqvip.mobilevers.ui.MainActivity;
 import com.cqvip.mobilevers.ui.base.BaseFragment;
 import com.cqvip.mobilevers.widget.PullRefreshAndLoadMoreListView;
@@ -63,8 +64,8 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 	private PullRefreshAndLoadMoreListView listview;
 	private Map<String, String> gparams;
 	private int page;
-	private DoneExamPaperListAdapter adapter;
-	private DoingExamPaperListAdapter doing_adapter;
+	private DoneExamPaperListAdapter adapter;//收藏
+	private DoingExamPaperListAdapter doing_adapter;//正在做的/已做的
 	private View noresult_rl;
 	private int type;
 	private boolean isFresh = false;//是否是更新
@@ -77,6 +78,7 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 	private DoingExamPaper removeDoneExam;//记录删除对象
 	private DoneExamPaper removeFavorExam;//记录删除对象
 	
+	public final static String TAG="DoneExamPaperListFragment";
 	
 	public static DoneExamPaperListFragment newInstance(String userid,
 			String title, String url, int type) {
@@ -139,6 +141,23 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 
 	}
 
+	@Override
+	public void onResume() {
+		Log.i(TAG, "onResume");
+		if(!((FragmentMineActivity)getActivity()).isfavorite&&removeFavorExam!=null){
+		favorLists.remove(removeFavorExam);
+		adapter.notifyDataSetChanged();
+		((FragmentMineActivity)getActivity()).isfavorite=true;
+		}
+		super.onResume();
+	}
+	
+	@Override
+	public void onPause() {
+		Log.i(TAG, "onPause");
+		super.onPause();
+	}
+	
 	private void getData(int page, int getWhichPage) {
 
 		// 请求网络
@@ -488,6 +507,7 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 		case ConstantValues.FAVORITE_PAPER:
 			
 			DoneExamPaper info = adapter.getList().get(position-1);
+			removeFavorExam=info;
 			Fragment newFragment = ExamDetailFragment.newInstance(info.getName(),
 					info.getSubjectid());
 			addFragmentToStack(newFragment, android.R.id.content);
@@ -509,12 +529,31 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 				.beginTransaction();
 		ft.setCustomAnimations(R.anim.slide_right_in, R.anim.slide_left_out,
 				R.anim.slide_left_in, R.anim.slide_right_out);
-		ft.replace(layoutid, newFragment);
+		ft.replace(layoutid, newFragment,ExamDetailFragment.TAG2);
 		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 		ft.addToBackStack(null);
 		ft.commit();
 	}
 
+	public void updataFromExamDetailFragment(boolean isfavorite,String exampaperid){//从题库-》试卷摘要
+		if(isfavorite){
+			for (DoneExamPaper doneExamPaper : favorLists) {
+				if(doneExamPaper.getSubjectid().equals(exampaperid)){
+				}
+				else{
+					getData(page, ConstantValues.GETFIRSTPAGE);
+				}
+			}
+		}else{
+			for (DoneExamPaper doneExamPaper : favorLists) {
+				if(doneExamPaper.getSubjectid().equals(exampaperid)){
+					favorLists.remove(doneExamPaper);
+					adapter.notifyDataSetChanged();
+				}
+			}
+		}
+	}
+	
 	@Override
 	public void onClick(View v) {
 		final View finalv=v;

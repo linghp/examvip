@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -39,6 +40,8 @@ import com.cqvip.mobilevers.http.HttpUtils;
 import com.cqvip.mobilevers.http.VersStringRequest;
 import com.cqvip.mobilevers.ui.ExamActivity;
 import com.cqvip.mobilevers.ui.FragmentExamActivity;
+import com.cqvip.mobilevers.ui.FragmentMineActivity;
+import com.cqvip.mobilevers.ui.MainActivity;
 import com.cqvip.mobilevers.ui.base.BaseFragment;
 import com.cqvip.mobilevers.ui.base.BaseMainFragmentActivity;
 import com.cqvip.mobilevers.utils.DateUtil;
@@ -66,14 +69,22 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 	private TwoDimensionArray dimension = null;
 	private SeriSqareArray<SimpleAnswer> clientAnswer;
 	public final static String TAG="ExamDetailFragment";
+	public final static String TAG2="ExamDetailFragment2";
 	private int finalposition = 0;
 	private int status = 0;
 	private boolean isConinue = false;//是否重做
 	// private ImageView img_back;
 	
 	PaperDetail paper;
+	private boolean isfavorite_final=true;//最终的收藏状态
+	private boolean isfavorite_init=false;//初始的收藏状态
+	private int isfavorite_initcount=0;//
 	static final private int GET_CODE = 0;
 
+	public interface I_ExamDetail{
+		public void delfavorite();
+	}
+	
 	public static ExamDetailFragment newInstance(String name, String id) {
 		ExamDetailFragment f = new ExamDetailFragment();
 
@@ -137,6 +148,12 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		return view;
 	}
 
+@Override
+public void onAttach(Activity activity) {
+	// TODO Auto-generated method stub
+	super.onAttach(activity);
+}
+	
 	public void updateview(boolean islogin){
 		getDataFromNet(subjectid);
 	}
@@ -204,17 +221,23 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 			}
 		}
 
-		private void setView(PaperDetail paper) throws ParseException {
+		public void setView(PaperDetail paper) throws ParseException {
 			tyear.setText(paper.getYear());
 			tadddate.setText(DateUtil.formatYMD(paper.getUpdatetime()));
 			ttotal.setText(paper.getQuestioncount() + "题");
 			tscroe.setText(paper.getScore() + "分");
 			ttime.setText(paper.getExampapertime() + "分钟");
 			tTag.setText(getString(paper.getTag_title()));
-			if(paper.isFavor()){
+			Log.i(TAG, "isFavor: "+paper.isFavor());
+			if(isfavorite_final=paper.isFavor()){
 				favorite_tv_drawable(R.drawable.sc2);
-				Log.i(TAG, "isFavor");
+			}else{
+				favorite_tv_drawable(R.drawable.sc1);
 			}
+			if(isfavorite_initcount++==0){
+				isfavorite_init=paper.isFavor();
+			}
+			Log.i(TAG, "isfavorite_initcount: "+isfavorite_initcount);
 			status = paper.getTeststatus();
 			Log.i(TAG, "status"+status);
 			switch (status) {
@@ -598,6 +621,8 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 										R.string.favorite_success),
 								Toast.LENGTH_SHORT).show();
 						favorite_tv_drawable(R.drawable.sc2);
+						isfavorite_final=true;
+						sync_updateview();
 					} else {
 						deleteFavorite();
 					}
@@ -634,6 +659,8 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 										R.string.deletefavorite_success),
 								Toast.LENGTH_SHORT).show();
 						favorite_tv_drawable(R.drawable.sc1);
+						isfavorite_final=false;
+						sync_updateview();
 					} else {
 
 					}
@@ -652,6 +679,47 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		}
 	};
 
+	/**
+	 * 同步
+	 */
+	private void sync_updateview() {
+		//从题库的试卷摘要点击收藏按钮，我的试卷摘要的同步
+		FragmentExamActivity fragmentExamActivity=(FragmentExamActivity) ((MainActivity)getActivity().getParent()).getLocalActivityManager().getActivity("题库");
+		FragmentMineActivity fragmentMineActivity=(FragmentMineActivity) ((MainActivity)getActivity().getParent()).getLocalActivityManager().getActivity("我的");
+		ExamDetailFragment examDetailFragment_exam=null;
+		ExamDetailFragment examDetailFragment_mine=null;
+		if(fragmentExamActivity!=null){
+		examDetailFragment_exam=(ExamDetailFragment) fragmentExamActivity.fManager.findFragmentByTag(ExamDetailFragment.TAG);
+		}
+		if(fragmentMineActivity!=null){
+		examDetailFragment_mine=(ExamDetailFragment) fragmentMineActivity.fManager.findFragmentByTag(ExamDetailFragment.TAG2);
+		}
+		boolean temp_bool=false;
+		if(examDetailFragment_mine!=null&&examDetailFragment_exam!=null&&this.getTag().equals(TAG2)&&subjectid.equals(examDetailFragment_mine.subjectid)){
+			examDetailFragment_exam.updateview(true);
+			//Log.i("DoneExamPaperListFragment", subjectid+"----"+examDetailFragment.subjectid);
+		}else if(examDetailFragment_exam!=null&&examDetailFragment_mine!=null&&this.getTag().equals(TAG)&&subjectid.equals(examDetailFragment_exam.subjectid)){
+			examDetailFragment_mine.updateview(true);
+			temp_bool=true;
+		}
+		//从题库的试卷摘要点击收藏按钮,收藏列表的同步
+		if(fragmentMineActivity!=null&&!temp_bool&&this.getTag().equals(TAG)){
+			DoneExamPaperListFragment doneExamPaperListFragment=(DoneExamPaperListFragment) fragmentMineActivity.fManager.findFragmentByTag(DoneExamPaperListFragment.TAG);
+		    if(doneExamPaperListFragment!=null){
+		    	doneExamPaperListFragment.updataFromExamDetailFragment(isfavorite_final, subjectid);
+		}
+		}
+	}
+	
+//	private void sync_updateview_onpause() {
+//		FragmentMineActivity fragmentMineActivity=(FragmentMineActivity) ((MainActivity)getActivity().getParent()).getLocalActivityManager().getActivity("我的");
+//		if(fragmentMineActivity!=null&&!temp_bool&&this.getTag().equals(TAG)){//
+//			DoneExamPaperListFragment doneExamPaperListFragment=(DoneExamPaperListFragment) fragmentMineActivity.fManager.findFragmentByTag(DoneExamPaperListFragment.TAG);
+//		    if(doneExamPaperListFragment!=null){
+//		    	doneExamPaperListFragment.updataFromExamDetailFragment(isfavorite_final, subjectid);
+//		}
+//		}
+//	 }
 	private void favorite_tv_drawable(int id) {
 		Drawable drawable = getActivity().getResources().getDrawable(
 				id);
@@ -661,4 +729,18 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		favorite_tv.setCompoundDrawables(drawable, null, null, null);
 	}
 
+	@Override
+	public void onPause() {
+		super.onPause();
+		Log.i(TAG, "onPause");
+		//sync_updateview_onpause();
+	}
+	
+	@Override
+	public void onDestroyView() {
+		if(!isfavorite_final){
+		((I_ExamDetail)getActivity()).delfavorite();
+		}
+		super.onDestroyView();
+	}
 }
