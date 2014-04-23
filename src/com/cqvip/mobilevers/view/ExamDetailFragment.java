@@ -50,8 +50,8 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 	private static final String DETAL_ID = "id";
 	private TextView tTitle, tTag, tyear, tadddate, ttotal, tscroe, ttime,
 			tsize, favorite_tv;
-	private View ll_testscore;
-	private TextView tTestscore,tTestprogress;
+	
+	private TextView tTestprogress;
 	private Button btn_continue,btn_begin;
 	public String subjectid;
 	private Map<String, String> gparams;
@@ -105,7 +105,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		getDataFromNet(subjectid);
 		// 访问网络
 		// if(HttpUtils.isMobileDataEnable(context))
-		tTestscore = (TextView) view.findViewById(R.id.txt_paper_testscore);
+	//	tTestscore = (TextView) view.findViewById(R.id.txt_paper_testscore);
 		tTestprogress= (TextView) view.findViewById(R.id.txt_paper_testprogress);
 		btn_begin = (Button) view.findViewById(R.id.btn_exam_begin);
 		btn_continue = (Button) view.findViewById(R.id.btn_exam_continue);
@@ -120,7 +120,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		tscroe = (TextView) view.findViewById(R.id.txt_p_score);
 		ttime = (TextView) view.findViewById(R.id.txt_p_time);
 		favorite_tv = (TextView) view.findViewById(R.id.favorite_tv);
-		ll_testscore=view.findViewById(R.id.ll_testscore);
+		//ll_testscore=view.findViewById(R.id.ll_testscore);
 		favorite_tv.setOnClickListener(this);
 		// tsize = (TextView) view.findViewById(R.id.txt_p_size);
 		//
@@ -253,7 +253,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		btn_continue.setVisibility(View.GONE);
 		btn_begin.setText("开始做题");
 		tTestprogress.setVisibility(View.GONE);
-		ll_testscore.setVisibility(View.GONE);
+		//ll_testscore.setVisibility(View.GONE);
 		status = ConstantValues.ITESTSTATUS_UNDO;
 		//tTestscore.setVisibility(View.GONE);
 	}
@@ -262,10 +262,14 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		btn_begin.setText("重新做题");
 		btn_continue.setVisibility(View.VISIBLE);
 		tTestprogress.setVisibility(View.VISIBLE);
-		ll_testscore.setVisibility(View.VISIBLE);
-		tTestprogress.setText("做卷进度："+paper.getTestquestionNum()+"|"+paper.getQuestioncount());
-		tTestscore.setText("得分："+paper.getTestscore());
+		//ll_testscore.setVisibility(View.VISIBLE);
+		
 		status = ConstantValues.ITESTSTATUS_DONE;
+		if(status==ConstantValues.ITESTSTATUS_DOING){
+		tTestprogress.setText("做卷进度："+paper.getTestquestionNum()+"|"+paper.getQuestioncount());
+		}else if(status == ConstantValues.ITESTSTATUS_DONE){
+		tTestprogress.setText("得分："+paper.getTestscore());
+		}
 	}
 
 	private void setDoingView(PaperDetail paper) {
@@ -273,7 +277,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		btn_begin.setText("重新做题");
 		btn_continue.setVisibility(View.VISIBLE);
 		tTestprogress.setVisibility(View.VISIBLE);
-		ll_testscore.setVisibility(View.GONE);
+		//ll_testscore.setVisibility(View.GONE);
 		tTestprogress.setText("做卷进度："+paper.getTestquestionNum()+"|"+paper.getQuestioncount());
 		status = ConstantValues.ITESTSTATUS_DOING;
 	}
@@ -380,7 +384,6 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		}else{
 			gparams.put("restart", ConstantValues.BGEIN_CONTINUE+"");
 		}
-		
 		requestVolley(url, back_ls, Method.POST);
 	}
 

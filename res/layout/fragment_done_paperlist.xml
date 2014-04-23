@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:dlistView="http://schemas.android.com/apk/res/com.cqvip.mobilevers"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,18 +14,14 @@
         layout="@layout/title_next" />
     
     
- <com.cqvip.mobilevers.widget.DropDownListView
+ <com.cqvip.mobilevers.widget.PullRefreshAndLoadMoreListView
     	android:layout_below="@id/title"
         android:id="@+id/list_donepaper"
         android:isScrollContainer="false"
         android:scrollbars="none"
-        android:drawSelectorOnTop="false"
-        dlistView:isDropDownStyle="true"
-         dlistView:isOnBottomStyle="true"
-        dlistView:isAutoLoadOnBottom="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-    </com.cqvip.mobilevers.widget.DropDownListView>
+    </com.cqvip.mobilevers.widget.PullRefreshAndLoadMoreListView>
     
   <RelativeLayout
         android:id="@+id/noresult_rl"

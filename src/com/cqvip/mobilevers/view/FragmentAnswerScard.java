@@ -370,7 +370,8 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 			if(customProgressDialog!=null&&customProgressDialog.isShowing())
 			customProgressDialog.dismiss();
 			//解析结果
-			//Log.i(TAG, "============:"+response);
+			System.out.println(response);
+			Log.i(TAG, "============:"+response);
 			if (response != null) {
 			try {
 				JSONObject json = new JSONObject(response);
