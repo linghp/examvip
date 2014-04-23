@@ -23,7 +23,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,12 +36,13 @@ import com.cqvip.mobilevers.entity.DoingExamPaper;
 import com.cqvip.mobilevers.entity.DoneExamPaper;
 import com.cqvip.mobilevers.http.HttpUtils;
 import com.cqvip.mobilevers.http.VersStringRequest;
-import com.cqvip.mobilevers.ui.ExamActivity;
 import com.cqvip.mobilevers.ui.FragmentExamActivity;
 import com.cqvip.mobilevers.ui.FragmentMineActivity;
 import com.cqvip.mobilevers.ui.MainActivity;
 import com.cqvip.mobilevers.ui.base.BaseFragment;
-import com.cqvip.mobilevers.widget.DropDownListView;
+import com.cqvip.mobilevers.widget.PullRefreshAndLoadMoreListView;
+import com.cqvip.mobilevers.widget.PullRefreshAndLoadMoreListView.OnLoadMoreListener;
+import com.cqvip.mobilevers.widget.PullToRefreshListView.OnRefreshListener;
 
 /**
  * 我正在做的/我做过的试卷/和我收藏的试卷
@@ -61,7 +61,7 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 	public static final String DOINGEXAMPAPERLIST_TAG = "doingexampaperlist";
 	private TextView tv_title;
 	// private ImageView img_back;
-	private DropDownListView listview;
+	private PullRefreshAndLoadMoreListView listview;
 	private Map<String, String> gparams;
 	private int page;
 	private DoneExamPaperListAdapter adapter;//收藏
@@ -104,7 +104,7 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 		view = inflater.inflate(R.layout.fragment_done_paperlist, container,
 				false);
 		type = getArguments().getInt(TYPE);
-		listview = (DropDownListView) view.findViewById(R.id.list_donepaper);
+		listview = (PullRefreshAndLoadMoreListView) view.findViewById(R.id.list_donepaper);
 		listview.setOnItemClickListener(this);
 		// img_back = (ImageView) view.findViewById(R.id.img_back);
 		tv_title = (TextView) view.findViewById(R.id.tv_show_title);
@@ -113,24 +113,26 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 		isFresh = false;
 		page = 1;
 		getData(page, ConstantValues.GETFIRSTPAGE);
-		listview.setOnBottomListener(new View.OnClickListener() {
+		listview.setOnLoadMoreListener(new OnLoadMoreListener() {
 
 			@Override
-			public void onClick(View v) {
+			public void onLoadMore() {
 				getData(page + 1, ConstantValues.GETNEXTPAGE);
 				page++;
 			}
 
+
 		});
 		
-		listview.setOnDropDownListener(new DropDownListView.OnDropDownListener() {
-			
+		listview.setOnRefreshListener(new OnRefreshListener() {
+
 			@Override
-			public void onDropDown() {
+			public void onRefresh() {
 				isFresh = true;
 				page = 1;
 				getData(page, ConstantValues.GETFIRSTPAGE);
 			}
+			
 		});
 		
 		noresult_rl = view.findViewById(R.id.noresult_rl);
@@ -396,14 +398,14 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 					&& !lists.isEmpty()
 					&& lists.size() == ConstantValues.DEFAULYPAGESIZE) {
 				doing_adapter.addMoreData(lists);
-				listview.onBottomComplete();
+				listview.onLoadMoreComplete();
 			} else if (lists != null && lists.size() > 0) {
 				doing_adapter.addMoreData(lists);
-				listview.setHasMore(false);
-				listview.onBottomComplete();
+				//listview.setHasMore(false);
+				listview.onLoadMoreComplete();
 			} else {
-				listview.setHasMore(false);
-				listview.onBottomComplete();
+				//listview.setHasMore(false);
+				listview.onLoadMoreComplete();
 			}
 		}
 
@@ -412,14 +414,14 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 					&& !lists.isEmpty()
 					&& lists.size() == ConstantValues.DEFAULYPAGESIZE) {
 				adapter.addMoreData(lists);
-				listview.onBottomComplete();
+				listview.onLoadMoreComplete();
 			} else if (lists != null && lists.size() > 0) {
 				adapter.addMoreData(lists);
-				listview.setHasMore(false);
-				listview.onBottomComplete();
+			//	listview.setHasMore(false);
+				listview.onLoadMoreComplete();
 			} else {
-				listview.setHasMore(false);
-				listview.onBottomComplete();
+				//listview.setHasMore(false);
+				listview.onLoadMoreComplete();
 			}
 		}
 	};
@@ -430,14 +432,14 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 			if(isFresh){
 				SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm:ss");
 				listview.setAdapter(adapter);
-                listview.onDropDownComplete(getString(R.string.update_at) + dateFormat.format(new Date()));
+                listview.onRefreshComplete();
 			}else{
 			if (paperInfos.size() < ConstantValues.DEFAULYPAGESIZE) {
-				listview.setHasMore(false);
+				//listview.setHasMore(false);
 				listview.setAdapter(adapter);
-				listview.onBottomComplete();
+				listview.onLoadMoreComplete();
 			} else {
-				listview.setHasMore(true);
+				//listview.setHasMore(true);
 				listview.setAdapter(adapter);
 			}
 			}
@@ -455,14 +457,14 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 			if(isFresh){
 				SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm:ss");
 				listview.setAdapter(doing_adapter);
-                listview.onDropDownComplete(getString(R.string.update_at) + dateFormat.format(new Date()));
+                listview.onRefreshComplete();
 			}else{
 			if (done_lists.size() < ConstantValues.DEFAULYPAGESIZE) {
-				listview.setHasMore(false);
+				//listview.setHasMore(false);
 				listview.setAdapter(doing_adapter);
-				listview.onBottomComplete();
+				listview.onLoadMoreComplete();
 			} else {
-				listview.setHasMore(true);
+				//listview.setHasMore(true);
 				listview.setAdapter(doing_adapter);
 			}
 			}
@@ -481,15 +483,15 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 			if(isFresh){
 				SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm:ss");
 				listview.setAdapter(doing_adapter);
-                listview.onDropDownComplete(getString(R.string.update_at) + dateFormat.format(new Date()));
+                listview.onRefreshComplete();
 			}else{
 			
 			if (reallists.size() < ConstantValues.DEFAULYPAGESIZE) {
-				listview.setHasMore(false);
+				//listview.setHasMore(false);
 				listview.setAdapter(doing_adapter);
-				listview.onBottomComplete();
+				listview.onLoadMoreComplete();
 			} else {
-				listview.setHasMore(true);
+			//	listview.setHasMore(true);
 				listview.setAdapter(doing_adapter);
 			}
 			}

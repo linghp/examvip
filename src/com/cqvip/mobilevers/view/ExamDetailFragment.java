@@ -53,8 +53,8 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 	private static final String DETAL_ID = "id";
 	private TextView tTitle, tTag, tyear, tadddate, ttotal, tscroe, ttime,
 			tsize, favorite_tv;
-	private View ll_testscore;
-	private TextView tTestscore,tTestprogress;
+	
+	private TextView tTestprogress;
 	private Button btn_continue,btn_begin;
 	public String subjectid;
 	private Map<String, String> gparams;
@@ -111,12 +111,12 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		// img_back.setOnClickListener(this);
 
 		subjectid = getArguments().getString(DETAL_ID);
-		//Log.i(TAG, subjectid);
+		Log.i(TAG, subjectid);
 		String title = getArguments().getString(DETAL_NAME);
 		getDataFromNet(subjectid);
 		// 访问网络
 		// if(HttpUtils.isMobileDataEnable(context))
-		tTestscore = (TextView) view.findViewById(R.id.txt_paper_testscore);
+	//	tTestscore = (TextView) view.findViewById(R.id.txt_paper_testscore);
 		tTestprogress= (TextView) view.findViewById(R.id.txt_paper_testprogress);
 		btn_begin = (Button) view.findViewById(R.id.btn_exam_begin);
 		btn_continue = (Button) view.findViewById(R.id.btn_exam_continue);
@@ -131,7 +131,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		tscroe = (TextView) view.findViewById(R.id.txt_p_score);
 		ttime = (TextView) view.findViewById(R.id.txt_p_time);
 		favorite_tv = (TextView) view.findViewById(R.id.favorite_tv);
-		ll_testscore=view.findViewById(R.id.ll_testscore);
+		//ll_testscore=view.findViewById(R.id.ll_testscore);
 		favorite_tv.setOnClickListener(this);
 		// tsize = (TextView) view.findViewById(R.id.txt_p_size);
 		//
@@ -276,7 +276,8 @@ public void onAttach(Activity activity) {
 		btn_continue.setVisibility(View.GONE);
 		btn_begin.setText("开始做题");
 		tTestprogress.setVisibility(View.GONE);
-		ll_testscore.setVisibility(View.GONE);
+		//ll_testscore.setVisibility(View.GONE);
+		status = ConstantValues.ITESTSTATUS_UNDO;
 		//tTestscore.setVisibility(View.GONE);
 	}
 	private void setDoneView(PaperDetail paper) {
@@ -284,10 +285,14 @@ public void onAttach(Activity activity) {
 		btn_begin.setText("重新做题");
 		btn_continue.setVisibility(View.VISIBLE);
 		tTestprogress.setVisibility(View.VISIBLE);
-		ll_testscore.setVisibility(View.VISIBLE);
-		tTestprogress.setText("做卷进度："+paper.getTestquestionNum()+"|"+paper.getQuestioncount());
-		tTestscore.setText("得分："+paper.getTestscore());
+		//ll_testscore.setVisibility(View.VISIBLE);
 		
+		status = ConstantValues.ITESTSTATUS_DONE;
+		if(status==ConstantValues.ITESTSTATUS_DOING){
+		tTestprogress.setText("做卷进度："+paper.getTestquestionNum()+"|"+paper.getQuestioncount());
+		}else if(status == ConstantValues.ITESTSTATUS_DONE){
+		tTestprogress.setText("得分："+paper.getTestscore());
+		}
 	}
 
 	private void setDoingView(PaperDetail paper) {
@@ -295,8 +300,9 @@ public void onAttach(Activity activity) {
 		btn_begin.setText("重新做题");
 		btn_continue.setVisibility(View.VISIBLE);
 		tTestprogress.setVisibility(View.VISIBLE);
-		ll_testscore.setVisibility(View.GONE);
+		//ll_testscore.setVisibility(View.GONE);
 		tTestprogress.setText("做卷进度："+paper.getTestquestionNum()+"|"+paper.getQuestioncount());
+		status = ConstantValues.ITESTSTATUS_DOING;
 	}
 
 	
@@ -401,7 +407,6 @@ public void onAttach(Activity activity) {
 		}else{
 			gparams.put("restart", ConstantValues.BGEIN_CONTINUE+"");
 		}
-		
 		requestVolley(url, back_ls, Method.POST);
 	}
 
@@ -495,17 +500,14 @@ public void onAttach(Activity activity) {
 									ExamActivity.class);
 							Bundle bundle = new Bundle();
 							bundle.putSerializable("exam", exam);
-							if(isConinue){
-							bundle.putSerializable("dimen", dimension);
-							}else{
-								bundle.putSerializable("dimen", null);	
-							}
 							bundle.putString("id", subjectid);
 							intent.putExtra("bundle", bundle);
 							if(isConinue){
+								bundle.putSerializable("dimen", dimension);
 								intent.putExtra("final", finalposition);
 								intent.putExtra("status", status);
 							}else{
+								bundle.putSerializable("dimen", null);	
 								intent.putExtra("final", 0);
 								intent.putExtra("status", 0);
 							}

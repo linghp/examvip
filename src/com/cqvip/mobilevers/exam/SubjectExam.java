@@ -28,7 +28,7 @@ public class SubjectExam implements Serializable{
 	private String subjectTypeName;//大题名称
 	private int questionNum;//题目数量
 	private double scorePerQuestion;//每小题分数
-	private int totalScore;//题目总分
+	private double totalScore;//题目总分
 	private Subject[] exam3List;//大题下包含的小题
 	
 	public String getSubjectTypeName() {
@@ -55,7 +55,7 @@ public class SubjectExam implements Serializable{
 		this.scorePerQuestion = scorePerQuestion;
 	}
 
-	public int getTotalScore() {
+	public double getTotalScore() {
 		return totalScore;
 	}
 
@@ -72,15 +72,11 @@ public class SubjectExam implements Serializable{
 	}
 
 	public SubjectExam(JSONObject json)throws JSONException, IOException, XmlPullParserException{
-		totalScore = json.getInt("_totalScore");
-		double tmp = json.getDouble("_scorePerQuestion");
-		double tmp2 = json.getDouble("_scorePerSubject");
-		if(tmp>0){
-			scorePerQuestion = tmp;
-		}else{
-			scorePerQuestion = tmp2;
-		}
+		totalScore = json.getDouble("_totalScore");
+//		double tmp = json.getDouble("_scorePerQuestion");
+//		double tmp2 = json.getDouble("_scorePerSubject");
 		questionNum = json.getInt("_questionNum");
+		scorePerQuestion = totalScore/questionNum;
 		subjectTypeName = json.getString("_subjectTypeName");
 		JSONArray array = json.getJSONArray("_epsubInfo");
 		if(array.length()>0){

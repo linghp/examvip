@@ -910,8 +910,13 @@ public class DropDownListView extends ListView implements OnScrollListener {
      * reset header padding
      */
     private void resetHeaderPadding() {
+////    	if( currentHeaderStatus == HEADER_STATUS_CLICK_TO_LOAD){
+////    		
+////    	}else{
+       
         headerLayout.setPadding(headerLayout.getPaddingLeft(), headerOriginalTopPadding,
-                                headerLayout.getPaddingRight(), headerLayout.getPaddingBottom());
+        		headerLayout.getPaddingRight(), headerLayout.getPaddingBottom());
+//    	}
     }
 
     /**
