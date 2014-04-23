@@ -415,7 +415,10 @@ public class FragmentAnswerScard extends BaseFragment implements OnClickListener
 			key = answers.keyAt(i);
 			SimpleAnswer perAnswer = answers.get(key);
 			if(perAnswer!=null){
+				double sc = perAnswer.getScore();
+			if(sc>0){	
 			total+= perAnswer.getScore();
+			}
 			Log.i(TAG, "getScore:"+perAnswer.getScore());
 			}
 		}
