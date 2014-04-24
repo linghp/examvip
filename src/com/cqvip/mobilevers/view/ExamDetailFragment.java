@@ -112,7 +112,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		// img_back.setOnClickListener(this);
 
 		subjectid = getArguments().getString(DETAL_ID);
-		Log.i(TAG, subjectid);
+		//Log.i(TAG, subjectid);
 		String title = getArguments().getString(DETAL_NAME);
 		getDataFromNet(subjectid);
 		// 访问网络
@@ -168,7 +168,7 @@ public void onAttach(Activity activity) {
 		String userid = localUsers.getString("userid", "0");
 		gparams.put("userId", userid);
 		gparams.put(ConstantValues.EXAMPAPERID, subjectid);
-		Log.i(TAG, "subjectid:"+subjectid);
+		//Log.i(TAG, "subjectid:"+subjectid);
 		requestVolley(gparams, ConstantValues.SERVER_URL
 				+ ConstantValues.GET_DETAIL_PAPERINFO, backlistener,
 				Method.POST);
@@ -202,7 +202,7 @@ public void onAttach(Activity activity) {
 			if (response != null) {
 				try {
 					JSONObject json = new JSONObject(response);
-					Log.i(TAG, response);
+					//Log.i(TAG, response);
 					// 判断
 					if (json.isNull("error")) {
 						// 返回正常
@@ -229,7 +229,7 @@ public void onAttach(Activity activity) {
 			tscroe.setText(paper.getScore() + "分");
 			ttime.setText(paper.getExampapertime() + "分钟");
 			tTag.setText(getString(paper.getTag_title()));
-			Log.i(TAG, "isFavor: "+paper.isFavor());
+			//Log.i(TAG, "isFavor: "+paper.isFavor());
 			if(isfavorite_final=paper.isFavor()){
 				favorite_tv_drawable(R.drawable.sc2);
 			}else{
@@ -238,9 +238,9 @@ public void onAttach(Activity activity) {
 			if(isfavorite_initcount++==0){
 				isfavorite_init=paper.isFavor();
 			}
-			Log.i(TAG, "isfavorite_initcount: "+isfavorite_initcount);
+			//Log.i(TAG, "isfavorite_initcount: "+isfavorite_initcount);
 			status = paper.getTeststatus();
-			Log.i(TAG, "status"+status);
+			//Log.i(TAG, "status"+status);
 			switch (status) {
 			case ConstantValues.ITESTSTATUS_UNDO:
 				//没有做
@@ -311,7 +311,7 @@ public void onAttach(Activity activity) {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == GET_CODE) {
             if (resultCode == getActivity().RESULT_CANCELED) {
-          Log.i(TAG, "cancelled");
+          //Log.i(TAG, "cancelled");
             }else if(resultCode == 5){
             	if(!isConinue){
             	setUndoView(paper);
@@ -324,11 +324,11 @@ public void onAttach(Activity activity) {
             			paper.setTestscore(clientGetScore);
             			paper.setTestquestionNum(doneCount);
             			setDoneView(paper);
-            			Log.i(TAG, "clientGetScore:"+clientGetScore);
+            			//Log.i(TAG, "clientGetScore:"+clientGetScore);
             		}else{
             			paper.setTestquestionNum(doneCount);
             			setDoingView(paper);
-            			Log.i(TAG, "doneCount:"+doneCount);
+            			//Log.i(TAG, "doneCount:"+doneCount);
             		}
             	}
             }
@@ -738,7 +738,7 @@ public void onAttach(Activity activity) {
 	@Override
 	public void onPause() {
 		super.onPause();
-		Log.i(TAG, "onPause");
+		//Log.i(TAG, "onPause");
 		//sync_updateview_onpause();
 	}
 	

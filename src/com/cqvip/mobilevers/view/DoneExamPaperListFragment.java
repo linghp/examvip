@@ -143,7 +143,6 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 
 	@Override
 	public void onResume() {
-		Log.i(TAG, "onResume");
 		if(!((FragmentMineActivity)getActivity()).isfavorite&&removeFavorExam!=null){
 		favorLists.remove(removeFavorExam);
 		adapter.notifyDataSetChanged();
@@ -154,7 +153,6 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 	
 	@Override
 	public void onPause() {
-		Log.i(TAG, "onPause");
 		super.onPause();
 	}
 	
@@ -588,7 +586,7 @@ public class DoneExamPaperListFragment extends BaseFragment implements
 										
 										break;
 									case ConstantValues.FAVORITE_PAPER:
-										Log.i("DoneExamPaperListFragment", Integer.parseInt(finalv.getTag().toString())+"");
+										//Log.i("DoneExamPaperListFragment", Integer.parseInt(finalv.getTag().toString())+"");
 										removeFavorExam = adapter.getList().get(Integer.parseInt(finalv.getTag().toString()));
 										delFavorPaper(removeFavorExam.getSubjectid());
 										break;

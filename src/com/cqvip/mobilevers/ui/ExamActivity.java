@@ -182,15 +182,6 @@ public class ExamActivity extends BaseFragmentActivity implements
 			right_position = dimension.getRightss();
 			wrong_position = dimension.getWrongss();
 			clientAnswer = dimension.getClientAnswers();
-			//
-			// Log.i(TAG, "don" + Arrays.toString(all_position));
-			// Log.i(TAG, "right" + Arrays.toString(right_position));
-			// Log.i(TAG, Arrays.toString(wrong_position));
-			for (int i = 0; i < clientAnswer.size(); i++) {
-				if (clientAnswer.get(i) != null)
-					Log.i(TAG, "answer:" + clientAnswer.get(i));
-				// System.out.println(clientAnswer.get(i));
-			}
 		} else {
 			all_position = DateUtil.initDoubleDimensionalData(cardCount_List);
 
