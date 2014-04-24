@@ -41,6 +41,7 @@ import com.cqvip.mobilevers.http.VersStringRequest;
 import com.cqvip.mobilevers.ui.ExamActivity;
 import com.cqvip.mobilevers.ui.FragmentExamActivity;
 import com.cqvip.mobilevers.ui.FragmentMineActivity;
+import com.cqvip.mobilevers.ui.FragmentSearchActivity;
 import com.cqvip.mobilevers.ui.MainActivity;
 import com.cqvip.mobilevers.ui.base.BaseFragment;
 import com.cqvip.mobilevers.ui.base.BaseMainFragmentActivity;
@@ -744,7 +745,9 @@ public void onAttach(Activity activity) {
 	@Override
 	public void onDestroyView() {
 		if(!isfavorite_final){
+		if(!FragmentSearchActivity.class.isInstance(getActivity()))	{
 		((I_ExamDetail)getActivity()).delfavorite();
+		}
 		}
 		super.onDestroyView();
 	}

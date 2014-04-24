@@ -68,7 +68,7 @@ public class DateUtil {
 		
 		public static String formTile(String text){
 			if(!TextUtils.isEmpty(text)){
-			String result = null;
+			String result = text;
 			Pattern PIC_PATTERN = Pattern.compile("\\{\\{+[//]?+B\\}\\}",Pattern.CASE_INSENSITIVE);
 			Matcher nameMatcher = PIC_PATTERN.matcher(text);
 			while(nameMatcher.find()){

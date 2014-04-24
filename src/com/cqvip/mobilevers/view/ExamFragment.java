@@ -242,8 +242,7 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 			}
 		});
 
-		tx_perscore.setText(perScore + "分");
-
+		tx_perscore.setText(DateUtil.formDouble(perScore) + "分");
 		if (answer.isContainPic()) {
 			tv_answer.setText(answer);
 		} else {
