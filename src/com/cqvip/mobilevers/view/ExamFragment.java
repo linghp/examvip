@@ -218,7 +218,7 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 			page_title.setVisibility(View.VISIBLE);
 			page_title.setText(" 查看材料>>");
 			itvTitle.setText(contentTitle);
-			Log.i(TAG, contentTitle.getContent());
+			//Log.i(TAG, contentTitle.getContent());
 			tv_title.setText((position + 1) + "、", question_title);
 			ShowAnyQuestionCollSubject(question);
 
