@@ -112,7 +112,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		// img_back.setOnClickListener(this);
 
 		subjectid = getArguments().getString(DETAL_ID);
-		//Log.i(TAG, subjectid);
+		Log.i(TAG, subjectid);
 		String title = getArguments().getString(DETAL_NAME);
 		getDataFromNet(subjectid);
 		// 访问网络
@@ -451,7 +451,7 @@ public void onAttach(Activity activity) {
 						SubjectExam[] subjectExams_array = exam.getExam2lists();// 获取大题数量
 						for (SubjectExam subjectExam : subjectExams_array) {
 
-							int count = subjectExam.getQuestionNum();
+							int count =  getQuestonCount( subjectExam);
 							cardCount_List.add(count);// 答题卡
 							Subject[] subjects = subjectExam.getExam3List();// 当_questionNum为0时，判断
 							if (subjects != null) {
@@ -473,12 +473,9 @@ public void onAttach(Activity activity) {
 						right_position = new int[mCount][];
 						wrong_position = new int[mCount][];
 						for (int i = 0; i < mCount; i++) {
-							done_position[i] = new int[subjectExams_array[i]
-									.getQuestionNum()];
-							right_position[i] = new int[subjectExams_array[i]
-									.getQuestionNum()];
-							wrong_position[i] = new int[subjectExams_array[i]
-									.getQuestionNum()];
+							done_position[i] = new int[ getQuestonCount( subjectExams_array[i])];
+							right_position[i] = new int[getQuestonCount( subjectExams_array[i])];
+							wrong_position[i] = new int[getQuestonCount( subjectExams_array[i])];
 						}
 						// 获取答案
 						SimpleAnswer[] answers = exam.getAnswerlists();
@@ -529,6 +526,20 @@ public void onAttach(Activity activity) {
 			} else {
 				Toast.makeText(getActivity(), "无数据", Toast.LENGTH_LONG).show();
 			}
+		}
+
+		private int getQuestonCount(SubjectExam subjectExam) {
+			int count = 0;
+			Subject[] subs = subjectExam.getExam3List();
+			if(subs.length>0){
+			for(int i=0;i<subs.length;i++){
+				if(subs[i]!=null&&subs[i].getQuestion()!=null){
+				int mSize = subs[i].getQuestion().size();
+				count += mSize;
+				}
+			}
+			}
+			return count;
 		}
 
 		private void formTwoDimetion(int[][] allpostion) {

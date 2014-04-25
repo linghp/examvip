@@ -82,33 +82,6 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 
 	private LayoutInflater cur_inflater;
 
-	// @Override
-	// public void onAttach(Activity activity) {
-	// Log.i("ExamFragment", "================onAttach==============");
-	// super.onAttach(activity);
-	// }
-	// @Override
-	// public void onCreate(Bundle savedInstanceState) {
-	// Log.i("ExamFragment", "=========onCreate========");
-	// super.onCreate(savedInstanceState);
-	// }
-	//
-	//
-	// @Override
-	// public void onConfigurationChanged(Configuration newConfig) {
-	// Log.i("ExamFragment", "=========onConfigurationChanged========");
-	// super.onConfigurationChanged(newConfig);
-	// }
-	// @Override
-	// public void onHiddenChanged(boolean hidden) {
-	// Log.i("ExamFragment", "=========onHiddenChanged========");
-	// super.onHiddenChanged(hidden);
-	// }
-	// @Override
-	// public void onPause() {
-	// Log.i("ExamFragment", "=========onPause()========");
-	// super.onPause();
-	// }
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
