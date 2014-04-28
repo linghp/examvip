@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="app_name">维普考试</string>
+    <string name="generic_server_down">服务器无响应</string>
+    <string name="need_pwd">请输入密码</string>
+    <string name="need_username">请输入用户名</string>
+    <string name="hellotome">您还未登录，请登录之后使用</string>
+    <string name="no_internet">无网络连接</string>
+    <string name="generic_error">连接错误</string>
+    <string name="drop_down_list_header_default_text">点击可以刷新&#8230;</string>
+    <string name="drop_down_list_header_pull_text">下拉可以刷新</string>
+    <string name="drop_down_list_header_release_text">松开进行刷新</string>
+    <string name="drop_down_list_header_loading_text">加载中&#8230;</string>
+    <string name="drop_down_list_footer_default_text">更多</string>
+    <string name="drop_down_list_footer_loading_text">加载中&#8230;</string>
+    <string name="drop_down_list_footer_no_more_text">没有更多内容可供加载</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="switch_on">开</string>
+    <string name="switch_off">关</string>
+    <string name="alert_dialog_cancel">取消</string>
+    <string name="alert_dialog_confirm">确定</string>
+    <string name="alert_dialog_save">保存</string>
+    <string name="alert_dialog_unsave">不保存</string>
+    <string name="alert_dialog_cancelquite">取消退出</string>
+    <string name="tips_right">√恭喜您，答对了</string>
+    <string name="tips_wrong">×对不起，答错了</string>
+    <string name="tips_noanswer">该题暂无参考答案</string>
+    <string name="tips_unlogin">您还未登录，请登录之后使用</string>
+    <string name="tips_login_sucess">登录成功</string>
+    <string name="tips_login_fail">登录失败</string>
+    <string name="tips_login_fail_detail">登录失败,请检查用户名或密码</string>
+    <string name="btn_show_subtitle">查看题干</string>
+    <string name="btn_hide_subtitle">隐藏题干</string>
+    <string name="show_answer">查看答案</string>
+    <string name="hide_answer">隐藏答案</string>
+    <string name="favorite_success">收藏成功</string>
+    <string name="favorite_fail">收藏失败</string>
+    <string name="deletefavorite_success">取消收藏成功</string>
+    <string name="deletefavorite_fail">取消收藏失败</string>
+    <string name="DoneExamPaper">我做过的试卷</string>
+    <string name="DoingExamPaper">我正在做的试卷</string>
+    <string name="favoriteExamPaper">我收藏的试卷</string>
+    <string name="about_html">包库版：http://vers.cqvip.com</string>
+    <string name="about_phone">全国客服电话：400-638-5550</string>
+    <string name="about_time">值班时间：9:00-17:00（国家法定工作日）</string>
+    <string name="about_title">VERS维普考试资源系统</string>
+    <string name="about_version">android v1.1.0</string>
+    <string name="about_own">重庆维普资讯有限公司 版权所有</string>
+    <string name="exam_answerdesc_tips">解析：</string>
+    <string name="title_activity_welcome">WelcomeActivity</string>
+    <string name="btn_login">登录</string>
+    <string name="usernam">登录名 :</string>
+    <string name="update_at">更新时间 :</string>
+    
+    <string name="tips_del_sucess">删除成功</string>
+    <string name="tips_del_fail">删除失败</string>
+        <string name="pull_refresh">下拉刷新</string>
+    <string name="release_to_refresh">松开刷新</string>
+    <string name="refreshing" tools:ignore="TypographyEllipsis">正在刷新中...</string>
+    <string name="update_time">更新于</string>
+       <string name="real_paper">全真试题</string>
+    <string name="model_paper">模拟试题</string>
+    
+
+</resources>

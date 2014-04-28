@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cqvip.mobilevers"
     android:versionCode="1"
-    android:versionName="1。1.0" >
+    android:versionName="1.1.0" >
 
     <uses-sdk
         android:minSdkVersion="9"
@@ -27,7 +27,7 @@
         </activity>
         <activity
             android:name="com.cqvip.mobilevers.ui.FragmentMoreActivity"
-            android:label="@string/title_activity_main_more" >
+            >
         </activity>
         <activity android:name="com.cqvip.mobilevers.ui.FragmentMineActivity" >
         </activity>
@@ -37,11 +37,11 @@
         </activity>
         <activity
             android:name="com.cqvip.mobilevers.ui.ExamClassfyActivity"
-            android:label="@string/title_activity_exam_classfy" >
+             >
         </activity>
         <activity
             android:name="com.cqvip.mobilevers.ui.ExamActivity"
-            android:label="@string/title_activity_test_exam"
+            
             android:screenOrientation="portrait" >
         </activity>
         <activity
