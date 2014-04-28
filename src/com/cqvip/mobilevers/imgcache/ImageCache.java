@@ -43,6 +43,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.util.LruCache;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.cqvip.mobilevers.imgcache.ImageCache.ImageCacheParams;
 
@@ -555,6 +556,12 @@ public class ImageCache {
          */
         public ImageCacheParams(Context context, String diskCacheDirectoryName) {
             diskCacheDir = getDiskCacheDir(context, diskCacheDirectoryName);
+            if( Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())){
+            	diskCacheEnabled = true;
+            }else{
+            	Toast.makeText(context,"sd卡不可用", 1).show();
+            	diskCacheEnabled = false;
+            }
         }
 
         /**
@@ -603,12 +610,16 @@ public class ImageCache {
     public static File getDiskCacheDir(Context context, String uniqueName) {
         // Check if media is mounted or storage is built-in, if so, try and use external cache dir
         // otherwise use internal cache dir
+    	if(getExternalCacheDir(context)!=null){
         final String cachePath =
                 Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) ||
                         !isExternalStorageRemovable() ? getExternalCacheDir(context).getPath() :
                                 context.getCacheDir().getPath();
 
         return new File(cachePath + File.separator + uniqueName);
+    	}else{
+    		return null;
+    	}
     }
 
     /**
