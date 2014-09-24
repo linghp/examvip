@@ -8,6 +8,7 @@ import android.content.SharedPreferences.Editor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -50,6 +51,7 @@ public class FragmentMineActivity extends BaseMainFragmentActivity implements I_
 				MODE_PRIVATE);
 		String userid = localUsers.getString("userid", "0");
 		if (!userid.equals("0")) {
+			Log.i("USERID", userid);
 			islogin = true;
 			loginUI();
 		}
