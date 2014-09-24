@@ -41,6 +41,7 @@ import com.cqvip.mobilevers.http.VersStringRequest;
 import com.cqvip.mobilevers.ui.ExamActivity;
 import com.cqvip.mobilevers.ui.FragmentExamActivity;
 import com.cqvip.mobilevers.ui.FragmentMineActivity;
+import com.cqvip.mobilevers.ui.FragmentSearchActivity;
 import com.cqvip.mobilevers.ui.MainActivity;
 import com.cqvip.mobilevers.ui.base.BaseFragment;
 import com.cqvip.mobilevers.ui.base.BaseMainFragmentActivity;
@@ -111,7 +112,7 @@ public class ExamDetailFragment extends BaseFragment implements OnClickListener 
 		// img_back.setOnClickListener(this);
 
 		subjectid = getArguments().getString(DETAL_ID);
-		Log.i(TAG, subjectid);
+		//Log.i(TAG, subjectid);
 		String title = getArguments().getString(DETAL_NAME);
 		getDataFromNet(subjectid);
 		// 访问网络
@@ -167,7 +168,7 @@ public void onAttach(Activity activity) {
 		String userid = localUsers.getString("userid", "0");
 		gparams.put("userId", userid);
 		gparams.put(ConstantValues.EXAMPAPERID, subjectid);
-		Log.i(TAG, "subjectid:"+subjectid);
+		//Log.i(TAG, "subjectid:"+subjectid);
 		requestVolley(gparams, ConstantValues.SERVER_URL
 				+ ConstantValues.GET_DETAIL_PAPERINFO, backlistener,
 				Method.POST);
@@ -201,7 +202,7 @@ public void onAttach(Activity activity) {
 			if (response != null) {
 				try {
 					JSONObject json = new JSONObject(response);
-					Log.i(TAG, response);
+					//Log.i(TAG, response);
 					// 判断
 					if (json.isNull("error")) {
 						// 返回正常
@@ -228,7 +229,7 @@ public void onAttach(Activity activity) {
 			tscroe.setText(paper.getScore() + "分");
 			ttime.setText(paper.getExampapertime() + "分钟");
 			tTag.setText(getString(paper.getTag_title()));
-			Log.i(TAG, "isFavor: "+paper.isFavor());
+			//Log.i(TAG, "isFavor: "+paper.isFavor());
 			if(isfavorite_final=paper.isFavor()){
 				favorite_tv_drawable(R.drawable.sc2);
 			}else{
@@ -237,9 +238,9 @@ public void onAttach(Activity activity) {
 			if(isfavorite_initcount++==0){
 				isfavorite_init=paper.isFavor();
 			}
-			Log.i(TAG, "isfavorite_initcount: "+isfavorite_initcount);
+			//Log.i(TAG, "isfavorite_initcount: "+isfavorite_initcount);
 			status = paper.getTeststatus();
-			Log.i(TAG, "status"+status);
+			//Log.i(TAG, "status"+status);
 			switch (status) {
 			case ConstantValues.ITESTSTATUS_UNDO:
 				//没有做
@@ -291,7 +292,7 @@ public void onAttach(Activity activity) {
 		if(status==ConstantValues.ITESTSTATUS_DOING){
 		tTestprogress.setText("做卷进度："+paper.getTestquestionNum()+"|"+paper.getQuestioncount());
 		}else if(status == ConstantValues.ITESTSTATUS_DONE){
-		tTestprogress.setText("得分："+paper.getTestscore());
+		tTestprogress.setText("得分："+DateUtil.formDouble(paper.getTestscore())+"分");
 		}
 	}
 
@@ -310,7 +311,7 @@ public void onAttach(Activity activity) {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == GET_CODE) {
             if (resultCode == getActivity().RESULT_CANCELED) {
-          Log.i(TAG, "cancelled");
+          //Log.i(TAG, "cancelled");
             }else if(resultCode == 5){
             	if(!isConinue){
             	setUndoView(paper);
@@ -323,11 +324,11 @@ public void onAttach(Activity activity) {
             			paper.setTestscore(clientGetScore);
             			paper.setTestquestionNum(doneCount);
             			setDoneView(paper);
-            			Log.i(TAG, "clientGetScore:"+clientGetScore);
+            			//Log.i(TAG, "clientGetScore:"+clientGetScore);
             		}else{
             			paper.setTestquestionNum(doneCount);
             			setDoingView(paper);
-            			Log.i(TAG, "doneCount:"+doneCount);
+            			//Log.i(TAG, "doneCount:"+doneCount);
             		}
             	}
             }
@@ -450,7 +451,7 @@ public void onAttach(Activity activity) {
 						SubjectExam[] subjectExams_array = exam.getExam2lists();// 获取大题数量
 						for (SubjectExam subjectExam : subjectExams_array) {
 
-							int count = subjectExam.getQuestionNum();
+							int count =  getQuestonCount( subjectExam);
 							cardCount_List.add(count);// 答题卡
 							Subject[] subjects = subjectExam.getExam3List();// 当_questionNum为0时，判断
 							if (subjects != null) {
@@ -472,12 +473,9 @@ public void onAttach(Activity activity) {
 						right_position = new int[mCount][];
 						wrong_position = new int[mCount][];
 						for (int i = 0; i < mCount; i++) {
-							done_position[i] = new int[subjectExams_array[i]
-									.getQuestionNum()];
-							right_position[i] = new int[subjectExams_array[i]
-									.getQuestionNum()];
-							wrong_position[i] = new int[subjectExams_array[i]
-									.getQuestionNum()];
+							done_position[i] = new int[ getQuestonCount( subjectExams_array[i])];
+							right_position[i] = new int[getQuestonCount( subjectExams_array[i])];
+							wrong_position[i] = new int[getQuestonCount( subjectExams_array[i])];
 						}
 						// 获取答案
 						SimpleAnswer[] answers = exam.getAnswerlists();
@@ -504,7 +502,12 @@ public void onAttach(Activity activity) {
 							intent.putExtra("bundle", bundle);
 							if(isConinue){
 								bundle.putSerializable("dimen", dimension);
+								if(status==ConstantValues.ITESTSTATUS_DOING){
 								intent.putExtra("final", finalposition);
+								}else{
+								intent.putExtra("final", 0);
+								}
+								
 								intent.putExtra("status", status);
 							}else{
 								bundle.putSerializable("dimen", null);	
@@ -523,6 +526,20 @@ public void onAttach(Activity activity) {
 			} else {
 				Toast.makeText(getActivity(), "无数据", Toast.LENGTH_LONG).show();
 			}
+		}
+
+		private int getQuestonCount(SubjectExam subjectExam) {
+			int count = 0;
+			Subject[] subs = subjectExam.getExam3List();
+			if(subs.length>0){
+			for(int i=0;i<subs.length;i++){
+				if(subs[i]!=null&&subs[i].getQuestion()!=null){
+				int mSize = subs[i].getQuestion().size();
+				count += mSize;
+				}
+			}
+			}
+			return count;
 		}
 
 		private void formTwoDimetion(int[][] allpostion) {
@@ -732,14 +749,16 @@ public void onAttach(Activity activity) {
 	@Override
 	public void onPause() {
 		super.onPause();
-		Log.i(TAG, "onPause");
+		//Log.i(TAG, "onPause");
 		//sync_updateview_onpause();
 	}
 	
 	@Override
 	public void onDestroyView() {
 		if(!isfavorite_final){
+		if(!FragmentSearchActivity.class.isInstance(getActivity()))	{
 		((I_ExamDetail)getActivity()).delfavorite();
+		}
 		}
 		super.onDestroyView();
 	}

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string-array name="tabtitle">
-    <item>@string/real_paper</item>
-    <item>@string/model_paper</item>
+    <item>全真试卷</item>
+    <item>模拟试卷</item>
   </string-array>
 </resources>
 

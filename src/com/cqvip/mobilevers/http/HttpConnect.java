@@ -107,6 +107,7 @@ public class HttpConnect {
 				Bitmap bitmap=BitmapFactory.decodeStream(is);
 				return bitmap;
 			}
+			out.close();
 		}catch(Exception e){
 			
 		}

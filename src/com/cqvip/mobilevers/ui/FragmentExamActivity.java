@@ -31,7 +31,7 @@ public class FragmentExamActivity extends BaseMainFragmentActivity implements I_
 	      if (getSupportFragmentManager().findFragmentByTag(TAG) == null) {
 	            final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 	            ft.add(R.id.simple_fragment, new AClassfyFragment(), TAG);
-	            ft.commit();
+	            ft.commitAllowingStateLoss();
 	        }	
 	      getDB();
 	    }

@@ -1,6 +1,8 @@
 package com.cqvip.mobilevers.utils;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -66,7 +68,7 @@ public class DateUtil {
 		
 		public static String formTile(String text){
 			if(!TextUtils.isEmpty(text)){
-			String result = null;
+			String result = text;
 			Pattern PIC_PATTERN = Pattern.compile("\\{\\{+[//]?+B\\}\\}",Pattern.CASE_INSENSITIVE);
 			Matcher nameMatcher = PIC_PATTERN.matcher(text);
 			while(nameMatcher.find()){
@@ -81,5 +83,10 @@ public class DateUtil {
 			return result;
 			}
 			return text;
+		}
+		public static double formDouble(double num){
+			BigDecimal   b   =   new   BigDecimal(num);  
+			double   f1   =   b.setScale(1,   BigDecimal.ROUND_HALF_UP).doubleValue();
+			return f1;
 		}
 }

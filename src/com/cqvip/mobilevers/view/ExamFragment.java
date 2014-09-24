@@ -82,33 +82,6 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 
 	private LayoutInflater cur_inflater;
 
-	// @Override
-	// public void onAttach(Activity activity) {
-	// Log.i("ExamFragment", "================onAttach==============");
-	// super.onAttach(activity);
-	// }
-	// @Override
-	// public void onCreate(Bundle savedInstanceState) {
-	// Log.i("ExamFragment", "=========onCreate========");
-	// super.onCreate(savedInstanceState);
-	// }
-	//
-	//
-	// @Override
-	// public void onConfigurationChanged(Configuration newConfig) {
-	// Log.i("ExamFragment", "=========onConfigurationChanged========");
-	// super.onConfigurationChanged(newConfig);
-	// }
-	// @Override
-	// public void onHiddenChanged(boolean hidden) {
-	// Log.i("ExamFragment", "=========onHiddenChanged========");
-	// super.onHiddenChanged(hidden);
-	// }
-	// @Override
-	// public void onPause() {
-	// Log.i("ExamFragment", "=========onPause()========");
-	// super.onPause();
-	// }
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -218,7 +191,7 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 			page_title.setVisibility(View.VISIBLE);
 			page_title.setText(" 查看材料>>");
 			itvTitle.setText(contentTitle);
-			Log.i(TAG, contentTitle.getContent());
+			//Log.i(TAG, contentTitle.getContent());
 			tv_title.setText((position + 1) + "、", question_title);
 			ShowAnyQuestionCollSubject(question);
 
@@ -242,8 +215,7 @@ public class ExamFragment extends Fragment implements OnCheckedChangeListener {
 			}
 		});
 
-		tx_perscore.setText(perScore + "分");
-
+		tx_perscore.setText(DateUtil.formDouble(perScore) + "分");
 		if (answer.isContainPic()) {
 			tv_answer.setText(answer);
 		} else {

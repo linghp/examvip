@@ -1,10 +1,11 @@
 package com.cqvip.mobilevers.utils;
 
-import com.cqvip.mobilevers.R;
-
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Environment;
 import android.widget.Toast;
+
+import com.cqvip.mobilevers.R;
 
 public class Utils {
 
@@ -34,5 +35,12 @@ public class Utils {
         final float scale = context.getResources().getDisplayMetrics().density;  
         return (int) (pxValue / scale + 0.5f);  
     }  
+    /**
+     * 判断是否有sd卡
+     */
+    public static boolean hasSDCard() {
+		return Environment.MEDIA_MOUNTED.equals(Environment
+				.getExternalStorageState());
+    }
     
 }

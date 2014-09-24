@@ -75,8 +75,13 @@ public class SubjectExam implements Serializable{
 		totalScore = json.getDouble("_totalScore");
 //		double tmp = json.getDouble("_scorePerQuestion");
 //		double tmp2 = json.getDouble("_scorePerSubject");
-		questionNum = json.getInt("_questionNum");
-		scorePerQuestion = totalScore/questionNum;
+		int num = json.getInt("_questionNum");
+		if(num>0){
+		scorePerQuestion = totalScore/num;
+		}else{
+		scorePerQuestion = 0;
+		}
+		questionNum = num;
 		subjectTypeName = json.getString("_subjectTypeName");
 		JSONArray array = json.getJSONArray("_epsubInfo");
 		if(array.length()>0){
@@ -88,9 +93,9 @@ public class SubjectExam implements Serializable{
 
 	private Subject getSubjecFormXml(JSONObject json,String subjectTypeName,double scorePerQuestion) throws IOException, XmlPullParserException, JSONException {
 		String  xml = json.getString("_subXmlString");
-		if(TextUtils.isEmpty(xml)){
-			questionNum=0;
-		}
+//		if(TextUtils.isEmpty(xml)){
+//			questionNum--;
+//		}
 		String createdate = json.getString("_createTime");
 		String 	subId = json.getString("_id").trim();
 		//Log.i("Subject","Subject:"+createdate+"subid"+subId);

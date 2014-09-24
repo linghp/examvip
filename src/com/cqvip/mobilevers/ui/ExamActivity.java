@@ -159,7 +159,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 		SubjectExam[] subjectExams_array = exam.getExam2lists();
 		for (SubjectExam subjectExam : subjectExams_array) {
 			// 客户端显示题目数量
-			int count = subjectExam.getQuestionNum();
+			int count = getQuestonCount(subjectExam);
 			cardCount_List.add(count);// 答题卡
 			Subject[] subjects = subjectExam.getExam3List();// 当_questionNum为0时，判断
 			if (subjects != null) {
@@ -182,15 +182,6 @@ public class ExamActivity extends BaseFragmentActivity implements
 			right_position = dimension.getRightss();
 			wrong_position = dimension.getWrongss();
 			clientAnswer = dimension.getClientAnswers();
-			//
-			// Log.i(TAG, "don" + Arrays.toString(all_position));
-			// Log.i(TAG, "right" + Arrays.toString(right_position));
-			// Log.i(TAG, Arrays.toString(wrong_position));
-			for (int i = 0; i < clientAnswer.size(); i++) {
-				if (clientAnswer.get(i) != null)
-					Log.i(TAG, "answer:" + clientAnswer.get(i));
-				// System.out.println(clientAnswer.get(i));
-			}
 		} else {
 			all_position = DateUtil.initDoubleDimensionalData(cardCount_List);
 
@@ -199,12 +190,9 @@ public class ExamActivity extends BaseFragmentActivity implements
 			right_position = new int[mCount][];
 			wrong_position = new int[mCount][];
 			for (int i = 0; i < mCount; i++) {
-				done_position[i] = new int[subjectExams_array[i]
-						.getQuestionNum()];
-				right_position[i] = new int[subjectExams_array[i]
-						.getQuestionNum()];
-				wrong_position[i] = new int[subjectExams_array[i]
-						.getQuestionNum()];
+				done_position[i] = new int[getQuestonCount( subjectExams_array[i])];
+				right_position[i] = new int[getQuestonCount( subjectExams_array[i])];
+				wrong_position[i] = new int[getQuestonCount( subjectExams_array[i])];
 			}
 			clientAnswer = new SeriSqareArray<SimpleAnswer>();
 		}
@@ -227,6 +215,8 @@ public class ExamActivity extends BaseFragmentActivity implements
 		
 	}
 
+	
+	
 	public int[][] getAll_position() {
 		return all_position;
 	}
@@ -299,7 +289,19 @@ public class ExamActivity extends BaseFragmentActivity implements
 			}
 		};
 	}
-
+	private int getQuestonCount(SubjectExam subjectExam) {
+		int count = 0;
+		Subject[] subs = subjectExam.getExam3List();
+		if(subs.length>0){
+		for(int i=0;i<subs.length;i++){
+			if(subs[i]!=null&&subs[i].getQuestion()!=null){
+			int mSize = subs[i].getQuestion().size();
+			count += mSize;
+			}
+		}
+		}
+		return count;
+	}
 	private void initView() {
 		ll_exam_handle = (LinearLayout) findViewById(R.id.ll_exam_handle);
 		ll_show_answer = (LinearLayout) findViewById(R.id.ll_show_answer);
@@ -591,50 +593,40 @@ public class ExamActivity extends BaseFragmentActivity implements
 	}
 
 	private void showDialog() {
-		Dialog dialog = new AlertDialog.Builder(ExamActivity.this)
+		
+		
+		Dialog mdialog = new AlertDialog.Builder(
+				ExamActivity.this)
 				.setTitle("退出考试")
-				.setMessage("你还未交卷，确定要退出考试")
-				.setPositiveButton(R.string.alert_dialog_confirm,
+				.setMessage("是否保存当前进度?")
+				.setPositiveButton(
+						R.string.alert_dialog_save,
 						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
+							public void onClick(
+									DialogInterface dialog,
 									int whichButton) {
-								dialog.dismiss();
-								Dialog mdialog = new AlertDialog.Builder(
-										ExamActivity.this)
-										.setTitle(" 保存当前进度")
-										.setMessage("是否保存当前进度?")
-										.setPositiveButton(
-												R.string.alert_dialog_save,
-												new DialogInterface.OnClickListener() {
-													public void onClick(
-															DialogInterface dialog,
-															int whichButton) {
-														// 交卷接口
-														sendAnswerToServer();
-													}
-												})
-										.setNegativeButton(
-												R.string.alert_dialog_unsave,
-												new DialogInterface.OnClickListener() {
-													public void onClick(
-															DialogInterface dialog,
-															int whichButton) {
-														dialog.dismiss();
-														setResult(5, (new Intent()).putExtra("unsave", true));//不保存的状态（5）
-														finish();
-													}
-												}).create();
-								mdialog.show();
+								// 交卷接口
+								sendAnswerToServer();
 							}
 						})
-				.setNegativeButton(R.string.alert_dialog_cancel,
+			    .setNeutralButton(R.string.alert_dialog_unsave, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    	dialog.dismiss();
+						setResult(5, (new Intent()).putExtra("unsave", true));//不保存的状态（5）
+						finish();
+                       
+                    }
+                })
+				.setNegativeButton(
+						R.string.alert_dialog_cancel,
 						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
+							public void onClick(
+									DialogInterface dialog,
 									int whichButton) {
-								dialog.dismiss();
+								 dialog.dismiss();
 							}
 						}).create();
-		dialog.show();
+		mdialog.show();
 	}
 
 	private void sendAnswerToServer() {

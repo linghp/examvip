@@ -167,7 +167,7 @@ public class PaperDetail {
         	isFavor = json.getBoolean("isfavorites");
         	teststatus = json.getInt("teststatus");
         	testquestionNum = json.getInt("testquestionNum");
-        	testscore = json.getInt("testscore");
+        	testscore = json.getDouble("testscore");
             JSONArray  array = json.getJSONArray("kclass");
             int len = array.length();
             if(len>0){
@@ -192,9 +192,13 @@ public class PaperDetail {
 
 
 
+
+
 		public PaperDetail(String id, String name, int score, int type,
 				int questioncount, int exampapertime, String year,
-				String updatetime, boolean isFavor, ArrayList<TagInfo> tag_title) {
+				String updatetime, boolean isFavor, int teststatus,
+				int testquestionNum, double testscore,
+				ArrayList<TagInfo> tag_title) {
 			super();
 			this.id = id;
 			this.name = name;
@@ -205,10 +209,11 @@ public class PaperDetail {
 			this.year = year;
 			this.updatetime = updatetime;
 			this.isFavor = isFavor;
+			this.teststatus = teststatus;
+			this.testquestionNum = testquestionNum;
+			this.testscore = testscore;
 			this.tag_title = tag_title;
 		}
-
-
 
 		public boolean isFavor() {
 			return isFavor;
