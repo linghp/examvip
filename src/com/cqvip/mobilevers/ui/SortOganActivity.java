@@ -14,13 +14,13 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request.Method;
 import com.android.volley.Response.Listener;
@@ -102,6 +102,9 @@ public class SortOganActivity  extends BaseActivity {
 				Intent intent = new Intent();
 				intent.putExtra("organName", organ.getOrganName());
 				intent.putExtra("organId", organ.getOrganCode());
+				
+				Log.i("login","organname:"+organ.getOrganName()+","+organ.getOrganCode());
+				
 				setResult(RESULT_OK, intent);
 				}else{
 					setResult(RESULT_CANCELED);
