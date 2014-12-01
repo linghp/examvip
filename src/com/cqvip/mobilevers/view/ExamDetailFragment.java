@@ -348,6 +348,7 @@ public void onAttach(Activity activity) {
 				String url = ConstantValues.SERVER_URL
 						+ ConstantValues.GETPASTEXAMINFO;
 				getData(url, subjectid, userid,ConstantValues.BEGIN_RESTAR);
+				
 			}
 			break;
 		case R.id.btn_exam_continue:
@@ -408,6 +409,8 @@ public void onAttach(Activity activity) {
 		}else{
 			gparams.put("restart", ConstantValues.BGEIN_CONTINUE+"");
 		}
+		
+		Log.i("exam","url:"+url+";subjectid:"+examPaperId+";userid"+userId+";restart;"+(type==ConstantValues.BEGIN_RESTAR?ConstantValues.BEGIN_RESTAR+"": ConstantValues.BGEIN_CONTINUE+""));
 		requestVolley(url, back_ls, Method.POST);
 	}
 

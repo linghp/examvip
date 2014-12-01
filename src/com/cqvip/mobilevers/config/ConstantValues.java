@@ -5,7 +5,9 @@ public class ConstantValues {
 	
 	public static final String EXAMPAPERID= "examPaperId";//试卷id
 	
-	public static final String SERVER_URL="http://voep.cqvip.com/app/app.asmx";
+	//public static final String SERVER_URL="http://voep.cqvip.com/app/app.asmx";
+	public static final String SERVER_URL="http://vers.cqvip.com/app/app.asmx";
+	//public static final String SERVER_URL="http://192.168.20.55:8097/app.asmx";
 	public static final String LOGIN_ADDR="/Login";
 	public static final String LOGINOUT_ADDR="/LoginOut";
 	public static final String ADDFAVOREXAM_ADDR="";
@@ -22,6 +24,7 @@ public class ConstantValues {
 	public static final String GETFAVORITESEXAMPAPERLIST="/GetFavoritesExamPaperList";
 	public static final String GetUserCurrExamPaperList="/GetUserCurrExamPaperList";
 	public static final String DeleteUserTestScore="/DeleteUserTestScore";
+	public static final String GetAllDistinctOrganizationCodeList="/GetAllDistinctOrganizationCodeList";
 	  
 	
 	public static final String DBNAME="MobileVers.db";
