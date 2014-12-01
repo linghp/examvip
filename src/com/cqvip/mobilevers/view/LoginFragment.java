@@ -1,18 +1,10 @@
 package com.cqvip.mobilevers.view;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -71,43 +63,7 @@ public class LoginFragment extends BaseFragment implements OnEditorActionListene
 		return view;
 	}
 
-	private void getDateFromNet() {
-		customProgressDialog.show();
-	Listener<String> listner;
-		listner = backlistenerOrgan;
-	requestVolley(null, ConstantValues.SERVER_URL
-			+ ConstantValues.GetAllDistinctOrganizationCodeList, listner, Method.POST);
-}
-
-private Listener<String> backlistenerOrgan = new Listener<String>() {
-	@Override
-	public void onResponse(String response) {
-		if (customProgressDialog != null
-				&& customProgressDialog.isShowing())
-			customProgressDialog.dismiss();
-		// 解析结果
-		if (response != null) {
-			try {
-				JSONObject json = new JSONObject(response);
-				
-					// 判断
-					if (json.isNull("error")) {
-						// 返回正常
-						 lists = Organization.formList(json);
-						
-					} else {
-						// 获取失败
-						// TODO
-					}
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		} else {
-			// Toast.makeText(getActivity(), "无数据",
-			// Toast.LENGTH_LONG).show();
-		}
-	}
-};
+	
 	
 
 	private void initview(View v) {
@@ -138,7 +94,8 @@ private Listener<String> backlistenerOrgan = new Listener<String>() {
 		if(!validate(pwd,getResources().getString(R.string.need_pwd))){
 			return;
 		}
-	    
+	    Log.i("login", name+","+pwd+","+organCode+","+"URL:"+ConstantValues.SERVER_URL
+				+ ConstantValues.LOGIN_ADDR);
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("username", name);
 		params.put("password", pwd);
@@ -176,6 +133,7 @@ private Listener<String> backlistenerOrgan = new Listener<String>() {
 			// TODO Auto-generated method stub
 			if(customProgressDialog!=null&&customProgressDialog.isShowing())
 			customProgressDialog.dismiss();
+			Log.i("login",response);
 			try {
 				User user =User.parserJsonData(response);
 				if (user!=null) {
@@ -187,16 +145,16 @@ private Listener<String> backlistenerOrgan = new Listener<String>() {
    				editor.putString("userid", user.getUserid());
    				editor.commit();
 					//	Log.i("database", "存储成功"+user.getUserid());
-						Toast.makeText(getActivity(), getString(R.string.tips_login_sucess), 0).show();
+						Toast.makeText(getActivity(), getString(R.string.tips_login_sucess), Toast.LENGTH_SHORT).show();
 					getFragmentManager().popBackStack();
 					((FragmentMineActivity)getActivity()).loginUI();
 				} else {
 					// 提示登陆失败
-					Toast.makeText(getActivity(), getString(R.string.tips_login_fail_detail), 0).show();
+					Toast.makeText(getActivity(), getString(R.string.tips_login_fail_detail), Toast.LENGTH_SHORT).show();
 				}
 			} catch (Exception e) {
 			Log.w("LoginFragment", e.getMessage());
-				Toast.makeText(getActivity(), getString(R.string.tips_login_fail), 0).show();
+				Toast.makeText(getActivity(), getString(R.string.tips_login_fail), Toast.LENGTH_SHORT).show();
 				return;
 			}
 		}
@@ -222,22 +180,6 @@ private Listener<String> backlistenerOrgan = new Listener<String>() {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.et_organ:
-//			CharSequence[] items = {"维普考试库"};
-//			CharSequence[] temps = formArray(lists);
-//			final CharSequence[] showArray = choiceArray(items, temps);
-//			
-//			System.out.println(Arrays.toString(temps));
-//			System.out.println(Arrays.toString(showArray));
-//			Dialog dialog = new AlertDialog.Builder(getActivity())
-//             .setTitle(R.string.select_dialog)
-//             .setItems(showArray, new DialogInterface.OnClickListener() {
-//                 public void onClick(DialogInterface dialog, int which) {
-//                	 organ_et.setText("您的机构："+showArray[which]);
-//                	 organCode = getOrganCode(which);
-//                 }
-//             })
-//             .create();
-//			dialog.show();
 			Intent intent = new Intent(getActivity(),SortOganActivity.class);
 			startActivityForResult(intent, 1);
 			break;
@@ -247,31 +189,6 @@ private Listener<String> backlistenerOrgan = new Listener<String>() {
 		}
 	}
 	
-	private CharSequence[] choiceArray(CharSequence[] items,
-			CharSequence[] temps) {
-		if(temps!=null&&temps.length>0){
-			return temps;
-		}
-		return items;
-	}
-
-	private int getOrganCode(int which){
-		if(lists!=null&&lists.size()>0){
-		return lists.get(which).getOrganCode();
-		}
-		return -1;
-	}
-
-	private CharSequence[] formArray(List<Organization> lists2) {
-		if(lists2!=null&&lists2.size()>0){
-		String[] array = new String[lists2.size()];
-		for(int i=0;i<lists2.size();i++){
-			array[i]=lists2.get(i).getOrganName();
-		};
-		return array;
-		}
-		return null;
-	}
 
 	public void updateview(String defOrganName, int defOrganCode) {
 		 organ_et.setText("您的机构："+ defOrganName);
@@ -279,6 +196,8 @@ private Listener<String> backlistenerOrgan = new Listener<String>() {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+		
+		Log.i("login","requestCode"+requestCode);
 			if(requestCode==1&&resultCode==-1){
 			String	defOrganName = data.getStringExtra("organName");
 			if(!TextUtils.isEmpty(defOrganName)){
@@ -286,14 +205,9 @@ private Listener<String> backlistenerOrgan = new Listener<String>() {
 			}else{
 				isSelect = false;
 			}
-			int defOrganCode = data.getIntExtra("organID",-1);
+			int defOrganCode = data.getIntExtra("organId",-1);
 				updateview(defOrganName,defOrganCode);
 				organCode = defOrganCode;
-//				 SharedPreferences localUsers = getActivity().getSharedPreferences("mobilevers", getActivity().MODE_PRIVATE);
-//	   				Editor editor = localUsers.edit();
-//	   				editor.putString("organname",defOrganName);
-//	   				editor.putString("organcode",defOrganCode+"");
-//	   				editor.commit();
 		}
 	}
 
