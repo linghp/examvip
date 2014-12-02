@@ -103,8 +103,6 @@ public class SortOganActivity  extends BaseActivity {
 				intent.putExtra("organName", organ.getOrganName());
 				intent.putExtra("organId", organ.getOrganCode());
 				
-				Log.i("login","organname:"+organ.getOrganName()+","+organ.getOrganCode());
-				
 				setResult(RESULT_OK, intent);
 				}else{
 					setResult(RESULT_CANCELED);
