@@ -109,6 +109,7 @@ public class MainActivity extends TabActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		MobclickAgent.onKillProcess(this);
 		android.os.Process.killProcess(android.os.Process.myPid());
 	}
 	

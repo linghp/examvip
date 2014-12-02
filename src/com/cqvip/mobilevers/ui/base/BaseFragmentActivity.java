@@ -1,30 +1,16 @@
 package com.cqvip.mobilevers.ui.base;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-import com.cqvip.mobilevers.exception.ErrorVolleyThrow;
-import com.cqvip.mobilevers.view.ExamDetailFragment;
-import com.cqvip.mobilevers.widget.CustomProgressDialog;
-
-import android.content.Context;
-import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
-import android.view.GestureDetector;
-import android.view.GestureDetector.SimpleOnGestureListener;
-import android.view.Gravity;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup.LayoutParams;
-import android.view.WindowManager;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+import com.cqvip.mobilevers.exception.ErrorVolleyThrow;
+import com.cqvip.mobilevers.widget.CustomProgressDialog;
+import com.umeng.analytics.MobclickAgent;
 
 public class BaseFragmentActivity extends FragmentActivity {
 
@@ -56,4 +42,16 @@ public class BaseFragmentActivity extends FragmentActivity {
 		ft.commit();
 	}
 
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		MobclickAgent.onResume(this);
+	}
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		MobclickAgent.onPause(this);
+	}
 }
