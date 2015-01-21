@@ -51,7 +51,6 @@ public class FragmentMineActivity extends BaseMainFragmentActivity implements I_
 				MODE_PRIVATE);
 		String userid = localUsers.getString("userid", "0");
 		if (!userid.equals("0")) {
-			Log.i("USERID", userid);
 			islogin = true;
 			loginUI();
 		}

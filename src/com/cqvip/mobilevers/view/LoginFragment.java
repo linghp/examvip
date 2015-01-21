@@ -94,8 +94,6 @@ public class LoginFragment extends BaseFragment implements OnEditorActionListene
 		if(!validate(pwd,getResources().getString(R.string.need_pwd))){
 			return;
 		}
-	    Log.i("login", name+","+pwd+","+organCode+","+"URL:"+ConstantValues.SERVER_URL
-				+ ConstantValues.LOGIN_ADDR);
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("username", name);
 		params.put("password", pwd);
@@ -133,7 +131,6 @@ public class LoginFragment extends BaseFragment implements OnEditorActionListene
 			// TODO Auto-generated method stub
 			if(customProgressDialog!=null&&customProgressDialog.isShowing())
 			customProgressDialog.dismiss();
-			Log.i("login",response);
 			try {
 				User user =User.parserJsonData(response);
 				if (user!=null) {
@@ -196,8 +193,6 @@ public class LoginFragment extends BaseFragment implements OnEditorActionListene
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		
-		Log.i("login","requestCode"+requestCode);
 			if(requestCode==1&&resultCode==-1){
 			String	defOrganName = data.getStringExtra("organName");
 			if(!TextUtils.isEmpty(defOrganName)){
