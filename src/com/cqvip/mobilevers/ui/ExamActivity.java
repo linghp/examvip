@@ -375,12 +375,13 @@ public class ExamActivity extends BaseFragmentActivity implements
 
 		@Override
 		public int getCount() {
+		    Log.i(TAG, "MyAdapter_getCount:");
 			return clientShowCount;
 		}
 
 		@Override
 		public Fragment getItem(int position) {
-			// Log.i(TAG, "MyAdapter_getItem:" + position);
+		    Log.i(TAG, "MyAdapter_getItem:" + position);
 			ExamFragment myFragment = ExamFragment.newInstance(position,
 					context);
 			mPageReferenceMap.put(position, myFragment);
@@ -389,6 +390,7 @@ public class ExamActivity extends BaseFragmentActivity implements
 
 		@Override
 		public Object instantiateItem(ViewGroup container, int position) {
+			 Log.i(TAG, "MyAdapter_instantiateItem:" + position);
 			ExamFragment fragment = (ExamFragment) super.instantiateItem(
 					container, position);
 			mPageReferenceMap.put(position, fragment);
@@ -401,11 +403,13 @@ public class ExamActivity extends BaseFragmentActivity implements
 
 		@Override
 		public int getItemPosition(Object object) {
+			 Log.i(TAG, "MyAdapter_getItemPosition:");
 			return POSITION_NONE;
 		}
 
 		@Override
 		public void destroyItem(ViewGroup container, int position, Object object) {
+			 Log.i(TAG, "MyAdapter_destroyItem:" + position);
 			super.destroyItem(container, position, object);
 			mPageReferenceMap.remove(position);
 		}
